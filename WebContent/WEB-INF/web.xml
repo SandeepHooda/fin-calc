@@ -9,16 +9,8 @@
     <welcome-file>default.htm</welcome-file>
     <welcome-file>default.jsp</welcome-file>
   </welcome-file-list>
-  <servlet>
-    <description>Sample Servlet</description>
-    <display-name>Fin_calServlet</display-name>
-    <servlet-name>Fin_calServlet</servlet-name>
-    <servlet-class>com.Fin_calServlet</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>Fin_calServlet</servlet-name>
-    <url-pattern>/fin_cal</url-pattern>
-  </servlet-mapping>
+ 
+ 
   <servlet>
     <description></description>
     <display-name>xirr</display-name>
