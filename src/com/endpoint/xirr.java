@@ -1,12 +1,16 @@
 package com.endpoint;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.util.logging.Logger;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
+import com.service.XirrCalculatorService;
 import com.vo.XirrData;
 
 
@@ -15,6 +19,7 @@ import com.vo.XirrData;
  * Servlet implementation class xirr
  */
 public class xirr extends HttpServlet {
+	private static final Logger log = Logger.getLogger(xirr.class.getName());
 	private static final long serialVersionUID = 1L;
        
     /**
@@ -37,10 +42,19 @@ public class xirr extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String requestData = request.getParameter("data");
+		StringBuilder buffer = new StringBuilder();
+		BufferedReader reader = request.getReader();
+        String line;
+        while ((line = reader.readLine()) != null) {
+            buffer.append(line);
+        }
+        String data = buffer.toString();
+
+		log.info("requestData"+data);
 		Gson  json = new Gson();
-		XirrData xirrData = json.fromJson(requestData, XirrData.class);
-		response.getWriter().append(" "+xirrData.getPayments()[0]);
+		XirrData xirrData = json.fromJson(data, XirrData.class);
+		double xirr = XirrCalculatorService.Newtons_method(0.1, xirrData.getPayments(), xirrData.getDates());
+		response.getWriter().append(" "+xirr);
 		
 	}
 

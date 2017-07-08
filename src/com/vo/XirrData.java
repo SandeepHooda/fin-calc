@@ -1,20 +1,20 @@
 package com.vo;
 
-import java.util.Date;
+
 
 public class XirrData {
 	private double[] payments;
-	private Date[] dates;
+	private String[] dates;
 	public double[] getPayments() {
 		return payments;
 	}
 	public void setPayments(double[] payments) {
 		this.payments = payments;
 	}
-	public Date[] getDates() {
+	public String[] getDates() {
 		return dates;
 	}
-	public void setDates(Date[] dates) {
+	public void setDates(String[] dates) {
 		this.dates = dates;
 	}
 	
