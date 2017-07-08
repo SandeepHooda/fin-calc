@@ -1,2 +1,6 @@
 build/**/*.class
 ui/node_modules/**/*
+ui/src/app/**/*.js
+ui/src/app/**/*.map
+ui/src/main.js
+ui/src/main.js.map

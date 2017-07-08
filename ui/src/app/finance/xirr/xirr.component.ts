@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 
 
 @Component({
-  selector: 'xirr',
+ selector : 'xirr',
   templateUrl: './xirr.component.html',
   styleUrls: [ './xirr.component.css' ]
 })
