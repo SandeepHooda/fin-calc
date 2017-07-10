@@ -84,3 +84,6 @@ body {
 .loss {
   color :red;
 }
+.error {
+  color :red;
+}
