@@ -43,7 +43,7 @@
         <button pButton type="button" (click)="addRow()" icon="fa-plus" *ngIf="isLast"></button>
         <button pButton type="button" (click)="delRow()" icon="fa-minus" *ngIf="isLast && !isFirst"></button>
     </div>
-    
+    <span class="headings "> Please add current value to last row if all amount is not withdrawn </span>
 </div>
 
 <div >
@@ -51,7 +51,7 @@
     <button pButton type="button" (click)="calculateReturns()" label="Calculate returns" class="ui-button-info" [disabled]="anyErrorInForm()"></button>
      <span class="headings">Returns : </span> <span [ngClass]="{'profit' : (returnOnInsvement >=0) , 'loss' : (returnOnInsvement < 0)}">{{return}} </span>
 </div>
-
+{{httpError}}
 
 
 

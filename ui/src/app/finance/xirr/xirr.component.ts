@@ -1,7 +1,8 @@
 import { Component, OnInit, ViewEncapsulation  } from '@angular/core';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {Withdrawal} from './withdrawal';
-import { HttpModule, JsonpModule } from '@angular/http';
+import  {XirrService} from './xirr-service';
+import {XirrRequest} from './xirrRequestVO';
 
 @Component({
  selector : 'xirr', 
@@ -16,9 +17,10 @@ private SIPerrorEndDate:boolean;
 private startDate:Date;
 private endDate:Date;
 private sipAmount:number;
+private httpError:String
  public withdrawlsRows :Array<Withdrawal> = [{"date":null,"amount":null}]; 
 
-  constructor() {
+  constructor(private xirrService:XirrService) {
 
    }
 
@@ -54,9 +56,10 @@ private sipAmount:number;
       dates.push(datePointer.getDate()+"/"+(datePointer.getMonth()+1)+"/"+datePointer.getFullYear());
       datePointer.setMonth(datePointer.getMonth()+1);
     }
-    
-    let dataToPost ={"payments":payments,"dates":dates};
-
+    //let dataToPost:XirrRequest = {};
+    let dataToPost:XirrRequest ={"payments":payments,"dates":dates};
+    this.xirrService.getXirr(dataToPost).subscribe( data => this.returnOnInsvement = data,
+    error => this.httpError = error );
     console.log(dataToPost);
     this.returnOnInsvement = 50;
   }
