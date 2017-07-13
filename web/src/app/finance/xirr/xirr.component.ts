@@ -36,6 +36,8 @@ private httpError:String
     }
   }
   public calculateReturns(){
+     this.httpError  = "";
+     this.returnOnInsvement = undefined;
     let payments : Array<number> = [];
     let dates : Array<String> = [];
     for (var i =0;i<this.withdrawlsRows.length;i++){
@@ -59,15 +61,18 @@ private httpError:String
     //let dataToPost:XirrRequest = {};
     let dataToPost:XirrRequest ={"payments":payments,"dates":dates};
     this.xirrService.getXirr(dataToPost).subscribe( 
-        function(data) {
-          this.returnOnInsvement = data;
-        } ,
-      function(error) {
-        this.httpError = error 
-      }
+        returnOnInsvement => this.showXirrRate(returnOnInsvement),
+        error => this.showError(error)
       );
     console.log(dataToPost);
    
+  }
+  private showXirrRate(returnOnInsvement) {
+    this.returnOnInsvement = returnOnInsvement;
+  }
+  private showError(error) {
+    this.returnOnInsvement = undefined;
+    this.httpError = error;
   }
   ngOnInit(): void {
     
