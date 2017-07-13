@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
 import com.service.XirrCalculatorService;
+import com.vo.Request;
 import com.vo.XirrData;
 
 
@@ -52,8 +53,8 @@ public class xirr extends HttpServlet {
 
 		log.info("requestData"+data);
 		Gson  json = new Gson();
-		XirrData xirrData = json.fromJson(data, XirrData.class);
-		double xirr = XirrCalculatorService.Newtons_method(0.1, xirrData.getPayments(), xirrData.getDates());
+		Request xirrData = json.fromJson(data, Request.class);
+		double xirr = XirrCalculatorService.Newtons_method(0.1, xirrData.getRequest().getPayments(), xirrData.getRequest().getDates());
 		response.getWriter().append(" "+xirr);
 		
 	}
