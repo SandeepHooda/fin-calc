@@ -67,10 +67,10 @@ private httpError:String
     console.log(dataToPost);
    
   }
-  private showXirrRate(returnOnInsvement) {
+  private showXirrRate(returnOnInsvement: number) {
     this.returnOnInsvement = returnOnInsvement;
   }
-  private showError(error) {
+  private showError(error:any) {
     this.returnOnInsvement = undefined;
     this.httpError = error;
   }

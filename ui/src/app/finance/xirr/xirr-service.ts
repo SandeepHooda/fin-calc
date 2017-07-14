@@ -8,7 +8,7 @@ import { Headers, RequestOptions } from '@angular/http';
 
 @Injectable()
 export class XirrService {
-    private xirrUrl = 'api/heroes';  // URL to web API
+    private xirrUrl = '/xirr';  // URL to web API
     
      constructor (private http: Http) {}
 
@@ -25,7 +25,7 @@ export class XirrService {
 
   private extractData(res: Response) {
     let body = res.json();
-    return body.data || { };
+    return body;
   }
  
   private handleError (error: Response | any) {
