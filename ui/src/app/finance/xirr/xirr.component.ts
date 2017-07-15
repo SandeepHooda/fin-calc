@@ -11,6 +11,7 @@ import {XirrRequest} from './xirrRequestVO';
   encapsulation: ViewEncapsulation.None 
 })
 export class XIRR implements OnInit {
+private signedInUser:string;
 private returnOnInsvement:number;
 private SIPerrorStartDate:boolean;
 private SIPerrorEndDate:boolean;
@@ -70,12 +71,24 @@ private httpError:String
   private showXirrRate(returnOnInsvement: number) {
     this.returnOnInsvement = returnOnInsvement;
   }
+  private showEmail(email: string) {
+    if (null == email || 'null' == email){
+      this.signedInUser = undefined;
+    }else {
+      this.signedInUser = email;
+    }
+    
+  }
   private showError(error:any) {
     this.returnOnInsvement = undefined;
     this.httpError = error;
   }
   ngOnInit(): void {
-    
+    this.xirrService.signedUserEmail().subscribe( 
+        email => this.showEmail(email),
+        error => this.showError(error)
+      );
+   //signIn this.signedInUser = this.cookieService.get("email");
   }
 
   public anyErrorInForm():boolean{

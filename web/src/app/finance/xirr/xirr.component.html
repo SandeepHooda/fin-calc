@@ -1,4 +1,14 @@
 
+  
+ 
+  <a class="btn btn-block btn-social btn-google" style="width:130px" *ngIf="!signedInUser" href="/oauth2callback?request=signin">
+    <span class="fa fa-google"></span>Sign in 
+  </a>
+  <a class="btn btn-block btn-social btn-google" style="width:130px" *ngIf="signedInUser" href="/SignOut">
+    <span class="fa fa-google"></span>Sign out
+  </a>
+<div *ngIf="signedInUser">
+<span>{{signedInUser}}</span>
 <h4>Systematic monthly investment & Non-Systematic withdrawal</h4>
 <hr/>
 
@@ -53,6 +63,7 @@
      <span [ngClass]="{'profit' : (returnOnInsvement >=0) , 'loss' : (returnOnInsvement < 0)}">{{returnOnInsvement | number : '1.2-2'}} </span>
 </div>
 {{httpError}}
+</div>
 
 
 

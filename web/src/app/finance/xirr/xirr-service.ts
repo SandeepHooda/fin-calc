@@ -8,12 +8,16 @@ import { Headers, RequestOptions } from '@angular/http';
 
 @Injectable()
 export class XirrService {
-    private xirrUrl = '/xirr';  // URL to web API
-    
+  private hostName:string = '';
+  private xirrUrl:string = this.hostName+'/xirr';  // URL to web API
+  private signInUrl:string = this.hostName+'/getProfile?data=email';
+
      constructor (private http: Http) {}
 
  
-
+ signedUserEmail() :Observable<string> {
+   return this.http.get(this.signInUrl).map(this.getUserEmail).catch(this.handleError);
+ }
 
   getXirr(request: XirrRequest): Observable<number> {
     let headers = new Headers({ 'Content-Type': 'application/json' });
@@ -25,6 +29,10 @@ export class XirrService {
 
   private extractData(res: Response) {
     let body = res.json();
+    return body;
+  }
+  private getUserEmail(res: Response) {
+    let body = res.json().data;
     return body;
   }
  

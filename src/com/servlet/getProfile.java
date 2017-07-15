@@ -29,7 +29,7 @@ public class getProfile extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String data = (String)request.getSession().getAttribute(request.getParameter("data"));
 		log.info("logged in user  "+data);
-		response.getWriter().append(data);
+		response.getWriter().append("{\"data\":\""+data+"\"}");
 	}
 
 	/**

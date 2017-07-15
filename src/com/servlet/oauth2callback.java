@@ -65,7 +65,7 @@ public class oauth2callback extends HttpServlet {
 	private void getAuthCode(HttpServletRequest request, HttpServletResponse response){
 		//Client id + redirect url + scope + response type
 	
-			String redirectUrl = "https://accounts.google.com/o/oauth2/auth?response_type=code&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email%20https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile&client_id=876159984834-eraakoprdjn2qnld6vl7jknoc17rhece.apps.googleusercontent.com&redirect_uri=http%3A%2F%2Ffin-cal.appspot.com%2Foauth2callback";
+			String redirectUrl = "https://accounts.google.com/o/oauth2/auth?response_type=code&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email%20https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile&client_id=876159984834-eraakoprdjn2qnld6vl7jknoc17rhece.apps.googleusercontent.com&redirect_uri=https%3A%2F%2Ffin-cal.appspot.com%2Foauth2callback";
 			try {
 				response.sendRedirect(redirectUrl);
 			} catch (IOException e) {
@@ -78,7 +78,7 @@ public class oauth2callback extends HttpServlet {
 		log.info("Got auth code , now try to get access token  "+code);
 		//String client_id = "876159984834-eraakoprdjn2qnld6vl7jknoc17rhece.apps.googleusercontent.com";
 		//String client_secret = "jRwLo8wBoVLZnfBMLKRWFcYS";
-		String urlParameters  = "grant_type=authorization_code&client_id=876159984834-eraakoprdjn2qnld6vl7jknoc17rhece.apps.googleusercontent.com&client_secret=jRwLo8wBoVLZnfBMLKRWFcYS&redirect_uri=http%3A%2F%2Ffin-cal.appspot.com%2Foauth2callback&code="+code;
+		String urlParameters  = "grant_type=authorization_code&client_id=876159984834-eraakoprdjn2qnld6vl7jknoc17rhece.apps.googleusercontent.com&client_secret=jRwLo8wBoVLZnfBMLKRWFcYS&redirect_uri=https%3A%2F%2Ffin-cal.appspot.com%2Foauth2callback&code="+code;
 		byte[] postData       = urlParameters.getBytes( StandardCharsets.UTF_8 );
 		int    postDataLength = postData.length;
 		
@@ -100,7 +100,7 @@ public class oauth2callback extends HttpServlet {
 	    
 	    int respCode = conn.getResponseCode();  // New items get NOT_FOUND on PUT
 	    log.info("respCode "+respCode);
-	    if (respCode == HttpURLConnection.HTTP_OK || respCode == HttpURLConnection.HTTP_NOT_FOUND || true) {
+	    if (respCode == HttpURLConnection.HTTP_OK || respCode == HttpURLConnection.HTTP_NOT_FOUND ) {
 	    	request.setAttribute("error", "");
 	      StringBuffer response = new StringBuffer();
 	      String line;
