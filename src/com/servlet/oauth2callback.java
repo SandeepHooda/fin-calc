@@ -20,7 +20,6 @@ import javax.servlet.http.HttpServletResponse;
 
 
 
-import com.endpoint.xirr;
 import com.google.gson.Gson;
 
 
@@ -30,7 +29,7 @@ import com.google.gson.Gson;
 public class oauth2callback extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
-	private static final Logger log = Logger.getLogger(xirr.class.getName());
+	private static final Logger log = Logger.getLogger(oauth2callback.class.getName());
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -51,16 +50,17 @@ public class oauth2callback extends HttpServlet {
 		}else if (null != code) {
 			String accessToken = getAccesstoken(request, response, code);
 			String email = getUserEmail(accessToken);
-			addCookie(email,response );
+			addCookie(email,request, response );
 			response.sendRedirect("web/index.html");
 		}
 		
 	}
 	
-	private void addCookie(String email , HttpServletResponse res){
+	private void addCookie(String email ,HttpServletRequest request, HttpServletResponse response){
 		Cookie cookie = new Cookie("email",email);
 	      cookie.setMaxAge(60*60*24); 
-	      res.addCookie(cookie);
+	      response.addCookie(cookie);
+	      request.getSession().setAttribute("email", email);
 	}
 	private void getAuthCode(HttpServletRequest request, HttpServletResponse response){
 		//Client id + redirect url + scope + response type
