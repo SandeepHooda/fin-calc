@@ -9,8 +9,6 @@
     <welcome-file>default.htm</welcome-file>
     <welcome-file>default.jsp</welcome-file>
   </welcome-file-list>
- 
- 
   <servlet>
     <description></description>
     <display-name>xirr</display-name>
@@ -20,5 +18,15 @@
   <servlet-mapping>
     <servlet-name>xirr</servlet-name>
     <url-pattern>/xirr</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>oauth2callback</display-name>
+    <servlet-name>oauth2callback</servlet-name>
+    <servlet-class>com.servlet.oauth2callback</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>oauth2callback</servlet-name>
+    <url-pattern>/oauth2callback</url-pattern>
   </servlet-mapping>
 </web-app>
