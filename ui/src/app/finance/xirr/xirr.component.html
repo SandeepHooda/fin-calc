@@ -1,14 +1,19 @@
+<div class="login">
 
-  
- 
-  <a class="btn btn-block btn-social btn-google" style="width:130px;color:#eee" *ngIf="!signedInUser" href="/oauth2callback?request=signin">
-    <span class="fa fa-google"></span>Sign in 
-  </a>
-  <a class="btn btn-block btn-social btn-google" style="width:130px;color:#eee" *ngIf="signedInUser" href="/SignOut">
-    <span class="fa fa-google"></span>Sign out
-  </a>
-<div *ngIf="signedInUser">
-<span>{{signedInUser}}</span>
+    <div><span style="float: left">Author : Sandeep Hooda</span></div><br/>
+    <!-- Section 1 Sign in button-->
+    <a class="btn btn-block btn-social btn-google" style="width:130px;color:#eee" *ngIf="!signedInUser" href="/oauth2callback?request=signin">
+        <span class="fa fa-google"></span>Sign in 
+    </a>
+    <a class="btn btn-block btn-social btn-google" style="width:130px;color:#eee" *ngIf="signedInUser" href="/SignOut">
+        <span class="fa fa-google"></span>Sign out
+    </a>
+    <span *ngIf="signedInUser">Welcome, {{signedInUser}}</span>
+</div>
+<!-- Section 2 navigation --> 
+ <nav-bar></nav-bar>
+<div *ngIf="!signedInUser">
+
 <h4>Systematic monthly investment & Non-Systematic withdrawal</h4>
 <hr/>
 
@@ -39,10 +44,11 @@
     <div *ngIf="SIPerrorStartDate" class="error"> Start date must be less than end date</div>
     <div *ngIf="SIPerrorEndDate" class="error"> Day of month can't be different in Start date and End date</div>
     <hr/>
-    <span class="headings">Withdrawals </span> 
+    
 </div>
 
 <div class="Withdrawals">
+    <span class="headings">Withdrawals </span> 
     <div >
             <span class="headings paddingR50 paddingL10">Date &nbsp;</span>  
             <span class="headings "> Amount &nbsp;</span>
@@ -54,14 +60,16 @@
         <button pButton type="button" (click)="delRow()" icon="fa-minus" *ngIf="isLast && !isFirst"></button>
     </div>
     <span class="headings "> Please add current value to last row if all amount is not withdrawn </span>
-</div>
 
-<div >
+    <div >
     <hr/>
     <button pButton type="button" (click)="calculateReturns()" label="Calculate returns" class="ui-button-info" [disabled]="anyErrorInForm()"></button>
      <span class="headings">Returns : </span> 
      <span [ngClass]="{'profit' : (returnOnInsvement >=0) , 'loss' : (returnOnInsvement < 0)}">{{returnOnInsvement | number : '1.2-2'}} </span>
 </div>
+</div>
+
+
 {{httpError}}
 </div>
 

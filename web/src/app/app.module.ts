@@ -16,6 +16,7 @@ import { ROUTES } from './app.routes';
 import { AppComponent } from './app.component';
 import { APP_RESOLVER_PROVIDERS } from './app.resolver';
 import {XIRR} from './finance/xirr/xirr.component';
+import {NAVBAR} from './finance/navigation/nav.component';
 import {XirrService} from './finance/xirr/xirr-service';
 import {XirrRequest} from './finance/xirr/xirrRequestVO'
 import {CalendarModule , InputTextModule, ButtonModule} from 'primeng/primeng';
@@ -36,7 +37,7 @@ const APP_PROVIDERS = [
 @NgModule({
   bootstrap: [ XIRR ],
   declarations: [
-   XIRR,AppComponent
+   XIRR,AppComponent,NAVBAR
   ],
   imports: [ // import Angular's modules
     BrowserAnimationsModule,

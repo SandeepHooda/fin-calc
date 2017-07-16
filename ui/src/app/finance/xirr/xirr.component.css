@@ -24,16 +24,24 @@
   display :inline;
   padding-left: 10px;
 }
+h4 {
+   padding-left: 10px;
+}
+.login {
+  padding-left: 10px;
+}
 .Withdrawals {
-  min-width: 320px;
+  min-width: 330px;
+  padding-left: 10px;
 }
 @media (max-width: 730px) {
 .sip {
     display :block;
-    padding-left: 0px;
+    padding-left: 10px;
 }
 .headings {
   font-weight: normal;
+  
 }
 
 }

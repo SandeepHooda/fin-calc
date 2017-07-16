@@ -56,7 +56,7 @@ nav a {
   margin-right: 10px;
   margin-top: 10px;
   display: inline-block;
-  background-color: #eee;
+  
   border-radius: 4px;
 }
 nav a:visited, a:link {
@@ -87,3 +87,116 @@ body {
 .error {
   color :red;
 }
+
+/* Related to menu icon*/
+
+body{
+   font-family: Roboto;
+  font-size: 16px;
+  color: #424242;
+	margin:0;
+	width:100%;
+	height:100vh;
+  	background:#ffffff;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+header{
+	width:100%; 
+	background:#ffffff; 
+	
+	line-height:60px;
+	border-bottom:1px solid #dddddd;
+}
+header{display:inline-block; font-size:16px;}
+
+
+.nav {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}
+.nav__list {
+  width: 100%;
+  padding: 0;
+  margin: 0;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.nav a {
+  text-decoration: none;
+  color: #616161;
+}
+.nav__item {
+  box-sizing: border-box;
+  display: inline-block;
+  width: 24%;
+  text-align: center;
+  line-height: 24px;
+
+  text-transform: uppercase;
+  border-right:1px solid #E0E0E0;
+
+  
+}
+nav {
+  box-shadow: 0 12px 5px rgba(0, 0, 0, 0.26);
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+ .hamburger{
+ display:none;
+ } 
+@media screen and (max-width: 650px){
+
+
+ .nav__item{
+ 	display: list-item;
+    border-bottom: 1px solid #E0E0E0;
+    width: 100%;
+   
+    text-align: left;
+    border-left:1px solid #E0E0E0;
+    line-height: 24px;
+    padding: 10px;
+ }
+ .hamburger {
+	display :block;
+	position: absolute;
+	right: 5px;
+	top:5px;
+	}
+	
+	.hamburger svg {
+    width: 32px;
+    fill: #E0E0E0;
+  }
+   .nav {
+    z-index: 10;
+    background-color: #fff;
+    width: 200px;
+   
+    position: absolute;
+    right:0px;
+    /* This trasform moves the drawer off canvas. */
+    -webkit-transform: translate(-1300px, 0);
+    transform: translate(-1300px, 0);
+    /* Optionally, we animate the drawer. */
+    transition: transform 0.0s ease;
+  }
+  
+  .nav.open {
+    -webkit-transform: translate(0, 0);
+    transform: translate(0, 0);
+  }
+}
+
+
+/* End of menu icon*/

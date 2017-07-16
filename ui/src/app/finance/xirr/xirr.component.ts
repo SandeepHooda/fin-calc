@@ -83,13 +83,24 @@ private httpError:String
     this.returnOnInsvement = undefined;
     this.httpError = error;
   }
+ 
   ngOnInit(): void {
     this.xirrService.signedUserName().subscribe( 
         name => this.showName(name),
         error => this.showError(error)
       );
+
+      var menu = document.querySelector('#menu');
+      var drawer = document.querySelector('.nav');
+
+      menu.addEventListener('click', function(e) {
+        drawer.classList.toggle('open');
+        e.stopPropagation();
+      });
+    
    
   }
+  
 
   public anyErrorInForm():boolean{
     return this.SIPerrorStartDate || this.SIPerrorEndDate || !this.startDate || !this.endDate ||

@@ -9,7 +9,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { Angular2FontawesomeModule } from 'angular2-fontawesome/angular2-fontawesome';
 import {XirrService} from '../finance/xirr/xirr-service';
 import {XirrRequest} from '../finance/xirr/xirrRequestVO';
-
+import {NAVBAR} from '../finance/navigation/nav.component';
 
 @NgModule({
   imports: [
@@ -25,7 +25,8 @@ import {XirrRequest} from '../finance/xirr/xirrRequestVO';
     ButtonModule
   ],
   declarations: [
-    XIRR
+    XIRR,
+    NAVBAR
   ],
   providers: [ XirrService , XirrRequest],
   bootstrap: [ XIRR ]
