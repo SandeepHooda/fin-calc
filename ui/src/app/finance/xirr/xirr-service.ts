@@ -10,13 +10,13 @@ import { Headers, RequestOptions } from '@angular/http';
 export class XirrService {
   private hostName:string = '';
   private xirrUrl:string = this.hostName+'/xirr';  // URL to web API
-  private signInUrl:string = this.hostName+'/getProfile?data=email';
+  private signInUrl:string = this.hostName+'/getProfile?data=name';
 
      constructor (private http: Http) {}
 
  
- signedUserEmail() :Observable<string> {
-   return this.http.get(this.signInUrl).map(this.getUserEmail).catch(this.handleError);
+ signedUserName() :Observable<string> {
+   return this.http.get(this.signInUrl).map(this.getUserName).catch(this.handleError);
  }
 
   getXirr(request: XirrRequest): Observable<number> {
@@ -31,7 +31,7 @@ export class XirrService {
     let body = res.json();
     return body;
   }
-  private getUserEmail(res: Response) {
+  private getUserName(res: Response) {
     let body = res.json().data;
     return body;
   }

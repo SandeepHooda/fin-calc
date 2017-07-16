@@ -71,11 +71,11 @@ private httpError:String
   private showXirrRate(returnOnInsvement: number) {
     this.returnOnInsvement = returnOnInsvement;
   }
-  private showEmail(email: string) {
-    if (null == email || 'null' == email){
+  private showName(name: string) {
+    if (null == name || 'null' == name || '' == name){
       this.signedInUser = undefined;
     }else {
-      this.signedInUser = email;
+      this.signedInUser = name;
     }
     
   }
@@ -84,11 +84,11 @@ private httpError:String
     this.httpError = error;
   }
   ngOnInit(): void {
-    this.xirrService.signedUserEmail().subscribe( 
-        email => this.showEmail(email),
+    this.xirrService.signedUserName().subscribe( 
+        name => this.showName(name),
         error => this.showError(error)
       );
-   //signIn this.signedInUser = this.cookieService.get("email");
+   
   }
 
   public anyErrorInForm():boolean{

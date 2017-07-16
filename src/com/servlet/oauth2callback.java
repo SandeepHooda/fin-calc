@@ -49,18 +49,20 @@ public class oauth2callback extends HttpServlet {
 			getAuthCode(request, response);
 		}else if (null != code) {
 			String accessToken = getAccesstoken(request, response, code);
-			String email = getUserEmail(accessToken);
-			addCookie(email,request, response );
+			String email = getUserEmail(accessToken).get("email");
+			String name = getUserEmail(accessToken).get("name");
+			addCookie("email", email,request, response );
+			addCookie("name" , name,request, response );
 			response.sendRedirect("web/index.html");
 		}
 		
 	}
 	
-	private void addCookie(String email ,HttpServletRequest request, HttpServletResponse response){
-		Cookie cookie = new Cookie("email",email);
+	private void addCookie(String cookieName, String cookieValue ,HttpServletRequest request, HttpServletResponse response){
+		Cookie cookie = new Cookie(cookieName,cookieValue);
 	      cookie.setMaxAge(60*60*24); 
 	      response.addCookie(cookie);
-	      request.getSession().setAttribute("email", email);
+	      request.getSession().setAttribute(cookieName, cookieValue);
 	}
 	private void getAuthCode(HttpServletRequest request, HttpServletResponse response){
 		//Client id + redirect url + scope + response type
@@ -122,7 +124,8 @@ public class oauth2callback extends HttpServlet {
 	     return null;
 	}
 
-	private String getUserEmail(String accessToken) throws IOException{
+	private Map<String, String> getUserEmail(String accessToken) throws IOException{
+		Map<String, String> userProfile = new HashMap<String, String>();
 		log.info("Will get getUserEmail for access token "+accessToken);
 		URL url = new URL("https://people.googleapis.com/v1/people/me?personFields=emailAddresses,names" );
 	    HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -145,9 +148,12 @@ public class oauth2callback extends HttpServlet {
 	      map = (Map<String,Object>) gson.fromJson(response.toString(), map.getClass());
 	      
 	     Map emailMap = (Map) ((List<Object>)map.get("emailAddresses")).get(0);
+	     Map nameMap = (Map) ((List<Object>)map.get("names")).get(0);
 	     
 		log.info("response  "+emailMap.get("value"));
-		return (String)emailMap.get("value");
+		userProfile.put("email", (String)emailMap.get("value"));
+		userProfile.put("name", (String)nameMap.get("displayName"));
+		return userProfile;
 
 	}
 	 

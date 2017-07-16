@@ -60,7 +60,7 @@ nav a {
   border-radius: 4px;
 }
 nav a:visited, a:link {
-  color: #607D8B;
+  color: #eee;
 }
 nav a:hover {
   color: #039be5;
@@ -87,3 +87,10 @@ body {
 .error {
   color :red;
 }
+
+/* Related to menu icon*/
+
+
+
+
+/* End of menu icon*/
