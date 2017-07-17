@@ -6,5 +6,8 @@ import { DataResolver } from './app.resolver';
 
 export const ROUTES: Routes = [
   { path: '',      component: XIRR },
-  { path: 'xirr',  component: XIRR }
+  { path: 'xirr',  component: XIRR },
+  { path: 'News',  component: XIRR },
+  { path: 'Contact',  component: XIRR },
+  { path: 'Home',  component: XIRR }
 ];

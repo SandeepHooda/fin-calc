@@ -21,8 +21,7 @@ import {XirrService} from './finance/xirr/xirr-service';
 import {XirrRequest} from './finance/xirr/xirrRequestVO'
 import {CalendarModule , InputTextModule, ButtonModule} from 'primeng/primeng';
 
-import '../styles/styles.scss';
-import '../styles/headings.css';
+
 
 // Application wide providers
 const APP_PROVIDERS = [

@@ -49,4 +49,24 @@
     <servlet-name>getProfile</servlet-name>
     <url-pattern>/getProfile</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>TestNAV</display-name>
+    <servlet-name>TestNAV</servlet-name>
+    <servlet-class>amfiindia.TestNAV</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>TestNAV</servlet-name>
+    <url-pattern>/TestNAV</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>GetNavs</display-name>
+    <servlet-name>GetNavs</servlet-name>
+    <servlet-class>amfiindia.GetNavs</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>GetNavs</servlet-name>
+    <url-pattern>/GetNavs</url-pattern>
+  </servlet-mapping>
 </web-app>
