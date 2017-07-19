@@ -17,7 +17,9 @@ export class NAVBAR implements OnInit {
      
 
     ngOnInit(): void {
-      
+     
+
+     
    
   }
 }

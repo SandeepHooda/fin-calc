@@ -4,22 +4,26 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/catch';
 import  'rxjs/add/operator/map';
 import { Headers, RequestOptions } from '@angular/http';
+import {Company} from './Company';
 
 @Injectable()
-export class XirrService {
-  private hostName:string = '';
-  private signInUrl:string = this.hostName+'/getProfile?data=name';
-
-     constructor (private http: Http) {}
-
+export class FundService {
+    private  m_names = new Array("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec");
+      private hostName:string = 'http://fin-cal.appspot.com';
+  private funNavUrl:string = this.hostName+'/GetNavs?date=';  // URL to web API
  
- signedUserName() :Observable<string> {
-   return this.http.get(this.signInUrl).map(this.getUserName).catch(this.handleError);
- }
+     constructor (private http: Http) {}
+    getAllFunds(): Observable<Array<Company>> {
+        let today :Date = new Date();
+        today.setDate(today.getDate()-1);
+        this.funNavUrl += today.getDate()+"-"+this.m_names[today.getMonth()] +"-"+today.getFullYear();
+        return this.http.get(this.funNavUrl)
+                        .map(this.extractData)
+                        .catch(this.handleError);
+    }
 
-  
-  private getUserName(res: Response) {
-    let body = res.json().data;
+  private extractData(res: Response) {
+    let body = res.json();
     return body;
   }
  

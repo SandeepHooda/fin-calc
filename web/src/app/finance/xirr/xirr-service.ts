@@ -3,13 +3,11 @@ import { Http, Response }          from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/catch';
 import  'rxjs/add/operator/map';
-import {XirrRequest} from './xirrRequestVO';
 import { Headers, RequestOptions } from '@angular/http';
 
 @Injectable()
 export class XirrService {
   private hostName:string = '';
-  private xirrUrl:string = this.hostName+'/xirr';  // URL to web API
   private signInUrl:string = this.hostName+'/getProfile?data=name';
 
      constructor (private http: Http) {}
@@ -19,18 +17,7 @@ export class XirrService {
    return this.http.get(this.signInUrl).map(this.getUserName).catch(this.handleError);
  }
 
-  getXirr(request: XirrRequest): Observable<number> {
-    let headers = new Headers({ 'Content-Type': 'application/json' });
-   let options = new RequestOptions({ headers: headers });
-    return this.http.post(this.xirrUrl, { request }, options)
-                    .map(this.extractData)
-                    .catch(this.handleError);
-  }
-
-  private extractData(res: Response) {
-    let body = res.json();
-    return body;
-  }
+  
   private getUserName(res: Response) {
     let body = res.json().data;
     return body;

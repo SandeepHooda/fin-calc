@@ -11,66 +11,11 @@
     <span *ngIf="signedInUser">Welcome, {{signedInUser}}</span>
 </div>
 <!-- Section 2 navigation --> 
- <nav-bar></nav-bar>
+
+
 <div *ngIf="signedInUser">
-
-<h4>Systematic monthly investment & Non-Systematic withdrawal</h4>
-<hr/>
-
-
-    <div class="sip">
-      <span class="headings textPadding">Investment Start date &nbsp;</span>
-    </div>
-     <div class="sip componentPadding"> 
-    <span ><p-calendar inputStyleClass="calender" (onSelect)="checkDateValidation()" [(ngModel)]="startDate"   [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2100"></p-calendar> </span >
-    </div>
-    <div class="sip textPadding" >
-     <span class="headings"> Investment End date &nbsp;&nbsp;</span>
-    </div>
-    <div class="sip" >
-        <p-calendar  inputStyleClass="calender" (onSelect)="checkDateValidation()" [(ngModel)]="endDate"   [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2100"></p-calendar> 
-    </div>
-    <div class="sip textPadding" >
-     <span class="headings"> Investment Amount &nbsp;&nbsp;</span>
-    </div>
-    <div class="sip" >
-        <input type="text" pInputText   [(ngModel)]="sipAmount"/> 
-    </div>
-
-     
-
-<br/>
-<div >
-    <div *ngIf="SIPerrorStartDate" class="error"> Start date must be less than end date</div>
-    <div *ngIf="SIPerrorEndDate" class="error"> Day of month can't be different in Start date and End date</div>
-    <hr/>
-    
-</div>
-
-<div class="Withdrawals">
-    <span class="headings">Withdrawals </span> 
-    <div >
-            <span class="headings paddingR50 paddingL10">Date &nbsp;</span>  
-            <span class="headings "> Amount &nbsp;</span>
-    </div>
-   <div  *ngFor="let row of withdrawlsRows; index as i;first as isFirst;last as isLast"> 
-        <p-calendar  inputStyleClass="calender"  name="date-{{i}}"  [(ngModel)]="row.date"   [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2100"></p-calendar> 
-        <input type="text" pInputText  name="amount-{{i}}"  [(ngModel)]="row.amount"/> 
-        <button pButton type="button" (click)="addRow()" icon="fa-plus" *ngIf="isLast"></button>
-        <button pButton type="button" (click)="delRow()" icon="fa-minus" *ngIf="isLast && !isFirst"></button>
-    </div>
-    <span class="headings "> Please add current value to last row if all amount is not withdrawn </span>
-
-    <div >
-    <hr/>
-    <button pButton type="button" (click)="calculateReturns()" label="Calculate returns" class="ui-button-info" [disabled]="anyErrorInForm()"></button>
-     <span class="headings">Returns : </span> 
-     <span [ngClass]="{'profit' : (returnOnInsvement >=0) , 'loss' : (returnOnInsvement < 0)}">{{returnOnInsvement | number : '1.2-2'}} </span>
-</div>
-</div>
-
-
-{{httpError}}
+ <nav-bar></nav-bar>
+ <router-outlet></router-outlet>
 </div>
 
 

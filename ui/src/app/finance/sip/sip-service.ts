@@ -3,25 +3,33 @@ import { Http, Response }          from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/catch';
 import  'rxjs/add/operator/map';
+import {XirrRequest} from './xirrRequestVO';
 import { Headers, RequestOptions } from '@angular/http';
 
 @Injectable()
-export class XirrService {
+export class SipService {
   private hostName:string = '';
-  private signInUrl:string = this.hostName+'/getProfile?data=name';
+  private xirrUrl:string = this.hostName+'/xirr';  // URL to web API
+
 
      constructor (private http: Http) {}
 
  
- signedUserName() :Observable<string> {
-   return this.http.get(this.signInUrl).map(this.getUserName).catch(this.handleError);
- }
 
-  
-  private getUserName(res: Response) {
-    let body = res.json().data;
+
+  getXirr(request: XirrRequest): Observable<number> {
+    let headers = new Headers({ 'Content-Type': 'application/json' });
+   let options = new RequestOptions({ headers: headers });
+    return this.http.post(this.xirrUrl, { request }, options)
+                    .map(this.extractData)
+                    .catch(this.handleError);
+  }
+
+  private extractData(res: Response) {
+    let body = res.json();
     return body;
   }
+
  
   private handleError (error: Response | any) {
     // In a real world app, you might use a remote logging infrastructure
