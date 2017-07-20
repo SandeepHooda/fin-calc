@@ -2,6 +2,7 @@ package amfiindia;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -39,7 +40,7 @@ public class GetNavs extends HttpServlet {
 		while(itr.hasNext()){
 			companyVOList.add(map.get(itr.next()));
 		}
-		
+		Collections.sort(companyVOList, new CompanyVOSort());
 		Gson gson = new GsonBuilder().create();
 		String json = gson.toJson(companyVOList);
 		response.getWriter().println(json);

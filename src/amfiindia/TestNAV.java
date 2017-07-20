@@ -1,7 +1,11 @@
 package amfiindia;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -32,12 +36,13 @@ public class TestNAV extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		Map<String, CompanyVO> map = NavService.getNavForDate("03-Jun-2017");
+		Map<String, CompanyVO> map = NavService.getNavForDate("05-Jun-2017");
 		List<CompanyVO> companyVOList = new ArrayList<CompanyVO>();
 		Iterator<String> itr = map.keySet().iterator();
 		while(itr.hasNext()){
 			companyVOList.add(map.get(itr.next()));
 		}
+		Collections.sort(companyVOList, new CompanyVOSort());
 		// TODO Auto-generated method stub
 		Gson gson = new GsonBuilder().create();
 		String json = gson.toJson(companyVOList);
