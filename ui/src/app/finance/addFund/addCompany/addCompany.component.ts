@@ -1,25 +1,36 @@
-import { Component, OnInit, ViewEncapsulation  } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, Output, EventEmitter,ViewChild  } from '@angular/core';
+import {   NG_VALUE_ACCESSOR,NgModel} from '@angular/forms';
 import {FundService} from './fundservice';
 import {Company} from './company';
 import {NAV} from './nav';
 import {SelectItem} from 'primeng/primeng';
+import {ValueAccessorBase} from '../../../common/value.access';
+
 
 @Component({
- selector : 'all-funds', 
-  templateUrl: './addfund.component.html',
-  encapsulation: ViewEncapsulation.None 
+ selector : 'add-company', 
+  templateUrl: './addCompany.component.html',
+  encapsulation: ViewEncapsulation.None,
+   providers: [
+    {provide: NG_VALUE_ACCESSOR, useExisting: AddCompany, multi: true}
+  ], 
 })
 
-export class AddFund implements OnInit {
-   private companyNames : SelectItem[];
+export class AddCompany  implements OnInit{
+  @Output() onCompanySelect :EventEmitter<number> = new EventEmitter();
+    private companyIDSelected :number;
+    private companyNames : SelectItem[];
     private navOfACompany : SelectItem[];
     private allNavs:Array<Company> = [];
     private httpError:any;
+    @ViewChild(NgModel) model: NgModel; //http://blog.rangle.io/angular-2-ngmodel-and-custom-form-components/
     constructor(private fundService :FundService) { 
-     
+    
     }
 
-     
+    private notifyParentAboutCompanySelection(){
+      this.onCompanySelect.emit(this.companyIDSelected); //Value comes from ValueAccessorBase
+    } 
      
 
     ngOnInit(): void {

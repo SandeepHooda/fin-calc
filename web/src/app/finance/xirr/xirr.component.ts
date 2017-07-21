@@ -33,12 +33,12 @@ private httpError:String
   }
  
   ngOnInit(): void {
-   this.xirrService.signedUserName().subscribe( 
+    this.xirrService.signedUserName().subscribe( 
         name => this.showName(name),
         error => this.showError(error)
-      ); 
+      );  
      
- 
+   
   }
   
    

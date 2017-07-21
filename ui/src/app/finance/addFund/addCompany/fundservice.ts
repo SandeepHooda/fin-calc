@@ -9,15 +9,21 @@ import {Company} from './Company';
 @Injectable()
 export class FundService {
     private  m_names = new Array("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec");
-      private hostName:string = 'http://fin-cal.appspot.com';
+      private hostName:string = '';
   private funNavUrl:string = this.hostName+'/GetNavs?date=';  // URL to web API
+  private allFunds:string = this.hostName+'/TestNAV';  // URL to web API
  
      constructor (private http: Http) {}
-    getAllFunds(): Observable<Array<Company>> {
+    getLatestNav(): Observable<Array<Company>> {
         let today :Date = new Date();
         today.setDate(today.getDate()-1);
         this.funNavUrl += today.getDate()+"-"+this.m_names[today.getMonth()] +"-"+today.getFullYear();
         return this.http.get(this.funNavUrl)
+                        .map(this.extractData)
+                        .catch(this.handleError);
+    }
+    getAllFunds(): Observable<Array<Company>> {
+       return this.http.get(this.allFunds)
                         .map(this.extractData)
                         .catch(this.handleError);
     }

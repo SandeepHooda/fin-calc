@@ -3,8 +3,8 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {Withdrawal} from './withdrawal';
 import  {SipService} from './sip-service';
 import {XirrRequest} from './xirrRequestVO';
-import {Company} from '../addFund/company';
-import {NAV} from '../addFund/nav';
+import {Company} from '../addFund/addCompany/company';
+import {NAV} from '../addFund/addCompany/nav';
 import {SelectItem} from 'primeng/primeng';
 
 @Component({
