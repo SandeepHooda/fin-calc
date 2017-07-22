@@ -1,6 +1,11 @@
 <br/>
 
-
+<div class="loading-overlay" #spinnerElement  >
+    <!-- md-spinner is short for <md-progress-circle mode="indeterminate"></md-progress-circle> -->
+    <div class="spinner">
+    <md-spinner></md-spinner>
+    </div>
+</div>
 <p-listbox  filter="filter" (onChange)="notifyParentAboutCompanySelection()"  [options]="companyNames" [(ngModel)]="companyIDSelected" [style]="{'width':'95%','max-height':'350px'}" >
      
 </p-listbox>

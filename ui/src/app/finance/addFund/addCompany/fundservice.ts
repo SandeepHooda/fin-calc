@@ -11,7 +11,7 @@ export class FundService {
     private  m_names = new Array("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec");
       private hostName:string = '';
   private funNavUrl:string = this.hostName+'/GetNavs?date=';  // URL to web API
-  private allFunds:string = this.hostName+'/TestNAV';  // URL to web API
+  private allFunds:string = '/web/navdata.json';  // URL to web API
  
      constructor (private http: Http) {}
     getLatestNav(): Observable<Array<Company>> {

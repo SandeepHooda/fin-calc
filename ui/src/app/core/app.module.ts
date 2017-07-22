@@ -16,6 +16,7 @@ import {AddFunds} from '../finance/addFund/addFund.component'
 import {AddProfile } from '../finance/addFund/addProfile/addProfile.component'
 import {Sip} from '../finance/sip/sip.component';
 import {SipService} from '../finance/sip/sip-service';
+import {MdProgressSpinnerModule} from '@angular/material';
 
 @NgModule({
   imports: [
@@ -29,7 +30,8 @@ import {SipService} from '../finance/sip/sip-service';
     CalendarModule,
     InputTextModule,
     ButtonModule,
-    ListboxModule
+    ListboxModule,
+    MdProgressSpinnerModule
   ],
   declarations: [
     XIRR,   NAVBAR,    AddCompany, Sip, AddFunds, AddProfile

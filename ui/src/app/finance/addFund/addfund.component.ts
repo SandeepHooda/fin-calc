@@ -1,4 +1,5 @@
-import { Component, OnInit, ViewEncapsulation  } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation , ViewChild } from '@angular/core';
+import {AddCompany} from './addCompany/addCompany.component'
 import {NAV} from './addCompany/nav';
 
 @Component({
@@ -8,13 +9,17 @@ import {NAV} from './addCompany/nav';
 })
 
 export class AddFunds implements OnInit {
+
+    @ViewChild(AddCompany)
+    private addcompanyModule : AddCompany;
     private company:number;
     constructor() {} 
     private companyIDSelected (company:number){
         this.company = company;
+        console.log(this.addcompanyModule.companyNames);
     }
     ngOnInit(): void {
-       
+        
   }
 
 
