@@ -1,7 +1,15 @@
 package amfiindia;
 
 public class NavVO {
-	private String SchemeCode,SchemeName,NetAssetValue,Date;
+	private String companyName, SchemeCode,SchemeName,NetAssetValue,Date;
+
+	public String getCompanyName() {
+		return companyName;
+	}
+
+	public void setCompanyName(String companyName) {
+		this.companyName = companyName;
+	}
 
 	public String getSchemeCode() {
 		return SchemeCode;

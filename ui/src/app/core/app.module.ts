@@ -10,12 +10,15 @@ import { Angular2FontawesomeModule } from 'angular2-fontawesome/angular2-fontawe
 import {XirrService} from '../finance/xirr/xirr-service';
 import {XirrRequest} from '../finance/sip/xirrRequestVO';
 import {NAVBAR} from '../finance/navigation/nav.component';
-import {FundService} from '../finance/addFund/addCompany/fundservice';
+import {FundService} from '../finance/addFund/fundservice';
 import {AddCompany} from '../finance/addFund/addCompany/addCompany.component';
 import {AddFunds} from '../finance/addFund/addFund.component'
+import {AddFundsDetails} from '../finance/addFund/addfundDetails/addFundDetails.component'
 import {AddProfile } from '../finance/addFund/addProfile/addProfile.component'
 import {Sip} from '../finance/sip/sip.component';
 import {SipService} from '../finance/sip/sip-service';
+import {NavService} from '../finance/addFund/addfundDetails/nav.service';
+
 import {MdProgressSpinnerModule} from '@angular/material';
 
 @NgModule({
@@ -34,9 +37,9 @@ import {MdProgressSpinnerModule} from '@angular/material';
     MdProgressSpinnerModule
   ],
   declarations: [
-    XIRR,   NAVBAR,    AddCompany, Sip, AddFunds, AddProfile
+    XIRR,   NAVBAR,    AddCompany, Sip, AddFunds, AddProfile, AddFundsDetails
   ],
-  providers: [ XirrService , XirrRequest, FundService, SipService],
+  providers: [ XirrService , XirrRequest, FundService, SipService, NavService],
   bootstrap: [ XIRR ]
 })
 export class AppModule { }

@@ -1,0 +1,26 @@
+
+<h4>Add fund details</h4>
+<hr/>
+
+{{schemeCode}} {{companyIDSelected}}
+    <div class="sip">
+      <span class="headings textPadding">Investment date &nbsp;</span>
+    </div>
+    <div class="sip componentPadding"> 
+    <span ><p-calendar inputStyleClass="calender" [maxDate]="maxDate" (onSelect)="fetchNAV()" [(ngModel)]="investmentDate"   [monthNavigator]="true" [yearNavigator]="true"></p-calendar> </span >
+    </div>
+  
+    <div class="sip textPadding" >
+     <span class="headings"> Investment Amount &nbsp;&nbsp;</span>
+    </div>
+    <div class="sip" >
+        <input type="text" pInputText   [(ngModel)]="investmentAmount"/> 
+    </div>
+    <div class="sip textPadding" >
+     <span class="headings"> NAV &nbsp;&nbsp;</span>
+    </div>
+    <div class="sip" >
+        <input type="text" pInputText   [(ngModel)]="navOnInvestmentDate"/> 
+    </div>
+
+    {{error}}

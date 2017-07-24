@@ -269,6 +269,7 @@ const METADATA = {
        */
       new CopyWebpackPlugin([
         { from: 'src/assets', to: 'assets' },
+		{ from: 'src/web', to: 'data' },
         { from: 'src/meta'}
       ]),
 

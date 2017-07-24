@@ -10,10 +10,13 @@ import { Angular2FontawesomeModule } from 'angular2-fontawesome/angular2-fontawe
 import {XirrService} from '../finance/xirr/xirr-service';
 import {XirrRequest} from '../finance/sip/xirrRequestVO';
 import {NAVBAR} from '../finance/navigation/nav.component';
-import {FundService} from '../finance/addFund/fundservice';
-import {AddFund} from '../finance/addFund/addfund.component';
+import {FundService} from '../finance/addFund/addCompany/fundservice';
+import {AddCompany} from '../finance/addFund/addCompany/addCompany.component';
+import {AddFunds} from '../finance/addFund/addFund.component'
+import {AddProfile } from '../finance/addFund/addProfile/addProfile.component'
 import {Sip} from '../finance/sip/sip.component';
 import {SipService} from '../finance/sip/sip-service';
+import {MdProgressSpinnerModule} from '@angular/material';
 
 @NgModule({
   imports: [
@@ -27,10 +30,11 @@ import {SipService} from '../finance/sip/sip-service';
     CalendarModule,
     InputTextModule,
     ButtonModule,
-    ListboxModule
+    ListboxModule,
+    MdProgressSpinnerModule
   ],
   declarations: [
-    XIRR,   NAVBAR,    AddFund, Sip
+    XIRR,   NAVBAR,    AddCompany, Sip, AddFunds, AddProfile
   ],
   providers: [ XirrService , XirrRequest, FundService, SipService],
   bootstrap: [ XIRR ]

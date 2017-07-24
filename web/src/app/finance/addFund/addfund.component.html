@@ -1,8 +1,5 @@
-<br/><br/>
+<br/><br/><br/>
+You select a company {{company}}
 
-
-<p-listbox  filter="filter" [options]="companyNames" [(ngModel)]="selectedCompany" [style]="{'width':'95%','max-height':'350px'}" >
-     
-</p-listbox>
-
-{{selectedCompany}}
+<add-company  (onCompanySelect)="companyIDSelected($event)" ></add-company>
+<add-profile></add-profile>
