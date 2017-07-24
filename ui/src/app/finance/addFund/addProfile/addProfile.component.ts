@@ -26,7 +26,7 @@ export class AddProfile implements OnInit {
      this.companyName = this.companyIDSelected.substring(this.companyIDSelected.indexOf("#")+1);
      let companyProfiles = this.allFunds[this.companyID].navs;
      for (let i=0;i<companyProfiles.length;i++){
-      this.profiles.push({label:companyProfiles[i].SchemeName, value:companyProfiles[i].SchemeCode});
+      this.profiles.push({label:companyProfiles[i].SchemeName, value:companyProfiles[i].SchemeName});
      }
   }
 

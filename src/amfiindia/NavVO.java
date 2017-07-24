@@ -2,6 +2,10 @@ package amfiindia;
 
 public class NavVO {
 	private String companyName, SchemeCode,SchemeName,NetAssetValue,Date;
+	
+	public String toString(){
+		return SchemeCode+":"+SchemeName+":"+NetAssetValue+":"+Date;
+	}
 
 	public String getCompanyName() {
 		return companyName;
@@ -45,7 +49,5 @@ public class NavVO {
 		Date = date;
 	}
 
-	public String toString(){
-		return SchemeCode+":"+SchemeName+":"+NetAssetValue+":"+Date;
-	}
+	
 }

@@ -1,5 +1,20 @@
-<br/><br/><br/>
-You select a company {{company}}
+<!-- Spinner loader -->
+<div class="loading-overlay" #spinnerElement  >
+    <div class="spinner">
+    <md-spinner></md-spinner>
+    </div>
+</div>
+<button  *ngIf="stepIndicator > 1" pButton type="button" (click)="previousStep()"           icon="fa-arrow-left" [style]="{'float':'left'}" label="Back" ></button>
+<button *ngIf="stepIndicator > 0"  pButton type="button" (click)="showProfileSummaryStep()" icon="fa-close"      style="float:right;" label="Cancel"></button>
+<button *ngIf="stepIndicator == 0" pButton type="button" (click)="selectCompanyStep()"      icon="fa-plus" style="float:right;" label="Add"></button><br/>
+<add-company *ngIf="stepIndicator == 1" [companyNames]="companyNames" (onCompanySelect)="companyIDSelected($event)" ></add-company>
+<add-profile *ngIf="stepIndicator == 2" [companyIDSelected]="companyID" (onSchemeSelect)="schemeSelected($event)"></add-profile>
+<add-fund-details *ngIf="stepIndicator == 3" [companyIDSelected]="companyID" [schemeCode]="schemeCode"></add-fund-details>
+<hr/>
+<div style="width:95%" align="right">
 
-<add-company  (onCompanySelect)="companyIDSelected($event)" ></add-company>
-<add-profile></add-profile>
+
+
+<button *ngIf="stepIndicator == 3" (click)="saveFundDetails()" pButton type="button" class="ui-button-success"  label="Save" [style]="{'float':'right'}"></button>
+
+</div>

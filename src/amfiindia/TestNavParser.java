@@ -28,9 +28,9 @@ public class TestNavParser {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		Map<String, CompanyVO> map = NavService.parseNav(data);
-		System.out.println(map.get("Axis Mutual Fund").getNavs().get(0));
-		System.out.println(map.get("Baroda Pioneer Mutual Fund").getNavs().get(1));
+		List<NavVO> navVOList= NavService.parseNav(data);
+		System.out.println(navVOList.get(0));
+
 	}
 
 }

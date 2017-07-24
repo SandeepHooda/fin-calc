@@ -33,15 +33,15 @@ export class AddFunds implements OnInit {
     ngOnInit(): void {
       this.companyNames = JSON.parse(localStorage.getItem('companyNames'));
       this.allNavs = JSON.parse(localStorage.getItem('allFunds'));
-      //if(!this. companyNames || this. companyNames.length <=0){
+      if('24_JUL_2017' != localStorage.getItem('cacheDate')){
         this.renderer.setElementStyle(this.spinnerElement.nativeElement, 'display','block');
         this.fundService.getAllFunds().subscribe( 
         funds => this.showAllFunds(funds),
         error => this.showError(error)
       );
-     /* }else {
+      }else {
         this.renderer.setElementStyle(this.spinnerElement.nativeElement, 'display','none');
-      }*/
+      }
         
   }
 
@@ -54,6 +54,7 @@ export class AddFunds implements OnInit {
       let navLen: number = funds[i].navs.length;
       this.companyNames.push({label:funds[i].companyName, value:i+'#'+funds[i].companyName})
    }
+   localStorage.setItem('cacheDate', '24_JUL_2017');
    localStorage.setItem('companyNames', JSON.stringify(this.companyNames));
    localStorage.setItem('allFunds', JSON.stringify(funds));
    this.renderer.setElementStyle(this.spinnerElement.nativeElement, 'display','none');
@@ -61,6 +62,7 @@ export class AddFunds implements OnInit {
 
   private showError(error:any) {
     this.httpError = error;
+    this.renderer.setElementStyle(this.spinnerElement.nativeElement, 'display','none');
   }
 
 private nextStep(){

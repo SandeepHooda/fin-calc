@@ -1,12 +1,8 @@
 package htmlParser;
 
-import java.awt.image.BufferedImageFilter;
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -14,19 +10,13 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-
-import org.apache.tools.ant.util.CollectionUtils;
-
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
 import amfiindia.CompanyVO;
 import amfiindia.CompanyVOSort;
 import amfiindia.NavVO;
 
 public class HTMLParser {
 
-	public static void main(String[] args) throws IOException {
+	public static List<CompanyVO> main(String[] args) throws IOException {
 	
 		Map<String, CompanyVO> navMap = new HashMap<String, CompanyVO>();
 		List<NavVO> allnavs = exractAllNavsFromHTML();
@@ -48,9 +38,8 @@ public class HTMLParser {
 			companyVOList.add(navMap.get(itr.next()));
 		}
 		Collections.sort(companyVOList, new CompanyVOSort());
-		// TODO Auto-generated method stub
-		Gson gson = new GsonBuilder().create();
-		String json = gson.toJson(companyVOList);
+		
+		return companyVOList;
 		
 		
 	}
@@ -61,6 +50,23 @@ public class HTMLParser {
 		s = s.replaceAll("&amp;", "");
 	    String pattern= "^[a-zA-Z0-9-(),/+\\._ \\[\\]/%]*$";
 	    return s.matches(pattern);
+	}
+	private static String applyCorrectionOnName(String schhemeName){
+		schhemeName = schhemeName.replaceAll("&#39;", "'");
+		schhemeName = schhemeName.replaceAll("\u0027", "'");
+		schhemeName = schhemeName.replaceAll("&gt;", ">");
+		schhemeName = schhemeName.replaceAll("\u003e", ">");
+		schhemeName = schhemeName.replaceAll("&lt;", "<");
+		schhemeName = schhemeName.replaceAll("\u003c", "<");
+		schhemeName = schhemeName.replaceAll("&amp;", "&");
+		schhemeName = schhemeName.replaceAll("\u0026", "&");
+		schhemeName = schhemeName.replaceAll("\u003d", "=");
+		schhemeName = schhemeName.replaceAll("-", " ");
+		schhemeName = schhemeName.replaceAll("_", " ");
+		schhemeName = schhemeName.replaceAll(",", " ");
+		schhemeName = schhemeName.trim().replaceAll(" +", " ");
+		schhemeName = schhemeName.toUpperCase();
+		return schhemeName;
 	}
 	private static List<NavVO> exractAllNavsFromHTML() throws IOException{
 		List<NavVO> allnavs = new ArrayList<NavVO>();
@@ -81,23 +87,13 @@ public class HTMLParser {
 					}
 					nav = new NavVO();
 					String schhemeName = line.substring(line.indexOf(">")+1, line.indexOf("</td>"));
-					schhemeName = schhemeName.replaceAll("&#39;", "'");
-					schhemeName = schhemeName.replaceAll("\u0027", "'");
-					schhemeName = schhemeName.replaceAll("&gt;", ">");
-					schhemeName = schhemeName.replaceAll("\u003e", ">");
-					schhemeName = schhemeName.replaceAll("&lt;", "<");
-					schhemeName = schhemeName.replaceAll("\u003c", "<");
-					schhemeName = schhemeName.replaceAll("&amp;", "&");
-					schhemeName = schhemeName.replaceAll("\u0026", "&");
-					schhemeName = schhemeName.replaceAll("\u003d", "=");
-					schhemeName = schhemeName.replaceAll("-", " ");
-					schhemeName = schhemeName.replaceAll(",", " ");
-					schhemeName = schhemeName.replaceAll("UTi", "UTI");
-					schhemeName = schhemeName.trim().replaceAll(" +", " ");
+					
+					
+					schhemeName = applyCorrectionOnName(schhemeName);
 					nav.setSchemeName(schhemeName);
 					int index = schhemeName.indexOf(" ");
 					
-					nav.setCompanyName(schhemeName.substring(0, index).toUpperCase());
+					nav.setCompanyName(schhemeName.substring(0, index));
 					nav.setSchemeCode(schhemeName); // Temporarly because some securites don't have code 
 					
 					

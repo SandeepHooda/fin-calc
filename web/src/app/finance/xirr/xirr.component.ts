@@ -38,9 +38,7 @@ private httpError:String
         error => this.showError(error)
       );  
      
-   
-  }
-  
+  //this.signedInUser = "sonu";
   }
    
 }

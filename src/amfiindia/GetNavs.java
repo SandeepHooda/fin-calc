@@ -34,16 +34,23 @@ public class GetNavs extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String date = request.getParameter("date");
-		Map<String, CompanyVO> map = NavService.getNavForDate(date);
-		List<CompanyVO> companyVOList = new ArrayList<CompanyVO>();
-		Iterator<String> itr = map.keySet().iterator();
-		while(itr.hasNext()){
-			companyVOList.add(map.get(itr.next()));
+		String schemeName = request.getParameter("schemeName");
+		List<NavVO> navVOList = NavService.getNavForDate(date);
+		NavVO navFound = null;
+		for(NavVO nav : navVOList){
+			if(nav.getSchemeName().equalsIgnoreCase(schemeName)){
+				navFound = nav;
+				break;
+			}
 		}
-		Collections.sort(companyVOList, new CompanyVOSort());
-		Gson gson = new GsonBuilder().create();
-		String json = gson.toJson(companyVOList);
-		response.getWriter().println(json);
+		
+		if (navFound != null){
+			response.getWriter().append(" "+navFound.getNetAssetValue());
+		}else {
+			response.getWriter().append(" -9999.9999");
+		}
+		
+	
 	}
 
 	/**

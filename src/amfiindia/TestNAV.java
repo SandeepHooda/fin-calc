@@ -36,17 +36,13 @@ public class TestNAV extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		Map<String, CompanyVO> map = NavService.getNavForDate("05-Jun-2017");
-		List<CompanyVO> companyVOList = new ArrayList<CompanyVO>();
-		Iterator<String> itr = map.keySet().iterator();
-		while(itr.hasNext()){
-			companyVOList.add(map.get(itr.next()));
+		List<NavVO> navVOList = NavService.getNavForDate("05-Jun-2017");
+		StringBuilder sb = new StringBuilder();
+		for(NavVO nav : navVOList){
+			sb.append(nav.toString()).append("<br/>");
 		}
-		Collections.sort(companyVOList, new CompanyVOSort());
-		// TODO Auto-generated method stub
-		Gson gson = new GsonBuilder().create();
-		String json = gson.toJson(companyVOList);
-		response.getWriter().println(json);
+		
+		response.getWriter().println(sb.toString());
 	}
 
 	/**

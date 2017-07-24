@@ -17,8 +17,8 @@ export class FundService {
     getLatestNav(): Observable<Array<Company>> {
         let today :Date = new Date();
         today.setDate(today.getDate()-1);
-        this.funNavUrl += today.getDate()+"-"+this.m_names[today.getMonth()] +"-"+today.getFullYear();
-        return this.http.get(this.funNavUrl)
+        let url =  this.funNavUrl + today.getDate()+"-"+this.m_names[today.getMonth()] +"-"+today.getFullYear();
+        return this.http.get(url)
                         .map(this.extractData)
                         .catch(this.handleError);
     }

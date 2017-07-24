@@ -6,7 +6,7 @@
     <div class="sip">
       <span class="headings textPadding">Investment Start date &nbsp;</span>
     </div>
-     <div class="sip componentPadding"> 
+    <div class="sip componentPadding"> 
     <span ><p-calendar inputStyleClass="calender" (onSelect)="checkDateValidation()" [(ngModel)]="startDate"   [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2100"></p-calendar> </span >
     </div>
     <div class="sip textPadding" >
@@ -53,6 +53,6 @@
      <span [ngClass]="{'profit' : (returnOnInsvement >=0) , 'loss' : (returnOnInsvement < 0)}">{{returnOnInsvement | number : '1.2-2'}} </span>
 </div>
 </div>
-<br/><br/><br/>
+
 
 {{httpError}}
