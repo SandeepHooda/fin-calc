@@ -7,7 +7,7 @@
     <a class="btn btn-block btn-social btn-google" style="width:130px;color:#eee" *ngIf="!signedInUser" href="/oauth2callback?request=signin">
         <span class="fa fa-google"></span>Sign in 
     </a>
-    <a class="btn btn-block btn-social btn-google" style="width:130px;color:#eee" *ngIf="signedInUser" href="/SignOut">
+    <a class="btn btn-block btn-social btn-google" style="width:130px;color:#eee" *ngIf="signedInUser" href="/SignOut" (click)="deleteLocalStorage()">
         <span class="fa fa-google"></span>Sign out
     </a>
     <span *ngIf="signedInUser">Welcome, {{signedInUser}}</span>

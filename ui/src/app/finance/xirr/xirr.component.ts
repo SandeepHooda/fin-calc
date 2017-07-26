@@ -12,6 +12,7 @@ import  {XirrService} from './xirr-service';
 })
 export class XIRR implements OnInit {
 private signedInUser:string ;
+private signedInUserEmail:string ;
 
 private httpError:String
 
@@ -25,6 +26,16 @@ private httpError:String
       this.signedInUser = undefined;
     }else {
       this.signedInUser = name;
+      localStorage.setItem('signedInUser', name);
+    }
+    
+  }
+  private showNameEmail(name: string) {
+    if (null == name || 'null' == name || '' == name){
+      this.signedInUserEmail = undefined;
+    }else {
+      this.signedInUserEmail = name;
+      localStorage.setItem('signedInUserEmail', name);
     }
     
   }
@@ -33,12 +44,27 @@ private httpError:String
   }
  
   ngOnInit(): void {
-   this.xirrService.signedUserName().subscribe( 
+   this.signedInUserEmail =  localStorage.getItem('signedInUserEmail');
+   this.signedInUser =  localStorage.getItem('signedInUser');
+   if (!this.signedInUserEmail){
+    this.xirrService.signedUserName().subscribe( 
         name => this.showName(name),
         error => this.showError(error)
-      );  
-     
+      ); 
+      this.xirrService.signedUserEmail().subscribe( 
+        name => this.showName(name),
+        error => this.showError(error)
+      );
+   }
+    
+   //localStorage.setItem('signedInUser', 'Sandeep Hooda');  
+   //localStorage.setItem('signedInUserEmail', 'sonu.hooda@gmail.com'); 
   //this.signedInUser = "sonu";
-  }
+}
+
+private deleteLocalStorage(){
+  localStorage.removeItem('signedInUser');
+  localStorage.removeItem('signedInUserEmail');
+}
    
 }

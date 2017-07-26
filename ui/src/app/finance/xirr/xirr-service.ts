@@ -9,6 +9,7 @@ import { Headers, RequestOptions } from '@angular/http';
 export class XirrService {
   private hostName:string = '';
   private signInUrl:string = this.hostName+'/getProfile?data=name';
+  private signInUrlEmail:string = this.hostName+'/getProfile?data=email';
 
      constructor (private http: Http) {}
 
@@ -17,6 +18,9 @@ export class XirrService {
    return this.http.get(this.signInUrl).map(this.getUserName).catch(this.handleError);
  }
 
+ signedUserEmail() :Observable<string> {
+   return this.http.get(this.signInUrlEmail).map(this.getUserName).catch(this.handleError);
+ }
   
   private getUserName(res: Response) {
     let body = res.json().data;
