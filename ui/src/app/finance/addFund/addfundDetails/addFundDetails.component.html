@@ -19,13 +19,25 @@
      <span class="headings"> Investment Amount &nbsp;&nbsp;</span>
     </div>
     <div class="sip" >
-        <input type="text" pInputText   [(ngModel)]="investmentAmount"/> 
+        <input type="text" pInputText   [(ngModel)]="investmentAmount" (keyup)="changeUnitsBought()"/> 
     </div>
     <div class="sip textPadding" >
      <span class="headings"> NAV &nbsp;&nbsp;</span>
     </div>
     <div class="sip" >
-        <input type="text" pInputText   [(ngModel)]="navOnInvestmentDate"/> 
+        <input type="text" pInputText   [(ngModel)]="navOnInvestmentDate" (keyup)="changeUnitsBought()"/> 
     </div>
+    <div class="sip textPadding" >
+     <span class="headings"> Units &nbsp;&nbsp;</span>
+    </div>
+    <div class="sip" >
+        <span class="headings"> {{units | number : '1.2-2' }}</span> 
+       
+    </div>
+<hr/>
+<div style="width:95%" align="right">
+<button  (click)="saveFundDetails()" pButton type="button" [disabled]="!units" class="ui-button-success"  label="Save" [style]="{'float':'right'}"></button>
+
+</div>
 
     {{httpError}}

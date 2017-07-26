@@ -69,4 +69,14 @@
     <servlet-name>GetNavs</servlet-name>
     <url-pattern>/GetNavs</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>AddToProfile</display-name>
+    <servlet-name>AddToProfile</servlet-name>
+    <servlet-class>com.endpoint.AddToProfile</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>AddToProfile</servlet-name>
+    <url-pattern>/AddToProfile</url-pattern>
+  </servlet-mapping>
 </web-app>
