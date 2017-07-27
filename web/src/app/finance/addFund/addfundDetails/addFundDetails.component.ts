@@ -1,5 +1,7 @@
 import { Component, OnInit , ViewEncapsulation ,Input,ViewChild, Renderer, ElementRef} from '@angular/core';
 import {NavService} from './nav.service';
+import {Profile} from '../profile';
+import {Response as ResponseVO} from './response';
 @Component({
  selector : 'add-fund-details', 
   templateUrl: './addFundDetails.component.html',
@@ -12,6 +14,8 @@ export class AddFundsDetails implements OnInit {
     companyIDSelected :string;
     @Input()
     schemeCode :string;
+    private units:number;
+    private investmentAmount:number;
     private maxDate :Date;
     private investmentDate:Date;
     private httpError :string;
@@ -40,12 +44,27 @@ export class AddFundsDetails implements OnInit {
        
      }
 
+    private changeUnitsBought(){
+        if (this.investmentAmount && this.navOnInvestmentDate){
+                this.units = this.investmentAmount /this.navOnInvestmentDate;
+            }else {
+               this.units = undefined; 
+            }
+    }
+    private addedToProfile(result:ResponseVO){
+        this.renderer.setElementStyle(this.spinnerElement.nativeElement, 'display','none');
+        if ("SUCCESS" == result.data){
+            //move to show profile
+        }
+    }
      private showNav(nav:number){
        
          if (-9999.9999 == nav){
             this.httpError = "Could't find NAV for this date. Please enter nav yourself."
          }else {
             this.navOnInvestmentDate = nav;
+            this.changeUnitsBought();
+            
          }
         
         this.renderer.setElementStyle(this.spinnerElement.nativeElement, 'display','none');
@@ -54,5 +73,17 @@ export class AddFundsDetails implements OnInit {
   private showError(error:any) {
     this.httpError = error;
     this.renderer.setElementStyle(this.spinnerElement.nativeElement, 'display','none');
+  }
+  private saveFundDetails(){
+      let profile: Profile = new Profile();
+      profile.investmentAmount = this.investmentAmount;
+      profile.nav = this.navOnInvestmentDate;
+      profile.investmentDate = this.navService.dateToStr(this.investmentDate);
+      profile.units = this.units;
+      profile.schemeName = this.schemeCode;
+      this.renderer.setElementStyle(this.spinnerElement.nativeElement, 'display','block');
+      this.navService.addToPortfolio(profile).subscribe( 
+        result => this.addedToProfile(result),
+        error => this.showError(error));
   }
 }

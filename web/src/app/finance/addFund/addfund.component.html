@@ -10,11 +10,4 @@
 <add-company *ngIf="stepIndicator == 1" [companyNames]="companyNames" (onCompanySelect)="companyIDSelected($event)" ></add-company>
 <add-profile *ngIf="stepIndicator == 2" [companyIDSelected]="companyID" (onSchemeSelect)="schemeSelected($event)"></add-profile>
 <add-fund-details *ngIf="stepIndicator == 3" [companyIDSelected]="companyID" [schemeCode]="schemeCode"></add-fund-details>
-<hr/>
-<div style="width:95%" align="right">
 
-
-
-<button *ngIf="stepIndicator == 3" (click)="saveFundDetails()" pButton type="button" class="ui-button-success"  label="Save" [style]="{'float':'right'}"></button>
-
-</div>

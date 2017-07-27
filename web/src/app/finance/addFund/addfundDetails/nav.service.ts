@@ -4,15 +4,19 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/catch';
 import  'rxjs/add/operator/map';
 import { Headers, RequestOptions } from '@angular/http';
-
+import {Profile} from '../profile';
+import {Response as ResponseVO} from './response';
 
 @Injectable()
 export class NavService {
     private  m_names = new Array("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec");
-      private hostName:string = '';
+      private hostName:string = 'https://fin-cal.appspot.com';
   private funNavUrl:string = this.hostName+'/GetNavs?date=';  // URL to web API
-  
+  private addToPortfolioUrl:string = this.hostName+'/AddToProfile';  // URL to web API
  
+ dateToStr(date:Date):string{
+    return date.getDate()+"-"+this.m_names[date.getMonth()] +"-"+date.getFullYear();;
+ }
      constructor (private http: Http) {}
     getNav(date:Date, schemeName:string): Observable<number> {
         let today :Date = new Date();
@@ -24,11 +28,18 @@ export class NavService {
                         .catch(this.handleError);
     }
     
-
+addToPortfolio(profile:Profile) : Observable<ResponseVO>{
+  var headers = new Headers({ 'Content-Type': 'application/json' });
+  var options = new RequestOptions({ headers: headers });
+  return this.http.post(this.addToPortfolioUrl, { profile }, options)
+            .map(this.extractData)
+            .catch(this.handleError);
+}
   private extractData(res: Response) {
     let body = res.json();
     return body;
   }
+   
  
   private handleError (error: Response | any) {
     // In a real world app, you might use a remote logging infrastructure
