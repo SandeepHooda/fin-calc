@@ -4,7 +4,8 @@ import {FundService} from './fundservice';
 import {Company} from './company';
 import {NAV} from './nav';
 import {SelectItem} from 'primeng/primeng';
-
+import {Portfolio} from './portfolio';
+import {Profile} from './profile';
 @Component({
  selector : 'add-fund', 
   templateUrl: './addFund.component.html',
@@ -21,6 +22,8 @@ export class AddFunds implements OnInit {
     @ViewChild(AddCompany)
     private addcompanyModule : AddCompany;
     private companyID:string;
+     private portfolio:Portfolio;
+     private allProfiles : Array<Profile> = [];
     constructor(private fundService :FundService,private renderer: Renderer) {} 
     private schemeSelected  (schemeCode:number){
         this.schemeCode = schemeCode;   
@@ -42,9 +45,17 @@ export class AddFunds implements OnInit {
       }else {
         this.renderer.setElementStyle(this.spinnerElement.nativeElement, 'display','none');
       }
-        
+        this.fundService.getPortfolio().subscribe( 
+        portfolio => this.portFolioLoaded(portfolio),
+        error => this.showError(error));
   }
 
+private portFolioLoaded(portfolio:Portfolio){
+     
+    this.portfolio = portfolio;
+    this.allProfiles = portfolio.allProfiles;
+    this.renderer.setElementStyle(this.spinnerElement.nativeElement, 'display','none');
+}
    private showAllFunds(funds:Array<Company>){
 
     this.companyNames = [];

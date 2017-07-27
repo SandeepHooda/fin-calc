@@ -5,6 +5,7 @@ import 'rxjs/add/operator/catch';
 import  'rxjs/add/operator/map';
 import { Headers, RequestOptions } from '@angular/http';
 import {Company} from './Company';
+import {Portfolio} from './portfolio';
 
 @Injectable()
 export class FundService {
@@ -12,6 +13,7 @@ export class FundService {
       private hostName:string = '';
   private funNavUrl:string = this.hostName+'/GetNavs?date=';  // URL to web API
   private allFunds:string = '/web/data/navdata.json';  // URL to web API
+   private getPortfolioUrl:string = this.hostName+'/GetProfiles';  // URL to web API
  
      constructor (private http: Http) {}
     getLatestNav(): Observable<Array<Company>> {
@@ -27,6 +29,12 @@ export class FundService {
                         .map(this.extractData)
                         .catch(this.handleError);
     }
+
+    getPortfolio() : Observable<Portfolio>{
+ return this.http.get(this.getPortfolioUrl)
+                        .map(this.extractData)
+                        .catch(this.handleError);
+}
 
   private extractData(res: Response) {
     let body = res.json();

@@ -2,6 +2,7 @@ import { Component, OnInit , ViewEncapsulation ,Input,ViewChild, Renderer, Eleme
 import {NavService} from './nav.service';
 import {Profile} from '../profile';
 import {Response as ResponseVO} from './response';
+
 @Component({
  selector : 'add-fund-details', 
   templateUrl: './addFundDetails.component.html',
@@ -20,12 +21,18 @@ export class AddFundsDetails implements OnInit {
     private investmentDate:Date;
     private httpError :string;
     private navOnInvestmentDate:number;
+    private formSubmit:boolean;
+   
      constructor(private navService: NavService, private renderer: Renderer) {} 
      ngOnInit(): void {
          this.renderer.setElementStyle(this.spinnerElement.nativeElement, 'display','none');
+        
          this.httpError = "";
          this.maxDate = new Date();
          this.maxDate.setDate(this.maxDate.getDate() - 1);
+
+         
+
      }
      private replaceAll(actualData : string, search:string, replacement:string) :string {
     let target = actualData;
@@ -52,6 +59,7 @@ export class AddFundsDetails implements OnInit {
             }
     }
     private addedToProfile(result:ResponseVO){
+        this.formSubmit = false;
         this.renderer.setElementStyle(this.spinnerElement.nativeElement, 'display','none');
         if ("SUCCESS" == result.data){
             //move to show profile
@@ -71,13 +79,16 @@ export class AddFundsDetails implements OnInit {
     }
 
   private showError(error:any) {
+      this.formSubmit = false;
     this.httpError = error;
     this.renderer.setElementStyle(this.spinnerElement.nativeElement, 'display','none');
   }
   private saveFundDetails(){
+      this.httpError = "";
+      this.formSubmit = false;
       let profile: Profile = new Profile();
-      profile.investmentAmount = this.investmentAmount;
-      profile.nav = this.navOnInvestmentDate;
+      profile.investmentAmount = Number(this.investmentAmount);
+      profile.nav = Number(this.navOnInvestmentDate);
       profile.investmentDate = this.navService.dateToStr(this.investmentDate);
       profile.units = this.units;
       profile.schemeName = this.schemeCode;

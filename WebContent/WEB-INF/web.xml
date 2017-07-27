@@ -79,4 +79,14 @@
     <servlet-name>AddToProfile</servlet-name>
     <url-pattern>/AddToProfile</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>GetProfiles</display-name>
+    <servlet-name>GetProfiles</servlet-name>
+    <servlet-class>com.endpoint.GetProfiles</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>GetProfiles</servlet-name>
+    <url-pattern>/GetProfiles</url-pattern>
+  </servlet-mapping>
 </web-app>

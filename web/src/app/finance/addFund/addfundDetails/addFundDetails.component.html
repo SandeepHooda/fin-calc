@@ -36,7 +36,7 @@
     </div>
 <hr/>
 <div style="width:95%" align="right">
-<button  (click)="saveFundDetails()" pButton type="button" [disabled]="!units" class="ui-button-success"  label="Save" [style]="{'float':'right'}"></button>
+<button  (click)="saveFundDetails()" pButton type="button" [disabled]="!units || formSubmit" class="ui-button-success"  label="Save" [style]="{'float':'right'}"></button>
 
 </div>
 

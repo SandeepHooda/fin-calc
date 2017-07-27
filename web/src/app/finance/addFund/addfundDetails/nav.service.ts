@@ -7,13 +7,14 @@ import { Headers, RequestOptions } from '@angular/http';
 import {Profile} from '../profile';
 import {Response as ResponseVO} from './response';
 
+
 @Injectable()
 export class NavService {
     private  m_names = new Array("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec");
       private hostName:string = 'https://fin-cal.appspot.com';
   private funNavUrl:string = this.hostName+'/GetNavs?date=';  // URL to web API
   private addToPortfolioUrl:string = this.hostName+'/AddToProfile';  // URL to web API
- 
+
  dateToStr(date:Date):string{
     return date.getDate()+"-"+this.m_names[date.getMonth()] +"-"+date.getFullYear();;
  }
@@ -35,6 +36,7 @@ addToPortfolio(profile:Profile) : Observable<ResponseVO>{
             .map(this.extractData)
             .catch(this.handleError);
 }
+
   private extractData(res: Response) {
     let body = res.json();
     return body;

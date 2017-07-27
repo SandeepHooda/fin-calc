@@ -18,7 +18,7 @@ import {AddProfile } from '../finance/addFund/addProfile/addProfile.component'
 import {Sip} from '../finance/sip/sip.component';
 import {SipService} from '../finance/sip/sip-service';
 import {NavService} from '../finance/addFund/addfundDetails/nav.service';
-
+import {DataTableModule,SharedModule,DataGridModule} from 'primeng/primeng';
 import {MdProgressSpinnerModule} from '@angular/material';
 
 @NgModule({
@@ -34,7 +34,7 @@ import {MdProgressSpinnerModule} from '@angular/material';
     InputTextModule,
     ButtonModule,
     ListboxModule,
-    MdProgressSpinnerModule
+    MdProgressSpinnerModule, DataTableModule,SharedModule,DataGridModule
   ],
   declarations: [
     XIRR,   NAVBAR,    AddCompany, Sip, AddFunds, AddProfile, AddFundsDetails

@@ -26,7 +26,7 @@ private httpError:String
       this.signedInUser = undefined;
     }else {
       this.signedInUser = name;
-      localStorage.setItem('signedInUser', name);
+      //localStorage.setItem('signedInUser', name);
     }
     
   }
@@ -35,7 +35,7 @@ private httpError:String
       this.signedInUserEmail = undefined;
     }else {
       this.signedInUserEmail = name;
-      localStorage.setItem('signedInUserEmail', name);
+      //localStorage.setItem('signedInUserEmail', name);
     }
     
   }

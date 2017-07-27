@@ -11,3 +11,30 @@
 <add-profile *ngIf="stepIndicator == 2" [companyIDSelected]="companyID" (onSchemeSelect)="schemeSelected($event)"></add-profile>
 <add-fund-details *ngIf="stepIndicator == 3" [companyIDSelected]="companyID" [schemeCode]="schemeCode"></add-fund-details>
 
+{{portfolio}}
+
+<p-dataTable [value]="allProfiles">
+    <p-column field="investmentDate" header="Date"></p-column>
+    <p-column field="nav" header="Nav"></p-column>
+    <p-column field="investmentAmount" header="Amount"></p-column>
+    <p-column field="units" header="Units"></p-column>
+    <p-column field="schemeName" header="SchemeName"></p-column>
+</p-dataTable>
+
+<p-dataGrid [value]="allProfiles" [paginator]="true" [rows]="20">
+    <p-header>
+        List of profiles
+    </p-header>
+    <ng-template let-profile pTemplate="item">
+        <div style="padding:3px" class="ui-g-12 ui-md-3">
+            <p-panel [header]="profile.schemeName" [style]="{'text-align':'center'}">
+               
+                <div class="car-detail">{{profile.nav}}</div>
+                <hr class="ui-widget-content" style="border-top:0">
+                <div class="car-detail">{{profile.investmentDate}}</div>
+                <div class="car-detail">{{profile.investmentAmount}}</div>
+                <div class="car-detail">{{profile.units}}</div>
+            </p-panel>
+        </div>
+    </ng-template>
+</p-dataGrid>

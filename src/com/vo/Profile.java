@@ -1,10 +1,15 @@
 package com.vo;
 
 public class Profile {
+	private int profileID;
 	private String investmentDate, schemeName;
 	private double nav;
 	private double investmentAmount;
 	private double units;
+	public String toString(){
+		return "{   \"investmentAmount\": "+investmentAmount+",    \"nav\": "+nav+",    \"investmentDate\": "+investmentDate+
+				",    \"units\": "+units+",    \"schemeName\": "+schemeName+"  }";
+	}
 	public String getInvestmentDate() {
 		return investmentDate;
 	}
@@ -34,6 +39,12 @@ public class Profile {
 	}
 	public void setUnits(double units) {
 		this.units = units;
+	}
+	public int getProfileID() {
+		return profileID;
+	}
+	public void setProfileID(int profileID) {
+		this.profileID = profileID;
 	}
 
 
