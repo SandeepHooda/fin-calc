@@ -46,7 +46,7 @@ export class AddFunds implements OnInit {
     }
     ngOnInit(): void {
       
-      this.allProfiles =  [{"profileID":1,"investmentDate":"12-Jul-2017","schemeName":"Axis Children\u0027s Gift Fund - Lock in - Direct Dividend","schemeCode":"135765","nav":11.9223,"investmentAmount":22.0,"units":1.8452815312481652,"currentValue":22.463350192496417,"currentNav":12.1734,"xirr":56.44024048694586,"companyName":"Axis Mutual Fund"}];
+      //this.allProfiles =  [{"profileID":1,"investmentDate":"12-Jul-2017","schemeName":"Axis Children\u0027s Gift Fund - Lock in - Direct Dividend","schemeCode":"135765","nav":11.9223,"investmentAmount":22.0,"units":1.8452815312481652,"currentValue":22.463350192496417,"currentNav":12.1734,"xirr":56.44024048694586,"companyName":"Axis Mutual Fund"}];
       this.companyNames = JSON.parse(localStorage.getItem('companyNames'));
       this.allNavs = JSON.parse(localStorage.getItem('allFunds'));
       if('28_JUL_2017' != localStorage.getItem('cacheDate')){
