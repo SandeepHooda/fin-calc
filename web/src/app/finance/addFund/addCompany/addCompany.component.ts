@@ -16,15 +16,15 @@ import {ValueAccessorBase} from '../../../common/value.access';
 export class AddCompany  implements OnInit{
   @Input()
   companyNames :SelectItem[];
-  @Output() onCompanySelect :EventEmitter<number> = new EventEmitter();
-    private companyIDSelected :number;
+  @Output() onCompanySelect :EventEmitter<string> = new EventEmitter();
+    private companyNameSelected :string;
    
     @ViewChild(NgModel) model: NgModel; //http://blog.rangle.io/angular-2-ngmodel-and-custom-form-components/
    
     constructor(  ) {  }
 
     private notifyParentAboutCompanySelection(){
-      this.onCompanySelect.emit(this.companyIDSelected); //Value comes from ValueAccessorBase
+      this.onCompanySelect.emit(this.companyNameSelected); //Value comes from ValueAccessorBase
     } 
      
 

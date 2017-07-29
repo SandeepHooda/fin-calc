@@ -13,7 +13,8 @@ import {Profile} from './profile';
 })
 
 export class AddFunds implements OnInit {
-  private schemeCode :number;
+  private schemeCode : number;
+  private schemeName : string;
   private stepIndicator:number=0;
   private httpError:any;
    public companyNames : SelectItem[];
@@ -21,22 +22,27 @@ export class AddFunds implements OnInit {
     @ViewChild('spinnerElement') spinnerElement: ElementRef;
     @ViewChild(AddCompany)
     private addcompanyModule : AddCompany;
-    private companyID:string;
+    private companyName:string;
      private portfolio:Portfolio;
      private allProfiles : Array<Profile> = [];
     constructor(private fundService :FundService,private renderer: Renderer) {} 
-    private schemeSelected  (schemeCode:number){
-        this.schemeCode = schemeCode;   
+    private schemeSelected  (nav:NAV){
+        this.schemeCode = nav.SchemeCode;
+        this.schemeName = nav.SchemeName;   
         this.stepIndicator++;
     }
-    private companyIDSelected (companyIDSelected:string){
-        this.companyID = companyIDSelected;   
+    private companyNameSelected (companyName:string){
+        this.companyName = companyName;   
         this.stepIndicator ++;
     }
+    private showProfile (){
+      this.stepIndicator =0;
+    }
     ngOnInit(): void {
+      //this.allProfiles =  [ { "profileID" : 1 , "investmentDate" : "12-Jul-2017" , "schemeName" : "AXIS CHILDREN'S GIFT FUND LOCK IN DIRECT DIVIDEND" , "nav" : 11.9223 , "investmentAmount" : 33.0 , "units" : 2.7679222968722477} , { "profileID" : 2 , "investmentDate" : "12-Jul-2017" , "schemeName" : "AXIS CHILDREN'S GIFT FUND LOCK IN DIRECT DIVIDEND" , "nav" : 11.9223 , "investmentAmount" : 33.0 , "units" : 2.7679222968722477} , { "profileID" : 3 , "investmentDate" : "12-Jul-2017" , "schemeName" : "AXIS CHILDREN'S GIFT FUND LOCK IN DIRECT DIVIDEND" , "nav" : 11.9223 , "investmentAmount" : 33.0 , "units" : 2.7679222968722477}];
       this.companyNames = JSON.parse(localStorage.getItem('companyNames'));
       this.allNavs = JSON.parse(localStorage.getItem('allFunds'));
-      if('24_JUL_2017' != localStorage.getItem('cacheDate')){
+      if('28_JUL_2017' != localStorage.getItem('cacheDate')){
         this.renderer.setElementStyle(this.spinnerElement.nativeElement, 'display','block');
         this.fundService.getAllFunds().subscribe( 
         funds => this.showAllFunds(funds),
@@ -49,6 +55,7 @@ export class AddFunds implements OnInit {
         portfolio => this.portFolioLoaded(portfolio),
         error => this.showError(error));
   }
+
 
 private portFolioLoaded(portfolio:Portfolio){
      
@@ -65,7 +72,7 @@ private portFolioLoaded(portfolio:Portfolio){
       let navLen: number = funds[i].navs.length;
       this.companyNames.push({label:funds[i].companyName, value:i+'#'+funds[i].companyName})
    }
-   localStorage.setItem('cacheDate', '24_JUL_2017');
+   localStorage.setItem('cacheDate', '28_JUL_2017');
    localStorage.setItem('companyNames', JSON.stringify(this.companyNames));
    localStorage.setItem('allFunds', JSON.stringify(funds));
    this.renderer.setElementStyle(this.spinnerElement.nativeElement, 'display','none');

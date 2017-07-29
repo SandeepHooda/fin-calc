@@ -1,5 +1,5 @@
 export class NAV {
-    SchemeCode : string;
+    SchemeCode : number;
     SchemeName :string;
     NetAssetValue:string;
     smt:number;

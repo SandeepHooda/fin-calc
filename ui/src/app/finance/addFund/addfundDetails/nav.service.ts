@@ -11,19 +11,19 @@ import {Response as ResponseVO} from './response';
 @Injectable()
 export class NavService {
     private  m_names = new Array("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec");
-      private hostName:string = 'https://fin-cal.appspot.com';
-  private funNavUrl:string = this.hostName+'/GetNavs?date=';  // URL to web API
+      private hostName:string = '';
+  private funNavUrl:string = this.hostName+'/GetNav?date=';  // URL to web API
   private addToPortfolioUrl:string = this.hostName+'/AddToProfile';  // URL to web API
 
  dateToStr(date:Date):string{
     return date.getDate()+"-"+this.m_names[date.getMonth()] +"-"+date.getFullYear();;
  }
      constructor (private http: Http) {}
-    getNav(date:Date, schemeName:string): Observable<number> {
+    getNav(date:Date, companyName:string, schemeCode : number): Observable<number> {
         let today :Date = new Date();
         today.setDate(today.getDate()-1);
         let url =   this.funNavUrl + date.getDate()+"-"+this.m_names[date.getMonth()] +"-"+date.getFullYear();
-        url +="&schemeName="+schemeName;
+        url +="&companyName="+companyName +"&schemeCode="+schemeCode;
         return this.http.get(url)
                         .map(this.extractData)
                         .catch(this.handleError);

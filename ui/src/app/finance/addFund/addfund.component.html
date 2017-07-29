@@ -7,19 +7,12 @@
 <button  *ngIf="stepIndicator > 1" pButton type="button" (click)="previousStep()"           icon="fa-arrow-left" [style]="{'float':'left'}" label="Back" ></button>
 <button *ngIf="stepIndicator > 0"  pButton type="button" (click)="showProfileSummaryStep()" icon="fa-close"      style="float:right;" label="Cancel"></button>
 <button *ngIf="stepIndicator == 0" pButton type="button" (click)="selectCompanyStep()"      icon="fa-plus" style="float:right;" label="Add"></button><br/>
-<add-company *ngIf="stepIndicator == 1" [companyNames]="companyNames" (onCompanySelect)="companyIDSelected($event)" ></add-company>
-<add-profile *ngIf="stepIndicator == 2" [companyIDSelected]="companyID" (onSchemeSelect)="schemeSelected($event)"></add-profile>
-<add-fund-details *ngIf="stepIndicator == 3" [companyIDSelected]="companyID" [schemeCode]="schemeCode"></add-fund-details>
+<add-company *ngIf="stepIndicator == 1" [companyNames]="companyNames" (onCompanySelect)="companyNameSelected($event)" ></add-company>
+<add-profile *ngIf="stepIndicator == 2" [companyNameSelected]="companyName" (onSchemeSelect)="schemeSelected($event)"></add-profile>
+<add-fund-details *ngIf="stepIndicator == 3" (onSaveSuccess)="showProfile()" [schemeCode]="schemeCode" [companyNameSelected]="companyName" [schemeName]="schemeName"></add-fund-details>
 
-{{portfolio}}
-
-<p-dataTable [value]="allProfiles">
-    <p-column field="investmentDate" header="Date"></p-column>
-    <p-column field="nav" header="Nav"></p-column>
-    <p-column field="investmentAmount" header="Amount"></p-column>
-    <p-column field="units" header="Units"></p-column>
-    <p-column field="schemeName" header="SchemeName"></p-column>
-</p-dataTable>
+<div *ngIf="stepIndicator == 0">
+<hr class="ui-widget-content" style="border-top:0">
 
 <p-dataGrid [value]="allProfiles" [paginator]="true" [rows]="20">
     <p-header>
@@ -27,14 +20,15 @@
     </p-header>
     <ng-template let-profile pTemplate="item">
         <div style="padding:3px" class="ui-g-12 ui-md-3">
-            <p-panel [header]="profile.schemeName" [style]="{'text-align':'center'}">
+             <p-panel [header]="profile.schemeName" [style]="{'text-align':'left'}">
                
-                <div class="car-detail">{{profile.nav}}</div>
+                <div >{{profile.currentValue}} ({{profile.xirr | number : '1.2-2'}})</div>
                 <hr class="ui-widget-content" style="border-top:0">
-                <div class="car-detail">{{profile.investmentDate}}</div>
-                <div class="car-detail">{{profile.investmentAmount}}</div>
-                <div class="car-detail">{{profile.units}}</div>
+                <div >Date: {{profile.investmentDate}}</div>
+                <div >Amount: {{profile.investmentAmount}}</div>
+                <div >Units: {{profile.units | number : '1.2-2'}}</div>
             </p-panel>
         </div>
     </ng-template>
 </p-dataGrid>
+</div>

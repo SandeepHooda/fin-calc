@@ -1,4 +1,4 @@
-import { Component, OnInit , ViewEncapsulation ,Input,ViewChild, Renderer, ElementRef} from '@angular/core';
+import { Component, OnInit , ViewEncapsulation ,Input,ViewChild, Renderer, ElementRef, Output, EventEmitter} from '@angular/core';
 import {NavService} from './nav.service';
 import {Profile} from '../profile';
 import {Response as ResponseVO} from './response';
@@ -11,10 +11,14 @@ import {Response as ResponseVO} from './response';
 
 export class AddFundsDetails implements OnInit {
     @ViewChild('spinnerElement') spinnerElement: ElementRef;
+ 
     @Input()
-    companyIDSelected :string;
+    schemeCode : number;
     @Input()
-    schemeCode :string;
+    schemeName : string;
+    @Input()
+    companyNameSelected :string;
+    @Output() onSaveSuccess :EventEmitter<number> = new EventEmitter();
     private units:number;
     private investmentAmount:number;
     private maxDate :Date;
@@ -22,6 +26,7 @@ export class AddFundsDetails implements OnInit {
     private httpError :string;
     private navOnInvestmentDate:number;
     private formSubmit:boolean;
+    private companyName :string;
    
      constructor(private navService: NavService, private renderer: Renderer) {} 
      ngOnInit(): void {
@@ -30,8 +35,8 @@ export class AddFundsDetails implements OnInit {
          this.httpError = "";
          this.maxDate = new Date();
          this.maxDate.setDate(this.maxDate.getDate() - 1);
-
-         
+    this.companyName = this.companyNameSelected.substring(this.companyNameSelected.indexOf("#")+1);
+          
 
      }
      private replaceAll(actualData : string, search:string, replacement:string) :string {
@@ -43,8 +48,8 @@ export class AddFundsDetails implements OnInit {
          this.httpError = "";
 
         this.renderer.setElementStyle(this.spinnerElement.nativeElement, 'display','block');
-        let schemeCode_req = this.replaceAll(this.schemeCode, " ", "_");
-        this.navService.getNav(this.investmentDate, schemeCode_req).subscribe( 
+        
+        this.navService.getNav(this.investmentDate, this.companyName, this.schemeCode).subscribe( 
         nav => this.showNav(nav),
         error => this.showError(error));
          //schemeCode
@@ -62,7 +67,7 @@ export class AddFundsDetails implements OnInit {
         this.formSubmit = false;
         this.renderer.setElementStyle(this.spinnerElement.nativeElement, 'display','none');
         if ("SUCCESS" == result.data){
-            //move to show profile
+           this.onSaveSuccess.emit();
         }
     }
      private showNav(nav:number){
@@ -91,7 +96,8 @@ export class AddFundsDetails implements OnInit {
       profile.nav = Number(this.navOnInvestmentDate);
       profile.investmentDate = this.navService.dateToStr(this.investmentDate);
       profile.units = this.units;
-      profile.schemeName = this.schemeCode;
+      profile.schemeName = this.schemeName;
+      profile.schemeCode = this.schemeCode;
       this.renderer.setElementStyle(this.spinnerElement.nativeElement, 'display','block');
       this.navService.addToPortfolio(profile).subscribe( 
         result => this.addedToProfile(result),

@@ -3,12 +3,15 @@ package com.vo;
 public class Profile {
 	private int profileID;
 	private String investmentDate, schemeName;
+	private double schemeCode;
 	private double nav;
 	private double investmentAmount;
 	private double units;
+	private  double currentValue;
+    private double xirr;
 	public String toString(){
 		return "{   \"investmentAmount\": "+investmentAmount+",    \"nav\": "+nav+",    \"investmentDate\": "+investmentDate+
-				",    \"units\": "+units+",    \"schemeName\": "+schemeName+"  }";
+				",    \"units\": "+units+",    \"schemeName\": "+schemeName+" \"currentValue\":"+currentValue+" \"xirr\":"+xirr+" \"schemeCode\":"+schemeCode+"}";
 	}
 	public String getInvestmentDate() {
 		return investmentDate;
@@ -45,6 +48,24 @@ public class Profile {
 	}
 	public void setProfileID(int profileID) {
 		this.profileID = profileID;
+	}
+	public double getCurrentValue() {
+		return currentValue;
+	}
+	public void setCurrentValue(double currentValue) {
+		this.currentValue = currentValue;
+	}
+	public double getXirr() {
+		return xirr;
+	}
+	public void setXirr(double xirr) {
+		this.xirr = xirr;
+	}
+	public double getSchemeCode() {
+		return schemeCode;
+	}
+	public void setSchemeCode(double schemeCode) {
+		this.schemeCode = schemeCode;
 	}
 
 

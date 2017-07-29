@@ -89,4 +89,14 @@
     <servlet-name>GetProfiles</servlet-name>
     <url-pattern>/GetProfiles</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>GetNav</display-name>
+    <servlet-name>GetNav</servlet-name>
+    <servlet-class>com.endpoint.GetNav</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>GetNav</servlet-name>
+    <url-pattern>/GetNav</url-pattern>
+  </servlet-mapping>
 </web-app>
