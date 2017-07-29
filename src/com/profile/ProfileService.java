@@ -20,6 +20,36 @@ import com.xirr.XirrCalculatorService;
 public class ProfileService {
 	private static final Logger log = Logger.getLogger(ProfileService.class.getName());
 	
+	public static void deleteFromPortfolio(String collection, long profileID){
+		log.info("Deleting from   user profile "+collection+profileID);
+		String currentData = ProfileDAO.getUserPortfolio(collection, false, null);//get data along with default key
+		if(null == currentData || "".equals(currentData.trim())){
+			log.info("Creating a new profile "+collection);
+			ProfileDAO.createNewCollection(collection);
+		}else {
+			
+			log.info("Profile already exists "+currentData);
+		}
+		String dataToAdd = null;
+		Portfolio pf = null;
+		Gson  json = new Gson();
+		currentData = ProfileDAO.getUserPortfolio(collection, true, null);//get data by suppressing default key
+		
+			currentData = currentData.trim();
+			log.info("currentData ="+currentData+"#");
+			pf = json.fromJson(currentData, Portfolio.class);
+			Iterator<Profile> profileItr = pf.getAllProfiles().iterator();
+			while(profileItr.hasNext()){
+				if (profileItr.next().getProfileID() == profileID){
+					profileItr.remove();
+				}
+			}
+			
+		
+		dataToAdd = json.toJson(pf, new TypeToken<Portfolio>() {}.getType());
+		ProfileDAO.insertData(collection, dataToAdd);
+	}
+	
 	public static void addFundToPortfolio(String collection, Profile profile){
 		log.info("Adding to user profile "+collection+profile);
 		String currentData = ProfileDAO.getUserPortfolio(collection, false, null);//get data along with default key
@@ -36,7 +66,7 @@ public class ProfileService {
 		currentData = ProfileDAO.getUserPortfolio(collection, true, null);//get data by suppressing default key
 		if(null == currentData || "".equals(currentData.trim())){//empty commection 
 			pf = new Portfolio();
-			profile.setProfileID(1);
+			profile.setProfileID( new Date().getTime());
 			pf.getAllProfiles().add(profile);
 			log.info("Adding first profile "+currentData);
 			
@@ -45,7 +75,7 @@ public class ProfileService {
 			log.info("currentData ="+currentData+"#");
 			pf = json.fromJson(currentData, Portfolio.class);
 			
-			profile.setProfileID(pf.getAllProfiles().size() +1);
+			profile.setProfileID(new Date().getTime());
 			pf.getAllProfiles().add(profile);
 			
 		}
@@ -58,7 +88,7 @@ public class ProfileService {
 	public static Portfolio getPortfolio(String collection){
 		SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy");
 		String portfolioStr = "{ \"allProfiles\" : [ { \"profileID\" : 1 , \"investmentDate\" : \"12-Jul-2017\" , \"schemeName\" : \"Axis Children's Gift Fund - Lock in - Direct Dividend\" , \"schemeCode\" : \"135765\" , \"nav\" : 11.9223 , \"investmentAmount\" : 22.0 , \"units\" : 1.8452815312481652 , \"currentValue\" : 0.0 , \"currentNav\" : 0.0 , \"xirr\" : 0.0 , \"companyName\" : \"Axis Mutual Fund\"}]}";
-		//portfolioStr = ProfileDAO.getUserPortfolio(collection, true, null);
+		portfolioStr = ProfileDAO.getUserPortfolio(collection, true, null);
 		Gson  json = new Gson();
 		Portfolio portfolio = json.fromJson(portfolioStr, Portfolio.class);
 		try {

@@ -99,4 +99,14 @@
     <servlet-name>GetNav</servlet-name>
     <url-pattern>/GetNav</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>DeleteProfile</display-name>
+    <servlet-name>DeleteProfile</servlet-name>
+    <servlet-class>com.endpoint.DeleteProfile</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>DeleteProfile</servlet-name>
+    <url-pattern>/DeleteProfile</url-pattern>
+  </servlet-mapping>
 </web-app>

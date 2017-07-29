@@ -1,7 +1,7 @@
 package com.vo;
 
 public class Profile {
-	private int profileID;
+	private long profileID;
 	private String investmentDate, schemeName;
 	private String schemeCode;
 	private double nav;
@@ -47,10 +47,10 @@ public class Profile {
 	public void setUnits(double units) {
 		this.units = units;
 	}
-	public int getProfileID() {
+	public long getProfileID() {
 		return profileID;
 	}
-	public void setProfileID(int profileID) {
+	public void setProfileID(long profileID) {
 		this.profileID = profileID;
 	}
 	public double getCurrentValue() {

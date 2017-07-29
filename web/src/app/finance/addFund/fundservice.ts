@@ -23,7 +23,7 @@ export class FundService {
                         .catch(this.handleError);
     }
 
-    getPortfolio() : Observable<Portfolio>{
+ public   getPortfolio() : Observable<Portfolio>{
  return this.http.get(this.getPortfolioUrl)
                         .map(this.extractData)
                         .catch(this.handleError);
@@ -34,6 +34,12 @@ export class FundService {
     return body;
   }
  
+ public deleteProfile(profileID : number) : Observable<string>{
+
+   return this.http.delete('/DeleteProfile?profileID='+profileID)
+            .map(this.extractData)
+            .catch(this.handleError);
+ }
   private handleError (error: Response | any) {
     // In a real world app, you might use a remote logging infrastructure
     let errMsg: string;
