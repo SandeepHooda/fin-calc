@@ -6,7 +6,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.gson.Gson;
 import com.profile.ProfileService;
+import com.vo.Portfolio;
 
 /**
  * Servlet implementation class GetProfiles
@@ -27,7 +29,11 @@ public class GetProfiles extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String email = (String)request.getSession().getAttribute("email");
-		response.getWriter().append(ProfileService.getPortfolio(email));
+		//email = "sonu.hooda@gmail.com";
+		Portfolio portfolio = ProfileService.getPortfolio(email);
+		Gson  json = new Gson();
+		String portfolioStr = json.toJson(portfolio, Portfolio.class);
+		response.getWriter().append(portfolioStr);
 	}
 
 	/**

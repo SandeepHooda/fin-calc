@@ -3,15 +3,19 @@ package com.vo;
 public class Profile {
 	private int profileID;
 	private String investmentDate, schemeName;
-	private double schemeCode;
+	private String schemeCode;
 	private double nav;
 	private double investmentAmount;
 	private double units;
-	private  double currentValue;
+	private double currentValue;
+	private double currentNav;
     private double xirr;
+    private String companyName;
+    
+   
 	public String toString(){
 		return "{   \"investmentAmount\": "+investmentAmount+",    \"nav\": "+nav+",    \"investmentDate\": "+investmentDate+
-				",    \"units\": "+units+",    \"schemeName\": "+schemeName+" \"currentValue\":"+currentValue+" \"xirr\":"+xirr+" \"schemeCode\":"+schemeCode+"}";
+				",    \"units\": "+units+",    \"schemeName\": "+schemeName+" \"currentValue\":"+currentValue+" \"xirr\":"+xirr+" \"companyName\":"+companyName+"schemeCode\":"+schemeCode+"}";
 	}
 	public String getInvestmentDate() {
 		return investmentDate;
@@ -52,19 +56,31 @@ public class Profile {
 	public double getCurrentValue() {
 		return currentValue;
 	}
-	public void setCurrentValue(double currentValue) {
-		this.currentValue = currentValue;
-	}
+	
 	public double getXirr() {
 		return xirr;
 	}
 	public void setXirr(double xirr) {
 		this.xirr = xirr;
 	}
-	public double getSchemeCode() {
+	
+	public String getCompanyName() {
+		return companyName;
+	}
+	public void setCompanyName(String companyName) {
+		this.companyName = companyName;
+	}
+	public double getCurrentNav() {
+		return currentNav;
+	}
+	public void setCurrentNav(double currentNav) {
+		this.currentValue = currentNav * units; 
+		this.currentNav = currentNav;
+	}
+	public String getSchemeCode() {
 		return schemeCode;
 	}
-	public void setSchemeCode(double schemeCode) {
+	public void setSchemeCode(String schemeCode) {
 		this.schemeCode = schemeCode;
 	}
 

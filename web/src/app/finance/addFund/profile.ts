@@ -4,7 +4,10 @@ export class Profile {
     public investmentAmount: number;
     public units: number;
     public schemeName : string;
-    public schemeCode : number;
+    public schemeCode : string;
     public currentValue: number;
     public xirr: number;
+    public companyName : string;
+    public profileID : number;
+    public currentNav : number;
 }

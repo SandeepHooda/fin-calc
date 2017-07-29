@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,11 +14,18 @@ import java.util.Map;
 
 public class NavTextDAO {
 	
+	private static Map<String, CompanyVO> currentNAV;
+	private static Date navDate ;
+	
 	public static Map<String, CompanyVO> getNavForDate(String ddMmmyyyy) throws IOException{
 		return parseNav(getNavFromAmfiindia("http://portal.amfiindia.com/DownloadNAVHistoryReport_Po.aspx?frmdt="+ddMmmyyyy+"&todt="+ddMmmyyyy), true);
 	}
 	public static Map<String, CompanyVO> getCurrentNav() throws IOException{
-		return parseNav(getNavFromAmfiindia("http://www.amfiindia.com/spages/NAVAll.txt"), false);
+		if (null == navDate || ((new Date().getTime() - navDate.getTime() ) > 3600000  )) {
+			currentNAV = parseNav(getNavFromAmfiindia("http://www.amfiindia.com/spages/NAVAll.txt"), false);
+			navDate = new Date();
+		}
+		return currentNAV;
 	}
 	
 	private static List<String> getNavFromAmfiindia(String endpoint) throws IOException{

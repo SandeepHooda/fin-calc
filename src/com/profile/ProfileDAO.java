@@ -43,7 +43,7 @@ public class ProfileDAO {
 	        }
 		
 		 respo = respo.replaceFirst("\\[", "").trim();
-		 if (respo.indexOf("]") > 0){
+		 if (respo.indexOf("]") >= 0){
 			
 			 respo = respo.substring(0, respo.length()-1);
 		 }

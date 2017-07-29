@@ -13,7 +13,7 @@ export class AddFundsDetails implements OnInit {
     @ViewChild('spinnerElement') spinnerElement: ElementRef;
  
     @Input()
-    schemeCode : number;
+    schemeCode : string;
     @Input()
     schemeName : string;
     @Input()
@@ -68,6 +68,7 @@ export class AddFundsDetails implements OnInit {
         this.renderer.setElementStyle(this.spinnerElement.nativeElement, 'display','none');
         if ("SUCCESS" == result.data){
            this.onSaveSuccess.emit();
+           
         }
     }
      private showNav(nav:number){
@@ -98,6 +99,7 @@ export class AddFundsDetails implements OnInit {
       profile.units = this.units;
       profile.schemeName = this.schemeName;
       profile.schemeCode = this.schemeCode;
+      profile.companyName = this.companyName;
       this.renderer.setElementStyle(this.spinnerElement.nativeElement, 'display','block');
       this.navService.addToPortfolio(profile).subscribe( 
         result => this.addedToProfile(result),

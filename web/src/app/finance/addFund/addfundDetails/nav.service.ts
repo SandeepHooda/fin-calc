@@ -19,7 +19,7 @@ export class NavService {
     return date.getDate()+"-"+this.m_names[date.getMonth()] +"-"+date.getFullYear();;
  }
      constructor (private http: Http) {}
-    getNav(date:Date, companyName:string, schemeCode : number): Observable<number> {
+    getNav(date:Date, companyName:string, schemeCode : string): Observable<number> {
         let today :Date = new Date();
         today.setDate(today.getDate()-1);
         let url =   this.funNavUrl + date.getDate()+"-"+this.m_names[date.getMonth()] +"-"+date.getFullYear();
