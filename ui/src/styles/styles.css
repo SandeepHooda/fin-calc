@@ -103,8 +103,16 @@ body {
 .profit {
   color: green;
 }
+.profitBack {
+  background-color: green;
+  color: white;
+}
 .loss {
   color :red;
+}
+.lossBack {
+  background-color :red;
+  color: white;
 }
 .error {
   color :red;

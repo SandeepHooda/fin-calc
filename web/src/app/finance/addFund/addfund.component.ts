@@ -6,6 +6,7 @@ import {NAV} from './nav';
 import {SelectItem} from 'primeng/primeng';
 import {Portfolio} from './portfolio';
 import {Profile} from './profile';
+import {Router} from '@angular/router';
 @Component({
  selector : 'add-fund', 
   templateUrl: './addFund.component.html',
@@ -13,6 +14,7 @@ import {Profile} from './profile';
 })
 
 export class AddFunds implements OnInit {
+ 
   private displayConfirmation : boolean = false;
   private profileIDToBedeleted : number;
   private schemeCode : number;
@@ -27,7 +29,7 @@ export class AddFunds implements OnInit {
     private companyName:string;
      private portfolio:Portfolio;
      private allProfiles : Array<Profile> = [];
-    constructor(private fundService :FundService,private renderer: Renderer) {} 
+    constructor(private fundService :FundService,private renderer: Renderer, private router:Router) {} 
     private schemeSelected  (nav:NAV){
         this.schemeCode = nav.SchemeCode;
         this.schemeName = nav.SchemeName;   
@@ -39,10 +41,12 @@ export class AddFunds implements OnInit {
     }
     private showProfile (){
       this.stepIndicator =0;
-      window.location.reload();
+      this.router.navigate(['/sip']);
+      this.router.navigate(['/lumpsump']);
     }
     ngOnInit(): void {
-     // this.allProfiles =  [{"profileID":1,"investmentDate":"12-Jul-2017","schemeName":"Axis Children\u0027s Gift Fund - Lock in - Direct Dividend","schemeCode":"135765","nav":11.9223,"investmentAmount":22.0,"units":1.8452815312481652,"currentValue":22.463350192496417,"currentNav":12.1734,"xirr":56.44024048694586,"companyName":"Axis Mutual Fund"}];
+      
+      this.allProfiles =  [{"profileID":1,"investmentDate":"12-Jul-2017","schemeName":"Axis Children\u0027s Gift Fund - Lock in - Direct Dividend","schemeCode":"135765","nav":11.9223,"investmentAmount":22.0,"units":1.8452815312481652,"currentValue":22.463350192496417,"currentNav":12.1734,"xirr":56.44024048694586,"companyName":"Axis Mutual Fund"}];
       this.companyNames = JSON.parse(localStorage.getItem('companyNames'));
       this.allNavs = JSON.parse(localStorage.getItem('allFunds'));
       if('28_JUL_2017' != localStorage.getItem('cacheDate')){
@@ -69,7 +73,8 @@ private portFolioLoaded(portfolio:Portfolio){
 }
 private profileDeleted(message:string){
    this.renderer.setElementStyle(this.spinnerElement.nativeElement, 'display','none');
-   window.location.reload();
+   this.router.navigate(['/sip']);
+   this.router.navigate(['/lumpsump']);
 }
 
 private deleteProfile(profileID :number){
