@@ -1,6 +1,8 @@
 package com.endpoint;
 
 import java.io.IOException;
+import java.util.logging.Logger;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -15,7 +17,7 @@ import com.vo.Portfolio;
  */
 public class GetProfiles extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
+	private static final Logger log = Logger.getLogger(GetProfiles.class.getName());   
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -29,8 +31,10 @@ public class GetProfiles extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String email = (String)request.getSession().getAttribute("email");
-		//email = "sonu.hooda@gmail.com";
+		email = "sonu.hooda@gmail.com";
 		Portfolio portfolio = ProfileService.getPortfolio(email);
+		log.info("Total value"+portfolio.getTotalGain());
+		log.info("Total XIRR"+portfolio.getTotalXirr());
 		Gson  json = new Gson();
 		String portfolioStr = json.toJson(portfolio, Portfolio.class);
 		response.getWriter().append(portfolioStr);

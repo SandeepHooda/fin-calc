@@ -5,6 +5,8 @@ import java.util.List;
 
 public class Portfolio {
 	private List<Profile> allProfiles = new ArrayList<Profile>();
+	private double totalGain, totalXirr, totalInvetment;
+	
 
 	public List<Profile> getAllProfiles() {
 		return allProfiles;
@@ -12,6 +14,30 @@ public class Portfolio {
 
 	public void setAllProfiles(List<Profile> allProfiles) {
 		this.allProfiles = allProfiles;
+	}
+
+	public double getTotalGain() {
+		return totalGain;
+	}
+
+	public void setTotalGain(double totalGain) {
+		this.totalGain = totalGain;
+	}
+
+	public double getTotalXirr() {
+		return totalXirr;
+	}
+
+	public void setTotalXirr(double totalXirr) {
+		this.totalXirr = totalXirr;
+	}
+
+	public double getTotalInvetment() {
+		return totalInvetment;
+	}
+
+	public void setTotalInvetment(double totalInvetment) {
+		this.totalInvetment = totalInvetment;
 	}
 
 }

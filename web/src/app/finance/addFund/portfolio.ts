@@ -1,5 +1,8 @@
 import {Profile} from './profile';
 
 export class Portfolio {
-    allProfiles : Array<Profile>;
+    public allProfiles : Array<Profile>;
+    public totalGain : number;
+    public totalXirr : number;
+    public totalInvetment : number;
 } 

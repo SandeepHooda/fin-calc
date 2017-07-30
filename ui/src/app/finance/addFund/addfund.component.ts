@@ -29,6 +29,9 @@ export class AddFunds implements OnInit {
     private companyName:string;
      private portfolio:Portfolio;
      private allProfiles : Array<Profile> = [];
+     private totalGain : number;
+     private totalXirr : number;
+     private totalInvetment : number;
     constructor(private fundService :FundService,private renderer: Renderer, private router:Router) {} 
     private schemeSelected  (nav:NAV){
         this.schemeCode = nav.SchemeCode;
@@ -45,8 +48,13 @@ export class AddFunds implements OnInit {
     }
     private refreshPage(){
       let lastKnownPortFolio = localStorage.getItem('lastKnownPortFolio');
+
       if (null != lastKnownPortFolio){
-        this.allProfiles = JSON.parse(lastKnownPortFolio);
+        this.portfolio = JSON.parse(lastKnownPortFolio);
+        this.allProfiles = this.portfolio.allProfiles;
+        this.totalGain = this.portfolio.totalGain;
+        this.totalXirr = this.portfolio.totalXirr;
+        this.totalInvetment = this.portfolio.totalInvetment;
       }
       
    
@@ -76,8 +84,11 @@ export class AddFunds implements OnInit {
 private portFolioLoaded(portfolio:Portfolio){
      
     this.portfolio = portfolio;
+    localStorage.setItem('lastKnownPortFolio', JSON.stringify(portfolio));
     this.allProfiles = portfolio.allProfiles;
-    localStorage.setItem('lastKnownPortFolio', JSON.stringify(portfolio.allProfiles));
+    this.totalGain = this.portfolio.totalGain;
+    this.totalXirr = this.portfolio.totalXirr;
+    this.totalInvetment = this.portfolio.totalInvetment;
     this.renderer.setElementStyle(this.spinnerElement.nativeElement, 'display','none');
 }
 private profileDeleted(message:string){
