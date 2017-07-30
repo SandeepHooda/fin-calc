@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -18,6 +19,7 @@ import com.nav.NavVO;
 import com.google.gson.Gson;
 import com.vo.Portfolio;
 import com.vo.Profile;
+import com.vo.ProfileSort;
 import com.xirr.XirrCalculatorService;
 
 public class ProfileService {
@@ -125,7 +127,7 @@ public class ProfileService {
 			e.printStackTrace();
 		}
 		
-		
+		Collections.sort(portfolio.getAllProfiles(), new ProfileSort());
 		return portfolio;
 	}
 	
@@ -159,18 +161,18 @@ public class ProfileService {
 		Date today = new Date(); 
 		Map<String, List<Profile>> companyProfilesMap = new HashMap<String, List<Profile>>();
 		for (Profile aprofile: portfolio.getAllProfiles()){
-			if (null == companyProfilesMap.get(aprofile.getCompanyName())){
+			if (null == companyProfilesMap.get(aprofile.getSchemeCode())){
 				List<Profile> compantyProfilesList = new ArrayList<Profile>();
 				compantyProfilesList.add(aprofile);
-				companyProfilesMap.put(aprofile.getCompanyName(), compantyProfilesList);
+				companyProfilesMap.put(aprofile.getSchemeCode(), compantyProfilesList);
 			}else {
-				List<Profile> compantyProfilesList = companyProfilesMap.get(aprofile.getCompanyName());
+				List<Profile> compantyProfilesList = companyProfilesMap.get(aprofile.getSchemeCode());
 				compantyProfilesList.add(aprofile);
 			}
 		}
 		
-		for (String companyName : companyProfilesMap.keySet()){
-			List<Profile> compantyProfilesList = companyProfilesMap.get(companyName);
+		for (String schemeCode : companyProfilesMap.keySet()){
+			List<Profile> compantyProfilesList = companyProfilesMap.get(schemeCode);
 			List<Double> payments = new ArrayList<Double>();
 			List<Date> dates = new ArrayList<Date>();
 			double companyTotalInvestment = 0;
