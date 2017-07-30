@@ -10,4 +10,6 @@ export class Profile {
     public companyName : string;
     public profileID : number;
     public currentNav : number;
+    public companyXirr : number;
+    public companyTotalInvestment : number;
 }

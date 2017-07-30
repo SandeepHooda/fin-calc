@@ -11,6 +11,8 @@ public class Profile {
 	private double currentNav;
     private double xirr;
     private String companyName;
+    private double companyXirr;
+    private double companyTotalInvestment;
     
    
 	public String toString(){
@@ -82,6 +84,18 @@ public class Profile {
 	}
 	public void setSchemeCode(String schemeCode) {
 		this.schemeCode = schemeCode;
+	}
+	public double getCompanyXirr() {
+		return companyXirr;
+	}
+	public void setCompanyXirr(double companyXirr) {
+		this.companyXirr = companyXirr;
+	}
+	public double getCompanyTotalInvestment() {
+		return companyTotalInvestment;
+	}
+	public void setCompanyTotalInvestment(double companyTotalInvestment) {
+		this.companyTotalInvestment = companyTotalInvestment;
 	}
 
 

@@ -6,6 +6,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -115,6 +116,7 @@ public class ProfileService {
 			}
 			
 			calculateTotalGain( portfolio);
+			calculateCompanyGain(portfolio);
 		} catch (IOException e) {
 			
 			e.printStackTrace();
@@ -152,5 +154,49 @@ public class ProfileService {
 		portfolio.setTotalXirr(XirrCalculatorService.Newtons_method(0.1,allPayments , alldates));
 	}
 	
+	
+	private static void calculateCompanyGain(Portfolio portfolio) throws ParseException{
+		Date today = new Date(); 
+		Map<String, List<Profile>> companyProfilesMap = new HashMap<String, List<Profile>>();
+		for (Profile aprofile: portfolio.getAllProfiles()){
+			if (null == companyProfilesMap.get(aprofile.getCompanyName())){
+				List<Profile> compantyProfilesList = new ArrayList<Profile>();
+				compantyProfilesList.add(aprofile);
+				companyProfilesMap.put(aprofile.getCompanyName(), compantyProfilesList);
+			}else {
+				List<Profile> compantyProfilesList = companyProfilesMap.get(aprofile.getCompanyName());
+				compantyProfilesList.add(aprofile);
+			}
+		}
+		
+		for (String companyName : companyProfilesMap.keySet()){
+			List<Profile> compantyProfilesList = companyProfilesMap.get(companyName);
+			List<Double> payments = new ArrayList<Double>();
+			List<Date> dates = new ArrayList<Date>();
+			double companyTotalInvestment = 0;
+			for (Profile aprofile: compantyProfilesList){
+				payments.add(aprofile.getInvestmentAmount() *-1);
+				dates.add(sdf.parse(aprofile.getInvestmentDate()));
+				payments.add(aprofile.getCurrentValue());
+				dates.add(today);
+				companyTotalInvestment += aprofile.getInvestmentAmount();
+			}
+			
+			double[] allPayments = new double[payments.size()];
+			Date[] alldates = new Date[dates.size()];
+			for (int i=0; i< allPayments.length;i++){
+				allPayments[i] = payments.get(i);
+				alldates[i] = dates.get(i);
+			}
+			
+			double xirr = XirrCalculatorService.Newtons_method(0.1,allPayments , alldates);
+			for (Profile aprofile: compantyProfilesList){
+				aprofile.setCompanyXirr(xirr);
+				aprofile.setCompanyTotalInvestment(companyTotalInvestment);
+			}
+		}
+		
+		
+	}
 
 }
