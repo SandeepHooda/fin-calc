@@ -65,6 +65,7 @@ private httpError:String
 private deleteLocalStorage(){
   localStorage.removeItem('signedInUser');
   localStorage.removeItem('signedInUserEmail');
+  localStorage.removeItem('lastKnownPortFolio');
 }
    
 }

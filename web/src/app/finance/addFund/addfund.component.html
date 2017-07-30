@@ -4,7 +4,7 @@
     <md-spinner></md-spinner>
     </div>
 </div>
-<button  *ngIf="stepIndicator > 1" pButton type="button" (click)="previousStep()"           icon="fa-arrow-left" [style]="{'float':'left'}" label="Back" ></button>
+<button  *ngIf="stepIndicator > 1" pButton type="button" (click)="previousStep()"   icon="fa-arrow-left" label="Back" ></button>
 <button *ngIf="stepIndicator > 0"  pButton type="button" (click)="showProfileSummaryStep()" icon="fa-close"      style="float:right;" label="Cancel"></button>
 <button *ngIf="stepIndicator == 0" pButton type="button" (click)="selectCompanyStep()"      icon="fa-plus" style="float:right;" label="Add"></button><br/>
 <add-company *ngIf="stepIndicator == 1" [companyNames]="companyNames" (onCompanySelect)="companyNameSelected($event)" ></add-company>

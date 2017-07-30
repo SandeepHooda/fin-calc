@@ -41,11 +41,15 @@ export class AddFunds implements OnInit {
     }
     private showProfile (){
       this.stepIndicator =0;
-      this.router.navigate(['/sip']);
-      this.router.navigate(['/lumpsump']);
+      this.refreshPage();
     }
-    ngOnInit(): void {
+    private refreshPage(){
+      let lastKnownPortFolio = localStorage.getItem('lastKnownPortFolio');
+      if (null != lastKnownPortFolio){
+        this.allProfiles = JSON.parse(lastKnownPortFolio);
+      }
       
+   
       //this.allProfiles =  [{"profileID":1,"investmentDate":"12-Jul-2017","schemeName":"Axis Children\u0027s Gift Fund - Lock in - Direct Dividend","schemeCode":"135765","nav":11.9223,"investmentAmount":22.0,"units":1.8452815312481652,"currentValue":22.463350192496417,"currentNav":12.1734,"xirr":56.44024048694586,"companyName":"Axis Mutual Fund"}];
       this.companyNames = JSON.parse(localStorage.getItem('companyNames'));
       this.allNavs = JSON.parse(localStorage.getItem('allFunds'));
@@ -62,6 +66,10 @@ export class AddFunds implements OnInit {
         this.fundService.getPortfolio().subscribe( 
         portfolio => this.portFolioLoaded(portfolio),
         error => this.showError(error));
+    }
+    ngOnInit(): void {
+      this.refreshPage();
+      
   }
 
 
@@ -69,12 +77,12 @@ private portFolioLoaded(portfolio:Portfolio){
      
     this.portfolio = portfolio;
     this.allProfiles = portfolio.allProfiles;
+    localStorage.setItem('lastKnownPortFolio', JSON.stringify(portfolio.allProfiles));
     this.renderer.setElementStyle(this.spinnerElement.nativeElement, 'display','none');
 }
 private profileDeleted(message:string){
    this.renderer.setElementStyle(this.spinnerElement.nativeElement, 'display','none');
-   this.router.navigate(['/sip']);
-   this.router.navigate(['/lumpsump']);
+   this.refreshPage();
 }
 
 private deleteProfile(profileID :number){

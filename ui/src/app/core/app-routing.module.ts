@@ -6,7 +6,7 @@ import {AddFunds} from '../finance/addFund/addFund.component'
 import {Sip} from '../finance/sip/sip.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/sip', pathMatch: 'full' },
+  { path: '', redirectTo: '/lumpsump', pathMatch: 'full' },
    { path: 'lumpsump',  component: AddFunds },
    { path: 'sip',  component: Sip }
   

@@ -28,11 +28,12 @@ public class DeleteProfile extends HttpServlet {
 	protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String email = (String)request.getSession().getAttribute("email");
 		String profileID = request.getParameter("profileID");
+		response.setContentType("application/json");
 		if (null != profileID){
 			ProfileService.deleteFromPortfolio(email, Long.parseLong(profileID));
-			response.getWriter().append("SUCCESS");
+			response.getWriter().append("{\"data\":\"SUCCESS\"}");
 		}else {
-			response.getWriter().append("Please pass a valid profile ID to be deleted.");
+			response.getWriter().append("{\"data\":\"Please pass a valid profile ID to be deleted.\"}");
 		}
 		
 	}
