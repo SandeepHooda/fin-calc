@@ -10,7 +10,7 @@
     <a class="btn btn-block btn-social btn-google" style="width:130px;color:#eee" *ngIf="signedInUser" href="/SignOut" (click)="deleteLocalStorage()">
         <span class="fa fa-google"></span>Sign out
     </a>
-    <span *ngIf="signedInUser">Welcome, {{signedInUser}}</span>
+    <span *ngIf="signedInUser">Welcome {{signedInUser}}</span>
 </div>
 <!-- Section 2 navigation --> 
 

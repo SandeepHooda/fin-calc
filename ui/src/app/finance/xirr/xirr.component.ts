@@ -30,7 +30,7 @@ private httpError:String
     }
     
   }
-  private showNameEmail(name: string) {
+  private showEmail(name: string) {
     if (null == name || 'null' == name || '' == name){
       this.signedInUserEmail = undefined;
     }else {
@@ -52,7 +52,7 @@ private httpError:String
         error => this.showError(error)
       ); 
       this.xirrService.signedUserEmail().subscribe( 
-        name => this.showName(name),
+        email => this.showEmail(email),
         error => this.showError(error)
       );
    }
