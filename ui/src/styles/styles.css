@@ -26,8 +26,7 @@ position: absolute;
    
 }
 input {
-   width: 100px;
-   
+   width: 100px;  
 }
 .ui-md-4 {
 max-width : 250px !important;
