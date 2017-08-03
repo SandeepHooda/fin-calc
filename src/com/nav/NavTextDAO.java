@@ -10,10 +10,13 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Logger;
+
+import com.profile.ProfileDAO;
 
 
 public class NavTextDAO {
-	
+	private static final Logger log = Logger.getLogger(NavTextDAO.class.getName());
 	private static Map<String, CompanyVO> currentNAV;
 	private static Date navDate ;
 	
@@ -23,6 +26,7 @@ public class NavTextDAO {
 	public static Map<String, CompanyVO> getCurrentNav() throws IOException{
 		if (null == navDate || ((new Date().getTime() - navDate.getTime() ) > 3600000  )) {
 			currentNAV = parseNav(getNavFromAmfiindia("http://www.amfiindia.com/spages/NAVAll.txt"), false);
+			log.info("Tata NAV"+currentNAV.get("Tata Mutual Fund").getNavs().get(0).getNetAssetValue());
 			navDate = new Date();
 		}
 		return currentNAV;
@@ -35,6 +39,8 @@ public class NavTextDAO {
 		
 		
 		HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+		conn.setConnectTimeout(1000 *60);
+		conn.setReadTimeout(1000 *60);
 	    conn.setRequestMethod("GET");
 	    BufferedReader in = new BufferedReader(    new InputStreamReader(conn.getInputStream()));
 		String inputLine;

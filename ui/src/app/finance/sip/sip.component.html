@@ -1,6 +1,11 @@
 
-<h4>Systematic monthly investment & Non-Systematic withdrawal</h4>
+<span>Systematic monthly investment & Non-Systematic withdrawal</span>
+<button  pButton type="button" (click)="addScheme()"      icon="fa-plus" style="float:right;" label="Add"></button><br/>
 <hr/>
-<div *ngFor="let scheme of listOfSipSchemes " >
-<sip-scheme [sipSchemeDetails]="scheme"></sip-scheme>
-</div>
+{{httpError}}
+<p-accordion [multiple]="true">
+<p-accordionTab *ngFor="let scheme of listOfSipSchemes " header="{{scheme.schemeName}}">
+ 
+<sip-scheme [sipSchemeDetails]="scheme" (onSchemeUpdated)="saveListOfSips()"></sip-scheme>
+</p-accordionTab>
+</p-accordion>

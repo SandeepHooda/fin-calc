@@ -1,12 +1,8 @@
 import { Component, OnInit, ViewEncapsulation  } from '@angular/core';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {Withdrawal} from './withdrawal';
-import  {SipService} from './sip-service';
-import {XirrRequest} from './xirrRequestVO';
-import {Company} from '../addFund/company';
-import {NAV} from '../addFund/nav';
-import {SelectItem} from 'primeng/primeng';
-
+import {SipSchemeVO} from './scheme/sip.schemeVO';
+import {Withdrawal} from './scheme/withdrawal';
+import {SipService} from './sip-service';
 @Component({
  selector : 'sip', 
   templateUrl: './sip.component.html',
@@ -14,101 +10,54 @@ import {SelectItem} from 'primeng/primeng';
   encapsulation: ViewEncapsulation.None 
 })
 export class Sip implements OnInit {
-private returnOnInsvement:number;
-private SIPerrorStartDate:boolean;
-private SIPerrorEndDate:boolean;
-private startDate:Date;
-private endDate:Date;
-private sipAmount:number;
-private httpError:String
- public withdrawlsRows :Array<Withdrawal> = [{"date":null,"amount":null}]; 
+  private httpError : string;
+  private listOfSipSchemes : Array<SipSchemeVO> = [];
+ constructor( private sipService : SipService) {}
 
-  constructor(private xirrService:SipService) {
-
-   }
-
+  ngOnInit(): void {
+    this.getSipList();
+  }
   
-  public addRow() {
-    let aWithdrawlsRow :Withdrawal = {"date":null,"amount":null};
-    this.withdrawlsRows.push(aWithdrawlsRow);
+  private addScheme() {
+    if (!this.listOfSipSchemes) {
+      this.listOfSipSchemes = [];
+    }
+  let scheme : SipSchemeVO = new SipSchemeVO();
+    scheme.schemeName = "New Scheme";
+    scheme.startDate = new Date();
+    scheme.endDate = new Date();
+    scheme.sipAmount = 0;
+    let withdrawal : Withdrawal = new Withdrawal();
+    withdrawal.amount = 0;
+    withdrawal.date = new Date();
+    scheme.withdrawlsRows[0] = withdrawal;
+    this.listOfSipSchemes.push(scheme);
+    
   }
-  public delRow() {
-    if (this.withdrawlsRows.length > 1) {
-       this.withdrawlsRows.pop();
-       console.log(this.withdrawlsRows);
-    }
-  }
-  public calculateReturns(){
-     this.httpError  = "";
-     this.returnOnInsvement = undefined;
-    let payments : Array<number> = [];
-    let dates : Array<String> = [];
-    for (var i =0;i<this.withdrawlsRows.length;i++){
-      payments.push(this.withdrawlsRows[i].amount);
-      dates.push(this.withdrawlsRows[i].date.getDate()+"/"+(this.withdrawlsRows[i].date.getMonth()+1)+"/"+this.withdrawlsRows[i].date.getFullYear());
-    }
-    let datePointer = new Date(this.startDate.getTime());
-    if(datePointer.getDate()> 28){
-      datePointer.setDate(28);
-    }
-    let datePointerEnd = new Date(this.endDate.getTime());
-    if(datePointerEnd.getDate()> 28){
-      datePointerEnd.setDate(28);
-    }
-    while(datePointer.getTime() <= datePointerEnd.getTime()){
-      console.log(datePointer);
-      payments.push(this.sipAmount *-1);
-      dates.push(datePointer.getDate()+"/"+(datePointer.getMonth()+1)+"/"+datePointer.getFullYear());
-      datePointer.setMonth(datePointer.getMonth()+1);
-    }
-    //let dataToPost:XirrRequest = {};
-    let dataToPost:XirrRequest ={"payments":payments,"dates":dates};
-    this.xirrService.getXirr(dataToPost).subscribe( 
-        returnOnInsvement => this.showXirrRate(returnOnInsvement),
+
+private getSipList() {
+  this.sipService.getSipList().subscribe( 
+        listOfSipSchemes => this.showSipList(listOfSipSchemes),
         error => this.showError(error)
       );
-    console.log(dataToPost);
-   
-  }
-  private showXirrRate(returnOnInsvement: number) {
-    this.returnOnInsvement = returnOnInsvement;
-  }
+}
+private showSipList(listOfSipSchemes : Array<SipSchemeVO>) {
+  this.listOfSipSchemes = listOfSipSchemes;
+}
+private saveListOfSips() {
+  this.httpError = "";
+  this.sipService.saveSipList(this.listOfSipSchemes).subscribe( 
+        result => this.saveListOfSipsResult(result),
+        error => this.showError(error)
+      );
+}
 
-  private showError(error:any) {
-    this.returnOnInsvement = undefined;
+private saveListOfSipsResult (result : String){
+
+}
+
+private showError(error:any) {
+   
     this.httpError = error;
   }
- 
-  ngOnInit(): void {
-   
-
-  }
-  
-
-  public anyErrorInForm():boolean{
-    return this.SIPerrorStartDate || this.SIPerrorEndDate || !this.startDate || !this.endDate ||
-    !this.sipAmount || (this.sipAmount ==0) ||
-    (this.withdrawlsRows[0].amount ==0 || this.withdrawlsRows[0].amount == null) ||
-    !this.withdrawlsRows[0].date || (this.withdrawlsRows[0].date.getTime() <=this.startDate.getTime());
-  }
-  private checkDateValidation(){
-    this.SIPerrorStartDate = false;
-    this.SIPerrorEndDate = false;
-    if(this.startDate && this.endDate  ){
-      if( this.startDate.getTime() > this.endDate.getTime() ){
-        this.SIPerrorStartDate = true;
-      }
-      if( this.startDate.getDate() != this.endDate.getDate() ){
-        this.SIPerrorEndDate = true;
-      }
-    }
-    
-  }
-
-  private allFunds : SelectItem[] = [];
-    
-
-  
-
-  
 }

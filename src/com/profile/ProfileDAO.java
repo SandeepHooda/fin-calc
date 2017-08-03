@@ -55,6 +55,8 @@ public class ProfileDAO {
 		
 	}
 	
+	
+	
 	public static void createNewCollection(String collectionToCreate){
 		
 		String httpsURL = "https://api.mlab.com/api/1/databases/"+Constants.dbName+"/collections/"+collectionToCreate+"?apiKey="+Constants.mlabKey;

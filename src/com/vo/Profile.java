@@ -9,6 +9,7 @@ public class Profile {
 	private double units;
 	private double currentValue;
 	private double currentNav;
+	private double lastKnownNav;
     private double xirr;
     private String companyName;
     private double companyXirr;
@@ -96,6 +97,12 @@ public class Profile {
 	}
 	public void setCompanyTotalInvestment(double companyTotalInvestment) {
 		this.companyTotalInvestment = companyTotalInvestment;
+	}
+	public double getLastKnownNav() {
+		return lastKnownNav;
+	}
+	public void setLastKnownNav(double lastKnownNav) {
+		this.lastKnownNav = lastKnownNav;
 	}
 
 

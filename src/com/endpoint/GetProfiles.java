@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.profile.ProfileService;
 import com.vo.Portfolio;
 
@@ -35,8 +36,12 @@ public class GetProfiles extends HttpServlet {
 		Portfolio portfolio = ProfileService.getPortfolio(email);
 		log.info("Total value"+portfolio.getTotalGain());
 		log.info("Total XIRR"+portfolio.getTotalXirr());
+		GsonBuilder builder = new GsonBuilder();
+		builder.serializeSpecialFloatingPointValues();
+		 Gson gson =builder	.create();
 		Gson  json = new Gson();
-		String portfolioStr = json.toJson(portfolio, Portfolio.class);
+		String portfolioStr = gson.toJson(portfolio, Portfolio.class);
+		portfolioStr = portfolioStr.replaceAll("NaN", "0.0");
 		response.getWriter().append(portfolioStr);
 	}
 

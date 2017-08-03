@@ -13,23 +13,22 @@ import com.google.gson.Gson;
 import com.profile.ProfileService;
 import com.vo.Profile;
 
-
 /**
- * Servlet implementation class AddToProfile
+ * Servlet implementation class SaveSipList
  */
-public class AddToProfile extends HttpServlet {
+public class SaveSipList extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private static final Logger log = Logger.getLogger(AddToProfile.class.getName());
+	private static final Logger log = Logger.getLogger(SaveSipList.class.getName());
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public AddToProfile() {
+    public SaveSipList() {
         super();
-   
+        // TODO Auto-generated constructor stub
     }
 
-    
+
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
@@ -50,7 +49,7 @@ public class AddToProfile extends HttpServlet {
 		Profile profile = json.fromJson(data, Profile.class);
 		log.info("parsed to java object"+profile);
 		ProfileService.addFundToPortfolio(email, profile);
-		response.getWriter().append("{\"data\":\"SUCCESS\"}");
+		doGet(request, response);
 	}
 
 }

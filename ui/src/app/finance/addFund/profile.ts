@@ -12,4 +12,5 @@ export class Profile {
     public currentNav : number;
     public companyXirr : number;
     public companyTotalInvestment : number;
+    private  lastKnownNav : number;
 }

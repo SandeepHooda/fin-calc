@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" id="WebApp_ID" version="2.5">
   <display-name>fin-cal</display-name>
-  <welcome-file-list> 
+  <welcome-file-list>
     <welcome-file>index.jsp</welcome-file>
   </welcome-file-list>
   <servlet>
@@ -103,5 +103,25 @@
   <servlet-mapping>
     <servlet-name>DeleteProfile</servlet-name>
     <url-pattern>/DeleteProfile</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>GetSipList</display-name>
+    <servlet-name>GetSipList</servlet-name>
+    <servlet-class>com.endpoint.GetSipList</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>GetSipList</servlet-name>
+    <url-pattern>/GetSipList</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>SaveSipList</display-name>
+    <servlet-name>SaveSipList</servlet-name>
+    <servlet-class>com.endpoint.SaveSipList</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>SaveSipList</servlet-name>
+    <url-pattern>/SaveSipList</url-pattern>
   </servlet-mapping>
 </web-app>
