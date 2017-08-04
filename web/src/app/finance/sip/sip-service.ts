@@ -16,17 +16,24 @@ export class SipService {
 
  
  getSipList() :Observable<Array<SipSchemeVO>> {
-   return this.http.get(this.getSipListUrl).map(this.exractResult).catch(this.handleError);
+   return this.http.get(this.getSipListUrl).map(this.extractResult).catch(this.handleError);
  }
 
  saveSipList( sipList : Array<SipSchemeVO>) :Observable<string> {
+   console.log(" calling post method");
    var headers = new Headers({ 'Content-Type': 'application/json' });
   var options = new RequestOptions({ headers: headers });
-   return this.http.post(this.saveSipListUrl, {sipList},options ).map(this.exractResult).catch(this.handleError);
+    return this.http.post(this.saveSipListUrl, { sipList }, options)
+                    .map(this.extractJsonData)
+                    .catch(this.handleError);
  }
   
-  private exractResult(res: Response) {
+  private extractJsonData(res: Response) {
     let body = res.json().data;
+    return body;
+  }
+  private extractResult(res: Response) {
+    let body = res.json();
     return body;
   }
  

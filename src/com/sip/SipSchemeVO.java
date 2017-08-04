@@ -3,10 +3,12 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 public class SipSchemeVO {
-	
+private double schemeID;	
 private String schemeName  ;
 private  Date startDate  ;
 private Date endDate  ;
+private  long startDateLong  ;
+private long endDateLong  ;
 private double sipAmount  ; 
 private double returnOnInsvement  ;
 private  List<Withdrawal> withdrawlsRows = new ArrayList<Withdrawal>();
@@ -46,6 +48,24 @@ public List<Withdrawal> getWithdrawlsRows() {
 }
 public void setWithdrawlsRows(List<Withdrawal> withdrawlsRows) {
 	this.withdrawlsRows = withdrawlsRows;
+}
+public long getStartDateLong() {
+	return startDateLong;
+}
+public long getEndDateLong() {
+	return endDateLong;
+}
+public void setStartDateLong(long startDateLong) {
+	this.startDateLong = startDateLong;
+}
+public void setEndDateLong(long endDateLong) {
+	this.endDateLong = endDateLong;
+}
+public double getSchemeID() {
+	return schemeID;
+}
+public void setSchemeID(double schemeID) {
+	this.schemeID = schemeID;
 } 
 
 }

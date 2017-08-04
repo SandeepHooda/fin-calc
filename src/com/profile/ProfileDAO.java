@@ -55,6 +55,37 @@ public class ProfileDAO {
 		
 	}
 	
+	public static String getArrayData(String userID, boolean suppressDefaultKey, String datakey ){
+		
+		String httpsURL = "https://api.mlab.com/api/1/databases/"+Constants.dbName+"/collections/"+userID+"?apiKey="+Constants.mlabKey;
+		if (datakey != null && datakey.trim().length() > 0){
+			httpsURL += "&f={\""+datakey+"\":1,\"_id\":0}";
+		}else{
+			if (suppressDefaultKey){
+				httpsURL += "&f={\"_id\":0}";
+			}
+			
+		}
+		String respo = "";
+		 try {
+			
+		        URL url = new URL(httpsURL);
+	            HTTPRequest req = new HTTPRequest(url, HTTPMethod.GET, lFetchOptions);
+	            HTTPResponse res = fetcher.fetch(req);
+	            respo =(new String(res.getContent()));
+	            
+	        } catch (IOException e) {
+	        	respo = e.getMessage();
+	        }
+		
+		 
+		
+		 return respo;
+		
+		
+		
+		
+	}
 	
 	
 	public static void createNewCollection(String collectionToCreate){

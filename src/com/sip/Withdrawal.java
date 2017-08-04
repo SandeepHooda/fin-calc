@@ -5,6 +5,7 @@ import java.util.Date;
 public class Withdrawal {
 	
    private Date date;
+   private long dateLong;
    private double amount;
    
 public Date getDate() {
@@ -18,6 +19,12 @@ public double getAmount() {
 }
 public void setAmount(double amount) {
 	this.amount = amount;
+}
+public long getDateLong() {
+	return dateLong;
+}
+public void setDateLong(long dateLong) {
+	this.dateLong = dateLong;
 }
 
 }

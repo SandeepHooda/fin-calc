@@ -14,12 +14,15 @@ export class SipScheme implements OnInit {
  @Input()
  private sipSchemeDetails : SipSchemeVO;
   @Output() onSchemeUpdated :EventEmitter<SipSchemeVO> = new EventEmitter();
-    
+   @Output() onSchemeDelete :EventEmitter<number> = new EventEmitter(); 
   
 
     private notifyParentAboutSchemeUpdate(){
       this.onSchemeUpdated.emit(this.sipSchemeDetails); 
     } 
+    private deleteFromProfile(){
+      this.onSchemeDelete.emit(this.sipSchemeDetails.schemeID);
+    }
  private httpError:String
 
  private SIPerrorStartDate:boolean;
@@ -34,7 +37,7 @@ export class SipScheme implements OnInit {
   }
   
   public addRow() {
-    let aWithdrawlsRow :Withdrawal = { "date" : null , "amount" : null };
+    let aWithdrawlsRow :Withdrawal = { "date" : null ,"dateLong":0, "amount" : null };
     this.sipSchemeDetails.withdrawlsRows.push(aWithdrawlsRow);
   }
   public delRow() {
@@ -90,6 +93,7 @@ export class SipScheme implements OnInit {
   
 
   public anyErrorInForm():boolean{
+    this.sipSchemeDetails.withdrawlsRows[0].date.getFullYear();
     return this.SIPerrorStartDate || this.SIPerrorEndDate || !this.sipSchemeDetails.startDate || !this.sipSchemeDetails.endDate ||
     !this.sipSchemeDetails.sipAmount || (this.sipSchemeDetails.sipAmount ==0) ||
     (this.sipSchemeDetails.withdrawlsRows[0].amount ==0 || this.sipSchemeDetails.withdrawlsRows[0].amount == null) ||

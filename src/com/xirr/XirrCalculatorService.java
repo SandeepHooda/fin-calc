@@ -52,8 +52,11 @@ public class XirrCalculatorService {
 	            err = Math.abs(x1 - x0);
 	            x0 = x1;
 	        }
-
-	        return x0 *100;
+            double xirr = x0 *100;
+            if (Double.isNaN(xirr)){
+            	xirr= 0;
+            }
+	        return xirr;
 	    }
 	    
 	    public static double Newtons_method(double guess, double[] payments, String[] dateStr) {

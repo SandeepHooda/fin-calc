@@ -6,6 +6,6 @@
 <p-accordion [multiple]="true">
 <p-accordionTab *ngFor="let scheme of listOfSipSchemes " header="{{scheme.schemeName}}">
  
-<sip-scheme [sipSchemeDetails]="scheme" (onSchemeUpdated)="saveListOfSips()"></sip-scheme>
+<sip-scheme [sipSchemeDetails]="scheme" (onSchemeUpdated)="saveListOfSips()" (onSchemeDelete)="deleteFromProfile($event)"></sip-scheme>
 </p-accordionTab>
 </p-accordion>

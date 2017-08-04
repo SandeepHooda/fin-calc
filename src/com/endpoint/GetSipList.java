@@ -13,6 +13,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.profile.ProfileService;
 import com.sip.SipSchemeVO;
+import com.sip.Withdrawal;
 
 
 
@@ -38,7 +39,13 @@ public class GetSipList extends HttpServlet {
 		
 		String email = (String)request.getSession().getAttribute("email");
 		List<SipSchemeVO> userSipList = ProfileService.getSipList(email);
-		
+		for (SipSchemeVO sip: userSipList){
+			sip.setStartDateLong(sip.getStartDate().getTime());
+			sip.setEndDateLong(sip.getEndDate().getTime());
+			for (Withdrawal withdraw :sip.getWithdrawlsRows() ){
+				withdraw.setDateLong(withdraw.getDate().getTime());
+			}
+		}
 		Gson  json = new Gson();
 		String userSipListJson = json.toJson(userSipList, new TypeToken<List<SipSchemeVO>>() {}.getType());
 		response.getWriter().append(userSipListJson);

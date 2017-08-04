@@ -31,11 +31,14 @@ export class Sip implements OnInit {
     withdrawal.amount = 0;
     withdrawal.date = new Date();
     scheme.withdrawlsRows[0] = withdrawal;
+    scheme.schemeID = Math.random();
     this.listOfSipSchemes.push(scheme);
     
   }
 
 private getSipList() {
+ //this.listOfSipSchemes = [{schemeID: 0,"schemeName":"New Scheme1","startDate":null,"endDate":null,"startDateLong":1501858390000,"endDateLong":1501858390000,"sipAmount":10.0,"returnOnInsvement":0.0,"withdrawlsRows":[{"date":null,"dateLong":1502389800000,"amount":11.0}]},{schemeID:8,"schemeName":"New Scheme","startDate":null,"endDate":null,"startDateLong":1501858397000,"endDateLong":1501858397000,"sipAmount":13.0,"returnOnInsvement":590.3998217332212,"withdrawlsRows":[{"date":null,"dateLong":1502994600000,"amount":14.0}]}];
+  //this.showSipList(this.listOfSipSchemes);
   this.sipService.getSipList().subscribe( 
         listOfSipSchemes => this.showSipList(listOfSipSchemes),
         error => this.showError(error)
@@ -43,6 +46,14 @@ private getSipList() {
 }
 private showSipList(listOfSipSchemes : Array<SipSchemeVO>) {
   this.listOfSipSchemes = listOfSipSchemes;
+  for (let i=0;i<this.listOfSipSchemes.length; i++){
+    this.listOfSipSchemes[i].schemeID = Math.random();
+      this.listOfSipSchemes[i].endDate = new Date(this.listOfSipSchemes[i].endDateLong);
+       this.listOfSipSchemes[i].startDate = new Date(this.listOfSipSchemes[i].startDateLong);
+       for (let j=0; j<this.listOfSipSchemes[i].withdrawlsRows.length;j++){
+          this.listOfSipSchemes[i].withdrawlsRows[j].date = new Date(this.listOfSipSchemes[i].withdrawlsRows[j].dateLong);
+       }
+  }
 }
 private saveListOfSips() {
   this.httpError = "";
@@ -51,7 +62,16 @@ private saveListOfSips() {
         error => this.showError(error)
       );
 }
-
+private deleteFromProfile(id: number){
+  let newSipScheleList : Array<SipSchemeVO> = []
+  for (let i=0;i<this.listOfSipSchemes.length; i++){
+    if (this.listOfSipSchemes[i].schemeID != id ){
+      newSipScheleList.push(this.listOfSipSchemes[i]);
+    }
+  }
+  this.listOfSipSchemes = newSipScheleList;
+  this.saveListOfSips();
+}
 private saveListOfSipsResult (result : String){
 
 }
