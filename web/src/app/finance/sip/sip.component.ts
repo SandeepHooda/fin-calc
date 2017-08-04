@@ -10,6 +10,8 @@ import {SipService} from './sip-service';
   encapsulation: ViewEncapsulation.None 
 })
 export class Sip implements OnInit {
+  private displayConfirmation : boolean;
+  private idToBeDeleted : number;
   private httpError : string;
   private listOfSipSchemes : Array<SipSchemeVO> = [];
  constructor( private sipService : SipService) {}
@@ -62,15 +64,21 @@ private saveListOfSips() {
         error => this.showError(error)
       );
 }
-private deleteFromProfile(id: number){
-  let newSipScheleList : Array<SipSchemeVO> = []
+private confirmDelete(){
+  this.displayConfirmation = false;
+let newSipScheleList : Array<SipSchemeVO> = []
   for (let i=0;i<this.listOfSipSchemes.length; i++){
-    if (this.listOfSipSchemes[i].schemeID != id ){
+    if (this.listOfSipSchemes[i].schemeID != this.idToBeDeleted ){
       newSipScheleList.push(this.listOfSipSchemes[i]);
     }
   }
   this.listOfSipSchemes = newSipScheleList;
   this.saveListOfSips();
+}
+private deleteFromProfile(id: number){
+  this.displayConfirmation = true;
+  this.idToBeDeleted = id;
+  
 }
 private saveListOfSipsResult (result : String){
 

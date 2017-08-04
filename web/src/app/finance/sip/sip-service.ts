@@ -29,7 +29,7 @@ export class SipService {
  }
   
   private extractJsonData(res: Response) {
-    let body = res.json().data;
+    let body = res.status;
     return body;
   }
   private extractResult(res: Response) {
