@@ -39,7 +39,6 @@ public class GetProfiles extends HttpServlet {
 		GsonBuilder builder = new GsonBuilder();
 		builder.serializeSpecialFloatingPointValues();
 		 Gson gson =builder	.create();
-		Gson  json = new Gson();
 		String portfolioStr = gson.toJson(portfolio, Portfolio.class);
 		portfolioStr = portfolioStr.replaceAll("NaN", "0.0");
 		response.getWriter().append(portfolioStr);

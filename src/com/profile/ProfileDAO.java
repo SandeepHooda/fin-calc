@@ -123,7 +123,7 @@ public class ProfileDAO {
 	            req.setPayload(data.getBytes());
 	            fetcher.fetch(req);
 	            
-	            log.info("Updated the DB  collection "+collection+data);
+	           // log.info("Updated the DB  collection "+collection+data);
 	 
 	        } catch (IOException e) {
 	        	 log.info("Error while  upfdating DB  collection "+collection+data+" Message "+e.getMessage());

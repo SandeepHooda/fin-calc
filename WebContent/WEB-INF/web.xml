@@ -124,4 +124,14 @@
     <servlet-name>SaveSipList</servlet-name>
     <url-pattern>/SaveSipList</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>ChartData</display-name>
+    <servlet-name>ChartData</servlet-name>
+    <servlet-class>com.endpoint.ChartData</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ChartData</servlet-name>
+    <url-pattern>/ChartData</url-pattern>
+  </servlet-mapping>
 </web-app>

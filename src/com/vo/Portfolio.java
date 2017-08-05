@@ -7,6 +7,9 @@ public class Portfolio {
 	private List<Profile> allProfiles = new ArrayList<Profile>();
 	private double totalGain, totalXirr, totalInvetment;
 	
+	public String toString(){
+		return " totalInvetment "+totalInvetment+" totalXirr "+totalXirr + " totalGain "+totalGain+ " allProfiles "+allProfiles.toString();
+	}
 
 	public List<Profile> getAllProfiles() {
 		return allProfiles;
