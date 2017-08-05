@@ -122,7 +122,7 @@ public class ProfileService {
 		ProfileDAO.insertData(collection, dataToAdd);
 	}
 	
-	public static List<ChartVO> getHistoricalData(Portfolio portFolio){
+	public static List<ChartVO> getHistoricalData(Portfolio portFolio, int noOfSemesters){
 		Set<String> houseIds = new HashSet<String>();
 		Set<String> schemeCodes = new HashSet<String>();
 		for (Profile profile : portFolio.getAllProfiles()){
@@ -154,7 +154,7 @@ public class ProfileService {
 		for (String houseID :houseIds ){
 			log.info("Creating a woorker  "+houseID);
 		
-				 ChartDAO worker = new ChartDAO(6, houseID, schemeCodes);
+				 ChartDAO worker = new ChartDAO(noOfSemesters, houseID, schemeCodes);
 					service.execute( worker);
 					workers.add(worker);
 			

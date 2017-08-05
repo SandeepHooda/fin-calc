@@ -34,9 +34,10 @@ public class ChartData extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String email = (String)request.getSession().getAttribute("email");
+		int noOfSemesters = Integer.parseInt(request.getParameter("noOfSemesters"));
 		//email = "sonu.hooda@gmail.com";
 		Portfolio portfolio = ProfileService.getPortfolioDromDB(email);
-		List<ChartVO> getHistoricalData = ProfileService.getHistoricalData(portfolio);
+		List<ChartVO> getHistoricalData = ProfileService.getHistoricalData(portfolio, noOfSemesters);
 		
 		Gson  json = new Gson();
 		String chartData = json.toJson(getHistoricalData, new TypeToken<List<ChartVO>>() {}.getType());
