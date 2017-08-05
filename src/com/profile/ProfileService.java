@@ -122,17 +122,29 @@ public class ProfileService {
 		ProfileDAO.insertData(collection, dataToAdd);
 	}
 	
+	public static void calculatePercentage(List<ChartVO> chartData, Portfolio portfolio){
+		for (ChartVO chartVO: chartData){
+			String schemeCode = chartVO.getSchemeCode();
+			for (Profile profile : portfolio.getAllProfiles()){
+				if (profile.getSchemeCode().equals(schemeCode)){
+					chartVO.setSchemeName(profile.getSchemeName());
+				}
+			}
+		}
+		
+		
+	}
 	public static List<ChartVO> getHistoricalData(Portfolio portFolio, int noOfSemesters){
 		Set<String> houseIds = new HashSet<String>();
 		Set<String> schemeCodes = new HashSet<String>();
 		for (Profile profile : portFolio.getAllProfiles()){
 			schemeCodes.add(profile.getSchemeCode());
-			String schemaName = profile.getSchemeName();
-			schemaName = schemaName.substring(0, schemaName.indexOf(" "));
-			String houseCode = FinConstants.houseIDMap.get(schemaName);
+			String hounsename = profile.getSchemeName();
+			hounsename = hounsename.substring(0, hounsename.indexOf(" "));
+			String houseCode = FinConstants.houseIDMap.get(hounsename);
 			if (null != houseCode){
 				houseIds.add(houseCode);
-				log.info("schemaName  "+schemaName +" house code "+houseCode);
+				log.info("schemaName  "+hounsename +" house code "+houseCode);
 			}
 			
 			

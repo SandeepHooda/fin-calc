@@ -37,11 +37,11 @@ public class ChartData extends HttpServlet {
 		int noOfSemesters = Integer.parseInt(request.getParameter("noOfSemesters"));
 		//email = "sonu.hooda@gmail.com";
 		Portfolio portfolio = ProfileService.getPortfolioDromDB(email);
-		List<ChartVO> getHistoricalData = ProfileService.getHistoricalData(portfolio, noOfSemesters);
-		
+		List<ChartVO> chartData = ProfileService.getHistoricalData(portfolio, noOfSemesters);
+		ProfileService.calculatePercentage(chartData,  portfolio);
 		Gson  json = new Gson();
-		String chartData = json.toJson(getHistoricalData, new TypeToken<List<ChartVO>>() {}.getType());
-		response.getWriter().append(chartData);
+		String chartDataStr = json.toJson(chartData, new TypeToken<List<ChartVO>>() {}.getType());
+		response.getWriter().append(chartDataStr);
 		
 	}
 
