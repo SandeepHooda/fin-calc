@@ -26,6 +26,7 @@ import com.nav.NavTextDAO;
 import com.nav.NavVO;
 import com.sip.SipSchemeVO;
 import com.chart.ChartDAO;
+import com.chart.ChartNAV;
 import com.chart.ChartVO;
 import com.common.FinConstants;
 import com.google.appengine.api.ThreadManager;
@@ -128,6 +129,19 @@ public class ProfileService {
 			for (Profile profile : portfolio.getAllProfiles()){
 				if (profile.getSchemeCode().equals(schemeCode)){
 					chartVO.setSchemeName(profile.getSchemeName());
+					List<ChartNAV> charNavs = chartVO.getChartNAVS();
+					double baseValue = charNavs.get(0).getNav();
+					double previousValue = baseValue;
+					
+					int rowCount = 0;
+					for (ChartNAV chartNav: charNavs){
+						rowCount++;
+						if(rowCount > 1 ){
+							chartNav.setBasePercentageChange(  ((chartNav.getNav() - baseValue ) /baseValue) *100);
+							chartNav.setRollingPercentageChange( ((chartNav.getNav() - previousValue ) /previousValue) *100);
+							previousValue = chartNav.getNav();
+						}
+					}
 				}
 			}
 		}

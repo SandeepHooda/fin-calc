@@ -18,11 +18,12 @@ import {AddProfile } from '../finance/addFund/addProfile/addProfile.component'
 import {Sip} from '../finance/sip/sip.component';
 import {SipService as schemeSipService} from '../finance/sip/scheme/sip-service';
 import {NavService} from '../finance/addFund/addfundDetails/nav.service';
-import {DataTableModule,SharedModule,DataGridModule, PanelModule, DialogModule} from 'primeng/primeng';
-import {AccordionModule} from 'primeng/primeng';
+import {DataTableModule,SharedModule,DataGridModule, PanelModule, DialogModule, ChartModule} from 'primeng/primeng';
+import {AccordionModule, MessagesModule} from 'primeng/primeng';
 import {MdProgressSpinnerModule} from '@angular/material';
 import {SipScheme} from '../finance/sip/scheme/sip.scheme.component';
 import {SipService  } from '../finance/sip/sip-service';
+import {Chart} from '../finance/addFund/chart/chart.component';
 @NgModule({
   imports: [
     BrowserModule,
@@ -37,10 +38,10 @@ import {SipService  } from '../finance/sip/sip-service';
     ButtonModule,
     ListboxModule,
     MdProgressSpinnerModule, DataTableModule,SharedModule,DataGridModule, PanelModule, DialogModule,
-    AccordionModule
+    AccordionModule, ChartModule, MessagesModule
   ],
   declarations: [
-    XIRR,   NAVBAR,    AddCompany, Sip, AddFunds, AddProfile, AddFundsDetails, SipScheme
+    XIRR,   NAVBAR,    AddCompany, Sip, AddFunds, AddProfile, AddFundsDetails, SipScheme, Chart
   ],
   providers: [ XirrService , XirrRequest, FundService, SipService, NavService, schemeSipService],
   bootstrap: [ XIRR ]
