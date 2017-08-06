@@ -134,4 +134,14 @@
     <servlet-name>ChartData</servlet-name>
     <url-pattern>/ChartData</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>ChartDataUI</display-name>
+    <servlet-name>ChartDataUI</servlet-name>
+    <servlet-class>com.endpoint.ChartDataUI</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ChartDataUI</servlet-name>
+    <url-pattern>/ChartDataUI</url-pattern>
+  </servlet-mapping>
 </web-app>

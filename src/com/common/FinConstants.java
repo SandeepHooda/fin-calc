@@ -1,12 +1,16 @@
 package com.common;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 public class FinConstants {
 	
 	public static Map<String, String> houseIDMap ;
 	public static Map<String, String> houseNameMap ;
+	public static long aDay = 86400000;
+	
 	
 	static {
 		 houseIDMap = new HashMap<String, String>();
@@ -109,7 +113,7 @@ public class FinConstants {
 		 houseNameMap.put("65","IL&FS Mutual Fund (IDF)");
 		 houseNameMap.put("63","Indiabulls Mutual Fund");
 		 houseNameMap.put("14","ING Mutual Fund");
-		 houseNameMap.put("42","Invesco Mutual Fund");
+		 
 		 houseNameMap.put("16","JM Financial Mutual Fund");
 		 houseNameMap.put("43","JPMorgan Mutual Fund");
 		 houseNameMap.put("17","Kotak Mahindra Mutual Fund");
@@ -124,8 +128,7 @@ public class FinConstants {
 		 houseNameMap.put("34","PNB Mutual Fund");
 		 houseNameMap.put("64","PPFAS Mutual Fund");
 		 houseNameMap.put("10","PRINCIPAL Mutual Fund");
-		 houseNameMap.put("41","Quantum Mutual Fund");
-		 houseNameMap.put("21","Reliance Mutual Fund");
+		 houseNameMap.put("41","Quantum Mutual Fund");	 
 		 houseNameMap.put("35","Sahara Mutual Fund");
 		 houseNameMap.put("22","SBI Mutual Fund");
 		 houseNameMap.put("52","Shinsei Mutual Fund");
@@ -139,6 +142,8 @@ public class FinConstants {
 		 houseNameMap.put("61","Union Mutual Fund");
 		 houseNameMap.put("28","UTI Mutual Fund");
 		 houseNameMap.put("29","Zurich India Mutual Fund");
+		houseNameMap.put("21","Reliance Mutual Fund");
+		houseNameMap.put("42","Invesco Mutual Fund");
  
 
 	}

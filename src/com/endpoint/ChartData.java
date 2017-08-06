@@ -2,6 +2,7 @@ package com.endpoint;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.logging.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -11,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.chart.ChartVO;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.profile.ProfileDAO;
 import com.profile.ProfileService;
 
 import com.vo.Portfolio;
@@ -20,7 +22,7 @@ import com.vo.Portfolio;
  */
 public class ChartData extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
+	private static final Logger log = Logger.getLogger(ProfileDAO.class.getName());  
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -35,13 +37,25 @@ public class ChartData extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String email = (String)request.getSession().getAttribute("email");
 		int noOfSemesters = Integer.parseInt(request.getParameter("noOfSemesters"));
+		
 		//email = "sonu.hooda@gmail.com";
-		Portfolio portfolio = ProfileService.getPortfolioDromDB(email);
+		/*Portfolio portfolio = ProfileService.getPortfolioDromDB(email);
 		List<ChartVO> chartData = ProfileService.getHistoricalData(portfolio, noOfSemesters);
 		ProfileService.calculatePercentage(chartData,  portfolio);
 		Gson  json = new Gson();
 		String chartDataStr = json.toJson(chartData, new TypeToken<List<ChartVO>>() {}.getType());
-		response.getWriter().append(chartDataStr);
+		response.getWriter().append(chartDataStr);*/
+		log.info(" Trying for noOfSemesters "+noOfSemesters );
+		ProfileService.getAllHistoricalData( noOfSemesters);
+		noOfSemesters -=2;
+		
+		while(noOfSemesters > 0){//When some recors failed due to data size
+			log.info(" Fail re-trying for noOfSemesters "+noOfSemesters );
+			ProfileService.getAllHistoricalData( noOfSemesters);
+			noOfSemesters -=2;
+			
+		}
+		response.getWriter().append("Done");
 		
 	}
 

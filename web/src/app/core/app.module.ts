@@ -24,6 +24,8 @@ import {MdProgressSpinnerModule} from '@angular/material';
 import {SipScheme} from '../finance/sip/scheme/sip.scheme.component';
 import {SipService  } from '../finance/sip/sip-service';
 import {Chart} from '../finance/addFund/chart/chart.component';
+import {ChartService} from '../finance/addFund/chart/chart.service';
+
 @NgModule({
   imports: [
     BrowserModule,
@@ -43,7 +45,7 @@ import {Chart} from '../finance/addFund/chart/chart.component';
   declarations: [
     XIRR,   NAVBAR,    AddCompany, Sip, AddFunds, AddProfile, AddFundsDetails, SipScheme, Chart
   ],
-  providers: [ XirrService , XirrRequest, FundService, SipService, NavService, schemeSipService],
+  providers: [ XirrService , XirrRequest, FundService, SipService, NavService, schemeSipService, ChartService],
   bootstrap: [ XIRR ]
 })
 export class AppModule { }

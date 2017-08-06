@@ -16,7 +16,7 @@ import com.google.appengine.api.urlfetch.URLFetchServiceFactory;
 
 public class ProfileDAO {
 	private static final Logger log = Logger.getLogger(ProfileDAO.class.getName());
-	private static FetchOptions lFetchOptions = FetchOptions.Builder.doNotValidateCertificate();
+	private static FetchOptions lFetchOptions = FetchOptions.Builder.doNotValidateCertificate().setDeadline(300d);
 	private static URLFetchService fetcher = URLFetchServiceFactory.getURLFetchService();
 
 	public static String getUserPortfolio(String userID, boolean suppressDefaultKey, String datakey ){
@@ -88,9 +88,9 @@ public class ProfileDAO {
 	}
 	
 	
-	public static void createNewCollection(String collectionToCreate){
+	public static void createNewCollection(String collectionToCreate, String dbName, String key){
 		
-		String httpsURL = "https://api.mlab.com/api/1/databases/"+Constants.dbName+"/collections/"+collectionToCreate+"?apiKey="+Constants.mlabKey;
+		String httpsURL = "https://api.mlab.com/api/1/databases/"+dbName+"/collections/"+collectionToCreate+"?apiKey="+key;
 		
 		 try {
 			
@@ -109,8 +109,8 @@ public class ProfileDAO {
 	        }
 	}
 	
-	public static void insertData(String collection, String data){
-		String httpsURL = "https://api.mlab.com/api/1/databases/"+Constants.dbName+"/collections/"+collection+"?apiKey="+Constants.mlabKey;
+	public static void insertData(String collection, String data, String dbName, String apiKey){
+		String httpsURL = "https://api.mlab.com/api/1/databases/"+dbName+"/collections/"+collection+"?apiKey="+apiKey;
 		
 		 try {
 			
@@ -126,9 +126,14 @@ public class ProfileDAO {
 	           // log.info("Updated the DB  collection "+collection+data);
 	 
 	        } catch (IOException e) {
-	        	 log.info("Error while  upfdating DB  collection "+collection+data+" Message "+e.getMessage());
+	        	 log.info("Error while  upfdating DB  collection "+collection+" Message "+e.getMessage());
 	        	e.printStackTrace();
+	        	
 	        }
+		
+	}
+	public static void insertData(String collection, String data){
+		insertData(collection,data,Constants.dbName,Constants.mlabKey );
 	}
 	
 	

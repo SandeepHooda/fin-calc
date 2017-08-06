@@ -1,29 +1,31 @@
 package com.chart;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class ChartVO {
-	private String schemeCode;
-	private String schemeName;
-	private List<ChartNAV> chartNAVS = new ArrayList<ChartNAV>();
-	public String getSchemeCode() {
-		return schemeCode;
+	private String _id;
+	private Long tm  ;
+	private List<ChartNAV> navs = new ArrayList<ChartNAV>();
+	public String get_id() {
+		return _id;
 	}
-	public void setSchemeCode(String schemeCode) {
-		this.schemeCode = schemeCode;
+	public void set_id(String _id) {
+		this._id = _id;
 	}
-	public String getSchemeName() {
-		return schemeName;
+	
+	public List<ChartNAV> getNavs() {
+		return navs;
 	}
-	public void setSchemeName(String schemeName) {
-		this.schemeName = schemeName;
+	public void setNavs(List<ChartNAV> navs) {
+		this.navs = navs;
 	}
-	public List<ChartNAV> getChartNAVS() {
-		return chartNAVS;
+	public Long getTm() {
+		return tm;
 	}
-	public void setChartNAVS(List<ChartNAV> chartNAV) {
-		this.chartNAVS = chartNAV;
+	public void setTm(Long tm) {
+		this.tm = tm;
 	}
-
+	
 }
