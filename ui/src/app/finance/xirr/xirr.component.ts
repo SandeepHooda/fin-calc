@@ -39,11 +39,16 @@ private httpError:String
     }
     
   }
+  
   private showError(error:any) {
     this.httpError = error;
   }
  
   ngOnInit(): void {
+    this.xirrService.loadChartData().subscribe( 
+        result => {},
+        error => {}
+      );
    this.signedInUserEmail =  localStorage.getItem('signedInUserEmail');
    this.signedInUser =  localStorage.getItem('signedInUser');
    if (!this.signedInUserEmail){
@@ -55,6 +60,7 @@ private httpError:String
         email => this.showEmail(email),
         error => this.showError(error)
       );
+    
    }
     
    //localStorage.setItem('signedInUser', 'Sandeep Hooda');  

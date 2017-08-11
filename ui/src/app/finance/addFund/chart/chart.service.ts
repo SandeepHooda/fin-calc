@@ -10,7 +10,7 @@ import {ChartNAV} from './ChartNAV';
 @Injectable()
 export class ChartService {
    
-      private hostName:string = 'https://fin-cal.appspot.com';
+      private hostName:string = '';
 
   private charUITopPerformer:string = "/TopFundOfAllHouses?schemeCountFrom=1&schemeCountTo=10"
 

@@ -17,7 +17,10 @@ export class XirrService {
  signedUserName() :Observable<string> {
    return this.http.get(this.signInUrl).map(this.getUserName).catch(this.handleError);
  }
-
+loadChartData () :Observable<string> {
+   return this.http.get("/ChartData?noOfMonths=36").map(this.getChartData).catch(this.handleError);
+  
+}
  signedUserEmail() :Observable<string> {
    return this.http.get(this.signInUrlEmail).map(this.getUserName).catch(this.handleError);
  }
@@ -26,7 +29,9 @@ export class XirrService {
     let body = res.json().data;
     return body;
   }
- 
+ private getChartData (res: Response){
+   return "Done";
+ }
   private handleError (error: Response | any) {
     // In a real world app, you might use a remote logging infrastructure
     let errMsg: string;
