@@ -12,12 +12,17 @@ export class ChartService {
    
       private hostName:string = 'https://fin-cal.appspot.com';
 
-  private charUI:string = '/ChartDataUI?houseCode=20&schemeCountFrom=1&schemeCountTo=10';  // URL to web API
+  private charUITopPerformer:string = "/TopFundOfAllHouses?schemeCountFrom=1&schemeCountTo=10"
+
   
      constructor (private http: Http) {}
    
-    getHouseChartData(): Observable<Array<ChartVO>> {
-       return this.http.get(this.hostName+this.charUI)
+    getHouseChartData(houseCode : string, range: string): Observable<Array<ChartVO>> {
+      let url = "/ChartDataUI?houseCode="+houseCode+range;
+      if (houseCode == "AllHouses"){
+        url = "/TopFundOfAllHouses?houseCode="+houseCode+range;
+      }
+       return this.http.get(this.hostName+url)
                         .map(this.extractData)
                         .catch(this.handleError);
     }

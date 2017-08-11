@@ -3,6 +3,7 @@ package com.chart;
 public class NavVoUI {
 	private String dt;
 	private double bpi;//Base Pecentage increase
+
 	
 	public String getDt() {
 		return dt;
@@ -16,5 +17,5 @@ public class NavVoUI {
 	public void setBpi(double bpi) {
 		this.bpi = bpi;
 	}
-
+	
 }

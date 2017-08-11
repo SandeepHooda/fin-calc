@@ -144,4 +144,14 @@
     <servlet-name>ChartDataUI</servlet-name>
     <url-pattern>/ChartDataUI</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>TopFundOfAllHouses</display-name>
+    <servlet-name>TopFundOfAllHouses</servlet-name>
+    <servlet-class>com.endpoint.TopFundOfAllHouses</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>TopFundOfAllHouses</servlet-name>
+    <url-pattern>/TopFundOfAllHouses</url-pattern>
+  </servlet-mapping>
 </web-app>

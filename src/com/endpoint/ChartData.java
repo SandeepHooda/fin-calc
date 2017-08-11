@@ -36,7 +36,15 @@ public class ChartData extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String email = (String)request.getSession().getAttribute("email");
-		int noOfSemesters = Integer.parseInt(request.getParameter("noOfSemesters"));
+		int noOfSemesters = 0;
+		if (null != request.getParameter("noOfSemesters")){
+			noOfSemesters = Integer.parseInt(request.getParameter("noOfSemesters"));
+		}
+		int noOfMonths = 0;
+		if (null != request.getParameter("noOfMonths")){
+			noOfMonths = Integer.parseInt(request.getParameter("noOfMonths"));
+		}
+		
 		
 		//email = "sonu.hooda@gmail.com";
 		/*Portfolio portfolio = ProfileService.getPortfolioDromDB(email);
@@ -45,14 +53,30 @@ public class ChartData extends HttpServlet {
 		Gson  json = new Gson();
 		String chartDataStr = json.toJson(chartData, new TypeToken<List<ChartVO>>() {}.getType());
 		response.getWriter().append(chartDataStr);*/
-		log.info(" Trying for noOfSemesters "+noOfSemesters );
-		ProfileService.getAllHistoricalData( noOfSemesters);
+		log.info(" Trying for noOfSemesters "+noOfSemesters+" noOfMonths ="+noOfMonths );
+		if (noOfSemesters > 0){
+			ProfileService.getAllHistoricalData( noOfSemesters);
+		}
+		
+		if (noOfMonths > 0){
+			ProfileService.getAllHistoricalMonthlyData( noOfMonths);
+		}
+		
+		
 		noOfSemesters -=2;
+		noOfMonths -=12;
+	
 		
 		while(noOfSemesters > 0){//When some recors failed due to data size
 			log.info(" Fail re-trying for noOfSemesters "+noOfSemesters );
 			ProfileService.getAllHistoricalData( noOfSemesters);
 			noOfSemesters -=2;
+			
+		}
+		while(noOfMonths > 0){//When some recors failed due to data size
+			log.info(" Fail re-trying for noOfMonths "+noOfMonths );
+			ProfileService.getAllHistoricalMonthlyData( noOfMonths);
+			noOfMonths -=12;
 			
 		}
 		response.getWriter().append("Done");

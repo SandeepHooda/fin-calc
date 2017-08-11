@@ -5,6 +5,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -19,6 +20,9 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
+
+import org.apache.tools.ant.util.CollectionUtils;
+
 import com.google.gson.reflect.TypeToken;
 import com.nav.CompanyVO;
 import com.nav.NavTextDAO;
@@ -29,6 +33,7 @@ import com.chart.ChartDAO;
 import com.chart.ChartNAV;
 import com.chart.ChartVO;
 import com.chart.ChartVOUI;
+import com.chart.ChartVOUIComparator;
 import com.chart.NavVoUI;
 import com.common.FinConstants;
 import com.google.appengine.api.ThreadManager;
@@ -178,23 +183,25 @@ public class ProfileService {
 
 	}*/
 public static List<ChartVOUI> getHouseChartData(String houseCode, int schemeCountFrom, int schemeCountTo){
-	List<ChartVO> chartVOs= ChartDAO.getHouseDataFromMDB(houseCode);
-	List<ChartVOUI> chartVOUIs = new ArrayList<ChartVOUI>();
-	int dataCount = 0;
-	for (ChartVO aCharVO:chartVOs ){
-		dataCount++;
-		if (dataCount >= schemeCountFrom && dataCount <= schemeCountTo){
-			if (aCharVO.getNavs().size() > 0){
-				ChartVOUI aUIVO = new ChartVOUI();
-				aUIVO.set_id(aCharVO.get_id());
-				chartVOUIs.add(aUIVO);
+	List<ChartVO> listOfSchemes= ChartDAO.getHouseDataFromMDB(houseCode);
+	List<ChartVOUI> listOfSchemeUI = new ArrayList<ChartVOUI>();
+
+	for (ChartVO aScheme:listOfSchemes ){
+		
+		
+			if (aScheme.getNavs().size() > 0){
+				ChartVOUI aSchemeUI = new ChartVOUI();
+				aSchemeUI.set_id(aScheme.get_id());
+				
 				List<NavVoUI> uiNAvs = new ArrayList<NavVoUI>();
 				double baseNav = -1;
 				int navCount = 0;
+				double previousNav = 0;
 				Long nextDateToUse = null;
-				for (ChartNAV nav: aCharVO.getNavs()){
-					navCount++;
-					if (navCount == 1){
+				boolean validGroth = true;
+				for (ChartNAV nav: aScheme.getNavs()){
+					
+					if (navCount == 0){
 						baseNav = nav.getNav();
 					
 					}
@@ -207,35 +214,87 @@ public static List<ChartVOUI> getHouseChartData(String houseCode, int schemeCoun
 						e.printStackTrace();
 					}
 					if (nextDateToUse == null || (null != navDate &&  (navDate.getTime() >= nextDateToUse) )){
+						navCount++;
 						Calendar cal = new GregorianCalendar();
 						cal.setTime(navDate);
 						cal.add(Calendar.MONTH, 1);
 						nextDateToUse = cal.getTime().getTime();
 						NavVoUI uiNav = new NavVoUI();
 						uiNav.setDt(navDateStr);
-						uiNav.setBpi((nav.getNav() - baseNav)/baseNav *100);
+						
+						
+						if ( navCount >= 12){
+							baseNav = aScheme.getNavs().get(navCount-12).getNav();
+							uiNav.setBpi((nav.getNav() - baseNav)/baseNav *100) ;
+						}else {
+							uiNav.setBpi( ( ((nav.getNav() - baseNav)/baseNav *100)  /navCount)*12);
+						}
+						
+						
+							if (navCount > 1 ){
+								if (( (nav.getNav() - previousNav ) /previousNav *1200) > 200) {
+									validGroth = false;
+								}
+							}
+							
+						
+						
 						uiNAvs.add(uiNav);
+						previousNav = nav.getNav();
 					}
 					
 				}
-				aUIVO.setNavs(uiNAvs);
+				
+				aSchemeUI.setNavs(uiNAvs);
+				if (uiNAvs.size() > 6 && validGroth) {
+					uiNAvs.get(0).setBpi(uiNAvs.get(1).getBpi());
+					listOfSchemeUI.add(aSchemeUI);
+				}
+				
 				
 			}
-		}
+		
 		
 		
 		
 	}
-	return chartVOUIs;
+	
+	Collections.sort(listOfSchemeUI, new ChartVOUIComparator());
+	List<ChartVOUI> chartVOUIsFiltered = null;
+	if (schemeCountTo < listOfSchemeUI.size()){
+		chartVOUIsFiltered = listOfSchemeUI.subList(schemeCountFrom -1, schemeCountTo);
+	}else if (listOfSchemeUI.size() > 20) {
+		chartVOUIsFiltered = listOfSchemeUI.subList(0, 20);
+	}else {
+		chartVOUIsFiltered = listOfSchemeUI;
+	}
+	 
+	return chartVOUIsFiltered;
 }
+
+/*
+private static boolean calculateMonthlyRollingReturn(List<NavVoUI> uiNAvs){
+	boolean aValidGroth = true;
+	int count = 0;
+	double lastBpi = 0;
+	for (NavVoUI aNav : uiNAvs){
+		
+		if (count>=1){
+			aNav.setBpi( (aNav.getNav() - uiNAvs.get(count-1).getNav() ) /uiNAvs.get(count-1).getNav() *1200);
+			if (aNav.getBpi() > 200) {
+				aValidGroth = false;
+			}
+		}
+		count++;
+		
+	}
+	return aValidGroth;
+}*/
 	public static void getAllHistoricalData(int noOfSemesters) {
 		Set<String> houseIds = FinConstants.houseNameMap.keySet();
 
 		List<ChartVO> chartVos = new ArrayList<ChartVO>();
-		/*
-		 * ThreadFactory factory = ThreadManager.currentRequestThreadFactory();
-		 * ExecutorService service = Executors.newCachedThreadPool(factory);
-		 */
+		
 		List<ChartDAO> workers = new ArrayList<ChartDAO>();
 		
 		for (String houseID : houseIds) {
@@ -248,7 +307,7 @@ public static List<ChartVOUI> getHouseChartData(String houseCode, int schemeCoun
 					worker.getChartData();
 					updateResultinDB(worker, chartVos);
 					log.info("we have cached data for future use for house id  " + houseID);
-				} catch (IOException e) {
+				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			} else {
@@ -257,20 +316,39 @@ public static List<ChartVOUI> getHouseChartData(String houseCode, int schemeCoun
 			
 
 		}
-		/*
-		 * service.shutdown(); boolean finshed = false; try { finshed =
-		 * service.awaitTermination(30, TimeUnit.MINUTES); } catch
-		 * (InterruptedException e) { e.printStackTrace(); }
-		 */
+		
 		log.info("Will get all results from all workers now ");
 
-		/*
-		 * for (ChartDAO worker : workers){ updateResultinDB(worker, chartVos);
-		 * 
-		 * }
-		 * 
-		 * return chartVos;
-		 */
+	}
+	
+	public static void getAllHistoricalMonthlyData(int noOfMonths) {
+		Set<String> houseIds = FinConstants.houseNameMap.keySet();
+
+		List<ChartVO> chartVos = new ArrayList<ChartVO>();
+		
+		List<ChartDAO> workers = new ArrayList<ChartDAO>();
+		
+		for (String houseID : houseIds) {
+			if (ChartDAO.isUpdateNeeded(houseID)) {
+				log.info("Creating a worker for house id  " + houseID);
+				ChartDAO worker = new ChartDAO(0, houseID);
+				// service.execute( worker);
+				workers.add(worker);
+				try {
+					worker.getChartMonthly(noOfMonths);
+					updateResultinDB(worker, chartVos);
+					log.info("we have cached data for future use for house id  " + houseID);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			} else {
+				log.info("we already have cached data for house id  " + houseID);
+			}
+			
+
+		}
+		
+		log.info("Will get all results from all workers now ");
 
 	}
 
@@ -437,12 +515,14 @@ public static List<ChartVOUI> getHouseChartData(String houseCode, int schemeCoun
 		Date today = new Date();
 		List<Double> payments = new ArrayList<Double>();
 		List<Date> dates = new ArrayList<Date>();
+		portfolio.setTotalInvetment(0);
 		for (Profile aprofile : portfolio.getAllProfiles()) {
 			payments.add(aprofile.getInvestmentAmount() * -1);
 			dates.add(sdf.parse(aprofile.getInvestmentDate()));
 			payments.add(aprofile.getCurrentValue());
 			dates.add(today);
 			totalGain += (aprofile.getCurrentValue() - aprofile.getInvestmentAmount());
+			
 			portfolio.setTotalInvetment(portfolio.getTotalInvetment() + aprofile.getInvestmentAmount());
 		}
 		portfolio.setTotalGain(totalGain);

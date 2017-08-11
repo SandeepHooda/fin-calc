@@ -107,6 +107,52 @@ public class ChartDAO implements Runnable {
 		
 		
 	}
+	public   void getChartMonthly( int noOfMonths) throws IOException{
+		Calendar toMonth = new GregorianCalendar();
+		toMonth.setTime(new Date());
+		toMonth.set(Calendar.DATE, 1);
+		
+		Calendar fromMonthBegin = new GregorianCalendar();
+		fromMonthBegin.setTime(new Date());
+		fromMonthBegin.set(Calendar.DATE, 1);
+		fromMonthBegin.add(Calendar.MONTH, -noOfMonths);
+		Calendar fromMonthEnd = new GregorianCalendar();
+		fromMonthEnd.setTime(new Date());
+		fromMonthEnd.set(Calendar.DATE, 3);
+		fromMonthEnd.add(Calendar.MONTH, -noOfMonths);
+		
+		
+		String url = "";
+		
+		
+	    
+	   while (fromMonthBegin.before(toMonth)){
+		   
+		   String fromDate = sdf.format(fromMonthBegin.getTime());
+			 String toDate = sdf.format(fromMonthEnd.getTime() );
+	    	 url = "http://portal.amfiindia.com/DownloadNAVHistoryReport_Po.aspx?mf="+houseCode+"&tp=1&frmdt="+fromDate+"&todt="+toDate;
+	    	 log.info(url);
+	    	 List<String> historicalNavsForAHouse = getNavFromAmfiindia(url);
+	    	
+	 		
+	 		if (null!= historicalNavsForAHouse && historicalNavsForAHouse.size() > 100){
+	 			removeHeaders(historicalNavsForAHouse);
+		 		
+		 		populateChartVOMap(historicalNavsForAHouse);
+	 		}
+	 		
+	 		log.info("Got result for above url");
+	    	 
+	    	
+	 		fromMonthBegin.add(Calendar.MONTH, 1);
+	 		fromMonthEnd.add(Calendar.MONTH, 1);
+	    }
+	   
+		
+		
+		
+		
+	}
 	public static List<ChartVO> getHouseDataFromMDB(String houseCode){
 		houseCode = "_"+houseCode;
 		String httpsURL = "https://api.mlab.com/api/1/databases/"+Constants.dbName_mutualFunfs+"/collections/"+houseCode+"?apiKey="+Constants.mlabKey_mutualFunfs;

@@ -5,3 +5,4 @@ ui/src/app/**/*.map
 ui/src/main.js
 ui/src/main.js.map
 WebContent/web/**/*
+ui/out/**/*
