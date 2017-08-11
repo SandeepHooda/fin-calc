@@ -45,10 +45,12 @@ private httpError:String
   }
  
   ngOnInit(): void {
+    //Get chart historical data on page load- just make a background call so that serve refresh its cache
     this.xirrService.loadChartData().subscribe( 
         result => {},
         error => {}
       );
+      
    this.signedInUserEmail =  localStorage.getItem('signedInUserEmail');
    this.signedInUser =  localStorage.getItem('signedInUser');
    if (!this.signedInUserEmail){

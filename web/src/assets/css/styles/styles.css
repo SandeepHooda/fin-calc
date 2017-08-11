@@ -26,8 +26,7 @@ position: absolute;
    
 }
 input {
-   width: 100px;
-   
+   width: 100px;  
 }
 .ui-md-4 {
 max-width : 250px !important;
@@ -165,7 +164,7 @@ ul {
 .nav__item {
   box-sizing: border-box;
   display: inline-block;
-  width: 24%;
+  width: 19.5%;
   text-align: center;
   line-height: 24px;
 
