@@ -49,6 +49,12 @@ export class Chart implements OnInit {
         this.range.push({label:"21 - 30", value:"&schemeCountFrom=21&schemeCountTo=30"});
         this.range.push({label:"31- 40", value:"&schemeCountFrom=31&schemeCountTo=40"});
         this.range.push({label:"41 - 50", value:"&schemeCountFrom=41&schemeCountTo=50"});
+        this.range.push({label:"51 - 60", value:"&schemeCountFrom=51&schemeCountTo=60"});
+        this.range.push({label:"61 - 70", value:"&schemeCountFrom=61&schemeCountTo=70"});
+        this.range.push({label:"71 - 80", value:"&schemeCountFrom=71&schemeCountTo=80"});
+        this.range.push({label:"81- 90", value:"&schemeCountFrom=81&schemeCountTo=90"});
+        this.range.push({label:"91 - 100", value:"&schemeCountFrom=91&schemeCountTo=100"});
+        
 
         for (let i=0;i< this.allFunds.length;i++){
             let companyProfiles = this.allFunds[i].navs;
@@ -109,7 +115,7 @@ private  monthDiff(d1 : Date, d2 : Date) {
             let chartVO : ChartVO = this.chartJson[i];
             let dataSet : ChartDataSets = new ChartDataSets();
             //if (this.selectedHouse == "Top Performers"){
-                dataSet.label = this.allHouseProfiles[chartVO._id];
+                dataSet.label = this.allHouseProfiles[chartVO._id] || chartVO._id;
            /* }else {
                  dataSet.label = this.houseProfiles[chartVO._id];
             }*/

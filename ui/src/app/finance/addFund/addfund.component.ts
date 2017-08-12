@@ -72,6 +72,10 @@ export class AddFunds implements OnInit {
         this.renderer.setElementStyle(this.spinnerElement.nativeElement, 'display','none');
       }
       this.renderer.setElementStyle(this.spinnerElement.nativeElement, 'display','block');
+      this.fundService.loadChartData().subscribe( 
+        result => {},
+        error => {}
+      );
         this.fundService.getPortfolio().subscribe( 
         portfolio => this.portFolioLoaded(portfolio),
         error => this.showError(error));

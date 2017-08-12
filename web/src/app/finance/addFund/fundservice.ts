@@ -22,7 +22,13 @@ export class FundService {
                         .map(this.extractData)
                         .catch(this.handleError);
     }
-
+loadChartData () :Observable<string> {
+   return this.http.get("/ChartData?noOfMonths=36").map(this.getChartData).catch(this.handleError);
+  
+}
+private getChartData (res: Response){
+   return "Done";
+ }
  public   getPortfolio() : Observable<Portfolio>{
  return this.http.get(this.getPortfolioUrl)
                         .map(this.extractData)

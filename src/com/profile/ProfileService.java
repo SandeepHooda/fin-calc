@@ -199,6 +199,7 @@ public static List<ChartVOUI> getHouseChartData(String houseCode, int schemeCoun
 				double previousNav = 0;
 				Long nextDateToUse = null;
 				boolean validGroth = true;
+				List<ChartNAV> usedNavs = new ArrayList<ChartNAV>();
 				for (ChartNAV nav: aScheme.getNavs()){
 					
 					if (navCount == 0){
@@ -214,19 +215,33 @@ public static List<ChartVOUI> getHouseChartData(String houseCode, int schemeCoun
 						e.printStackTrace();
 					}
 					if (nextDateToUse == null || (null != navDate &&  (navDate.getTime() >= nextDateToUse) )){
+						usedNavs.add(nav);
 						navCount++;
 						Calendar cal = new GregorianCalendar();
 						cal.setTime(navDate);
 						cal.add(Calendar.MONTH, 1);
+						cal.set(Calendar.DAY_OF_MONTH, 1);
 						nextDateToUse = cal.getTime().getTime();
 						NavVoUI uiNav = new NavVoUI();
 						uiNav.setDt(navDateStr);
 						
 						
 						if ( navCount >= 12){
-							baseNav = aScheme.getNavs().get(navCount-12).getNav();
-							uiNav.setBpi((nav.getNav() - baseNav)/baseNav *100) ;
+							try {
+								long timeDiff = sdf.parse(nav.getDt()).getTime() - sdf.parse(usedNavs.get(navCount-12).getDt()).getTime();
+								
+								timeDiff = timeDiff/FinConstants.aDay; //no of days;
+								baseNav = usedNavs.get(navCount-12).getNav();
+								uiNav.setBpi(((nav.getNav() - baseNav)/baseNav *100 ) * (365/timeDiff));
+								
+							} catch (ParseException e) {
+								
+								e.printStackTrace();
+							}
+							
+							
 						}else {
+							
 							uiNav.setBpi( ( ((nav.getNav() - baseNav)/baseNav *100)  /navCount)*12);
 						}
 						
@@ -237,7 +252,8 @@ public static List<ChartVOUI> getHouseChartData(String houseCode, int schemeCoun
 								}
 							}
 							
-						
+							
+							
 						
 						uiNAvs.add(uiNav);
 						previousNav = nav.getNav();
@@ -246,6 +262,20 @@ public static List<ChartVOUI> getHouseChartData(String houseCode, int schemeCoun
 				}
 				
 				aSchemeUI.setNavs(uiNAvs);
+				if (usedNavs.size() == 0  ){
+					validGroth = false;
+				}else {
+					try {
+						Date latestNav = sdf.parse(usedNavs.get(usedNavs.size()-1).getDt());
+						if (  (new Date().getTime() - latestNav.getTime() ) > ( FinConstants.aDay * 90)){ //very old nav
+							validGroth = false;
+							//System.out.println("validGroth =="+usedNavs.get(usedNavs.size()-1).getDt());
+						}
+					} catch (ParseException e) {
+						
+						e.printStackTrace();
+					}
+				}
 				if (uiNAvs.size() > 6 && validGroth) {
 					uiNAvs.get(0).setBpi(uiNAvs.get(1).getBpi());
 					listOfSchemeUI.add(aSchemeUI);

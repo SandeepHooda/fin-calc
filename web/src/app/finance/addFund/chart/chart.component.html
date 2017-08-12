@@ -4,7 +4,7 @@
     <md-spinner></md-spinner>
     </div>
 </div>
-<p-dropdown [options]="companyNames" [(ngModel)]="selectedHouse" ></p-dropdown>
+<p-dropdown [options]="companyNames" [(ngModel)]="selectedHouse"  [filter]="true" filterBy="label"></p-dropdown>
 <p-dropdown [options]="range" [(ngModel)]="selectedRange" ></p-dropdown>
 <button pButton type="button" label="Go" (click)="fetchData()"></button>
 <p-chart type="line" [data]="data" (onDataSelect)="selectData($event)"></p-chart>
