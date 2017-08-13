@@ -25,6 +25,10 @@ import {SipScheme} from '../finance/sip/scheme/sip.scheme.component';
 import {SipService  } from '../finance/sip/sip-service';
 import {Chart} from '../finance/addFund/chart/chart.component';
 import {ChartService} from '../finance/addFund/chart/chart.service';
+import { PensionService} from '../finance/pension/sip-service';
+import {SchemePensionService } from '../finance/pension/scheme/sip-service';
+import { Pension} from '../finance/pension/sip.component';
+import {PensionScheme} from '../finance/pension/scheme/sip.scheme.component';
 
 @NgModule({
   imports: [
@@ -43,9 +47,11 @@ import {ChartService} from '../finance/addFund/chart/chart.service';
     AccordionModule, ChartModule, MessagesModule, DropdownModule
   ],
   declarations: [
-    XIRR,   NAVBAR,    AddCompany, Sip, AddFunds, AddProfile, AddFundsDetails, SipScheme, Chart
+    XIRR,   NAVBAR,    AddCompany, Sip, AddFunds, AddProfile, AddFundsDetails, SipScheme, Chart, 
+    Pension, PensionScheme
   ],
-  providers: [ XirrService , XirrRequest, FundService, SipService, NavService, schemeSipService, ChartService],
+  providers: [ XirrService , XirrRequest, FundService, SipService, NavService, schemeSipService, ChartService,
+  PensionService,SchemePensionService],
   bootstrap: [ XIRR ]
 })
 export class AppModule { }

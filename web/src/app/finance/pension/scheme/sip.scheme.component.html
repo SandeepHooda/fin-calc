@@ -1,0 +1,94 @@
+<div class="sip">
+    <div class="sip textPadding" >
+     <span class="headings"> Scheme Name &nbsp;&nbsp;</span>
+    </div>
+    <div class="sip" >
+        <input type="text" pInputText style="width: 260px;"  [(ngModel)]="sipSchemeDetails.schemeName"/> 
+    </div>
+</div>
+<hr/>
+<div class="sip">
+    <span class="headings textPadding">Investment Start date &nbsp;</span>
+    </div>
+    <div class="sip componentPadding"> 
+    <span ><p-calendar inputStyleClass="calender" (onSelect)="checkDateValidation()" [(ngModel)]="sipSchemeDetails.startDate"   [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2100"></p-calendar> </span >
+    </div>
+    <div class="sip textPadding" >
+     <span class="headings"> Investment End date &nbsp;&nbsp;</span>
+    </div>
+    <div class="sip" >
+        <p-calendar  inputStyleClass="calender" (onSelect)="checkDateValidation()" [(ngModel)]="sipSchemeDetails.endDate"   [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2100"></p-calendar> 
+    </div>
+    <div class="sip textPadding" >
+     <span class="headings"> Investment Amount &nbsp;&nbsp;</span>
+    </div>
+    <div class="sip" >
+        <input type="text" pInputText   [(ngModel)]="sipSchemeDetails.sipAmount"/> 
+    </div>
+
+     
+
+<br/>
+<div >
+    <div *ngIf="SIPerrorStartDate" class="error"> Start date must be less than end date</div>
+    <div *ngIf="SIPerrorEndDate" class="error"> Day of month can't be different in Start date and End date</div>
+    <hr/>
+    
+</div>
+<div class="sip">
+    <span class="headings textPadding" style="padding-right: 20px;">Pension Start date &nbsp;</span>
+    </div>
+    <div class="sip componentPadding"> 
+    <span ><p-calendar inputStyleClass="calender" (onSelect)="checkPensionDateValidation()" [(ngModel)]="sipSchemeDetails.pensionStartDate"   [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2100"></p-calendar> </span >
+    </div>
+    <div class="sip textPadding" >
+     <span class="headings" style="padding-right: 40px;"> Pension End date 
+     </span>
+    </div>
+    <div class="sip" >
+        <p-calendar  inputStyleClass="calender" (onSelect)="checkPensionDateValidation()" [(ngModel)]="sipSchemeDetails.pensionEndDate"   [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2100"></p-calendar> 
+    </div>
+    <div class="sip textPadding" >
+     <span class="headings" style="padding-right: 35px;"> Pension Amount 
+        
+     </span>
+    </div>
+    <div class="sip" >
+        <input type="text" pInputText   [(ngModel)]="sipSchemeDetails.pensionAmount"/> 
+    </div>
+
+     
+
+<br/>
+<div >
+    <div *ngIf="pensionErrorStartDate" class="error"> Start date must be less than end date</div>
+    <div *ngIf="pensionErrorEndDate" class="error"> Day of month can't be different in Start date and End date</div>
+    <hr/>
+    
+</div>
+
+<div class="Withdrawals">
+    <span class="headings">Balance </span> 
+    <div >
+            <span class="headings paddingR50 paddingL10">Date &nbsp;</span>  
+            <span class="headings "> Amount &nbsp;</span>
+    </div>
+   <div  *ngFor="let row of sipSchemeDetails.withdrawlsRows; index as i;first as isFirst;last as isLast"> 
+        <p-calendar  inputStyleClass="calender"  name="date-{{i}}"  [(ngModel)]="row.date"   [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2100"></p-calendar> 
+        <input type="text" pInputText  name="amount-{{i}}"  [(ngModel)]="row.amount"/> 
+        <button pButton type="button" (click)="addRow()" icon="fa-plus" *ngIf="isLast"></button>
+        <button pButton type="button" (click)="delRow()" icon="fa-minus" *ngIf="isLast && !isFirst"></button>
+    </div>
+    <span class="headings "> Please add current value to last row if all amount is not withdrawn </span>
+
+    <div >
+    <hr/>
+    <button pButton type="button" (click)="calculateReturns()" label="Calculate returns" class="ui-button-info" [disabled]="anyErrorInForm()"></button>
+     <span class="headings">Returns : </span> 
+     <span [ngClass]="{'profit' : (sipSchemeDetails.returnOnInsvement >=0) , 'loss' : (sipSchemeDetails.returnOnInsvement < 0)}">{{sipSchemeDetails.returnOnInsvement | number : '1.2-2'}} </span>
+</div>
+</div>
+<span (click)="deleteFromProfile()" style="float:right;"><i class="fa fa-2x fa-trash-o" aria-hidden="true"></i></span>
+
+{{httpError}}
+<br/><br/><br/>
