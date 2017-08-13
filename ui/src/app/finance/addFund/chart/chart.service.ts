@@ -27,7 +27,14 @@ export class ChartService {
                         .catch(this.handleError);
     }
 
- 
+ public getChartDataUIForMyProfile() : Observable<Array<ChartVO>>{
+  // let url = "http://localhost:8888/ChartDataUIForMyProfile";
+     let url = "/ChartDataUIForMyProfile";
+       return this.http.get(this.hostName+url)
+                        .map(this.extractData)
+                        .catch(this.handleError);
+
+ }
   private extractData(res: Response) {
     let body = res.json();
     return body;

@@ -404,7 +404,7 @@ private static boolean calculateMonthlyRollingReturn(List<NavVoUI> uiNAvs){
 				Constants.mlabKey_mutualFunfs);
 	}
 
-	public static List<ChartVO> getHistoricalData(Portfolio portFolio, int noOfSemesters) {
+	public static List<ChartVO> getHistoricalDataForMyProfile(Portfolio portFolio, int noOfSemesters) {
 		Set<String> houseIds = new HashSet<String>();
 		Set<String> schemeCodes = new HashSet<String>();
 		for (Profile profile : portFolio.getAllProfiles()) {

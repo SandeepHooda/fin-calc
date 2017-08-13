@@ -66,7 +66,7 @@ export class LoanScheme implements OnInit {
       datePointerEnd.setDate(28);
     }
     while(datePointer.getTime() <= datePointerEnd.getTime()){
-      console.log(datePointer);
+     
       payments.push(this.sipSchemeDetails.sipAmount *-1);
       dates.push(datePointer.getDate()+"/"+(datePointer.getMonth()+1)+"/"+datePointer.getFullYear());
       datePointer.setMonth(datePointer.getMonth()+1);

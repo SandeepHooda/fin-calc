@@ -72,7 +72,7 @@ export class PensionScheme implements OnInit {
       datePointerEnd.setDate(28);
     }
     while(datePointer.getTime() <= datePointerEnd.getTime()){
-      console.log(datePointer);
+      
       payments.push(this.sipSchemeDetails.sipAmount *-1);
       dates.push(datePointer.getDate()+"/"+(datePointer.getMonth()+1)+"/"+datePointer.getFullYear());
       datePointer.setMonth(datePointer.getMonth()+1);
@@ -90,7 +90,7 @@ export class PensionScheme implements OnInit {
       pensionDatePointerEnd.setDate(28);
     }
     while(pensionDatePointer.getTime() <= pensionDatePointerEnd.getTime()){
-      console.log(pensionDatePointer);
+     
       payments.push(this.sipSchemeDetails.pensionAmount );
       dates.push(pensionDatePointer.getDate()+"/"+(pensionDatePointer.getMonth()+1)+"/"+pensionDatePointer.getFullYear());
       pensionDatePointer.setMonth(pensionDatePointer.getMonth()+1);
@@ -101,7 +101,7 @@ export class PensionScheme implements OnInit {
         returnOnInsvement => this.showXirrRate(returnOnInsvement),
         error => this.showError(error)
       );
-    console.log(dataToPost);
+    
    
   }
   private showXirrRate(returnOnInsvement: number) {

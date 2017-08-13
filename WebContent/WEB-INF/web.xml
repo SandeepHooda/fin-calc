@@ -204,4 +204,14 @@
     <servlet-name>CalculateLoanRateOfIntrest</servlet-name>
     <url-pattern>/CalculateLoanRateOfIntrest</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>ChartDataUIForMyProfile</display-name>
+    <servlet-name>ChartDataUIForMyProfile</servlet-name>
+    <servlet-class>com.endpoint.ChartDataUIForMyProfile</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ChartDataUIForMyProfile</servlet-name>
+    <url-pattern>/ChartDataUIForMyProfile</url-pattern>
+  </servlet-mapping>
 </web-app>

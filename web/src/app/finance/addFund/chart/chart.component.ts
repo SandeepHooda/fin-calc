@@ -23,6 +23,7 @@ export class Chart implements OnInit {
     private m_names : Array<String> = new Array("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec");
     private chartJson : Array<ChartVO> = new Array<ChartVO>();
     private data: chartData = new chartData();
+    private myProfile : chartData = new chartData();
     private range : SelectItem[] = [];
     private selectedRange : string = "&schemeCountFrom=1&schemeCountTo=10";
     msgs: Message[];
@@ -39,8 +40,13 @@ export class Chart implements OnInit {
     this.renderer.setElementStyle(this.spinnerElement.nativeElement, 'display','none');
   }
      ngOnInit(): void {
+ this.renderer.setElementStyle(this.spinnerElement.nativeElement, 'display','block'); 
+         this.chartService.getChartDataUIForMyProfile().subscribe( 
+        charData => this.showChartDataUIForMyProfile(charData),
+        error => this.showError(error)); 
+
           this.allFunds = JSON.parse(localStorage.getItem('allFunds'));
-         this.renderer.setElementStyle(this.spinnerElement.nativeElement, 'display','none'); 
+         
         this.companyNames = JSON.parse(localStorage.getItem('companyNames'));
         this.companyNames.splice(0, 0, {label:"Top Performers",value:"Top Performers"});
         
@@ -91,15 +97,48 @@ export class Chart implements OnInit {
 private  monthDiff(d1 : Date, d2 : Date) {
     return (d2.getFullYear() - d1.getFullYear()) * 12 + d2.getMonth() - d1.getMonth() ;  
 }
+
+private showChartDataUIForMyProfile(charData : Array<ChartVO>){
+     this.renderer.setElementStyle(this.spinnerElement.nativeElement, 'display','none');
+     let myProfileChart: chartData = new chartData();
+     for (let i = 0; i< charData[0].navs.length;i++){
+            myProfileChart.labels.push(charData[0].navs[i].dt);
+           
+        }
+
+ let borderColor : Array<string> = ["#000000","#c0c0c0","#800000", "#ff0000","#800080","#ff00ff", "#008000","#00ff00","#808000", "#ffff00","#000080","#0000ff", "#00ffff","#ffa500","#006400"];
+     let colorID : number = 0;
+        for (let i=0;i<charData.length;i++){
+            let chartVO : ChartVO = charData[i];
+            let dataSet : ChartDataSets = new ChartDataSets();
+           
+            dataSet.label = this.allHouseProfiles[chartVO._id] || chartVO._id;
+       
+            dataSet.borderColor = borderColor[colorID];
+            colorID++;
+            if (colorID> 14){
+                colorID = 0;
+            }
+             
+            let navSize = chartVO.navs.length;
+            for (let j=0;j<navSize;j++){
+                dataSet.data.push(chartVO.navs[j].bpi);
+            }
+
+            
+           myProfileChart.datasets.push(dataSet);
+        }
+
+     this.myProfile = myProfileChart;
+
+}
   private showChart(charData : Array<ChartVO>){
       this.renderer.setElementStyle(this.spinnerElement.nativeElement, 'display','none');
      let houseData: chartData = new chartData();
     this.chartJson = charData;
 
          let borderColor : Array<string> = ["#000000","#c0c0c0","#800000", "#ff0000","#800080","#ff00ff", "#008000","#00ff00","#808000", "#ffff00","#000080","#0000ff", "#00ffff","#ffa500","#006400"];
-         let chartNAV : Array<ChartNAV> = this.chartJson[0].navs;
-         let totalLables = chartNAV.length;
-         let today : Date = new Date( );
+        let today : Date = new Date( );
          let labelStartDate : Date = new Date(today.getFullYear() -3, today.getMonth(), 1 );
           let labelEndtDate : Date = new Date(today.getFullYear() , today.getMonth()-1, 1 );
           let labelDate : Date = new Date(today.getFullYear() -3, today.getMonth(), 1 );
