@@ -15,33 +15,24 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.profile.ProfileService;
 import com.sip.SipSchemeVO;
-import com.vo.Profile;
 
 /**
- * Servlet implementation class SaveSipList
+ * Servlet implementation class SavePensionList
  */
-public class SaveSipList extends HttpServlet {
+public class SavePensionList extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private static final Logger log = Logger.getLogger(SaveSipList.class.getName());
+	private static final Logger log = Logger.getLogger(SavePensionList.class.getName());
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public SaveSipList() {
+    public SavePensionList() {
         super();
-        // TODO Auto-generated constructor stub
+        
     }
 
-    /**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		response.getWriter().append("Use post method ");
-	}
-
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String email = (String)request.getSession().getAttribute("email");
@@ -59,8 +50,16 @@ public class SaveSipList extends HttpServlet {
 		Gson json=  new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss").create();
 		List<SipSchemeVO> profile = json.fromJson(data, new TypeToken<List<SipSchemeVO>>(){}.getType());
 		log.info("parsed to java object"+profile);
-		ProfileService.saveSipList(email+"_sip", profile);
+		ProfileService.saveSipList(email+"_pension", profile);
 		doGet(request, response);
 	}
+
+	 /**
+		 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+		 */
+		protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+			
+			response.getWriter().append("Use post method ");
+		}
 
 }

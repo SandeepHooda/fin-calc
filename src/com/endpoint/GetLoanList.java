@@ -2,7 +2,6 @@ package com.endpoint;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.logging.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -15,19 +14,16 @@ import com.profile.ProfileService;
 import com.sip.SipSchemeVO;
 import com.sip.Withdrawal;
 
-
-
 /**
- * Servlet implementation class GetSipList
+ * Servlet implementation class GetLoanList
  */
-public class GetSipList extends HttpServlet {
+public class GetLoanList extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private static final Logger log = Logger.getLogger(GetSipList.class.getName());
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public GetSipList() {
+    public GetLoanList() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -36,9 +32,8 @@ public class GetSipList extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
 		String email = (String)request.getSession().getAttribute("email");
-		List<SipSchemeVO> userSipList = ProfileService.getSipList(email+"_sip");
+		List<SipSchemeVO> userSipList = ProfileService.getSipList(email+"_loan");
 		for (SipSchemeVO sip: userSipList){
 			sip.setStartDateLong(sip.getStartDate().getTime());
 			sip.setEndDateLong(sip.getEndDate().getTime());
@@ -52,5 +47,4 @@ public class GetSipList extends HttpServlet {
 	}
 
 	
-
 }

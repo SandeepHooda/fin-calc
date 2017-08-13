@@ -55,6 +55,8 @@ private showSipList(listOfSipSchemes : Array<SipSchemeVO>) {
     this.listOfSipSchemes[i].schemeID = Math.random();
       this.listOfSipSchemes[i].endDate = new Date(this.listOfSipSchemes[i].endDateLong);
        this.listOfSipSchemes[i].startDate = new Date(this.listOfSipSchemes[i].startDateLong);
+       this.listOfSipSchemes[i].pensionEndDate = new Date(this.listOfSipSchemes[i].pensionEndDateLong);
+       this.listOfSipSchemes[i].pensionStartDate = new Date(this.listOfSipSchemes[i].pensionStartDateLong);
        for (let j=0; j<this.listOfSipSchemes[i].withdrawlsRows.length;j++){
           this.listOfSipSchemes[i].withdrawlsRows[j].date = new Date(this.listOfSipSchemes[i].withdrawlsRows[j].dateLong);
        }

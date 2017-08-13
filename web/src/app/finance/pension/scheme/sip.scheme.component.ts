@@ -54,10 +54,13 @@ export class PensionScheme implements OnInit {
      this.sipSchemeDetails.returnOnInsvement = undefined;
     let payments : Array<number> = [];
     let dates : Array<String> = [];
+
+    //Withdrawls 
     for (var i =0;i<this.sipSchemeDetails.withdrawlsRows.length;i++){
       payments.push(this.sipSchemeDetails.withdrawlsRows[i].amount);
       dates.push(this.sipSchemeDetails.withdrawlsRows[i].date.getDate()+"/"+(this.sipSchemeDetails.withdrawlsRows[i].date.getMonth()+1)+"/"+this.sipSchemeDetails.withdrawlsRows[i].date.getFullYear());
     }
+    //Investments
     let startDate : Date = this.sipSchemeDetails.startDate;
     let datePointer = new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate());
     if(datePointer.getDate()> 28){
@@ -73,6 +76,24 @@ export class PensionScheme implements OnInit {
       payments.push(this.sipSchemeDetails.sipAmount *-1);
       dates.push(datePointer.getDate()+"/"+(datePointer.getMonth()+1)+"/"+datePointer.getFullYear());
       datePointer.setMonth(datePointer.getMonth()+1);
+    }
+
+    //Pension
+    let pensionStartDate : Date = this.sipSchemeDetails.pensionStartDate;
+    let pensionDatePointer = new Date(pensionStartDate.getFullYear(), pensionStartDate.getMonth(), pensionStartDate.getDate());
+    if(pensionDatePointer.getDate()> 28){
+      pensionDatePointer.setDate(28);
+    }
+    let pensionEndDate : Date = this.sipSchemeDetails.pensionEndDate;
+    let pensionDatePointerEnd = new Date(pensionEndDate.getFullYear(), pensionEndDate.getMonth(), pensionEndDate.getDate());
+    if(pensionDatePointerEnd.getDate()> 28){
+      pensionDatePointerEnd.setDate(28);
+    }
+    while(pensionDatePointer.getTime() <= pensionDatePointerEnd.getTime()){
+      console.log(pensionDatePointer);
+      payments.push(this.sipSchemeDetails.pensionAmount );
+      dates.push(pensionDatePointer.getDate()+"/"+(pensionDatePointer.getMonth()+1)+"/"+pensionDatePointer.getFullYear());
+      pensionDatePointer.setMonth(pensionDatePointer.getMonth()+1);
     }
     //let dataToPost:XirrRequest = {};
     let dataToPost:XirrRequest ={"payments":payments,"dates":dates};
@@ -97,8 +118,11 @@ export class PensionScheme implements OnInit {
 
   public anyErrorInForm():boolean{
     this.sipSchemeDetails.withdrawlsRows[0].date.getFullYear();
-    return this.SIPerrorStartDate || this.SIPerrorEndDate || !this.sipSchemeDetails.startDate || !this.sipSchemeDetails.endDate ||
-    !this.sipSchemeDetails.sipAmount || (this.sipSchemeDetails.sipAmount ==0) ||
+    return this.SIPerrorStartDate ||this.pensionErrorStartDate || this.SIPerrorEndDate ||this.pensionErrorEndDate 
+    || !this.sipSchemeDetails.startDate || !this.sipSchemeDetails.endDate ||
+     !this.sipSchemeDetails.pensionStartDate || !this.sipSchemeDetails.pensionEndDate ||
+    !this.sipSchemeDetails.sipAmount ||!this.sipSchemeDetails.pensionAmount 
+    || (this.sipSchemeDetails.sipAmount ==0) || (this.sipSchemeDetails.pensionAmount ==0) ||
     (this.sipSchemeDetails.withdrawlsRows[0].amount ==0 || this.sipSchemeDetails.withdrawlsRows[0].amount == null) ||
     !this.sipSchemeDetails.withdrawlsRows[0].date || (this.sipSchemeDetails.withdrawlsRows[0].date.getTime() <=this.sipSchemeDetails.startDate.getTime());
   }

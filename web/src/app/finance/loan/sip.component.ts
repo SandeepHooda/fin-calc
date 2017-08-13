@@ -2,19 +2,19 @@ import { Component, OnInit, ViewEncapsulation  } from '@angular/core';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {SipSchemeVO} from './scheme/sip.schemeVO';
 import {Withdrawal} from './scheme/withdrawal';
-import {PensionService} from './sip-service';
+import {LoanService} from './sip-service';
 @Component({
- selector : 'pension', 
+ selector : 'loan', 
   templateUrl: './sip.component.html',
   styleUrls: [ './sip.component.css' ],
   encapsulation: ViewEncapsulation.None 
 })
-export class Pension implements OnInit {
+export class Loan implements OnInit {
   private displayConfirmation : boolean;
   private idToBeDeleted : number;
   private httpError : string;
   private listOfSipSchemes : Array<SipSchemeVO> = [];
- constructor( private sipService : PensionService) {}
+ constructor( private sipService : LoanService) {}
 
   ngOnInit(): void {
     this.getSipList();
@@ -25,13 +25,10 @@ export class Pension implements OnInit {
       this.listOfSipSchemes = [];
     }
   let scheme : SipSchemeVO = new SipSchemeVO();
-    scheme.schemeName = "New Scheme";
+    scheme.schemeName = "New Loan";
     scheme.startDate = new Date();
     scheme.endDate = new Date();
     scheme.sipAmount = 0;
-    scheme.pensionStartDate = new Date();
-    scheme.pensionEndDate = new Date();
-    scheme.pensionAmount = 0;
     let withdrawal : Withdrawal = new Withdrawal();
     withdrawal.amount = 0;
     withdrawal.date = new Date();
@@ -55,8 +52,6 @@ private showSipList(listOfSipSchemes : Array<SipSchemeVO>) {
     this.listOfSipSchemes[i].schemeID = Math.random();
       this.listOfSipSchemes[i].endDate = new Date(this.listOfSipSchemes[i].endDateLong);
        this.listOfSipSchemes[i].startDate = new Date(this.listOfSipSchemes[i].startDateLong);
-       this.listOfSipSchemes[i].pensionEndDate = new Date(this.listOfSipSchemes[i].pensionEndDateLong);
-       this.listOfSipSchemes[i].pensionStartDate = new Date(this.listOfSipSchemes[i].pensionStartDateLong);
        for (let j=0; j<this.listOfSipSchemes[i].withdrawlsRows.length;j++){
           this.listOfSipSchemes[i].withdrawlsRows[j].date = new Date(this.listOfSipSchemes[i].withdrawlsRows[j].dateLong);
        }

@@ -7,7 +7,25 @@
     </div>
 </div>
 <hr/>
-<div class="sip">
+
+<div class="Withdrawals">
+    <span class="headings">Loan amount </span> 
+    <div >
+            <span class="headings paddingR50 paddingL10">Date &nbsp;</span>  
+            <span class="headings "> Amount &nbsp;</span>
+    </div>
+   <div  *ngFor="let row of sipSchemeDetails.withdrawlsRows; index as i;first as isFirst;last as isLast"> 
+        <p-calendar  inputStyleClass="calender"  name="date-{{i}}"  [(ngModel)]="row.date"   [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2100"></p-calendar> 
+        <input type="text" pInputText  name="amount-{{i}}"  [(ngModel)]="row.amount"/> 
+        <button pButton type="button" (click)="addRow()" icon="fa-plus" *ngIf="isLast"></button>
+        <button pButton type="button" (click)="delRow()" icon="fa-minus" *ngIf="isLast && !isFirst"></button>
+    </div>
+    
+
+</div>
+<hr/>
+    <div class="sip">
+
     <span class="headings textPadding">Investment Start date &nbsp;</span>
     </div>
     <div class="sip componentPadding"> 
@@ -32,31 +50,18 @@
 <div >
     <div *ngIf="SIPerrorStartDate" class="error"> Start date must be less than end date</div>
     <div *ngIf="SIPerrorEndDate" class="error"> Day of month can't be different in Start date and End date</div>
-    <hr/>
+    
     
 </div>
 
-<div class="Withdrawals">
-    <span class="headings">Withdrawals </span> 
-    <div >
-            <span class="headings paddingR50 paddingL10">Date &nbsp;</span>  
-            <span class="headings "> Amount &nbsp;</span>
-    </div>
-   <div  *ngFor="let row of sipSchemeDetails.withdrawlsRows; index as i;first as isFirst;last as isLast"> 
-        <p-calendar  inputStyleClass="calender"  name="date-{{i}}"  [(ngModel)]="row.date"   [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2100"></p-calendar> 
-        <input type="text" pInputText  name="amount-{{i}}"  [(ngModel)]="row.amount"/> 
-        <button pButton type="button" (click)="addRow()" icon="fa-plus" *ngIf="isLast"></button>
-        <button pButton type="button" (click)="delRow()" icon="fa-minus" *ngIf="isLast && !isFirst"></button>
-    </div>
-    <span class="headings "> Lumpsump withdrawn/left out amount </span>
-
-    <div >
+    <div>
     <hr/>
-    <button pButton type="button" (click)="calculateReturns()" label="Calculate returns" class="ui-button-info" [disabled]="anyErrorInForm()"></button>
-     <span class="headings">Returns : </span> 
-     <span [ngClass]="{'profit' : (sipSchemeDetails.returnOnInsvement >=0) , 'loss' : (sipSchemeDetails.returnOnInsvement < 0)}">{{sipSchemeDetails.returnOnInsvement | number : '1.2-2'}} </span>
-</div>
-</div>
+    <button pButton type="button" (click)="calculateReturns()" label="Calculate Interest rate" class="ui-button-info" [disabled]="anyErrorInForm()"></button>
+     <span class="headings">Interest rate : </span> 
+     <!--<span [ngClass]="{'profit' : (sipSchemeDetails.returnOnInsvement >=0) , 'loss' : (sipSchemeDetails.returnOnInsvement < 0)}">{{sipSchemeDetails.returnOnInsvement | number : '1.2-2'}} </span>
+     -->&nbsp;<span [ngClass]="{'profit' : (sipSchemeDetails.loanIntrestRate >=0) , 'loss' : (sipSchemeDetails.loanIntrestRate < 0)}">{{sipSchemeDetails.loanIntrestRate | number : '1.2-2'}} </span>
+    
+    </div>
 <span (click)="deleteFromProfile()" style="float:right;"><i class="fa fa-2x fa-trash-o" aria-hidden="true"></i></span>
 
 {{httpError}}

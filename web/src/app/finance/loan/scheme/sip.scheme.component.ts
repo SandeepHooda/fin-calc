@@ -3,15 +3,14 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {SipSchemeVO} from './sip.schemeVO';
 import {Withdrawal} from './withdrawal';
 import {XirrRequest} from './xirrRequestVO';
-import  {SchemePensionService} from './sip-service';
-
+import  {SchemeLoanService} from './sip-service';
 @Component({
- selector : 'pension-scheme', 
+ selector : 'loan-scheme', 
   templateUrl: './sip.scheme.component.html',
   styleUrls: [ './sip.scheme.component.css' ],
   encapsulation: ViewEncapsulation.None 
 })
-export class PensionScheme implements OnInit {
+export class LoanScheme implements OnInit {
  @Input()
  private sipSchemeDetails : SipSchemeVO;
   @Output() onSchemeUpdated :EventEmitter<SipSchemeVO> = new EventEmitter();
@@ -28,9 +27,7 @@ export class PensionScheme implements OnInit {
 
  private SIPerrorStartDate:boolean;
  private SIPerrorEndDate:boolean;
- private pensionErrorStartDate:boolean;
- private pensionErrorEndDate:boolean;
-  constructor(private sipService : SchemePensionService) {
+  constructor(private sipService : SchemeLoanService) {
 
    }
 
@@ -54,13 +51,10 @@ export class PensionScheme implements OnInit {
      this.sipSchemeDetails.returnOnInsvement = undefined;
     let payments : Array<number> = [];
     let dates : Array<String> = [];
-
-    //Withdrawls 
     for (var i =0;i<this.sipSchemeDetails.withdrawlsRows.length;i++){
       payments.push(this.sipSchemeDetails.withdrawlsRows[i].amount);
       dates.push(this.sipSchemeDetails.withdrawlsRows[i].date.getDate()+"/"+(this.sipSchemeDetails.withdrawlsRows[i].date.getMonth()+1)+"/"+this.sipSchemeDetails.withdrawlsRows[i].date.getFullYear());
     }
-    //Investments
     let startDate : Date = this.sipSchemeDetails.startDate;
     let datePointer = new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate());
     if(datePointer.getDate()> 28){
@@ -77,38 +71,34 @@ export class PensionScheme implements OnInit {
       dates.push(datePointer.getDate()+"/"+(datePointer.getMonth()+1)+"/"+datePointer.getFullYear());
       datePointer.setMonth(datePointer.getMonth()+1);
     }
-
-    //Pension
-    let pensionStartDate : Date = this.sipSchemeDetails.pensionStartDate;
-    let pensionDatePointer = new Date(pensionStartDate.getFullYear(), pensionStartDate.getMonth(), pensionStartDate.getDate());
-    if(pensionDatePointer.getDate()> 28){
-      pensionDatePointer.setDate(28);
-    }
-    let pensionEndDate : Date = this.sipSchemeDetails.pensionEndDate;
-    let pensionDatePointerEnd = new Date(pensionEndDate.getFullYear(), pensionEndDate.getMonth(), pensionEndDate.getDate());
-    if(pensionDatePointerEnd.getDate()> 28){
-      pensionDatePointerEnd.setDate(28);
-    }
-    while(pensionDatePointer.getTime() <= pensionDatePointerEnd.getTime()){
-      console.log(pensionDatePointer);
-      payments.push(this.sipSchemeDetails.pensionAmount );
-      dates.push(pensionDatePointer.getDate()+"/"+(pensionDatePointer.getMonth()+1)+"/"+pensionDatePointer.getFullYear());
-      pensionDatePointer.setMonth(pensionDatePointer.getMonth()+1);
-    }
     //let dataToPost:XirrRequest = {};
     let dataToPost:XirrRequest ={"payments":payments,"dates":dates};
-    this.sipService.getXirr(dataToPost).subscribe( 
+    /*this.sipService.getXirr(dataToPost).subscribe( 
         returnOnInsvement => this.showXirrRate(returnOnInsvement),
         error => this.showError(error)
+      );*/
+      let monthlyPayment : number = this.sipSchemeDetails.sipAmount
+    let termInMonths : number = this.monthDiff( this.sipSchemeDetails.startDate, this.sipSchemeDetails.endDate);
+    let loanAmount : number= this.sipSchemeDetails.withdrawlsRows[0].amount;
+    this.sipService.getRateOfIntrest(monthlyPayment,termInMonths,loanAmount).subscribe( 
+        returnOnInsvement => this.showRateOfInterest(returnOnInsvement),
+        error => this.showError(error)
       );
-    console.log(dataToPost);
    
   }
   private showXirrRate(returnOnInsvement: number) {
     this.sipSchemeDetails.returnOnInsvement = returnOnInsvement;
     this.notifyParentAboutSchemeUpdate();
   }
-
+private showRateOfInterest(rate: number){
+  //getRateOfIntrest
+  this.sipSchemeDetails.loanIntrestRate = rate;
+    this.notifyParentAboutSchemeUpdate();
+}
+  
+private  monthDiff(d1 : Date, d2 : Date) {
+    return (d2.getFullYear() - d1.getFullYear()) * 12 + d2.getMonth() - d1.getMonth() ;  
+}
   private showError(error:any) {
     this.sipSchemeDetails.returnOnInsvement = undefined;
     this.httpError = error;
@@ -118,11 +108,8 @@ export class PensionScheme implements OnInit {
 
   public anyErrorInForm():boolean{
     this.sipSchemeDetails.withdrawlsRows[0].date.getFullYear();
-    return this.SIPerrorStartDate ||this.pensionErrorStartDate || this.SIPerrorEndDate ||this.pensionErrorEndDate 
-    || !this.sipSchemeDetails.startDate || !this.sipSchemeDetails.endDate ||
-     !this.sipSchemeDetails.pensionStartDate || !this.sipSchemeDetails.pensionEndDate ||
-    !this.sipSchemeDetails.sipAmount ||!this.sipSchemeDetails.pensionAmount 
-    || (this.sipSchemeDetails.sipAmount ==0) || (this.sipSchemeDetails.pensionAmount ==0) ||
+    return this.SIPerrorStartDate || this.SIPerrorEndDate || !this.sipSchemeDetails.startDate || !this.sipSchemeDetails.endDate ||
+    !this.sipSchemeDetails.sipAmount || (this.sipSchemeDetails.sipAmount ==0) ||
     (this.sipSchemeDetails.withdrawlsRows[0].amount ==0 || this.sipSchemeDetails.withdrawlsRows[0].amount == null) ||
     !this.sipSchemeDetails.withdrawlsRows[0].date || (this.sipSchemeDetails.withdrawlsRows[0].date.getTime() <=this.sipSchemeDetails.startDate.getTime());
   }
@@ -140,19 +127,6 @@ export class PensionScheme implements OnInit {
     
   }
 
-private checkPensionDateValidation()
-{
-  this.pensionErrorStartDate = false;
-    this.pensionErrorEndDate = false;
-    if(this.sipSchemeDetails.pensionStartDate && this.sipSchemeDetails.pensionEndDate  ){
-      if( this.sipSchemeDetails.pensionStartDate.getTime() > this.sipSchemeDetails.pensionEndDate.getTime() ){
-        this.pensionErrorStartDate = true;
-      }
-      if( this.sipSchemeDetails.pensionStartDate.getDate() != this.sipSchemeDetails.pensionEndDate.getDate() ){
-        this.pensionErrorEndDate = true;
-      }
-    }
-}
 
   
 }

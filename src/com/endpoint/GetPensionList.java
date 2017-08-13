@@ -2,7 +2,6 @@ package com.endpoint;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.logging.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -15,33 +14,31 @@ import com.profile.ProfileService;
 import com.sip.SipSchemeVO;
 import com.sip.Withdrawal;
 
-
-
 /**
- * Servlet implementation class GetSipList
+ * Servlet implementation class GetPensionList
  */
-public class GetSipList extends HttpServlet {
+public class GetPensionList extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private static final Logger log = Logger.getLogger(GetSipList.class.getName());
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public GetSipList() {
+    public GetPensionList() {
         super();
-        // TODO Auto-generated constructor stub
+       
     }
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
 		String email = (String)request.getSession().getAttribute("email");
-		List<SipSchemeVO> userSipList = ProfileService.getSipList(email+"_sip");
+		List<SipSchemeVO> userSipList = ProfileService.getSipList(email+"_pension");
 		for (SipSchemeVO sip: userSipList){
 			sip.setStartDateLong(sip.getStartDate().getTime());
 			sip.setEndDateLong(sip.getEndDate().getTime());
+			sip.setPensionStartDateLong(sip.getPensionStartDate().getTime());
+			sip.setPensionEndDateLong(sip.getPensionEndDate().getTime());
 			for (Withdrawal withdraw :sip.getWithdrawlsRows() ){
 				withdraw.setDateLong(withdraw.getDate().getTime());
 			}
@@ -52,5 +49,4 @@ public class GetSipList extends HttpServlet {
 	}
 
 	
-
 }

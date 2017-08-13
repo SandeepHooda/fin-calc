@@ -89,8 +89,7 @@ export class Chart implements OnInit {
   }
   
 private  monthDiff(d1 : Date, d2 : Date) {
-    return (d2.getFullYear() - d1.getFullYear()) * 12 + d2.getMonth() - d1.getMonth() ;
-    
+    return (d2.getFullYear() - d1.getFullYear()) * 12 + d2.getMonth() - d1.getMonth() ;  
 }
   private showChart(charData : Array<ChartVO>){
       this.renderer.setElementStyle(this.spinnerElement.nativeElement, 'display','none');

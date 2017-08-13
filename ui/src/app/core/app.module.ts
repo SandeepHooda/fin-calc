@@ -29,6 +29,10 @@ import { PensionService} from '../finance/pension/sip-service';
 import {SchemePensionService } from '../finance/pension/scheme/sip-service';
 import { Pension} from '../finance/pension/sip.component';
 import {PensionScheme} from '../finance/pension/scheme/sip.scheme.component';
+import { LoanService} from '../finance/loan/sip-service';
+import {SchemeLoanService } from '../finance/loan/scheme/sip-service';
+import { Loan} from '../finance/loan/sip.component';
+import {LoanScheme} from '../finance/loan/scheme/sip.scheme.component';
 
 @NgModule({
   imports: [
@@ -48,10 +52,10 @@ import {PensionScheme} from '../finance/pension/scheme/sip.scheme.component';
   ],
   declarations: [
     XIRR,   NAVBAR,    AddCompany, Sip, AddFunds, AddProfile, AddFundsDetails, SipScheme, Chart, 
-    Pension, PensionScheme
+    Pension, PensionScheme, Loan , LoanScheme
   ],
   providers: [ XirrService , XirrRequest, FundService, SipService, NavService, schemeSipService, ChartService,
-  PensionService,SchemePensionService],
+  PensionService,SchemePensionService, SchemeLoanService, LoanService],
   bootstrap: [ XIRR ]
 })
 export class AppModule { }

@@ -154,4 +154,54 @@
     <servlet-name>TopFundOfAllHouses</servlet-name>
     <url-pattern>/TopFundOfAllHouses</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>GetPensionList</display-name>
+    <servlet-name>GetPensionList</servlet-name>
+    <servlet-class>com.endpoint.GetPensionList</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>GetPensionList</servlet-name>
+    <url-pattern>/GetPensionList</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>SavePensionList</display-name>
+    <servlet-name>SavePensionList</servlet-name>
+    <servlet-class>com.endpoint.SavePensionList</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>SavePensionList</servlet-name>
+    <url-pattern>/SavePensionList</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>GetLoanList</display-name>
+    <servlet-name>GetLoanList</servlet-name>
+    <servlet-class>com.endpoint.GetLoanList</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>GetLoanList</servlet-name>
+    <url-pattern>/GetLoanList</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>SaveLoanList</display-name>
+    <servlet-name>SaveLoanList</servlet-name>
+    <servlet-class>com.endpoint.SaveLoanList</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>SaveLoanList</servlet-name>
+    <url-pattern>/SaveLoanList</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>CalculateLoanRateOfIntrest</display-name>
+    <servlet-name>CalculateLoanRateOfIntrest</servlet-name>
+    <servlet-class>com.endpoint.CalculateLoanRateOfIntrest</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>CalculateLoanRateOfIntrest</servlet-name>
+    <url-pattern>/CalculateLoanRateOfIntrest</url-pattern>
+  </servlet-mapping>
 </web-app>

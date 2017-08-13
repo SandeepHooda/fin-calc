@@ -7,10 +7,10 @@ import { Headers, RequestOptions } from '@angular/http';
 import {SipSchemeVO} from './scheme/sip.schemeVO';
 
 @Injectable()
-export class PensionService {
+export class LoanService {
   private hostName:string = '';
-  private getSipListUrl:string = this.hostName+'/GetPensionList';
-  private saveSipListUrl:string = this.hostName+'/SavePensionList';
+  private getSipListUrl:string = this.hostName+'/GetLoanList';
+  private saveSipListUrl:string = this.hostName+'/SaveLoanList';
 
      constructor (private http: Http) {}
 

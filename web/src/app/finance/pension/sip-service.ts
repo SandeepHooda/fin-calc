@@ -9,8 +9,8 @@ import {SipSchemeVO} from './scheme/sip.schemeVO';
 @Injectable()
 export class PensionService {
   private hostName:string = '';
-  private getSipListUrl:string = this.hostName+'/GetSipList';
-  private saveSipListUrl:string = this.hostName+'/SaveSipList';
+  private getSipListUrl:string = this.hostName+'/GetPensionList';
+  private saveSipListUrl:string = this.hostName+'/SavePensionList';
 
      constructor (private http: Http) {}
 
