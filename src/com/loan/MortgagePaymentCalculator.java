@@ -29,44 +29,27 @@ public class MortgagePaymentCalculator {
 	   }
 	   public static double calculateRate(double monthlyPayment, int termInMonths,  int loanAmount){
 		   boolean rateFound = false;
-		   double interestRate = 10;
-		   double differenceDromTarget_previous = 0;
+		   double interestRate = 16.0;
 		  
-		   int iterations = 0;
 		   double boosterDose = .1;
-		   
-		   double gap = 0;
-		   while(!rateFound){
-			   iterations++;
+		  while(!rateFound){
+			 
 			   double differenceDromTarget = monthlyPayment - calculateMonthlyPayment(  loanAmount,  termInMonths, interestRate);
-			   if (differenceDromTarget < 10 && differenceDromTarget > -10){
+			   if (differenceDromTarget < 100.0 && differenceDromTarget > -100.0){
+				   System.out.println(interestRate);
 				   rateFound = true;
 				   return interestRate;
 			   }else {
 				   if (differenceDromTarget< 0){
 					   boosterDose = -.1;
-					   gap = (differenceDromTarget_previous *-1) - (differenceDromTarget*-1);
-				   }else {
+					}else {
 					   boosterDose = .1;
-					   gap = (differenceDromTarget_previous ) - (differenceDromTarget);
-				   }
-				   if (iterations > 1){
-					  
-					   if (gap > 10){
-						   interestRate +=boosterDose;
-					   }
-					  
-					   differenceDromTarget_previous =   differenceDromTarget; 
-						   
-				   }else {
-					  
-					   interestRate +=boosterDose;
-					   differenceDromTarget_previous =   differenceDromTarget; 
-				   }
+					}
+				   interestRate +=boosterDose;
 				   
 			   }
 		   }
-		   return 0;
+		  return 0;
 	   }
 	   public static void main(String[] args) {
 		   calculateRate(49919,240,5000000);
