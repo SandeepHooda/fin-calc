@@ -5,6 +5,7 @@ package com.chart;
 public class ChartNAV {
 	private double nav;
 	private String dt;
+	private double bpi;
 	public ChartNAV(){
 		
 	}
@@ -22,6 +23,12 @@ public class ChartNAV {
 	}
 	public void setDt(String dt) {
 		this.dt = dt;
+	}
+	public double getBpi() {
+		return bpi;
+	}
+	public void setBpi(double bpi) {
+		this.bpi = bpi;
 	}
 
 

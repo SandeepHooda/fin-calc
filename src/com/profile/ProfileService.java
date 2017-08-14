@@ -467,21 +467,36 @@ private static boolean calculateMonthlyRollingReturn(List<NavVoUI> uiNAvs){
 					chartStartDate.set(Calendar.MILLISECOND, 0);
 					chartStartDate.add(Calendar.MONTH, -1*months);
 					int chartNavePointer = 0;
+					double baseValue = 0;
+					Date baseDate = null;
 					try {
 						ChartNAV navLastKnown = new ChartNAV(sdf.format(chartStartDate.getTime())) ;
 						ChartNAV nav = schemeChart.getNavs().get(0);
+						
 						while(chartStartDate.before(chartEndDate)){
 							
 							if (nav.getDt().equalsIgnoreCase(sdf.format(chartStartDate.getTime()))){
 								completeNav.add(nav);
 								navLastKnown = nav;
 								
+								//Calculate BPI
+								if (baseValue ==0){
+									baseValue = nav.getNav();
+									baseDate = sdf.parse(nav.getDt());
+								}else {
+									if (chartNavePointer > 30){//Let it settle
+										int noOfDays = daysBetweenDates(baseDate,sdf.parse(nav.getDt()));
+										nav.setBpi( ((nav.getNav() - baseValue)/ baseValue *100) *(365/noOfDays));
+									}
+									
+								}
+								
 								while(schemeChart.getNavs().size() > (chartNavePointer +1) && nav.getDt().equalsIgnoreCase(sdf.format(chartStartDate.getTime()))){
 									chartNavePointer++;
 									nav = schemeChart.getNavs().get(chartNavePointer);
 								}
 							}else {
-								System.out.println(schemeChart.get_id()+" data not availbe for "+sdf.format(chartStartDate.getTime())+ "nav date " +nav.getDt());
+								//System.out.println(schemeChart.get_id()+" data not availbe for "+sdf.format(chartStartDate.getTime())+ "nav date " +nav.getDt());
 								navLastKnown.setDt(sdf.format(chartStartDate.getTime()));
 								completeNav.add(navLastKnown);
 							}
@@ -499,6 +514,9 @@ private static boolean calculateMonthlyRollingReturn(List<NavVoUI> uiNAvs){
 		return chartVos;
 	}
 
+	private static int daysBetweenDates (Date date1 , Date date2){
+		  return Math.round((date2.getTime() -date1.getTime() )/FinConstants.aDay); 
+		}
 	public static Portfolio getPortfolioDromDB(String collection) {
 		String portfolioStr = "{ \"allProfiles\" : [ { \"profileID\" : 1501383477625 , \"investmentDate\" : \"7-Jun-2017\" , \"schemeName\" : \"Tata Banking And Financial Services Fund-Direct Plan-Growth\" , \"schemeCode\" : \"135793\" , \"nav\" : 16.216 , \"investmentAmount\" : 20000.0 , \"units\" : 1233.3497779970398 , \"currentValue\" : 21931.79575727676 , \"currentNav\" : 17.7823 , \"lastKnownNav\" : 17.7823 , \"xirr\" : 76.901310434256 , \"companyName\" : \"Tata Mutual Fund\" , \"companyXirr\" : 77.89734563263954 , \"companyTotalInvestment\" : 40000.0} , { \"profileID\" : 1501383508987 , \"investmentDate\" : \"6-Jul-2017\" , \"schemeName\" : \"Tata Banking And Financial Services Fund-Direct Plan-Growth\" , \"schemeCode\" : \"135793\" , \"nav\" : 16.708 , \"investmentAmount\" : 10000.0 , \"units\" : 598.5156811108452 , \"currentValue\" : 10642.985396217382 , \"currentNav\" : 17.7823 , \"lastKnownNav\" : 17.7823 , \"xirr\" : 113.43821019391093 , \"companyName\" : \"Tata Mutual Fund\" , \"companyXirr\" : 77.89734563263954 , \"companyTotalInvestment\" : 40000.0} , { \"profileID\" : 1501643072554 , \"investmentDate\" : \"1-Aug-2017\" , \"schemeName\" : \"Tata Banking And Financial Services Fund-Direct Plan-Growth\" , \"schemeCode\" : \"135793\" , \"nav\" : 17.9165 , \"investmentAmount\" : 10000.0 , \"units\" : 558.1447269276924 , \"currentValue\" : 9925.096977646304 , \"currentNav\" : 17.7823 , \"lastKnownNav\" : 17.7823 , \"xirr\" : -49.64451913397262 , \"companyName\" : \"Tata Mutual Fund\" , \"companyXirr\" : 77.89734563263954 , \"companyTotalInvestment\" : 40000.0} , { \"profileID\" : 1501383546880 , \"investmentDate\" : \"12-Jun-2017\" , \"schemeName\" : \"ICICI Prudential Banking and Financial Services Fund - Direct Plan -  Growth\" , \"schemeCode\" : \"120244\" , \"nav\" : 59.71 , \"investmentAmount\" : 20000.0 , \"units\" : 334.95226930162454 , \"currentValue\" : 21279.51766873221 , \"currentNav\" : 63.53 , \"lastKnownNav\" : 63.53 , \"xirr\" : 52.068377206971164 , \"companyName\" : \"ICICI Prudential Mutual Fund\" , \"companyXirr\" : 52.068377206971164 , \"companyTotalInvestment\" : 20000.0} , { \"profileID\" : 1501383200382 , \"investmentDate\" : \"2-Jun-2017\" , \"schemeName\" : \"DSP BlackRock Natural Resources and New Energy Fund - Direct Plan - Growth\" , \"schemeCode\" : \"119028\" , \"nav\" : 31.25 , \"investmentAmount\" : 20000.0 , \"units\" : 640.0 , \"currentValue\" : 21260.8 , \"currentNav\" : 33.22 , \"lastKnownNav\" : 33.22 , \"xirr\" : 41.714939715327034 , \"companyName\" : \"DSP BlackRock Mutual Fund\" , \"companyXirr\" : 41.714939715327034 , \"companyTotalInvestment\" : 20000.0} , { \"profileID\" : 1501379186922 , \"investmentDate\" : \"1-Jun-2017\" , \"schemeName\" : \"L&T Mid Cap Fund-Direct Plan-Growth Plan\" , \"schemeCode\" : \"119807\" , \"nav\" : 131.08 , \"investmentAmount\" : 25000.0 , \"units\" : 190.72322245956667 , \"currentValue\" : 26417.07354287458 , \"currentNav\" : 138.51 , \"lastKnownNav\" : 138.51 , \"xirr\" : 36.288325205709135 , \"companyName\" : \"L&T Mutual Fund\" , \"companyXirr\" : 33.578656053147505 , \"companyTotalInvestment\" : 35000.0} , { \"profileID\" : 1501382919277 , \"investmentDate\" : \"6-Jul-2017\" , \"schemeName\" : \"L&T Mid Cap Fund-Direct Plan-Growth Plan\" , \"schemeCode\" : \"119807\" , \"nav\" : 136.51 , \"investmentAmount\" : 10000.0 , \"units\" : 73.25470661490002 , \"currentValue\" : 10146.5094132298 , \"currentNav\" : 138.51 , \"lastKnownNav\" : 138.51 , \"xirr\" : 19.358328546622104 , \"companyName\" : \"L&T Mutual Fund\" , \"companyXirr\" : 33.578656053147505 , \"companyTotalInvestment\" : 35000.0} , { \"profileID\" : 1501383156577 , \"investmentDate\" : \"2-Jun-2017\" , \"schemeName\" : \"L&T Infrastructure Fund -Direct Plan-Growth Option\" , \"schemeCode\" : \"119413\" , \"nav\" : 15.79 , \"investmentAmount\" : 25000.0 , \"units\" : 1583.2805573147562 , \"currentValue\" : 26139.962001266627 , \"currentNav\" : 16.51 , \"lastKnownNav\" : 16.51 , \"xirr\" : 28.955743356765133 , \"companyName\" : \"L&T Mutual Fund\" , \"companyXirr\" : 28.955743356765133 , \"companyTotalInvestment\" : 25000.0} , { \"profileID\" : 1501383093995 , \"investmentDate\" : \"2-Jun-2017\" , \"schemeName\" : \"Kotak Select Focus Fund - Growth - Direct\" , \"schemeCode\" : \"120166\" , \"nav\" : 32.109 , \"investmentAmount\" : 25000.0 , \"units\" : 778.5979009000591 , \"currentValue\" : 25928.08869787287 , \"currentNav\" : 33.301 , \"lastKnownNav\" : 33.301 , \"xirr\" : 23.107154129383588 , \"companyName\" : \"Kotak Mahindra Mutual Fund\" , \"companyXirr\" : 23.107154129383588 , \"companyTotalInvestment\" : 25000.0} , { \"profileID\" : 1501383259924 , \"investmentDate\" : \"2-Jun-2017\" , \"schemeName\" : \"Birla Sun Life Midcap Fund - Growth - Direct Plan\" , \"schemeCode\" : \"119620\" , \"nav\" : 303.95 , \"investmentAmount\" : 25000.0 , \"units\" : 82.25037012666557 , \"currentValue\" : 25880.07896035532 , \"currentNav\" : 314.65 , \"lastKnownNav\" : 314.65 , \"xirr\" : 21.812767042941566 , \"companyName\" : \"Birla Sun Life Mutual Fund\" , \"companyXirr\" : 21.812767042941566 , \"companyTotalInvestment\" : 25000.0} , { \"profileID\" : 1501383350497 , \"investmentDate\" : \"5-Jun-2017\" , \"schemeName\" : \"ICICI Prudential Top 100 Fund - Direct Plan -  Growth\" , \"schemeCode\" : \"120596\" , \"nav\" : 312.28 , \"investmentAmount\" : 20000.0 , \"units\" : 64.04508774177022 , \"currentValue\" : 20664.14755988216 , \"currentNav\" : 322.65 , \"lastKnownNav\" : 322.65 , \"xirr\" : 21.588474731024075 , \"companyName\" : \"ICICI Prudential Mutual Fund\" , \"companyXirr\" : 21.588474731024075 , \"companyTotalInvestment\" : 20000.0} , { \"profileID\" : 1501383395107 , \"investmentDate\" : \"5-Jun-2017\" , \"schemeName\" : \"ICICI Prudential Value Discovery Fund - Direct Plan - Growth\" , \"schemeCode\" : \"120323\" , \"nav\" : 141.1 , \"investmentAmount\" : 20000.0 , \"units\" : 141.74344436569808 , \"currentValue\" : 20412.47342310418 , \"currentNav\" : 144.01 , \"lastKnownNav\" : 144.01 , \"xirr\" : 12.992193185683728 , \"companyName\" : \"ICICI Prudential Mutual Fund\" , \"companyXirr\" : 12.992193185683728 , \"companyTotalInvestment\" : 20000.0} , { \"profileID\" : 1501383315183 , \"investmentDate\" : \"5-Jun-2017\" , \"schemeName\" : \"ICICI Prudential Multicap Fund - Direct Plan -  Growth\" , \"schemeCode\" : \"120599\" , \"nav\" : 265.47 , \"investmentAmount\" : 20000.0 , \"units\" : 75.33807963235016 , \"currentValue\" : 20327.720646400718 , \"currentNav\" : 269.82 , \"lastKnownNav\" : 269.82 , \"xirr\" : 10.213910680254138 , \"companyName\" : \"ICICI Prudential Mutual Fund\" , \"companyXirr\" : 10.213910680254138 , \"companyTotalInvestment\" : 20000.0} , { \"profileID\" : 1501383023193 , \"investmentDate\" : \"1-Jun-2017\" , \"schemeName\" : \"Kotak-Mid-Cap-Growth - Direct\" , \"schemeCode\" : \"120164\" , \"nav\" : 76.772 , \"investmentAmount\" : 25000.0 , \"units\" : 325.6395560881571 , \"currentValue\" : 25317.49856718595 , \"currentNav\" : 77.747 , \"lastKnownNav\" : 77.747 , \"xirr\" : 7.343730747059469 , \"companyName\" : \"Kotak Mahindra Mutual Fund\" , \"companyXirr\" : 7.343730747059469 , \"companyTotalInvestment\" : 25000.0}] , \"totalGain\" : 11273.74861204486 , \"totalXirr\" : 28.854294303825007 , \"totalInvetment\" : 1.375E7} ";
 		portfolioStr = ProfileDAO.getUserPortfolio(collection, true, null);
