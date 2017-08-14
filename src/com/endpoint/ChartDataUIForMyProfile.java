@@ -33,10 +33,9 @@ public class ChartDataUIForMyProfile extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String email = (String)request.getSession().getAttribute("email");
-		//email = "sonu.hooda@gmail.com";		
 		Portfolio myPortFolio = ProfileService.getPortfolioDromDB(email);
 		
-		List<ChartVO> chartVO = ProfileService.getHistoricalDataForMyProfile(myPortFolio, 6);
+		List<ChartVO> chartVO = ProfileService.getHistoricalDataForMyProfile(myPortFolio, 12);
 		
 		Gson  json = new Gson();
 		String chartDataStr = json.toJson(chartVO, new TypeToken<List<ChartVO>>() {}.getType());

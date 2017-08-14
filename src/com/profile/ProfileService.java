@@ -404,7 +404,10 @@ private static boolean calculateMonthlyRollingReturn(List<NavVoUI> uiNAvs){
 				Constants.mlabKey_mutualFunfs);
 	}
 
-	public static List<ChartVO> getHistoricalDataForMyProfile(Portfolio portFolio, int noOfSemesters) {
+	public static List<ChartVO> getHistoricalDataForMyProfile(Portfolio portFolio, int months) {
+		
+
+		
 		Set<String> houseIds = new HashSet<String>();
 		Set<String> schemeCodes = new HashSet<String>();
 		for (Profile profile : portFolio.getAllProfiles()) {
@@ -420,27 +423,19 @@ private static boolean calculateMonthlyRollingReturn(List<NavVoUI> uiNAvs){
 		}
 
 		List<ChartVO> chartVos = new ArrayList<ChartVO>();
-
-		ThreadFactory factory = ThreadManager.currentRequestThreadFactory();
-		ExecutorService service = Executors.newCachedThreadPool(factory);
-
 		List<ChartDAO> workers = new ArrayList<ChartDAO>();
 
 		for (String houseID : houseIds) {
 			log.info("Creating a woorker  " + houseID);
-
-			ChartDAO worker = new ChartDAO(noOfSemesters, houseID, schemeCodes);
-			service.execute(worker);
+			ChartDAO worker = new ChartDAO( houseID, schemeCodes);
 			workers.add(worker);
-
+			try {
+				worker.getChartDataForACompleteMonth(months);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
-		service.shutdown();
-		boolean finshed = false;
-		try {
-			finshed = service.awaitTermination(15, TimeUnit.MINUTES);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+		
 		log.info("Will get resukt from workesr now ");
 
 		for (ChartDAO worker : workers) {
@@ -453,6 +448,54 @@ private static boolean calculateMonthlyRollingReturn(List<NavVoUI> uiNAvs){
 			}
 
 		}
+		
+		
+		
+				
+				Calendar chartEndDate = new GregorianCalendar();
+				chartEndDate.set(Calendar.HOUR_OF_DAY, 0);
+				chartEndDate.set(Calendar.MINUTE, 0);
+				chartEndDate.set(Calendar.SECOND, 0);
+				chartEndDate.set(Calendar.MILLISECOND, 0);
+				//Now fill default value if any  data if data not available due to system errors - add to last
+				for (ChartVO schemeChart: chartVos){
+					List<ChartNAV> completeNav = new ArrayList<ChartNAV>();
+					Calendar chartStartDate = new GregorianCalendar();
+					chartStartDate.set(Calendar.HOUR_OF_DAY, 0);
+					chartStartDate.set(Calendar.MINUTE, 0);
+					chartStartDate.set(Calendar.SECOND, 0);
+					chartStartDate.set(Calendar.MILLISECOND, 0);
+					chartStartDate.add(Calendar.MONTH, -1*months);
+					int chartNavePointer = 0;
+					try {
+						ChartNAV navLastKnown = new ChartNAV(sdf.format(chartStartDate.getTime())) ;
+						ChartNAV nav = schemeChart.getNavs().get(0);
+						while(chartStartDate.before(chartEndDate)){
+							
+							if (nav.getDt().equalsIgnoreCase(sdf.format(chartStartDate.getTime()))){
+								completeNav.add(nav);
+								navLastKnown = nav;
+								
+								while(schemeChart.getNavs().size() > (chartNavePointer +1) && nav.getDt().equalsIgnoreCase(sdf.format(chartStartDate.getTime()))){
+									chartNavePointer++;
+									nav = schemeChart.getNavs().get(chartNavePointer);
+								}
+							}else {
+								System.out.println(schemeChart.get_id()+" data not availbe for "+sdf.format(chartStartDate.getTime())+ "nav date " +nav.getDt());
+								navLastKnown.setDt(sdf.format(chartStartDate.getTime()));
+								completeNav.add(navLastKnown);
+							}
+							
+							chartStartDate.add(Calendar.DAY_OF_MONTH, 1);
+							
+						}
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
+
+		
+		
 		return chartVos;
 	}
 

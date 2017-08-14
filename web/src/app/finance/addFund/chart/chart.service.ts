@@ -28,8 +28,8 @@ export class ChartService {
     }
 
  public getChartDataUIForMyProfile() : Observable<Array<ChartVO>>{
-   let url = "/ChartDataUI?ChartDataUIForMyProfile";
-     
+  // let url = "http://localhost:8888/ChartDataUIForMyProfile";
+     let url = "/ChartDataUIForMyProfile";
        return this.http.get(this.hostName+url)
                         .map(this.extractData)
                         .catch(this.handleError);

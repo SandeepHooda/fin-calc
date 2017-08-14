@@ -5,6 +5,12 @@ package com.chart;
 public class ChartNAV {
 	private double nav;
 	private String dt;
+	public ChartNAV(){
+		
+	}
+	public ChartNAV(String dt){
+		this.dt = dt;
+	}
 	public double getNav() {
 		return nav;
 	}

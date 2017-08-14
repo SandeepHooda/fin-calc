@@ -122,7 +122,7 @@ private showChartDataUIForMyProfile(charData : Array<ChartVO>){
              
             let navSize = chartVO.navs.length;
             for (let j=0;j<navSize;j++){
-                dataSet.data.push(chartVO.navs[j].bpi);
+                dataSet.data.push(chartVO.navs[j].nav);
             }
 
             

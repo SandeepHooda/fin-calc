@@ -73,6 +73,11 @@ public class ChartDAO implements Runnable {
 		this.houseCode = houseCode;
 		this.schemeCodes = schemeCodes;
 	}
+	public ChartDAO ( String houseCode, Set<String> schemeCodes){
+	
+		this.houseCode = houseCode;
+		this.schemeCodes = schemeCodes;
+	}
 	public   void getChartData() throws IOException{
 		//fromDate = "04-Aug-2014";
 		String url = "";
@@ -101,11 +106,36 @@ public class ChartDAO implements Runnable {
 	    	 toCal.add(Calendar.MONTH, 6);
 	    	 fromCal.add(Calendar.MONTH, 6);
 	    }
-	   
+	}
+	
+	public   void getChartDataForACompleteMonth(int months ) throws IOException{
+		//fromDate = "04-Aug-2014";
+		String url = "";
+		Calendar toCal = new GregorianCalendar();
+		 toCal.add(Calendar.MONTH, ( -1 * (months -1)));
+		 Calendar fromCal = new GregorianCalendar();
+		 fromCal.add(Calendar.MONTH,( -1 * (months -1) - 1));
 		
-		
-		
-		
+	    
+	   for (int i= 0 ;  i< months ;  i++){
+		   String fromDate = sdf.format(fromCal.getTime());
+			 String toDate = sdf.format(toCal.getTime());
+	    	 url = "http://portal.amfiindia.com/DownloadNAVHistoryReport_Po.aspx?mf="+houseCode+"&tp=1&frmdt="+fromDate+"&todt="+toDate;
+	    	 log.info(url);
+	    	 List<String> historicalNavsForAHouse = getNavFromAmfiindia(url);
+	    	
+	 		
+	 		if (null!= historicalNavsForAHouse && historicalNavsForAHouse.size() > 100){
+	 			removeHeaders(historicalNavsForAHouse);
+		 		
+		 		populateChartVOMap(historicalNavsForAHouse);
+	 		}
+	 		
+	 		log.info("Got result for above url");
+	    	 
+	    	 toCal.add(Calendar.MONTH, 1);
+	    	 fromCal.add(Calendar.MONTH, 1);
+	    }
 	}
 	public   void getChartMonthly( int noOfMonths) throws IOException{
 		Calendar toMonth = new GregorianCalendar();
