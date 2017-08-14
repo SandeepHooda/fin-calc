@@ -10,5 +10,11 @@
 <p-dropdown [options]="range" [(ngModel)]="selectedRange" ></p-dropdown>
 <button pButton type="button" label="Go" (click)="fetchData()"></button>
 <p-chart type="line" [data]="data" (onDataSelect)="selectData($event)"></p-chart>
+<p-toggleButton [(ngModel)]="showBpi"></p-toggleButton>
+<span ng-if="!showBpi">
 <p-chart type="line" [data]="myProfile" (onDataSelect)="selectData($event)"></p-chart>
+</span>
+<span ng-if="showBpi">
+<p-chart type="line" [data]="myProfileBpi" (onDataSelect)="selectData($event)"></p-chart>
+</span>
 </div>

@@ -98,7 +98,9 @@ private  monthDiff(d1 : Date, d2 : Date) {
     return (d2.getFullYear() - d1.getFullYear()) * 12 + d2.getMonth() - d1.getMonth() ;  
 }
 
+
 private showChartDataUIForMyProfile(charData : Array<ChartVO>){
+    //this.calculateBpi(charData);
      this.renderer.setElementStyle(this.spinnerElement.nativeElement, 'display','none');
      let myProfileChart: chartData = new chartData();
      for (let i = 0; i< charData[0].navs.length;i++){
@@ -122,7 +124,7 @@ private showChartDataUIForMyProfile(charData : Array<ChartVO>){
              
             let navSize = chartVO.navs.length;
             for (let j=0;j<navSize;j++){
-                dataSet.data.push(chartVO.navs[j].nav);
+                dataSet.data.push(chartVO.navs[j].bpi);
             }
 
             

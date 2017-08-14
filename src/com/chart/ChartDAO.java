@@ -108,16 +108,16 @@ public class ChartDAO implements Runnable {
 	    }
 	}
 	
-	public   void getChartDataForACompleteMonth(int months ) throws IOException{
+	public   void getChartDataForACompleteMonth(int triMesters ) throws IOException{
 		//fromDate = "04-Aug-2014";
 		String url = "";
 		Calendar toCal = new GregorianCalendar();
-		 toCal.add(Calendar.MONTH, ( -1 * (months -1)));
+		 toCal.add(Calendar.MONTH,  -9); 
 		 Calendar fromCal = new GregorianCalendar();
-		 fromCal.add(Calendar.MONTH,( -1 * (months -1) - 1));
+		 fromCal.add(Calendar.MONTH, -12);
 		
 	    
-	   for (int i= 0 ;  i< months ;  i++){
+	   for (int i= 0 ;  i< triMesters ;  i++){
 		   String fromDate = sdf.format(fromCal.getTime());
 			 String toDate = sdf.format(toCal.getTime());
 	    	 url = "http://portal.amfiindia.com/DownloadNAVHistoryReport_Po.aspx?mf="+houseCode+"&tp=1&frmdt="+fromDate+"&todt="+toDate;
@@ -133,8 +133,8 @@ public class ChartDAO implements Runnable {
 	 		
 	 		log.info("Got result for above url");
 	    	 
-	    	 toCal.add(Calendar.MONTH, 1);
-	    	 fromCal.add(Calendar.MONTH, 1);
+	    	 toCal.add(Calendar.MONTH, 3);
+	    	 fromCal.add(Calendar.MONTH, 3);
 	    }
 	}
 	public   void getChartMonthly( int noOfMonths) throws IOException{

@@ -24,6 +24,8 @@ export class Chart implements OnInit {
     private chartJson : Array<ChartVO> = new Array<ChartVO>();
     private data: chartData = new chartData();
     private myProfile : chartData = new chartData();
+    private myProfileBpi : chartData = new chartData();
+    private showBpi : boolean = true;
     private range : SelectItem[] = [];
     private selectedRange : string = "&schemeCountFrom=1&schemeCountTo=10";
     msgs: Message[];
@@ -103,20 +105,23 @@ private showChartDataUIForMyProfile(charData : Array<ChartVO>){
     //this.calculateBpi(charData);
      this.renderer.setElementStyle(this.spinnerElement.nativeElement, 'display','none');
      let myProfileChart: chartData = new chartData();
+     let myProfileChartBpi: chartData = new chartData();
      for (let i = 0; i< charData[0].navs.length;i++){
             myProfileChart.labels.push(charData[0].navs[i].dt);
            
         }
-
+     myProfileChartBpi = myProfileChart;
  let borderColor : Array<string> = ["#000000","#c0c0c0","#800000", "#ff0000","#800080","#ff00ff", "#008000","#00ff00","#808000", "#ffff00","#000080","#0000ff", "#00ffff","#ffa500","#006400"];
      let colorID : number = 0;
         for (let i=0;i<charData.length;i++){
             let chartVO : ChartVO = charData[i];
             let dataSet : ChartDataSets = new ChartDataSets();
+            let dataSetBpi : ChartDataSets = new ChartDataSets();
            
             dataSet.label = this.allHouseProfiles[chartVO._id] || chartVO._id;
-       
+            dataSetBpi.label = dataSet.label;
             dataSet.borderColor = borderColor[colorID];
+            dataSetBpi.borderColor = dataSet.borderColor;
             colorID++;
             if (colorID> 14){
                 colorID = 0;
@@ -124,14 +129,17 @@ private showChartDataUIForMyProfile(charData : Array<ChartVO>){
              
             let navSize = chartVO.navs.length;
             for (let j=0;j<navSize;j++){
-                dataSet.data.push(chartVO.navs[j].bpi);
+                dataSet.data.push(chartVO.navs[j].nav);
+                dataSetBpi.data.push(chartVO.navs[j].bpi);
             }
 
             
            myProfileChart.datasets.push(dataSet);
+           myProfileChartBpi.datasets.push(dataSetBpi);
         }
 
      this.myProfile = myProfileChart;
+     this.myProfileBpi = myProfileChartBpi;
 
 }
   private showChart(charData : Array<ChartVO>){

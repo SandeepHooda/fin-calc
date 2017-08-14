@@ -35,7 +35,7 @@ public class ChartDataUIForMyProfile extends HttpServlet {
 		String email = (String)request.getSession().getAttribute("email");
 		Portfolio myPortFolio = ProfileService.getPortfolioDromDB(email);
 		
-		List<ChartVO> chartVO = ProfileService.getHistoricalDataForMyProfile(myPortFolio, 12);
+		List<ChartVO> chartVO = ProfileService.getHistoricalDataForMyProfile(myPortFolio, 4);
 		
 		Gson  json = new Gson();
 		String chartDataStr = json.toJson(chartVO, new TypeToken<List<ChartVO>>() {}.getType());

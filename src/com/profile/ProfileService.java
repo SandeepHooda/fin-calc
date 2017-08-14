@@ -404,7 +404,7 @@ private static boolean calculateMonthlyRollingReturn(List<NavVoUI> uiNAvs){
 				Constants.mlabKey_mutualFunfs);
 	}
 
-	public static List<ChartVO> getHistoricalDataForMyProfile(Portfolio portFolio, int months) {
+	public static List<ChartVO> getHistoricalDataForMyProfile(Portfolio portFolio, int triMesters) {
 		
 
 		
@@ -430,7 +430,7 @@ private static boolean calculateMonthlyRollingReturn(List<NavVoUI> uiNAvs){
 			ChartDAO worker = new ChartDAO( houseID, schemeCodes);
 			workers.add(worker);
 			try {
-				worker.getChartDataForACompleteMonth(months);
+				worker.getChartDataForACompleteMonth(triMesters);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -465,7 +465,7 @@ private static boolean calculateMonthlyRollingReturn(List<NavVoUI> uiNAvs){
 					chartStartDate.set(Calendar.MINUTE, 0);
 					chartStartDate.set(Calendar.SECOND, 0);
 					chartStartDate.set(Calendar.MILLISECOND, 0);
-					chartStartDate.add(Calendar.MONTH, -1*months);
+					chartStartDate.add(Calendar.MONTH, -1*triMesters*3);
 					int chartNavePointer = 0;
 					double baseValue = 0;
 					Date baseDate = null;
