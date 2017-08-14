@@ -19,7 +19,7 @@ import {Sip} from '../finance/sip/sip.component';
 import {SipService as schemeSipService} from '../finance/sip/scheme/sip-service';
 import {NavService} from '../finance/addFund/addfundDetails/nav.service';
 import {DataTableModule,SharedModule,DataGridModule, PanelModule, DialogModule, ChartModule} from 'primeng/primeng';
-import {AccordionModule, MessagesModule, DropdownModule} from 'primeng/primeng';
+import {AccordionModule, MessagesModule, DropdownModule, ToggleButtonModule} from 'primeng/primeng';
 import {MdProgressSpinnerModule} from '@angular/material';
 import {SipScheme} from '../finance/sip/scheme/sip.scheme.component';
 import {SipService  } from '../finance/sip/sip-service';
@@ -48,7 +48,7 @@ import {LoanScheme} from '../finance/loan/scheme/sip.scheme.component';
     ButtonModule,
     ListboxModule,
     MdProgressSpinnerModule, DataTableModule,SharedModule,DataGridModule, PanelModule, DialogModule,
-    AccordionModule, ChartModule, MessagesModule, DropdownModule
+    AccordionModule, ChartModule, MessagesModule, DropdownModule, ToggleButtonModule
   ],
   declarations: [
     XIRR,   NAVBAR,    AddCompany, Sip, AddFunds, AddProfile, AddFundsDetails, SipScheme, Chart, 

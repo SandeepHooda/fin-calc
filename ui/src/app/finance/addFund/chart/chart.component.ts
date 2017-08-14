@@ -110,7 +110,7 @@ private showChartDataUIForMyProfile(charData : Array<ChartVO>){
             myProfileChart.labels.push(charData[0].navs[i].dt);
            
         }
-     myProfileChartBpi = myProfileChart;
+     myProfileChartBpi.labels = myProfileChart.labels;
  let borderColor : Array<string> = ["#000000","#c0c0c0","#800000", "#ff0000","#800080","#ff00ff", "#008000","#00ff00","#808000", "#ffff00","#000080","#0000ff", "#00ffff","#ffa500","#006400"];
      let colorID : number = 0;
         for (let i=0;i<charData.length;i++){

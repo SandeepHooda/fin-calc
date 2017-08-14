@@ -1,20 +1,26 @@
 <div style="min-width: 950px;">
 
-<div class="loading-overlay" #spinnerElement  >
-    <div class="spinner">
-    <md-spinner></md-spinner>
+    <div class="loading-overlay" #spinnerElement  >
+        <div class="spinner">
+        <md-spinner></md-spinner>
+        </div>
     </div>
-</div>
-<b>Annualized growth rate at various points of time.</b><br/>
-<p-dropdown [options]="companyNames" [(ngModel)]="selectedHouse"  [filter]="true" filterBy="label"></p-dropdown>
-<p-dropdown [options]="range" [(ngModel)]="selectedRange" ></p-dropdown>
-<button pButton type="button" label="Go" (click)="fetchData()"></button>
-<p-chart type="line" [data]="data" (onDataSelect)="selectData($event)"></p-chart>
-<p-toggleButton [(ngModel)]="showBpi"></p-toggleButton>
-<span ng-if="!showBpi">
-<p-chart type="line" [data]="myProfile" (onDataSelect)="selectData($event)"></p-chart>
-</span>
-<span ng-if="showBpi">
-<p-chart type="line" [data]="myProfileBpi" (onDataSelect)="selectData($event)"></p-chart>
-</span>
+<p-accordion [multiple]="true">
+    <p-accordionTab header="All Funds">
+        <b>Annualized growth rate at various points of time.</b><br/>
+        <p-dropdown [options]="companyNames" [(ngModel)]="selectedHouse"  [filter]="true" filterBy="label"></p-dropdown>
+        <p-dropdown [options]="range" [(ngModel)]="selectedRange" ></p-dropdown>
+        <button pButton type="button" label="Go" (click)="fetchData()"></button>
+        <p-chart type="line" [data]="data" (onDataSelect)="selectData($event)"></p-chart>
+    </p-accordionTab>
+     <p-accordionTab header="My Profile">
+        <p-toggleButton [(ngModel)]="showBpi" onLabel="Show rate of increase" offLabel="Show Absolute nav values"></p-toggleButton>
+        <span *ngIf="!showBpi">
+        <p-chart type="line" [data]="myProfile" (onDataSelect)="selectData($event)"></p-chart>
+        </span>
+        <span *ngIf="showBpi">
+        <p-chart type="line" [data]="myProfileBpi" (onDataSelect)="selectData($event)"></p-chart>
+        </span>
+    </p-accordionTab>
+</p-accordion>
 </div>
