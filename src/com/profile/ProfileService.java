@@ -83,8 +83,7 @@ public class ProfileService {
 			}
 		}
 
-		dataToAdd = json.toJson(pf, new TypeToken<Portfolio>() {
-		}.getType());
+		dataToAdd = json.toJson(pf, new TypeToken<Portfolio>() {}.getType());
 		ProfileDAO.insertData(collection, dataToAdd);
 	}
 
@@ -129,8 +128,7 @@ public class ProfileService {
 
 		}
 
-		dataToAdd = json.toJson(pf, new TypeToken<Portfolio>() {
-		}.getType());
+		dataToAdd = json.toJson(pf, new TypeToken<Portfolio>() {}.getType());
 		ProfileDAO.insertData(collection, dataToAdd);
 	}
 
@@ -397,14 +395,13 @@ private static boolean calculateMonthlyRollingReturn(List<NavVoUI> uiNAvs){
 		}
 		Gson json = new Gson();
 
-		String houseData_Str = json.toJson(houseData, new TypeToken<List<ChartVO>>() {
-		}.getType());
+		String houseData_Str = json.toJson(houseData, new TypeToken<List<ChartVO>>() {}.getType());
 		
 		 ProfileDAO.insertData("_" + worker.getHouseCode(), houseData_Str, Constants.dbName_mutualFunfs,
 				Constants.mlabKey_mutualFunfs);
 	}
 
-	public static List<ChartVO> getHistoricalDataForMyProfile(Portfolio portFolio, int triMesters) {
+	public static List<ChartVO> getHistoricalDataForMyProfile(Portfolio portFolio, int months) {
 		
 
 		
@@ -430,7 +427,7 @@ private static boolean calculateMonthlyRollingReturn(List<NavVoUI> uiNAvs){
 			ChartDAO worker = new ChartDAO( houseID, schemeCodes);
 			workers.add(worker);
 			try {
-				worker.getChartDataForACompleteMonth(triMesters);
+				worker.getChartDataForACompleteMonth(months);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -465,7 +462,7 @@ private static boolean calculateMonthlyRollingReturn(List<NavVoUI> uiNAvs){
 					chartStartDate.set(Calendar.MINUTE, 0);
 					chartStartDate.set(Calendar.SECOND, 0);
 					chartStartDate.set(Calendar.MILLISECOND, 0);
-					chartStartDate.add(Calendar.MONTH, -1*triMesters*3);
+					chartStartDate.add(Calendar.MONTH, -1*months*1);
 					int chartNavePointer = 0;
 					double baseValue = 0;
 					Date baseDate = null;

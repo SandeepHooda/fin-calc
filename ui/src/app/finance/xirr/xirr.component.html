@@ -7,9 +7,11 @@
     <a class="btn btn-block btn-social btn-google" style="width:130px;color:#eee" *ngIf="!signedInUser" href="/oauth2callback?request=signin">
         <span class="fa fa-google"></span>Sign in 
     </a>
-    <a class="btn btn-block btn-social btn-google" style="width:130px;color:#eee" *ngIf="signedInUser" href="/SignOut" (click)="deleteLocalStorage()">
-        <span class="fa fa-google"></span>Sign out
+  <span> <B> &#8377; </B> </span> 
+    <a class="btn btn-block btn-social btn-google" style="display: inline;width:130px;color:#eee" *ngIf="signedInUser" href="/SignOut" (click)="deleteLocalStorage()">
+        <span class="fa fa-google"></span>Sign out 
     </a>
+    <br/>
     <span *ngIf="signedInUser">Welcome {{signedInUser}}</span>
 </div>
 <!-- Section 2 navigation --> 

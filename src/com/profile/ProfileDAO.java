@@ -54,10 +54,8 @@ public class ProfileDAO {
 		
 		
 	}
-	
-	public static String getArrayData(String userID, boolean suppressDefaultKey, String datakey ){
-		
-		String httpsURL = "https://api.mlab.com/api/1/databases/"+Constants.dbName+"/collections/"+userID+"?apiKey="+Constants.mlabKey;
+	public static String getArrayData (String dbName, String collection, boolean suppressDefaultKey, String datakey, String mlabApiKey){
+		String httpsURL = "https://api.mlab.com/api/1/databases/"+dbName+"/collections/"+collection+"?apiKey="+mlabApiKey;
 		if (datakey != null && datakey.trim().length() > 0){
 			httpsURL += "&f={\""+datakey+"\":1,\"_id\":0}";
 		}else{
@@ -82,12 +80,13 @@ public class ProfileDAO {
 		
 		 return respo;
 		
-		
-		
+	}
+	public static String getArrayData(String userID, boolean suppressDefaultKey, String datakey ){
+		return getArrayData(Constants.dbName,userID,  suppressDefaultKey,  datakey, Constants.mlabKey);
 		
 	}
 	
-	
+
 	public static void createNewCollection(String collectionToCreate, String dbName, String key){
 		
 		String httpsURL = "https://api.mlab.com/api/1/databases/"+dbName+"/collections/"+collectionToCreate+"?apiKey="+key;

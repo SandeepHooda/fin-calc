@@ -42,7 +42,7 @@ public class ChartDAO implements Runnable {
 	private static SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy");
 	private String   houseCode;
 	private int noOfSemesters = 6;
-	
+	private static final String[] monthArray = {"jan", "feb", "mar", "apr", "may", "jun","jul", "aug","sep", "oct","nov","dec"};
 	
 	private Set<String> schemeCodes;
 	private Map<String, ChartVO>  schemCode_ChartVO_MAP = new HashMap<String, ChartVO>();
@@ -108,21 +108,54 @@ public class ChartDAO implements Runnable {
 	    }
 	}
 	
-	public   void getChartDataForACompleteMonth(int triMesters ) throws IOException{
-		//fromDate = "04-Aug-2014";
+	private List<String>  getMonthDataFromCache(String url, int month, String houseCode) throws IOException{
+		houseCode = "_"+houseCode;
+		String dataFromCache = ProfileDAO.getArrayData( monthArray[month],houseCode,false,null,Constants.mlabKey_mutualFunfs);
+		List<String> dataFromCacheList = null;
+		if (null == dataFromCache || "[  ]".equals(dataFromCache) || !dataFromCache.startsWith("[ { \"_id\" : 1 ,")){
+			
+			dataFromCacheList = getNavFromAmfiindia(url);
+			if (null != dataFromCacheList && dataFromCacheList.size() > 100){
+				MonthlyData data = new MonthlyData();
+				 data.setNavs(dataFromCacheList);
+				 ProfileDAO.createNewCollection(houseCode,monthArray[month],Constants.mlabKey_mutualFunfs);
+				 Gson  json = new Gson();
+				 dataFromCache = json.toJson(data, MonthlyData.class);
+				
+				 ProfileDAO.insertData(houseCode,dataFromCache,monthArray[month],Constants.mlabKey_mutualFunfs);
+			}
+			
+		}else {
+			Gson  json = new Gson();
+			dataFromCache = dataFromCache.replace("[ { \"_id\" : 1 ,", "{ ");
+			dataFromCache = dataFromCache.substring(0, dataFromCache.lastIndexOf("]"));
+			MonthlyData data= json.fromJson(dataFromCache,  MonthlyData.class);
+			dataFromCacheList = data.getNavs();
+		}
+		return dataFromCacheList;
+	}
+	public   void getChartDataForACompleteMonth(int months ) throws IOException{
+		Calendar today = new GregorianCalendar();
+		
 		String url = "";
 		Calendar toCal = new GregorianCalendar();
-		 toCal.add(Calendar.MONTH,  -9); 
+		 toCal.add(Calendar.MONTH,  -11); 
 		 Calendar fromCal = new GregorianCalendar();
 		 fromCal.add(Calendar.MONTH, -12);
 		
 	    
-	   for (int i= 0 ;  i< triMesters ;  i++){
+	   for (int i= 0 ;  i< months ;  i++){
 		   String fromDate = sdf.format(fromCal.getTime());
 			 String toDate = sdf.format(toCal.getTime());
 	    	 url = "http://portal.amfiindia.com/DownloadNAVHistoryReport_Po.aspx?mf="+houseCode+"&tp=1&frmdt="+fromDate+"&todt="+toDate;
 	    	 log.info(url);
-	    	 List<String> historicalNavsForAHouse = getNavFromAmfiindia(url);
+	    	 List<String> historicalNavsForAHouse = null;
+	    	 if (today.get(Calendar.MONTH) != fromCal.get(Calendar.MONTH) || today.get(Calendar.YEAR) != fromCal.get(Calendar.YEAR)){
+	    		 historicalNavsForAHouse = getMonthDataFromCache(url,fromCal.get(Calendar.MONTH),houseCode);
+	    	 }else {
+	    		 historicalNavsForAHouse =  getNavFromAmfiindia(url);
+	    	 }
+	    	
 	    	
 	 		
 	 		if (null!= historicalNavsForAHouse && historicalNavsForAHouse.size() > 100){
@@ -133,8 +166,8 @@ public class ChartDAO implements Runnable {
 	 		
 	 		log.info("Got result for above url");
 	    	 
-	    	 toCal.add(Calendar.MONTH, 3);
-	    	 fromCal.add(Calendar.MONTH, 3);
+	    	 toCal.add(Calendar.MONTH, 1);
+	    	 fromCal.add(Calendar.MONTH, 1);
 	    }
 	}
 	public   void getChartMonthly( int noOfMonths) throws IOException{
