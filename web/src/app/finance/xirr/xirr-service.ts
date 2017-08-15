@@ -21,6 +21,10 @@ loadChartData () :Observable<string> {
    return this.http.get("/ChartData?noOfMonths=36").map(this.getChartData).catch(this.handleError);
   
 }
+loadMyProfileChartData () :Observable<string> {
+   return this.http.get("/ChartDataUIForMyProfile").map(this.getChartData).catch(this.handleError);
+  
+}
  signedUserEmail() :Observable<string> {
    return this.http.get(this.signInUrlEmail).map(this.getUserName).catch(this.handleError);
  }

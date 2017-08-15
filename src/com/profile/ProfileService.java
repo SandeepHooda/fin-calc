@@ -423,7 +423,7 @@ private static boolean calculateMonthlyRollingReturn(List<NavVoUI> uiNAvs){
 		List<ChartDAO> workers = new ArrayList<ChartDAO>();
 
 		for (String houseID : houseIds) {
-			log.info("Creating a woorker  " + houseID);
+			
 			ChartDAO worker = new ChartDAO( houseID, schemeCodes);
 			workers.add(worker);
 			try {
@@ -433,15 +433,15 @@ private static boolean calculateMonthlyRollingReturn(List<NavVoUI> uiNAvs){
 			}
 		}
 		
-		log.info("Will get resukt from workesr now ");
+		
 
 		for (ChartDAO worker : workers) {
 
-			log.info("Will get resukt from workesr  a woorker  ");
+			
 			Map<String, ChartVO> results = worker.getResult();
 			for (String schemeCode : results.keySet()) {
 				chartVos.add(results.get(schemeCode));
-				log.info("Resukt  " + results.get(schemeCode).get_id());
+				
 			}
 
 		}

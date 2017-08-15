@@ -50,6 +50,11 @@ private httpError:String
         result => {},
         error => {}
       );
+      this.xirrService.loadMyProfileChartData().subscribe( 
+        result => {},
+        error => {}
+      );
+      
       
    this.signedInUserEmail =  localStorage.getItem('signedInUserEmail');
    this.signedInUser =  localStorage.getItem('signedInUser');
