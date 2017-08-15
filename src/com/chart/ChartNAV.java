@@ -9,6 +9,13 @@ public class ChartNAV {
 	public ChartNAV(){
 		
 	}
+	public ChartNAV clone(){
+		ChartNAV obj = new ChartNAV();
+		obj.nav = this.nav;
+		obj.dt = this.dt;
+		obj.bpi = this.bpi;
+		return obj;
+	}
 	public ChartNAV(String dt){
 		this.dt = dt;
 	}

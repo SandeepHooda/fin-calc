@@ -473,8 +473,7 @@ private static boolean calculateMonthlyRollingReturn(List<NavVoUI> uiNAvs){
 						while(chartStartDate.before(chartEndDate)){
 							
 							if (nav.getDt().equalsIgnoreCase(sdf.format(chartStartDate.getTime()))){
-								completeNav.add(nav);
-								navLastKnown = nav;
+								
 								
 								//Calculate BPI
 								if (baseValue ==0){
@@ -487,6 +486,8 @@ private static boolean calculateMonthlyRollingReturn(List<NavVoUI> uiNAvs){
 									}
 									
 								}
+								navLastKnown = nav;
+								completeNav.add(nav.clone());
 								
 								while(schemeChart.getNavs().size() > (chartNavePointer +1) && nav.getDt().equalsIgnoreCase(sdf.format(chartStartDate.getTime()))){
 									chartNavePointer++;
@@ -495,12 +496,13 @@ private static boolean calculateMonthlyRollingReturn(List<NavVoUI> uiNAvs){
 							}else {
 								//System.out.println(schemeChart.get_id()+" data not availbe for "+sdf.format(chartStartDate.getTime())+ "nav date " +nav.getDt());
 								navLastKnown.setDt(sdf.format(chartStartDate.getTime()));
-								completeNav.add(navLastKnown);
+								completeNav.add(navLastKnown.clone());
 							}
 							
 							chartStartDate.add(Calendar.DAY_OF_MONTH, 1);
 							
 						}
+						schemeChart.setNavs(completeNav);
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
