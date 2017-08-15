@@ -108,10 +108,14 @@ public class ChartDAO implements Runnable {
 	    }
 	}
 	
-	private List<String>  getMonthDataFromCache(String url, int month, String houseCode) throws IOException{
+	private List<String>  getMonthDataFromCache(String url, int month, String houseCode, boolean tryFromcache) throws IOException{
 		houseCode = "_"+houseCode;
-		String dataFromCache = ProfileDAO.getArrayData( monthArray[month],houseCode,false,null,Constants.mlabKey_mutualFunfs);
+		String dataFromCache = null;
 		List<String> dataFromCacheList = null;
+		if (tryFromcache){
+			dataFromCache = ProfileDAO.getArrayData( monthArray[month],houseCode,false,null,Constants.mlabKey_mutualFunfs);
+		}
+		
 		if (null == dataFromCache || "[  ]".equals(dataFromCache) || !dataFromCache.startsWith("[ { \"_id\" : 1 ,")){
 			
 			dataFromCacheList = getNavFromAmfiindia(url);
@@ -154,9 +158,9 @@ public class ChartDAO implements Runnable {
 	    	
 	    	 List<String> historicalNavsForAHouse = null;
 	    	 if (today.get(Calendar.MONTH) != fromCal.get(Calendar.MONTH) || today.get(Calendar.YEAR) != fromCal.get(Calendar.YEAR)){
-	    		 historicalNavsForAHouse = getMonthDataFromCache(url,fromCal.get(Calendar.MONTH),houseCode);
+	    		 historicalNavsForAHouse = getMonthDataFromCache(url,fromCal.get(Calendar.MONTH),houseCode, true);
 	    	 }else {
-	    		 historicalNavsForAHouse =  getNavFromAmfiindia(url);
+	    		 historicalNavsForAHouse =  getMonthDataFromCache(url,fromCal.get(Calendar.MONTH),houseCode, false);
 	    	 }
 	    	
 	    	
