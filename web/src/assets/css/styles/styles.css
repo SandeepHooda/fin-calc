@@ -52,6 +52,12 @@ a {
   cursor: pointer;
   cursor: hand;
 }
+
+.info {
+  color: blue;
+  float: left;
+  padding-left: 10px;
+}
 button {
   font-family: Arial;
   background-color: #eee;

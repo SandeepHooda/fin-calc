@@ -14,6 +14,7 @@ import {Company} from '../company';
 })
 
 export class Chart implements OnInit {
+    private msgs : Message[] = [];
     private houseCodes : any = {"Top Performers":"AllHouses", "ABN  AMRO Mutual Fund":"39", "AEGON Mutual Fund":"50", "Alliance Capital Mutual Fund":"1", "Axis Mutual Fund":"53", "Baroda Pioneer Mutual Fund":"4", "Benchmark Mutual Fund":"36", "Birla Sun Life Mutual Fund":"3", "BNP Paribas Mutual Fund":"59", "BOI AXA Mutual Fund":"46", "Canara Robeco Mutual Fund":"32", "Daiwa Mutual Fund":"60", "DBS Chola Mutual Fund":"31", "Deutsche Mutual Fund":"38", "DHFL Pramerica Mutual Fund":"58", "DSP BlackRock Mutual Fund":"6", "Edelweiss Mutual Fund":"47", "Escorts Mutual Fund":"13", "Fidelity Mutual Fund":"40", "Fortis Mutual Fund":"51", "Franklin Templeton Mutual Fund":"27", "GIC Mutual Fund":"8", "Goldman Sachs Mutual Fund":"49", "HDFC Mutual Fund":"9", "HSBC Mutual Fund":"37", "ICICI Prudential Mutual Fund":"20", "IDBI Mutual Fund":"57", "IDFC Mutual Fund":"48", "IIFCL Mutual Fund (IDF)":"68", "IIFL Mutual Fund":"62", "IL&F S Mutual Fund":"11", "IL&FS Mutual Fund (IDF)":"65", "Indiabulls Mutual Fund":"63", "ING Mutual Fund":"14", "JM Financial Mutual Fund":"16", "JPMorgan Mutual Fund":"43", "Kotak Mahindra Mutual Fund":"17", "L&T Mutual Fund":"56", "LIC Mutual Fund":"18", "Mahindra Mutual Fund":"69", "Mirae Asset Mutual Fund":"45", "Morgan Stanley Mutual Fund":"19", "Motilal Oswal Mutual Fund":"55", "Peerless Mutual Fund":"54", "PineBridge Mutual Fund":"44", "PNB Mutual Fund":"34", "PPFAS Mutual Fund":"64", "PRINCIPAL Mutual Fund":"10", "Quantum Mutual Fund":"41", "Sahara Mutual Fund":"35", "SBI Mutual Fund":"22", "Shinsei Mutual Fund":"52", "Shriram Mutual Fund":"67", "SREI Mutual Fund (IDF)":"66", "Standard Chartered Mutual Fund":"2", "SUN F&C Mutual Fund":"24", "Sundaram Mutual Fund":"33", "Tata Mutual Fund":"25", "Taurus Mutual Fund":"26", "Union Mutual Fund":"61", "UTI Mutual Fund":"28", "Zurich India Mutual Fund":"29", "Reliance Mutual Fund":"21", "Invesco Mutual Fund":"42"};
     private companyNames : SelectItem[];
     private houseProfiles: Object = {};
@@ -28,11 +29,19 @@ export class Chart implements OnInit {
     private showBpi : boolean = true;
     private range : SelectItem[] = [];
     private selectedRange : string = "&schemeCountFrom=1&schemeCountTo=10";
-    msgs: Message[];
+    
 @ViewChild('spinnerElement') spinnerElement: ElementRef;
     constructor(private chartService : ChartService, private renderer: Renderer) {
    }
-
+private toggleInfo() {
+        
+        if ( this.msgs.length ==0){
+          this.msgs.push({severity:'info', summary:'Info: ', detail:"% Groth rate of mutual funds in your portfolio or others."});
+        }else {
+          this.msgs = [];
+        }
+        
+    }
     selectData(event: any) {
       
     }

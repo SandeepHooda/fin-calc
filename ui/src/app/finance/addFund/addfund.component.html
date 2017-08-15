@@ -4,6 +4,8 @@
     <md-spinner></md-spinner>
     </div>
 </div>
+
+<span *ngIf="stepIndicator == 0"  class="info"><i class="fa fa-2x fa-info-circle"  aria-hidden="true" (click)="toggleInfo()"></i></span>
 <button  *ngIf="stepIndicator > 1" pButton type="button" (click)="previousStep()"   icon="fa-arrow-left" label="Back" ></button>
 <button *ngIf="stepIndicator > 0"  pButton type="button" (click)="showProfileSummaryStep()" icon="fa-close"      style="float:right;" label="Cancel"></button>
 <button *ngIf="stepIndicator == 0" pButton type="button" (click)="selectCompanyStep()"      icon="fa-plus" style="float:right;" label="Add"></button><br/>
@@ -12,6 +14,8 @@
 <add-fund-details *ngIf="stepIndicator == 3" (onSaveSuccess)="showProfile()" [schemeCode]="schemeCode" [companyNameSelected]="companyName" [schemeName]="schemeName"></add-fund-details>
 
 <div *ngIf="stepIndicator == 0">
+  
+    <p-messages [(value)]="msgs"></p-messages> 
 <hr class="ui-widget-content" style="border-top:0">
 
 <p-dataGrid [value]="allProfiles" [paginator]="true" [rows]="20">

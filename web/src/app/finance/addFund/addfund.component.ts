@@ -4,6 +4,7 @@ import {FundService} from './fundservice';
 import {Company} from './company';
 import {NAV} from './nav';
 import {SelectItem} from 'primeng/primeng';
+import {Message} from 'primeng/primeng';
 import {Portfolio} from './portfolio';
 import {Profile} from './profile';
 import {Router} from '@angular/router';
@@ -32,7 +33,19 @@ export class AddFunds implements OnInit {
      private totalGain : number;
      private totalXirr : number;
      private totalInvetment : number;
+     private msgs : Message[] = [];
+    
     constructor(private fundService :FundService,private renderer: Renderer, private router:Router) {} 
+    private toggleInfo() {
+        
+        if ( this.msgs.length ==0){
+          this.msgs.push({severity:'info: ', summary:'Info', detail:"Track your mutual fund's absolute and % growth."});
+        }else {
+          this.msgs = [];
+        }
+        
+    }
+
     private schemeSelected  (nav:NAV){
         this.schemeCode = nav.SchemeCode;
         this.schemeName = nav.SchemeName;   

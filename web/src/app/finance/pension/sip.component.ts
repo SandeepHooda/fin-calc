@@ -3,6 +3,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {SipSchemeVO} from './scheme/sip.schemeVO';
 import {Withdrawal} from './scheme/withdrawal';
 import {PensionService} from './sip-service';
+import {Message} from 'primeng/primeng';
 @Component({
  selector : 'pension', 
   templateUrl: './sip.component.html',
@@ -10,6 +11,7 @@ import {PensionService} from './sip-service';
   encapsulation: ViewEncapsulation.None 
 })
 export class Pension implements OnInit {
+  private msgs : Message[] = [];
   private displayConfirmation : boolean;
   private idToBeDeleted : number;
   private httpError : string;
@@ -19,7 +21,15 @@ export class Pension implements OnInit {
   ngOnInit(): void {
     this.getSipList();
   }
-  
+  private toggleInfo() {
+        
+        if ( this.msgs.length ==0){
+          this.msgs.push({severity:'info', summary:'Info: ', detail:"Analyze returns from your pension plan."});
+        }else {
+          this.msgs = [];
+        }
+        
+    }
   private addScheme() {
     if (!this.listOfSipSchemes) {
       this.listOfSipSchemes = [];

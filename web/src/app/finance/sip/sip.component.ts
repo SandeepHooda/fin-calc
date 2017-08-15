@@ -3,6 +3,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {SipSchemeVO} from './scheme/sip.schemeVO';
 import {Withdrawal} from './scheme/withdrawal';
 import {SipService} from './sip-service';
+import {Message} from 'primeng/primeng';
 @Component({
  selector : 'sip', 
   templateUrl: './sip.component.html',
@@ -10,6 +11,7 @@ import {SipService} from './sip-service';
   encapsulation: ViewEncapsulation.None 
 })
 export class Sip implements OnInit {
+  private msgs : Message[] = [];
   private displayConfirmation : boolean;
   private idToBeDeleted : number;
   private httpError : string;
@@ -19,6 +21,15 @@ export class Sip implements OnInit {
   ngOnInit(): void {
     this.getSipList();
   }
+  private toggleInfo() {
+        
+        if ( this.msgs.length ==0){
+          this.msgs.push({severity:'info', summary:'Info: ', detail:"Analyze SIP returns having lump sum withdrawls."});
+        }else {
+          this.msgs = [];
+        }
+        
+    }
   
   private addScheme() {
     if (!this.listOfSipSchemes) {

@@ -5,6 +5,10 @@
         <md-spinner></md-spinner>
         </div>
     </div>
+<span  class="info"><i class="fa fa-2x fa-info-circle"  aria-hidden="true" (click)="toggleInfo()"></i></span>
+<br/><br/>
+<p-messages [(value)]="msgs"></p-messages> 
+
 <p-accordion [multiple]="true">
     <p-accordionTab header="All Funds">
         <b>Annualized growth rate at various points of time.</b><br/>

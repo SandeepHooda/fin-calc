@@ -1,6 +1,7 @@
 
-<span>Loan analysis</span>
+<span  class="info"><i class="fa fa-2x fa-info-circle"  aria-hidden="true" (click)="toggleInfo()"></i></span>
 <button  pButton type="button" (click)="addScheme()"      icon="fa-plus" style="float:right;" label="Add"></button><br/>
+<p-messages [(value)]="msgs"></p-messages> 
 <hr/>
 {{httpError}}
 <p-accordion [multiple]="true">

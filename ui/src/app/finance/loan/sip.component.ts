@@ -3,6 +3,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {SipSchemeVO} from './scheme/sip.schemeVO';
 import {Withdrawal} from './scheme/withdrawal';
 import {LoanService} from './sip-service';
+import {Message} from 'primeng/primeng';
 @Component({
  selector : 'loan', 
   templateUrl: './sip.component.html',
@@ -10,6 +11,7 @@ import {LoanService} from './sip-service';
   encapsulation: ViewEncapsulation.None 
 })
 export class Loan implements OnInit {
+   private msgs : Message[] = [];
   private displayConfirmation : boolean;
   private idToBeDeleted : number;
   private httpError : string;
@@ -19,7 +21,15 @@ export class Loan implements OnInit {
   ngOnInit(): void {
     this.getSipList();
   }
-  
+  private toggleInfo() {
+        
+        if ( this.msgs.length ==0){
+          this.msgs.push({severity:'info', summary:'Info: ', detail:"Find % rate of interest of your loan from EMI paid."});
+        }else {
+          this.msgs = [];
+        }
+        
+    }
   private addScheme() {
     if (!this.listOfSipSchemes) {
       this.listOfSipSchemes = [];
