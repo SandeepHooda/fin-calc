@@ -483,20 +483,24 @@ private static boolean calculateMonthlyRollingReturn(List<NavVoUI> uiNAvs){
 									if (chartNavePointer > 30){//Let it settle
 										int noOfDays = daysBetweenDates(baseDate,sdf.parse(nav.getDt()));
 										nav.setBpi( ((nav.getNav() - baseValue)/ baseValue *100) *(365/noOfDays));
+										navLastKnown = nav;
+										completeNav.add(nav.clone());
 									}
 									
 								}
-								navLastKnown = nav;
-								completeNav.add(nav.clone());
 								
+								
+								//Ignore the same date navs
 								while(schemeChart.getNavs().size() > (chartNavePointer +1) && nav.getDt().equalsIgnoreCase(sdf.format(chartStartDate.getTime()))){
 									chartNavePointer++;
 									nav = schemeChart.getNavs().get(chartNavePointer);
 								}
 							}else {
-								//System.out.println(schemeChart.get_id()+" data not availbe for "+sdf.format(chartStartDate.getTime())+ "nav date " +nav.getDt());
 								navLastKnown.setDt(sdf.format(chartStartDate.getTime()));
-								completeNav.add(navLastKnown.clone());
+								if (chartNavePointer > 30){
+									completeNav.add(navLastKnown.clone());
+								}
+								
 							}
 							
 							chartStartDate.add(Calendar.DAY_OF_MONTH, 1);
