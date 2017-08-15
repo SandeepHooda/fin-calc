@@ -58,6 +58,11 @@ a {
   float: left;
   padding-left: 10px;
 }
+p-messages div {
+  color: #ffffff;
+    background-color: #2196f3;
+    border-color: #2196f3;
+}
 button {
   font-family: Arial;
   background-color: #eee;
