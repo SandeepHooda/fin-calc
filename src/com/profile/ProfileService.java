@@ -401,7 +401,7 @@ private static boolean calculateMonthlyRollingReturn(List<NavVoUI> uiNAvs){
 				Constants.mlabKey_mutualFunfs);
 	}
 
-	public static List<ChartVO> getHistoricalDataForMyProfile(Portfolio portFolio, int months) {
+	public static List<ChartVO> getHistoricalDataForMyProfile(Portfolio portFolio) {
 		
 
 		
@@ -427,7 +427,7 @@ private static boolean calculateMonthlyRollingReturn(List<NavVoUI> uiNAvs){
 			ChartDAO worker = new ChartDAO( houseID, schemeCodes);
 			workers.add(worker);
 			try {
-				worker.getChartDataForACompleteMonth(months);
+				worker.getChartDataForAllDaysOfYear();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -462,10 +462,12 @@ private static boolean calculateMonthlyRollingReturn(List<NavVoUI> uiNAvs){
 					chartStartDate.set(Calendar.MINUTE, 0);
 					chartStartDate.set(Calendar.SECOND, 0);
 					chartStartDate.set(Calendar.MILLISECOND, 0);
-					chartStartDate.add(Calendar.MONTH, -1*months*1);
+					chartStartDate.set(Calendar.DATE, 1);
+					chartStartDate.add(Calendar.MONTH, -11);
 					int chartNavePointer = 0;
 					double baseValue = 0;
 					Date baseDate = null;
+					int settlePeriodDays = 0;
 					try {
 						ChartNAV navLastKnown = new ChartNAV(sdf.format(chartStartDate.getTime())) ;
 						ChartNAV nav = schemeChart.getNavs().get(0);
@@ -480,7 +482,7 @@ private static boolean calculateMonthlyRollingReturn(List<NavVoUI> uiNAvs){
 									baseValue = nav.getNav();
 									baseDate = sdf.parse(nav.getDt());
 								}else {
-									if (chartNavePointer > 30){//Let it settle
+									if (chartNavePointer > settlePeriodDays){//Let it settle
 										int noOfDays = daysBetweenDates(baseDate,sdf.parse(nav.getDt()));
 										nav.setBpi( ((nav.getNav() - baseValue)/ baseValue *100) *(365/noOfDays));
 										navLastKnown = nav;
@@ -496,8 +498,9 @@ private static boolean calculateMonthlyRollingReturn(List<NavVoUI> uiNAvs){
 									nav = schemeChart.getNavs().get(chartNavePointer);
 								}
 							}else {
+								//chartNavePointer++;
 								navLastKnown.setDt(sdf.format(chartStartDate.getTime()));
-								if (chartNavePointer > 30){
+								if (chartNavePointer > settlePeriodDays && navLastKnown.getBpi() != 0){
 									completeNav.add(navLastKnown.clone());
 								}
 								

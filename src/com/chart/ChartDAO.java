@@ -141,23 +141,25 @@ public class ChartDAO implements Runnable {
 		}
 		return dataFromCacheList;
 	}
-	public   void getChartDataForACompleteMonth(int months ) throws IOException{
+	public   void getChartDataForAllDaysOfYear() throws IOException{
 		Calendar today = new GregorianCalendar();
 		
 		String url = "";
 		Calendar toCal = new GregorianCalendar();
-		 toCal.add(Calendar.MONTH,  -11); 
+		 toCal.add(Calendar.MONTH,  -10); 
+		 toCal.set(Calendar.DATE, 1);
 		 Calendar fromCal = new GregorianCalendar();
-		 fromCal.add(Calendar.MONTH, -12);
+		 fromCal.add(Calendar.MONTH, -11);
+		 fromCal.set(Calendar.DATE, 1);
 		
 	    
-	   for (int i= 0 ;  i< months ;  i++){
+	   for (int i= 1 ;  i<= 12 ;  i++){
 		   String fromDate = sdf.format(fromCal.getTime());
 			 String toDate = sdf.format(toCal.getTime());
 	    	 url = "http://portal.amfiindia.com/DownloadNAVHistoryReport_Po.aspx?mf="+houseCode+"&tp=1&frmdt="+fromDate+"&todt="+toDate;
-	    	
+	    	 log.info(url);
 	    	 List<String> historicalNavsForAHouse = null;
-	    	 if (today.get(Calendar.MONTH) != fromCal.get(Calendar.MONTH) || today.get(Calendar.YEAR) != fromCal.get(Calendar.YEAR)){
+	    	 if (today.get(Calendar.MONTH) != fromCal.get(Calendar.MONTH)){
 	    		 historicalNavsForAHouse = getMonthDataFromCache(url,fromCal.get(Calendar.MONTH),houseCode, true);
 	    	 }else {
 	    		 historicalNavsForAHouse =  getMonthDataFromCache(url,fromCal.get(Calendar.MONTH),houseCode, false);
