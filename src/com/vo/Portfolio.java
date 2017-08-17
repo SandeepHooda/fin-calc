@@ -5,7 +5,11 @@ import java.util.List;
 
 public class Portfolio {
 	private List<Profile> allProfiles = new ArrayList<Profile>();
-	private double totalGain, totalXirr, totalInvetment;
+	private double totalGain; //absolute gain
+	private double totalXirr;
+	private double percentGainAbsolute;
+    //private double percentGainAnual; //N.A.
+	private double totalInvetment; //absolute value invested
 	
 	public String toString(){
 		return " totalInvetment "+totalInvetment+" totalXirr "+totalXirr + " totalGain "+totalGain+ " allProfiles "+allProfiles.toString();
@@ -41,6 +45,14 @@ public class Portfolio {
 
 	public void setTotalInvetment(double totalInvetment) {
 		this.totalInvetment = totalInvetment;
+	}
+
+	public double getPercentGainAbsolute() {
+		return percentGainAbsolute;
+	}
+
+	public void setPercentGainAbsolute(double percentGainAbsolute) {
+		this.percentGainAbsolute = percentGainAbsolute;
 	}
 
 }

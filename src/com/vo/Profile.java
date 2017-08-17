@@ -11,6 +11,8 @@ public class Profile {
 	private double currentNav;
 	private double lastKnownNav;
     private double xirr;
+    private double percentGainAbsolute;
+    private double percentGainAnual;
     private String companyName;
     private double companyXirr;
     private double companyTotalInvestment;
@@ -103,6 +105,21 @@ public class Profile {
 	}
 	public void setLastKnownNav(double lastKnownNav) {
 		this.lastKnownNav = lastKnownNav;
+	}
+	public double getPercentGainAbsolute() {
+		return percentGainAbsolute;
+	}
+	public void setPercentGainAbsolute(double percentGainAbsolute) {
+		this.percentGainAbsolute = percentGainAbsolute;
+	}
+	public double getPercentGainAnual() {
+		return percentGainAnual;
+	}
+	public void setPercentGainAnual(double percentGainAnual) {
+		this.percentGainAnual = percentGainAnual;
+	}
+	public void setCurrentValue(double currentValue) {
+		this.currentValue = currentValue;
 	}
 
 

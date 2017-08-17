@@ -565,6 +565,8 @@ private static boolean calculateMonthlyRollingReturn(List<NavVoUI> uiNAvs){
 						dates[1] = new Date();
 						double xirr = XirrCalculatorService.Newtons_method(0.1, payments, dates);
 						profile.setXirr(xirr);
+						profile.setPercentGainAbsolute((payments[1] - payments[0])/ payments[0] *100);
+						profile.setPercentGainAnual(profile.getPercentGainAbsolute() *365/daysBetweenDates(dates[0],dates[1]));
 						break;
 					}
 				}
@@ -631,6 +633,7 @@ private static boolean calculateMonthlyRollingReturn(List<NavVoUI> uiNAvs){
 		}
 
 		portfolio.setTotalXirr(XirrCalculatorService.Newtons_method(0.1, allPayments, alldates));
+		portfolio.setPercentGainAbsolute(totalGain/portfolio.getTotalInvetment()*100);
 	}
 
 	private static void calculateCompanyGain(Portfolio portfolio) throws ParseException {
