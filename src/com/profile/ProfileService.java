@@ -662,6 +662,7 @@ private static boolean calculateMonthlyRollingReturn(List<NavVoUI> uiNAvs){
 			List<Double> payments = new ArrayList<Double>();
 			List<Date> dates = new ArrayList<Date>();
 			double companyTotalInvestment = 0;
+			double companyCurrentValue = 0;
 			double companyTotalGain = 0;
 			for (Profile aprofile : compantyProfilesList) {
 				payments.add(aprofile.getInvestmentAmount() * -1);
@@ -670,6 +671,7 @@ private static boolean calculateMonthlyRollingReturn(List<NavVoUI> uiNAvs){
 				dates.add(today);
 				companyTotalInvestment += aprofile.getInvestmentAmount();
 				companyTotalGain += aprofile.getAbsoluteGain();
+				companyCurrentValue  += aprofile.getCurrentValue();
 			}
 
 			double[] allPayments = new double[payments.size()];
@@ -684,6 +686,8 @@ private static boolean calculateMonthlyRollingReturn(List<NavVoUI> uiNAvs){
 				aprofile.setCompanyXirr(xirr);
 				aprofile.setCompanyTotalInvestment(companyTotalInvestment);
 				aprofile.setCompanyTotalGain(companyTotalGain);
+				aprofile.setCompanyCurrentValue(companyCurrentValue);
+				aprofile.setCompanyAbsoluteGainPercent(companyTotalGain/companyTotalInvestment *100);
 			}
 		}
 

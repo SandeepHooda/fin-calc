@@ -18,6 +18,7 @@ public class Profile {
     private double companyXirr;
     private double companyAbsoluteGainPercent;
     private double companyTotalInvestment;
+    private double companyCurrentValue;
     private double companyTotalGain;
     private String navDate = "";
     
@@ -150,6 +151,13 @@ public class Profile {
 	public void setCompanyTotalGain(double companyTotalGain) {
 		this.companyTotalGain = companyTotalGain;
 	}
+	public double getCompanyCurrentValue() {
+		return companyCurrentValue;
+	}
+	public void setCompanyCurrentValue(double companyCurrentValue) {
+		this.companyCurrentValue = companyCurrentValue;
+	}
+	
 
 
 }

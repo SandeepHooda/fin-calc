@@ -16,6 +16,7 @@ export class Profile {
     public companyXirr : number;
     public companyAbsoluteGainPercent : number;
     public companyTotalInvestment : number;
+    public companyCurrentValue : number;
     public companyTotalGain : number;
     public navDate : String;
     private  lastKnownNav : number;

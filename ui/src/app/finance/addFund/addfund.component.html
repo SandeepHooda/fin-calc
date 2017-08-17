@@ -36,6 +36,7 @@
                    Returns : {{profile.companyTotalGain | number : '1.2-2'}} <br/>
                    XIRR : ({{profile.companyXirr | number : '1.2-2'}} %) <br/>
                    Absolute Returns : ({{profile.companyAbsoluteGainPercent | number : '1.2-2'}} % ) <br/>
+                   Current value : {{profile.companyCurrentValue | number : '1.2-2'}} <br/>
                    Total Investment : {{profile.companyTotalInvestment | number : '1.2-2'}} <br/>
                </p-header> 
                <div [ngClass]="{'profitBack' : (profile.absoluteGain >=0) , 'lossBack' : (profile.absoluteGain < 0)}"> 
@@ -44,9 +45,10 @@
                  <div>Anual returns : {{profile.percentGainAnual | number : '1.2-2'}} %</div>
                  <div>Absolute Returns : {{profile.percentGainAbsolute | number : '1.2-2'}} %</div>
                  <div>Nav Date : {{profile.navDate }} </div>
+                 <div>Current value : {{profile.currentValue | number : '1.2-2'}} </div>
                 <hr class="ui-widget-content" style="border-top:0; margin-top:1px;margin-bottom:1px">
                 <div >Purchase Date : {{profile.investmentDate}}</div>
-                <div >Amount : {{profile.investmentAmount}}</div>
+                <div >Amount : {{profile.investmentAmount | number : '1.2-2'}}</div>
                 <div >Units : {{profile.units | number : '1.2-2'}}</div>
                 </div> 
                 <p-footer>
