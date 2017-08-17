@@ -540,40 +540,43 @@ private static boolean calculateMonthlyRollingReturn(List<NavVoUI> uiNAvs){
 		Portfolio portfolio = json.fromJson(portfolioStr, Portfolio.class);
 		try {
 			Map<String, CompanyVO> map = NavTextDAO.getCurrentNav();
+			Set<String> allHousesNames = map.keySet();
+			
+			Map<String, NavVO> schemeCodeMap = new HashMap<String, NavVO>();
+			for (String houseCode : allHousesNames ){
+				CompanyVO companyVo = map.get(houseCode);
+				for (NavVO navVo : companyVo.getNavs()) {
+					schemeCodeMap.put(navVo.getSchemeCode(), navVo);
+				}
+				
+			}
 
 			for (Profile profile : portfolio.getAllProfiles()) {
-				CompanyVO company = map.get(profile.getCompanyName());
-				if (null != company){
-					for (NavVO navVo : company.getNavs()) {
-						if (navVo.getSchemeCode().equals(profile.getSchemeCode())) {
+				NavVO navVo = schemeCodeMap.get(profile.getSchemeCode());
+				
 							double currentNav = Double.parseDouble(navVo.getNetAssetValue());
 							profile.setNavDate(navVo.getDate());
-							// log.info("currentNav == "+currentNav);
+							
 							if (currentNav == 0) {
 								currentNav = profile.getLastKnownNav();
-								// log.info("Using last known nav == "+currentNav);
 							} else {
 								profile.setLastKnownNav(currentNav);
 							}
-							profile.setCurrentNav(currentNav);// Set nav and current
-																// value
+							profile.setCurrentNav(currentNav);// Set nav and current value
 							double[] payments = new double[2];
 							Date[] dates = new Date[2];
 							payments[0] = profile.getInvestmentAmount() * -1;
 							dates[0] = sdf.parse(profile.getInvestmentDate());
 							payments[1] = profile.getCurrentValue();
-							// log.info("current value == "+
-							// profile.getCurrentValue());
+							
 							dates[1] = new Date();
 							double xirr = XirrCalculatorService.Newtons_method(0.1, payments, dates);
 							profile.setXirr(xirr);
 							profile.setPercentGainAbsolute((profile.getCurrentValue() - profile.getInvestmentAmount())/ profile.getInvestmentAmount() *100);
 							profile.setPercentGainAnual(profile.getPercentGainAbsolute() *365/daysBetweenDates(dates[0],dates[1]));
-							break;
-						}
-					}
-				}
-				
+							
+						
+	
 			}
 
 			calculateTotalGain(portfolio);

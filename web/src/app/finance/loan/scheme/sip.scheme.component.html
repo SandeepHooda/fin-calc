@@ -26,19 +26,19 @@
 <hr/>
     <div class="sip">
 
-    <span class="headings textPadding">Investment Start date &nbsp;</span>
+    <span class="headings textPadding">EMI Start date &nbsp;</span>
     </div>
     <div class="sip componentPadding"> 
     <span ><p-calendar inputStyleClass="calender" (onSelect)="checkDateValidation()" [(ngModel)]="sipSchemeDetails.startDate"   [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2100"></p-calendar> </span >
     </div>
     <div class="sip textPadding" >
-     <span class="headings"> Investment End date &nbsp;&nbsp;</span>
+     <span class="headings"> EMI End date &nbsp;&nbsp;</span>
     </div>
     <div class="sip" >
         <p-calendar  inputStyleClass="calender" (onSelect)="checkDateValidation()" [(ngModel)]="sipSchemeDetails.endDate"   [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2100"></p-calendar> 
     </div>
     <div class="sip textPadding" >
-     <span class="headings"> Investment Amount &nbsp;&nbsp;</span>
+     <span class="headings"> EMI Amount &nbsp;&nbsp;</span>
     </div>
     <div class="sip" >
         <input type="text" pInputText   [(ngModel)]="sipSchemeDetails.sipAmount"/> 

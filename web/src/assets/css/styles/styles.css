@@ -52,7 +52,17 @@ a {
   cursor: pointer;
   cursor: hand;
 }
+.grid-heder {
+  padding-left: 45%; 
+  text-align: left;
+}
+@media (max-width: 730px) {
+.grid-heder {
+  padding-left: 15%; 
 
+}
+
+}
 .info {
   color: blue;
   float: left;
