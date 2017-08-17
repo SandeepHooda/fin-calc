@@ -543,33 +543,37 @@ private static boolean calculateMonthlyRollingReturn(List<NavVoUI> uiNAvs){
 
 			for (Profile profile : portfolio.getAllProfiles()) {
 				CompanyVO company = map.get(profile.getCompanyName());
-				for (NavVO navVo : company.getNavs()) {
-					if (navVo.getSchemeCode().equals(profile.getSchemeCode())) {
-						double currentNav = Double.parseDouble(navVo.getNetAssetValue());
-						// log.info("currentNav == "+currentNav);
-						if (currentNav == 0) {
-							currentNav = profile.getLastKnownNav();
-							// log.info("Using last known nav == "+currentNav);
-						} else {
-							profile.setLastKnownNav(currentNav);
+				if (null != company){
+					for (NavVO navVo : company.getNavs()) {
+						if (navVo.getSchemeCode().equals(profile.getSchemeCode())) {
+							double currentNav = Double.parseDouble(navVo.getNetAssetValue());
+							profile.setNavDate(navVo.getDate());
+							// log.info("currentNav == "+currentNav);
+							if (currentNav == 0) {
+								currentNav = profile.getLastKnownNav();
+								// log.info("Using last known nav == "+currentNav);
+							} else {
+								profile.setLastKnownNav(currentNav);
+							}
+							profile.setCurrentNav(currentNav);// Set nav and current
+																// value
+							double[] payments = new double[2];
+							Date[] dates = new Date[2];
+							payments[0] = profile.getInvestmentAmount() * -1;
+							dates[0] = sdf.parse(profile.getInvestmentDate());
+							payments[1] = profile.getCurrentValue();
+							// log.info("current value == "+
+							// profile.getCurrentValue());
+							dates[1] = new Date();
+							double xirr = XirrCalculatorService.Newtons_method(0.1, payments, dates);
+							profile.setXirr(xirr);
+							profile.setPercentGainAbsolute((profile.getCurrentValue() - profile.getInvestmentAmount())/ profile.getInvestmentAmount() *100);
+							profile.setPercentGainAnual(profile.getPercentGainAbsolute() *365/daysBetweenDates(dates[0],dates[1]));
+							break;
 						}
-						profile.setCurrentNav(currentNav);// Set nav and current
-															// value
-						double[] payments = new double[2];
-						Date[] dates = new Date[2];
-						payments[0] = profile.getInvestmentAmount() * -1;
-						dates[0] = sdf.parse(profile.getInvestmentDate());
-						payments[1] = profile.getCurrentValue();
-						// log.info("current value == "+
-						// profile.getCurrentValue());
-						dates[1] = new Date();
-						double xirr = XirrCalculatorService.Newtons_method(0.1, payments, dates);
-						profile.setXirr(xirr);
-						profile.setPercentGainAbsolute((payments[1] - payments[0])/ payments[0] *100);
-						profile.setPercentGainAnual(profile.getPercentGainAbsolute() *365/daysBetweenDates(dates[0],dates[1]));
-						break;
 					}
 				}
+				
 			}
 
 			calculateTotalGain(portfolio);
@@ -655,12 +659,14 @@ private static boolean calculateMonthlyRollingReturn(List<NavVoUI> uiNAvs){
 			List<Double> payments = new ArrayList<Double>();
 			List<Date> dates = new ArrayList<Date>();
 			double companyTotalInvestment = 0;
+			double companyTotalGain = 0;
 			for (Profile aprofile : compantyProfilesList) {
 				payments.add(aprofile.getInvestmentAmount() * -1);
 				dates.add(sdf.parse(aprofile.getInvestmentDate()));
 				payments.add(aprofile.getCurrentValue());
 				dates.add(today);
 				companyTotalInvestment += aprofile.getInvestmentAmount();
+				companyTotalGain += aprofile.getAbsoluteGain();
 			}
 
 			double[] allPayments = new double[payments.size()];
@@ -674,6 +680,7 @@ private static boolean calculateMonthlyRollingReturn(List<NavVoUI> uiNAvs){
 			for (Profile aprofile : compantyProfilesList) {
 				aprofile.setCompanyXirr(xirr);
 				aprofile.setCompanyTotalInvestment(companyTotalInvestment);
+				aprofile.setCompanyTotalGain(companyTotalGain);
 			}
 		}
 

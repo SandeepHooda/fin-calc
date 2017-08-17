@@ -7,6 +7,7 @@ public class Profile {
 	private double nav;
 	private double investmentAmount;
 	private double units;
+	private double absoluteGain;
 	private double currentValue;
 	private double currentNav;
 	private double lastKnownNav;
@@ -15,7 +16,10 @@ public class Profile {
     private double percentGainAnual;
     private String companyName;
     private double companyXirr;
+    private double companyAbsoluteGainPercent;
     private double companyTotalInvestment;
+    private double companyTotalGain;
+    private String navDate = "";
     
    
 	public String toString(){
@@ -81,6 +85,7 @@ public class Profile {
 	public void setCurrentNav(double currentNav) {
 		this.currentValue = currentNav * units; 
 		this.currentNav = currentNav;
+		setAbsoluteGain(this.currentValue  - this.investmentAmount);
 	}
 	public String getSchemeCode() {
 		return schemeCode;
@@ -120,6 +125,30 @@ public class Profile {
 	}
 	public void setCurrentValue(double currentValue) {
 		this.currentValue = currentValue;
+	}
+	public String getNavDate() {
+		return navDate;
+	}
+	public void setNavDate(String navDate) {
+		this.navDate = navDate;
+	}
+	public double getAbsoluteGain() {
+		return absoluteGain;
+	}
+	public void setAbsoluteGain(double absoluteGain) {
+		this.absoluteGain = absoluteGain;
+	}
+	public double getCompanyAbsoluteGainPercent() {
+		return companyAbsoluteGainPercent;
+	}
+	public void setCompanyAbsoluteGainPercent(double companyAbsoluteGainPercent) {
+		this.companyAbsoluteGainPercent = companyAbsoluteGainPercent;
+	}
+	public double getCompanyTotalGain() {
+		return companyTotalGain;
+	}
+	public void setCompanyTotalGain(double companyTotalGain) {
+		this.companyTotalGain = companyTotalGain;
 	}
 
 

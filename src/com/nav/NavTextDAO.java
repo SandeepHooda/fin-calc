@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
+import com.common.FinConstants;
 import com.profile.ProfileDAO;
 
 
@@ -24,7 +25,8 @@ public class NavTextDAO {
 		return parseNav(getNavFromAmfiindia("http://portal.amfiindia.com/DownloadNAVHistoryReport_Po.aspx?frmdt="+ddMmmyyyy+"&todt="+ddMmmyyyy), true);
 	}
 	public static Map<String, CompanyVO> getCurrentNav() throws IOException{
-		if (null == navDate || ((new Date().getTime() - navDate.getTime() ) > 3600000  )) {
+		if (null == navDate || ((new Date().getTime() - navDate.getTime() ) > FinConstants.aHour  )) {
+			log.info("Will fetch current dated nav  ");
 			currentNAV = parseNav(getNavFromAmfiindia("http://www.amfiindia.com/spages/NAVAll.txt"), false);
 			log.info("Tata NAV"+currentNAV.get("Tata Mutual Fund").getNavs().get(0).getNetAssetValue());
 			navDate = new Date();

@@ -10,6 +10,7 @@ public class FinConstants {
 	public static Map<String, String> houseIDMap ;
 	public static Map<String, String> houseNameMap ;
 	public static long aDay = 86400000;
+	public static long aHour = 3600000;
 	
 	
 	static {

@@ -32,6 +32,7 @@ export class AddFunds implements OnInit {
      private allProfiles : Array<Profile> = [];
      private totalGain : number;
      private totalXirr : number;
+     private totalPercentGainAbsolute : number;
      private totalInvetment : number;
      private msgs : Message[] = [];
     
@@ -67,6 +68,7 @@ export class AddFunds implements OnInit {
         this.allProfiles = this.portfolio.allProfiles;
         this.totalGain = this.portfolio.totalGain;
         this.totalXirr = this.portfolio.totalXirr;
+        this.totalPercentGainAbsolute = this.portfolio.percentGainAbsolute;
         this.totalInvetment = this.portfolio.totalInvetment;
       }
       
@@ -106,6 +108,7 @@ private portFolioLoaded(portfolio:Portfolio){
     this.allProfiles = portfolio.allProfiles;
     this.totalGain = this.portfolio.totalGain;
     this.totalXirr = this.portfolio.totalXirr;
+    this.totalPercentGainAbsolute = this.portfolio.percentGainAbsolute;
     this.totalInvetment = this.portfolio.totalInvetment;
     this.renderer.setElementStyle(this.spinnerElement.nativeElement, 'display','none');
 }

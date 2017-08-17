@@ -20,19 +20,33 @@
 
 <p-dataGrid [value]="allProfiles" [paginator]="true" [rows]="20">
     <p-header>
-       Total Investment : {{totalInvetment | number : '1.2-2' }} Total Gain/Loss : {{totalGain | number : '1.2-2'}} ({{totalXirr | number : '1.2-2'}} %)
+        <b>All Portfolio's</b><br/>
+       Returns : {{totalGain | number : '1.2-2'}} <br/>
+       XIRR : ({{totalXirr | number : '1.2-2'}} %) <br/>
+       Absolute Returns : ({{totalPercentGainAbsolute | number : '1.2-2'}} %) <br/>
+       Total Investment : {{totalInvetment | number : '1.2-2' }} <br/>
     </p-header>
     <ng-template let-profile pTemplate="item">
         <div style="padding:3px" class="ui-g-12 ui-md-3">
              <p-panel  [style]="{'text-align':'left'}"  > 
                <p-header>
-                   {{profile.schemeName}} {{profile.companyTotalInvestment | number : '1.2-2'}} ({{profile.companyXirr | number : '1.2-2'}} %)
-               </p-header>   
-                <div [ngClass]="{'profitBack' : (profile.xirr >=0) , 'lossBack' : (profile.xirr < 0)}">{{profile.currentValue | number : '1.2-2'}} ({{profile.xirr | number : '1.2-2'}} %)</div>
+                   {{profile.schemeName}} <br/>
+                   Returns : {{profile.companyTotalGain | number : '1.2-2'}} <br/>
+                   XIRR : ({{profile.companyXirr | number : '1.2-2'}} %) <br/>
+                   Absolute Returns : ({{profile.companyAbsoluteGainPercent | number : '1.2-2'}} % ) <br/>
+                   Total Investment : {{profile.companyTotalInvestment | number : '1.2-2'}} <br/>
+               </p-header> 
+               <div [ngClass]="{'profitBack' : (profile.absoluteGain >=0) , 'lossBack' : (profile.absoluteGain < 0)}"> 
+                <div >Return : {{profile.absoluteGain | number : '1.2-2'}}</div> 
+                 <div>XIRR: {{profile.xirr | number : '1.2-2'}} %</div>
+                 <div>Anual returns : {{profile.percentGainAnual | number : '1.2-2'}} %</div>
+                 <div>Absolute Returns : {{profile.percentGainAbsolute | number : '1.2-2'}} %</div>
+                 <div>Nav Date : {{profile.navDate }} </div>
                 <hr class="ui-widget-content" style="border-top:0; margin-top:1px;margin-bottom:1px">
-                <div >Date: {{profile.investmentDate}}</div>
-                <div >Amount: {{profile.investmentAmount}}</div>
-                <div >Units: {{profile.units | number : '1.2-2'}}</div>
+                <div >Purchase Date : {{profile.investmentDate}}</div>
+                <div >Amount : {{profile.investmentAmount}}</div>
+                <div >Units : {{profile.units | number : '1.2-2'}}</div>
+                </div> 
                 <p-footer>
                 <span (click)="deleteProfile(profile.profileID)" ><i class="fa fa-trash-o" aria-hidden="true"></i></span>
                 </p-footer>
