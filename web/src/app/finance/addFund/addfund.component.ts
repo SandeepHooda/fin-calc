@@ -100,8 +100,11 @@ export class AddFunds implements OnInit {
     ngOnInit(): void {
       this.refreshPage(false);
       this.eventService.refreshEvent.subscribe( (refresh : string)=> {
-        console.log("Refesh from lump sump");
-        this.refreshPage(true);
+        if ("/lumpsump" === this.router.url ){
+          console.log("Refesh from lump sump "+this.router.url);
+         this.refreshPage(true);
+        }
+        
       })
   }
 
