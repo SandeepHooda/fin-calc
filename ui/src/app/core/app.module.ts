@@ -33,6 +33,7 @@ import { LoanService} from '../finance/loan/sip-service';
 import {SchemeLoanService } from '../finance/loan/scheme/sip-service';
 import { Loan} from '../finance/loan/sip.component';
 import {LoanScheme} from '../finance/loan/scheme/sip.scheme.component';
+import {EventService} from '../common/EventService';
 
 @NgModule({
   imports: [
@@ -54,7 +55,8 @@ import {LoanScheme} from '../finance/loan/scheme/sip.scheme.component';
     XIRR,   NAVBAR,    AddCompany, Sip, AddFunds, AddProfile, AddFundsDetails, SipScheme, Chart, 
     Pension, PensionScheme, Loan , LoanScheme
   ],
-  providers: [ XirrService , XirrRequest, FundService, SipService, NavService, schemeSipService, ChartService,
+  providers: [ XirrService , XirrRequest, FundService, SipService, NavService, schemeSipService, 
+  ChartService, EventService,
   PensionService,SchemePensionService, SchemeLoanService, LoanService],
   bootstrap: [ XIRR ]
 })

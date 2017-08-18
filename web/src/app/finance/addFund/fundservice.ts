@@ -29,10 +29,17 @@ loadChartData () :Observable<string> {
 private getChartData (res: Response){
    return "Done";
  }
- public   getPortfolio() : Observable<Portfolio>{
- return this.http.get(this.getPortfolioUrl)
+ public   getPortfolio(refresh : boolean) : Observable<Portfolio>{
+   if (refresh){
+return this.http.get(this.getPortfolioUrl+"?a="+Math.random())
                         .map(this.extractData)
                         .catch(this.handleError);
+   }else {
+return this.http.get(this.getPortfolioUrl)
+                        .map(this.extractData)
+                        .catch(this.handleError);
+   }
+ 
 }
 
   private extractData(res: Response) {

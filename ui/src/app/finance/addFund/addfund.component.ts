@@ -8,6 +8,7 @@ import {Message} from 'primeng/primeng';
 import {Portfolio} from './portfolio';
 import {Profile} from './profile';
 import {Router} from '@angular/router';
+import {EventService} from '../../common/EventService';
 @Component({
  selector : 'add-fund', 
   templateUrl: './addFund.component.html',
@@ -36,7 +37,8 @@ export class AddFunds implements OnInit {
      private totalInvetment : number;
      private msgs : Message[] = [];
     
-    constructor(private fundService :FundService,private renderer: Renderer, private router:Router) {} 
+    constructor(private fundService :FundService,private renderer: Renderer, private router:Router, 
+    private eventService : EventService) {} 
     private toggleInfo() {
         
         if ( this.msgs.length ==0){
@@ -58,9 +60,9 @@ export class AddFunds implements OnInit {
     }
     private showProfile (){
       this.stepIndicator =0;
-      this.refreshPage();
+      this.refreshPage(true);
     }
-    private refreshPage(){
+    private refreshPage(forceRefresh: boolean){
       let lastKnownPortFolio = localStorage.getItem('lastKnownPortFolio');
 
       if (null != lastKnownPortFolio){
@@ -91,13 +93,19 @@ export class AddFunds implements OnInit {
         result => {},
         error => {}
       );
-        this.fundService.getPortfolio().subscribe( 
+        this.fundService.getPortfolio(forceRefresh).subscribe( 
         portfolio => this.portFolioLoaded(portfolio),
         error => this.showError(error));
     }
     ngOnInit(): void {
-      this.refreshPage();
-      
+      this.refreshPage(false);
+      this.eventService.refreshEvent.subscribe( (refresh : string)=> {
+        if ("/lumpsump" === this.router.url ){
+          console.log("Refesh from lump sump "+this.router.url);
+         this.refreshPage(true);
+        }
+        
+      })
   }
 
 
@@ -114,7 +122,7 @@ private portFolioLoaded(portfolio:Portfolio){
 }
 private profileDeleted(message:string){
    this.renderer.setElementStyle(this.spinnerElement.nativeElement, 'display','none');
-   this.refreshPage();
+   this.refreshPage(true);
 }
 
 private deleteProfile(profileID :number){

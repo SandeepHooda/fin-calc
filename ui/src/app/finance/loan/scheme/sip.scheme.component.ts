@@ -111,7 +111,7 @@ private  monthDiff(d1 : Date, d2 : Date) {
     return this.SIPerrorStartDate || this.SIPerrorEndDate || !this.sipSchemeDetails.startDate || !this.sipSchemeDetails.endDate ||
     !this.sipSchemeDetails.sipAmount || (this.sipSchemeDetails.sipAmount ==0) ||
     (this.sipSchemeDetails.withdrawlsRows[0].amount ==0 || this.sipSchemeDetails.withdrawlsRows[0].amount == null) ||
-    !this.sipSchemeDetails.withdrawlsRows[0].date || (this.sipSchemeDetails.withdrawlsRows[0].date.getTime() <=this.sipSchemeDetails.startDate.getTime());
+    !this.sipSchemeDetails.withdrawlsRows[0].date || (this.sipSchemeDetails.withdrawlsRows[0].date.getTime() >this.sipSchemeDetails.startDate.getTime());
   }
   private checkDateValidation(){
     this.SIPerrorStartDate = false;

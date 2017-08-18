@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewEncapsulation  } from '@angular/core';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import  {XirrService} from './xirr-service';
-
+import {EventService} from '../../common/EventService';
 
 
 @Component({
@@ -17,10 +17,12 @@ private signedInUserEmail:string ;
 private httpError:String
 
 
-  constructor(private xirrService:XirrService) {
+  constructor(private xirrService:XirrService, private eventService : EventService) {
 
    }
-
+private refreshPage(){
+  this.eventService.refresh();
+}
  private showName(name: string) {
     if (null == name || 'null' == name || '' == name){
       this.signedInUser = undefined;

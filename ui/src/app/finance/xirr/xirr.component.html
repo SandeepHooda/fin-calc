@@ -18,6 +18,7 @@
 
 
 <div *ngIf="signedInUser">
+ <div class="refresh" (click)="refreshPage()">   <i class="fa fa-refresh fa-2x " aria-hidden="true"></i> </div>
  <nav-bar></nav-bar>
  <br/>
  <router-outlet></router-outlet>
