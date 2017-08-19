@@ -446,9 +446,9 @@ private static boolean calculateMonthlyRollingReturn(List<NavVoUI> uiNAvs){
 
 		}
 		
-		    double zoomFactor = 500000;
-		
-			for (ChartVO schemeChart: chartVos){
+		    double zoomFactor = 10;
+		    double chartMaxValue = 10;
+			/*for (ChartVO schemeChart: chartVos){
 				 List<ChartNAV> schemeNavs = schemeChart.getNavs();
 				 for (ChartNAV aNav : schemeNavs ){
 					 if (aNav.getNav() > 0){//Now look in another scheme
@@ -458,7 +458,7 @@ private static boolean calculateMonthlyRollingReturn(List<NavVoUI> uiNAvs){
 						 break;
 					 }
 				 }
-			}
+			}*/
 		
 		
 				
@@ -479,7 +479,7 @@ private static boolean calculateMonthlyRollingReturn(List<NavVoUI> uiNAvs){
 					chartStartDate.add(Calendar.MONTH, -11);
 					int chartNavePointer = 0;
 					
-					int settlePeriodDays = 10;
+					int settlePeriodDays = 0;
 					int nextNavStep = 1;
 					boolean allNavDone = false;
 					
@@ -489,9 +489,11 @@ private static boolean calculateMonthlyRollingReturn(List<NavVoUI> uiNAvs){
 						ChartNAV nav = schemeChart.getNavs().get(0);
 						ChartNAV lastKnownNav = nav;
 						boolean zoomNeeded = false;
-						if (nav.getNav() / zoomFactor > 10 ) {
+						if (nav.getNav() > chartMaxValue ) {
 							zoomNeeded = true;
+							zoomFactor = nav.getNav() / chartMaxValue;
 						}
+						log.info("zoomNeeded  " + nav.getNav() + " ? " + zoomNeeded);
 						while(chartStartDate.before(chartEndDate) && !allNavDone){
 							
 							if (sdf.parse(nav.getDt()).getTime() == chartStartDate.getTime().getTime()){
@@ -511,9 +513,9 @@ private static boolean calculateMonthlyRollingReturn(List<NavVoUI> uiNAvs){
 											nav.setRollingRate(lastKnownNav.getRollingRate());
 										}*/
 										if (zoomNeeded){
-											nav.setBpi(nav.getNav()/zoomFactor);
+											nav.setScaled(nav.getNav()/zoomFactor);
 										}else {
-											nav.setBpi(nav.getNav());
+											nav.setScaled(nav.getNav());
 										}
 										lastKnownNav = nav;
 										completeNav.add(nav);

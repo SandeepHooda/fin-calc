@@ -18,12 +18,12 @@
         <p-chart type="line" [data]="data" (onDataSelect)="selectData($event)"></p-chart>
     </p-accordionTab>
      <p-accordionTab header="My Profile">
-        <p-toggleButton [(ngModel)]="showBpi" onLabel="Show Absolute nav values" offLabel="Show % rate of increase"></p-toggleButton>
-        <span *ngIf="!showBpi">
+        <p-toggleButton [(ngModel)]="showScaled" onLabel="Show Absolute nav values" offLabel="Show Scaled values"></p-toggleButton>
+        <span *ngIf="!showScaled">
         <p-chart type="line" [data]="myProfile" (onDataSelect)="selectData($event)"></p-chart>
         </span>
-        <span *ngIf="showBpi">
-        <p-chart type="line" [data]="myProfileBpi" (onDataSelect)="selectData($event)"></p-chart>
+        <span *ngIf="showScaled">
+        <p-chart type="line" [data]="myProfileScaled" (onDataSelect)="selectData($event)"></p-chart>
         </span>
     </p-accordionTab>
 </p-accordion>

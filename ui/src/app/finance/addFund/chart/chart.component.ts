@@ -25,8 +25,8 @@ export class Chart implements OnInit {
     private chartJson : Array<ChartVO> = new Array<ChartVO>();
     private data: chartData = new chartData();
     private myProfile : chartData = new chartData();
-    private myProfileBpi : chartData = new chartData();
-    private showBpi : boolean = true;
+    private myProfileScaled : chartData = new chartData();
+    private showScaled : boolean = true;
     private range : SelectItem[] = [];
     private selectedRange : string = "&schemeCountFrom=1&schemeCountTo=10";
     
@@ -114,23 +114,23 @@ private showChartDataUIForMyProfile(charData : Array<ChartVO>){
     //this.calculateBpi(charData);
      this.renderer.setElementStyle(this.spinnerElement.nativeElement, 'display','none');
      let myProfileChart: chartData = new chartData();
-     let myProfileChartBpi: chartData = new chartData();
+     let myProfileChartScaled: chartData = new chartData();
      for (let i = 0; i< charData[0].navs.length;i++){
             myProfileChart.labels.push(charData[0].navs[i].dt);
            
         }
-     myProfileChartBpi.labels = myProfileChart.labels;
+     myProfileChartScaled.labels = myProfileChart.labels;
  let borderColor : Array<string> = ["#000000","#c0c0c0","#800000", "#ff0000","#800080","#ff00ff", "#008000","#00ff00","#808000", "#ffff00","#000080","#0000ff", "#00ffff","#ffa500","#006400"];
      let colorID : number = 0;
         for (let i=0;i<charData.length;i++){
             let chartVO : ChartVO = charData[i];
             let dataSet : ChartDataSets = new ChartDataSets();
-            let dataSetBpi : ChartDataSets = new ChartDataSets();
+            let dataSetScaled : ChartDataSets = new ChartDataSets();
            
             dataSet.label = this.allHouseProfiles[chartVO._id] || chartVO._id;
-            dataSetBpi.label = dataSet.label;
+            dataSetScaled.label = dataSet.label;
             dataSet.borderColor = borderColor[colorID];
-            dataSetBpi.borderColor = dataSet.borderColor;
+            dataSetScaled.borderColor = dataSet.borderColor;
             colorID++;
             if (colorID> 14){
                 colorID = 0;
@@ -139,16 +139,16 @@ private showChartDataUIForMyProfile(charData : Array<ChartVO>){
             let navSize = chartVO.navs.length;
             for (let j=0;j<navSize;j++){
                 dataSet.data.push(chartVO.navs[j].nav);
-                dataSetBpi.data.push(chartVO.navs[j].bpi);
+                dataSetScaled.data.push(chartVO.navs[j].scaled);
             }
 
             
            myProfileChart.datasets.push(dataSet);
-           myProfileChartBpi.datasets.push(dataSetBpi);
+           myProfileChartScaled.datasets.push(dataSetScaled);
         }
 
      this.myProfile = myProfileChart;
-     this.myProfileBpi = myProfileChartBpi;
+     this.myProfileScaled = myProfileChartScaled;
 
 }
   private showChart(charData : Array<ChartVO>){
@@ -193,7 +193,7 @@ private showChartDataUIForMyProfile(charData : Array<ChartVO>){
             let navSize = chartVO.navs.length;
             for (let j=0;j<navSize;j++){
                 let charNAV : ChartNAV = chartVO.navs[j];
-                dataSet.data.push(charNAV.bpi);
+                dataSet.data.push(charNAV.scaled);
             }
 
             let navEndDate = new Date(parseInt(chartVO.navs[navSize-1].dt.substr(7,4)),

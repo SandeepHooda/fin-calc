@@ -5,8 +5,8 @@ package com.chart;
 public class ChartNAV {
 	private double nav;
 	private String dt;
-	private double bpi;
-	private double rollingRate;
+	private double scaled;
+	//private double rollingRate;
 	public ChartNAV(){
 		
 	}
@@ -14,7 +14,7 @@ public class ChartNAV {
 		ChartNAV obj = new ChartNAV();
 		obj.nav = this.nav;
 		obj.dt = this.dt;
-		obj.bpi = this.bpi;
+		obj.scaled = this.scaled;
 		//obj.bpiS = this.bpiS;
 		return obj;
 	}
@@ -33,19 +33,13 @@ public class ChartNAV {
 	public void setDt(String dt) {
 		this.dt = dt;
 	}
-	public double getBpi() {
-		return bpi;
+	public double getScaled() {
+		return scaled;
 	}
-	public void setBpi(double bpi) {
-		this.bpi = bpi;
+	public void setScaled(double scaled) {
+		this.scaled = scaled;
 	}
 	
-	public double getRollingRate() {
-		return rollingRate;
-	}
-	public void setRollingRate(double rollingRate) {
-		this.rollingRate = rollingRate;
-	}
 	
 
 
