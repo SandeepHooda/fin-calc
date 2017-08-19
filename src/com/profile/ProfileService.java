@@ -466,62 +466,83 @@ private static boolean calculateMonthlyRollingReturn(List<NavVoUI> uiNAvs){
 					chartStartDate.add(Calendar.MONTH, -11);
 					int chartNavePointer = 0;
 					double baseValue = 0;
-					Date baseDate = null;
-					int settlePeriodDays = 0;
-					int nextNavStep = 10;
+					//Date baseDate = null;
+					int settlePeriodDays = 10;
+					int nextNavStep = 1;
+					boolean allNavDone = false;
 					try {
-						ChartNAV navLastKnown = new ChartNAV(sdf.format(chartStartDate.getTime())) ;
+						
 						ChartNAV nav = schemeChart.getNavs().get(0);
+						ChartNAV lastKnownNav = nav;
 						
-						
-						while(chartStartDate.before(chartEndDate)){
+						while(chartStartDate.before(chartEndDate) && !allNavDone){
 							
-							if (nav.getDt().equalsIgnoreCase(sdf.format(chartStartDate.getTime()))){
+							if (sdf.parse(nav.getDt()).getTime() == chartStartDate.getTime().getTime()){
 								
 								
 								//Calculate BPI
 								if (baseValue ==0){
 									baseValue = nav.getNav();
-									baseDate = sdf.parse(nav.getDt());
+									//baseDate = sdf.parse(nav.getDt());
 								}else {
 									if (chartNavePointer > settlePeriodDays){//Let it settle
-										int noOfDays = daysBetweenDates(baseDate,sdf.parse(nav.getDt()));
+										//int noOfDays = daysBetweenDates(baseDate,sdf.parse(nav.getDt()));
 										//nav.setBpi( ((nav.getNav() - baseValue)/ baseValue *100) *(365/noOfDays));
+										ChartNAV previousNav = schemeChart.getNavs().get(chartNavePointer -settlePeriodDays);
 										double payments[] = new double[2];
 										String dates[] = new String[2];
-										payments[0] =  navLastKnown.getNav() *-1;
+										payments[0] =  previousNav.getNav() *-1;
 										payments[1] =  nav.getNav();
-										dates[0] = navLastKnown.getDt();
+										dates[0] = previousNav.getDt();
 										dates[1] = nav.getDt();
-										//nav.setBpiS( ((nav.getNav() - baseValue)/ baseValue *100) *(365/noOfDays));
+										
 										nav.setBpi( XirrCalculatorService.Newtons_method2(0.1,payments, dates));
-										if (nav.getBpi() == 0){
-											nav.setBpi(navLastKnown.getBpi());
+										
+										if (nav.getBpi() == 0  ){
+											nav.setBpi(lastKnownNav.getBpi());
 										}
-										navLastKnown = nav;
-										completeNav.add(navLastKnown.clone());
+										lastKnownNav = nav;
+										completeNav.add(nav);
 										
 									}
+									
+										if(schemeChart.getNavs().size() > (chartNavePointer +nextNavStep) ){
+											chartStartDate.add(Calendar.DAY_OF_MONTH, 1);//Move to next day
+											chartNavePointer +=nextNavStep;
+											nav = schemeChart.getNavs().get(chartNavePointer);//and get next nav from list
+										}else {
+											allNavDone = true;
+											
+										}
+									
+									
+									
 									
 								}
 								
 								
-								//Ignore the same date navs
-								while(schemeChart.getNavs().size() > (chartNavePointer +nextNavStep) && nav.getDt().equalsIgnoreCase(sdf.format(chartStartDate.getTime()))){
-									chartNavePointer +=nextNavStep;
-									nav = schemeChart.getNavs().get(chartNavePointer);
-								}
-							}else {
-								//chartNavePointer++;
-								ChartNAV navToAdd = navLastKnown.clone();
-								navToAdd.setDt(sdf.format(chartStartDate.getTime()));
-								if (chartNavePointer > settlePeriodDays && navToAdd.getBpi() != 0){
-									completeNav.add(navToAdd);
-								}
+							}else if (sdf.parse(nav.getDt()).getTime() < chartStartDate.getTime().getTime()) {//This Date Nav is already added in the list ignore this
+								   
+									if(schemeChart.getNavs().size() > (chartNavePointer +nextNavStep) ){
+										chartNavePointer +=nextNavStep;
+										nav = schemeChart.getNavs().get(chartNavePointer);
+									}else {
+										allNavDone = true;
+										
+									}
 								
+							}else {//Some navs are missing add dummy nav to complete the list
+								ChartNAV navToAdd = lastKnownNav.clone();
+								navToAdd.setDt(sdf.format(chartStartDate.getTime()));
+								completeNav.add(navToAdd);
+								chartStartDate.add(Calendar.DAY_OF_MONTH, 1);//Move to next day
 							}
 							
-							chartStartDate.add(Calendar.DAY_OF_MONTH, 1);
+								
+								
+							
+							
+							
 							
 						}
 						schemeChart.setNavs(completeNav);
