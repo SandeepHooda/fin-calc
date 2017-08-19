@@ -342,10 +342,13 @@ public class ChartDAO implements Runnable {
 		
 	}
 	
-	
-	public static boolean isUpdateNeeded(String houseID){
+	 
+	public static boolean isUpdateNeeded(String houseID){ 
 		houseID = "_"+houseID;
-			String httpsURL = "https://api.mlab.com/api/1/databases/"+Constants.dbName_mutualFunfs+"/collections/"+houseID+"/"+Constants.timeOfUpdateKey+"?apiKey="+Constants.mlabKey_mutualFunfs;
+	
+			
+			
+			String httpsURL = "https://api.mlab.com/api/1/databases/"+Constants.timestamp+"/collections/"+houseID+"?apiKey="+Constants.mlabKey_mutualFunfs;
 			
 			String respo = "";
 			 try {
@@ -363,7 +366,11 @@ public class ChartDAO implements Runnable {
 			 
 			 log.info("is update needed "+respo);
 			
-			 if (respo.indexOf("Document not found") < 0){
+			 if (respo.indexOf("Document not found") < 0 && respo.indexOf("[  ]") < 0 ){
+				 if (respo.indexOf("[ { \"_id\"") >=0){
+					 respo= respo.replace("[ { \"_id\"", "{ \"_id\"");
+					 respo= respo.replace("]} ]", "]}");
+				 }
 				 Gson  json = new Gson();
 				 ChartVO chartVO = json.fromJson(respo,ChartVO.class);
 				 Date today = new Date();
@@ -374,7 +381,10 @@ public class ChartDAO implements Runnable {
 			 
 			 
 		
+		
+		
 		return true;
+		
 	}
 	
 	public static String getDataOrCreateNewCollection(String houseID, boolean suppressDefaultKey, String datakey ){

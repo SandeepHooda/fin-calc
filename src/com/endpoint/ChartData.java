@@ -46,25 +46,19 @@ public class ChartData extends HttpServlet {
 		}
 		
 		
-		//email = "sonu.hooda@gmail.com";
-		/*Portfolio portfolio = ProfileService.getPortfolioDromDB(email);
-		List<ChartVO> chartData = ProfileService.getHistoricalData(portfolio, noOfSemesters);
-		ProfileService.calculatePercentage(chartData,  portfolio);
-		Gson  json = new Gson();
-		String chartDataStr = json.toJson(chartData, new TypeToken<List<ChartVO>>() {}.getType());
-		response.getWriter().append(chartDataStr);*/
+		
 		log.info(" Trying for noOfSemesters "+noOfSemesters+" noOfMonths ="+noOfMonths );
 		if (noOfSemesters > 0){
 			ProfileService.getAllHistoricalData( noOfSemesters);
 		}
 		
 		if (noOfMonths > 0){
-			ProfileService.getAllHistoricalMonthlyData( noOfMonths);
+			ProfileService.getAllHistoricalMonthlyData( );
 		}
 		
 		
 		noOfSemesters -=2;
-		noOfMonths -=12;
+		
 	
 		
 		while(noOfSemesters > 0){//When some recors failed due to data size
@@ -73,12 +67,7 @@ public class ChartData extends HttpServlet {
 			noOfSemesters -=2;
 			
 		}
-		while(noOfMonths > 0){//When some recors failed due to data size
-			log.info(" Fail re-trying for noOfMonths "+noOfMonths );
-			ProfileService.getAllHistoricalMonthlyData( noOfMonths);
-			noOfMonths -=12;
-			
-		}
+		
 		response.getWriter().append("Done");
 		
 	}

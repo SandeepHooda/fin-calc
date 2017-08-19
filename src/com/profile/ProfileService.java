@@ -349,7 +349,7 @@ private static boolean calculateMonthlyRollingReturn(List<NavVoUI> uiNAvs){
 
 	}
 	
-	public static void getAllHistoricalMonthlyData(int noOfMonths) {
+	public static void getAllHistoricalMonthlyData() {
 		Set<String> houseIds = FinConstants.houseNameMap.keySet();
 
 		List<ChartVO> chartVos = new ArrayList<ChartVO>();
@@ -363,8 +363,8 @@ private static boolean calculateMonthlyRollingReturn(List<NavVoUI> uiNAvs){
 				// service.execute( worker);
 				workers.add(worker);
 				try {
-					worker.getChartMonthly(noOfMonths);
-					updateResultinDB(worker, chartVos);
+					worker.getChartDataForAllDaysOfYear(); //It inserts in db as well
+					updateTimeStampIn(houseID);
 					log.info("we have cached data for future use for house id  " + houseID);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -378,6 +378,20 @@ private static boolean calculateMonthlyRollingReturn(List<NavVoUI> uiNAvs){
 		
 		log.info("Will get all results from all workers now ");
 
+	}
+	private static void updateTimeStampIn(String houseID){
+	
+		List<ChartVO> houseData = new ArrayList<ChartVO>();
+		ChartVO timeOfUpdate = new ChartVO();
+		timeOfUpdate.set_id(Constants.timeOfUpdateKey);
+		timeOfUpdate.setTm(new Date().getTime());
+		houseData.add(timeOfUpdate);
+		
+		Gson json = new Gson();
+
+		String houseData_Str = json.toJson(houseData, new TypeToken<List<ChartVO>>() {}.getType());
+		
+		 ProfileDAO.insertData("_" + houseID, houseData_Str, Constants.timestamp,	Constants.mlabKey_mutualFunfs);
 	}
 
 	private static void updateResultinDB(ChartDAO worker, List<ChartVO> chartVos) {
