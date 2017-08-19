@@ -6,7 +6,7 @@ public class ChartNAV {
 	private double nav;
 	private String dt;
 	private double bpi;
-	//private double bpiS;//Simple intest
+	private double rollingRate;
 	public ChartNAV(){
 		
 	}
@@ -39,12 +39,13 @@ public class ChartNAV {
 	public void setBpi(double bpi) {
 		this.bpi = bpi;
 	}
-	/*public double getBpiS() {
-		return bpiS;
+	
+	public double getRollingRate() {
+		return rollingRate;
 	}
-	public void setBpiS(double bpiS) {
-		this.bpiS = bpiS;
-	}*/
+	public void setRollingRate(double rollingRate) {
+		this.rollingRate = rollingRate;
+	}
 	
 
 

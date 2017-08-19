@@ -446,6 +446,19 @@ private static boolean calculateMonthlyRollingReturn(List<NavVoUI> uiNAvs){
 
 		}
 		
+		    double zoomFactor = 500000;
+		
+			for (ChartVO schemeChart: chartVos){
+				 List<ChartNAV> schemeNavs = schemeChart.getNavs();
+				 for (ChartNAV aNav : schemeNavs ){
+					 if (aNav.getNav() > 0){//Now look in another scheme
+						 if (aNav.getNav() < zoomFactor ){
+							 zoomFactor =  aNav.getNav() ;
+						 }
+						 break;
+					 }
+				 }
+			}
 		
 		
 				
@@ -465,41 +478,42 @@ private static boolean calculateMonthlyRollingReturn(List<NavVoUI> uiNAvs){
 					chartStartDate.set(Calendar.DATE, 1);
 					chartStartDate.add(Calendar.MONTH, -11);
 					int chartNavePointer = 0;
-					double baseValue = 0;
-					//Date baseDate = null;
+					
 					int settlePeriodDays = 10;
 					int nextNavStep = 1;
 					boolean allNavDone = false;
+					
+					
 					try {
 						
 						ChartNAV nav = schemeChart.getNavs().get(0);
 						ChartNAV lastKnownNav = nav;
-						
+						boolean zoomNeeded = false;
+						if (nav.getNav() / zoomFactor > 10 ) {
+							zoomNeeded = true;
+						}
 						while(chartStartDate.before(chartEndDate) && !allNavDone){
 							
 							if (sdf.parse(nav.getDt()).getTime() == chartStartDate.getTime().getTime()){
 								
-								
-								//Calculate BPI
-								if (baseValue ==0){
-									baseValue = nav.getNav();
-									//baseDate = sdf.parse(nav.getDt());
-								}else {
+							
 									if (chartNavePointer > settlePeriodDays){//Let it settle
-										//int noOfDays = daysBetweenDates(baseDate,sdf.parse(nav.getDt()));
-										//nav.setBpi( ((nav.getNav() - baseValue)/ baseValue *100) *(365/noOfDays));
-										ChartNAV previousNav = schemeChart.getNavs().get(chartNavePointer -settlePeriodDays);
+										
+										/*ChartNAV previousNav = schemeChart.getNavs().get(chartNavePointer -settlePeriodDays);
 										double payments[] = new double[2];
 										String dates[] = new String[2];
 										payments[0] =  previousNav.getNav() *-1;
 										payments[1] =  nav.getNav();
 										dates[0] = previousNav.getDt();
 										dates[1] = nav.getDt();
-										
-										nav.setBpi( XirrCalculatorService.Newtons_method2(0.1,payments, dates));
-										
-										if (nav.getBpi() == 0  ){
-											nav.setBpi(lastKnownNav.getBpi());
+										nav.setRollingRate( XirrCalculatorService.Newtons_method2(0.1,payments, dates));
+										if (nav.getRollingRate() == 0  ){
+											nav.setRollingRate(lastKnownNav.getRollingRate());
+										}*/
+										if (zoomNeeded){
+											nav.setBpi(nav.getNav()/zoomFactor);
+										}else {
+											nav.setBpi(nav.getNav());
 										}
 										lastKnownNav = nav;
 										completeNav.add(nav);
@@ -515,11 +529,7 @@ private static boolean calculateMonthlyRollingReturn(List<NavVoUI> uiNAvs){
 											
 										}
 									
-									
-									
-									
-								}
-								
+							
 								
 							}else if (sdf.parse(nav.getDt()).getTime() < chartStartDate.getTime().getTime()) {//This Date Nav is already added in the list ignore this
 								   
