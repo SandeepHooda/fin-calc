@@ -53,14 +53,14 @@ a {
   cursor: hand;
 }
 .refresh {
-  padding-right: 20px; 
+  padding-right: 50px; 
   float: right;
 
 }
 .grid-heder {
   padding-left: 45%; 
   text-align: left;
-  
+
 }
 @media (max-width: 730px) {
 .grid-heder {

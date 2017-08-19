@@ -66,11 +66,26 @@ public class XirrCalculatorService {
 	        }
 	        return Newtons_method(guess,payments,date) ;
 	    }
+	    public static double Newtons_method2(double guess, double[] payments, String[] dateStr) {
+	    	Date[] date = new Date[dateStr.length];
+	        for(int i=0;i<dateStr.length;i++){
+	        	date[i] = strToDate2(dateStr[i]);
+	        }
+	        return Newtons_method(guess,payments,date) ;
+	    }
 
 	    private static SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 	    public static Date strToDate(String str){
 	        try {
 	            return sdf.parse(str);
+	        } catch (ParseException ex) {
+	            return null;
+	        }
+	    }
+	    private static SimpleDateFormat sdf2 = new SimpleDateFormat("dd-MMM-yyyy");
+	    public static Date strToDate2(String str){
+	        try {
+	            return sdf2.parse(str);
 	        } catch (ParseException ex) {
 	            return null;
 	        }

@@ -6,6 +6,7 @@ public class ChartNAV {
 	private double nav;
 	private String dt;
 	private double bpi;
+	//private double bpiS;//Simple intest
 	public ChartNAV(){
 		
 	}
@@ -14,6 +15,7 @@ public class ChartNAV {
 		obj.nav = this.nav;
 		obj.dt = this.dt;
 		obj.bpi = this.bpi;
+		//obj.bpiS = this.bpiS;
 		return obj;
 	}
 	public ChartNAV(String dt){
@@ -37,6 +39,13 @@ public class ChartNAV {
 	public void setBpi(double bpi) {
 		this.bpi = bpi;
 	}
+	/*public double getBpiS() {
+		return bpiS;
+	}
+	public void setBpiS(double bpiS) {
+		this.bpiS = bpiS;
+	}*/
+	
 
 
 }

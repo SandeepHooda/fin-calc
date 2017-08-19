@@ -468,9 +468,11 @@ private static boolean calculateMonthlyRollingReturn(List<NavVoUI> uiNAvs){
 					double baseValue = 0;
 					Date baseDate = null;
 					int settlePeriodDays = 0;
+					int nextNavStep = 10;
 					try {
 						ChartNAV navLastKnown = new ChartNAV(sdf.format(chartStartDate.getTime())) ;
 						ChartNAV nav = schemeChart.getNavs().get(0);
+						
 						
 						while(chartStartDate.before(chartEndDate)){
 							
@@ -484,24 +486,37 @@ private static boolean calculateMonthlyRollingReturn(List<NavVoUI> uiNAvs){
 								}else {
 									if (chartNavePointer > settlePeriodDays){//Let it settle
 										int noOfDays = daysBetweenDates(baseDate,sdf.parse(nav.getDt()));
-										nav.setBpi( ((nav.getNav() - baseValue)/ baseValue *100) *(365/noOfDays));
+										//nav.setBpi( ((nav.getNav() - baseValue)/ baseValue *100) *(365/noOfDays));
+										double payments[] = new double[2];
+										String dates[] = new String[2];
+										payments[0] =  navLastKnown.getNav() *-1;
+										payments[1] =  nav.getNav();
+										dates[0] = navLastKnown.getDt();
+										dates[1] = nav.getDt();
+										//nav.setBpiS( ((nav.getNav() - baseValue)/ baseValue *100) *(365/noOfDays));
+										nav.setBpi( XirrCalculatorService.Newtons_method2(0.1,payments, dates));
+										if (nav.getBpi() == 0){
+											nav.setBpi(navLastKnown.getBpi());
+										}
 										navLastKnown = nav;
-										completeNav.add(nav.clone());
+										completeNav.add(navLastKnown.clone());
+										
 									}
 									
 								}
 								
 								
 								//Ignore the same date navs
-								while(schemeChart.getNavs().size() > (chartNavePointer +1) && nav.getDt().equalsIgnoreCase(sdf.format(chartStartDate.getTime()))){
-									chartNavePointer++;
+								while(schemeChart.getNavs().size() > (chartNavePointer +nextNavStep) && nav.getDt().equalsIgnoreCase(sdf.format(chartStartDate.getTime()))){
+									chartNavePointer +=nextNavStep;
 									nav = schemeChart.getNavs().get(chartNavePointer);
 								}
 							}else {
 								//chartNavePointer++;
-								navLastKnown.setDt(sdf.format(chartStartDate.getTime()));
-								if (chartNavePointer > settlePeriodDays && navLastKnown.getBpi() != 0){
-									completeNav.add(navLastKnown.clone());
+								ChartNAV navToAdd = navLastKnown.clone();
+								navToAdd.setDt(sdf.format(chartStartDate.getTime()));
+								if (chartNavePointer > settlePeriodDays && navToAdd.getBpi() != 0){
+									completeNav.add(navToAdd);
 								}
 								
 							}

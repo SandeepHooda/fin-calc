@@ -36,6 +36,7 @@ export class AddFunds implements OnInit {
      private totalPercentGainAbsolute : number;
      private totalInvetment : number;
      private msgs : Message[] = [];
+     private refreshTime : number = 0;
     
     constructor(private fundService :FundService,private renderer: Renderer, private router:Router, 
     private eventService : EventService) {} 
@@ -63,6 +64,13 @@ export class AddFunds implements OnInit {
       this.refreshPage(true);
     }
     private refreshPage(forceRefresh: boolean){
+      if (forceRefresh && ((new Date().getTime() - this.refreshTime ) > 60000)){
+        this.refreshTime = new Date().getTime();
+      }else {
+        forceRefresh = false;
+        console.log(" You are hitting refresh too often");
+      }
+      
       let lastKnownPortFolio = localStorage.getItem('lastKnownPortFolio');
 
       if (null != lastKnownPortFolio){
@@ -101,6 +109,7 @@ export class AddFunds implements OnInit {
       this.refreshPage(false);
       this.eventService.refreshEvent.subscribe( (refresh : string)=> {
         if ("/lumpsump" === this.router.url ){
+          
           console.log("Refesh from lump sump "+this.router.url);
          this.refreshPage(true);
         }

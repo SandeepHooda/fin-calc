@@ -7,20 +7,20 @@
     <a class="btn btn-block btn-social btn-google" style="width:130px;color:#eee" *ngIf="!signedInUser" href="/oauth2callback?request=signin">
         <span class="fa fa-google"></span>Sign in 
     </a>
-
+<div class="refresh" *ngIf="signedInUser"> 
+     <button style="width: 40px;height: 40px" icon="fa fa-refresh" pButton type="button" (click)="refreshPage()"></button>
+ </div>
     <a class="btn btn-block btn-social btn-google" style="width:130px;color:#eee" *ngIf="signedInUser" href="/SignOut" (click)="deleteLocalStorage()">
         <span class="fa fa-google"></span>Sign out 
     </a>
-   
+    
     <span *ngIf="signedInUser">Welcome {{signedInUser}}</span>
 </div>
 <!-- Section 2 navigation --> 
 
 
 <div *ngIf="signedInUser">
- <div class="refresh" > 
-     <button style="width: 50px;height: 50px" icon="fa fa-refresh fa-2x " pButton type="button" (click)="refreshPage()"></button>
- </div>
+ 
  <nav-bar></nav-bar>
  <br/>
  <router-outlet></router-outlet>

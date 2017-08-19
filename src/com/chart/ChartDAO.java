@@ -127,7 +127,7 @@ public class ChartDAO implements Runnable {
 				 dataFromCache = json.toJson(data, MonthlyData.class);
 				
 				 ProfileDAO.insertData(houseCode,dataFromCache,monthArray[month],Constants.mlabKey_mutualFunfs);
-				 log.info("month "+month +" houseCode "+houseCode +" inserted into cache : size "+ dataFromCacheList.size()); 
+				 //log.info("month "+month +" houseCode "+houseCode +" inserted into cache : size "+ dataFromCacheList.size()); 
 			}
 			
 		}else {
@@ -137,7 +137,7 @@ public class ChartDAO implements Runnable {
 			dataFromCache = dataFromCache.substring(0, dataFromCache.lastIndexOf("]"));
 			MonthlyData data= json.fromJson(dataFromCache,  MonthlyData.class);
 			dataFromCacheList = data.getNavs();
-			log.info("month "+month +" houseCode "+houseCode +" data from cache "+ dataFromCacheList.size()); 
+			//log.info("month "+month +" houseCode "+houseCode +" data from cache "+ dataFromCacheList.size()); 
 		}
 		return dataFromCacheList;
 	}
@@ -157,7 +157,7 @@ public class ChartDAO implements Runnable {
 		   String fromDate = sdf.format(fromCal.getTime());
 			 String toDate = sdf.format(toCal.getTime());
 	    	 url = "http://portal.amfiindia.com/DownloadNAVHistoryReport_Po.aspx?mf="+houseCode+"&tp=1&frmdt="+fromDate+"&todt="+toDate;
-	    	 log.info(url);
+	    	 //log.info(url);
 	    	 List<String> historicalNavsForAHouse = null;
 	    	 if (today.get(Calendar.MONTH) != fromCal.get(Calendar.MONTH)){
 	    		 historicalNavsForAHouse = getMonthDataFromCache(url,fromCal.get(Calendar.MONTH),houseCode, true);
