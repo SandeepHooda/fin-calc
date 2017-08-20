@@ -2,7 +2,7 @@ import { Component, OnInit, ViewEncapsulation  } from '@angular/core';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import  {XirrService} from './xirr-service';
 import {EventService} from '../../common/EventService';
-
+import {Router} from '@angular/router';
 
 @Component({
  selector : 'xirr', 
@@ -13,11 +13,12 @@ import {EventService} from '../../common/EventService';
 export class XIRR implements OnInit {
 private signedInUser:string ;
 private signedInUserEmail:string ;
+private showRefreshButton : boolean;
 
 private httpError:String
 
 
-  constructor(private xirrService:XirrService, private eventService : EventService) {
+  constructor(private xirrService:XirrService, private eventService : EventService, private route : Router) {
 
    }
 private refreshPage(){
@@ -69,6 +70,14 @@ private refreshPage(){
     
    }
     
+    this.route.events.subscribe(params => {
+      if (this.route.url === '/lumpsump'){
+        this.showRefreshButton = true;
+      }else {
+        this.showRefreshButton = false;
+      }
+   
+});
    //localStorage.setItem('signedInUser', 'Sandeep Hooda');  
    //localStorage.setItem('signedInUserEmail', 'sonu.hooda@gmail.com'); 
   //this.signedInUser = "sonu";

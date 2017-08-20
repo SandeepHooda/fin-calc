@@ -7,7 +7,7 @@
     <a class="btn btn-block btn-social btn-google" style="width:130px;color:#eee" *ngIf="!signedInUser" href="/oauth2callback?request=signin">
         <span class="fa fa-google"></span>Sign in 
     </a>
-<div class="refresh" *ngIf="signedInUser"> 
+<div class="refresh" *ngIf="signedInUser && showRefreshButton"> 
      <button style="width: 40px;height: 40px" icon="fa fa-refresh" pButton type="button" (click)="refreshPage()"></button>
  </div>
     <a class="btn btn-block btn-social btn-google" style="width:130px;color:#eee" *ngIf="signedInUser" href="/SignOut" (click)="deleteLocalStorage()">
