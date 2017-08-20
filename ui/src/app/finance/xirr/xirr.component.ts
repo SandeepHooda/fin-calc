@@ -57,8 +57,6 @@ private refreshPage(){
       
    this.signedInUserEmail =  localStorage.getItem('signedInUserEmail');
    this.signedInUser =  localStorage.getItem('signedInUser');
-   this.signedInUserEmail = "a";
-   this.signedInUser = "b";
    if (!this.signedInUserEmail){
     this.xirrService.signedUserName().subscribe( 
         name => this.showName(name),
