@@ -12,10 +12,11 @@ public class Constants {
 	public static final String timestamp = "timestamp";
 	public static final String timeOfUpdateKey = "timeOfUpdateKey";
 	public static final Set<String> monthsDB = new HashSet<>();
+	public static final String allHouses =  "all_houses";
 	
 	static{
 		monthsDB.add("jan");monthsDB.add("feb");monthsDB.add("mar");monthsDB.add("apr");monthsDB.add("may");monthsDB.add("jun");
-		monthsDB.add("jul");monthsDB.add("aug");monthsDB.add("sep");monthsDB.add("oct");monthsDB.add("nov");monthsDB.add("dev");
+		monthsDB.add("jul");monthsDB.add("aug");monthsDB.add("sep");monthsDB.add("oct");monthsDB.add("nov");monthsDB.add("dec");
 		
 	}
 

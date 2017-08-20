@@ -108,6 +108,27 @@ public class ProfileDAO {
 	        }
 	}
 	
+public static void createNewCollectionWithData(String collectionToCreate, String dbName, String data, String key){
+		
+		String httpsURL = "https://api.mlab.com/api/1/databases/"+dbName+"/collections/"+collectionToCreate+"?apiKey="+key;
+		
+		 try {
+			
+		        URL url = new URL(httpsURL);
+	            HTTPRequest req = new HTTPRequest(url, HTTPMethod.POST, lFetchOptions);
+	            HTTPHeader header = new HTTPHeader("Content-type", "application/json");
+	            
+	            req.setHeader(header);
+	           
+	            req.setPayload(data.getBytes());
+	            fetcher.fetch(req);
+	            
+	 
+	        } catch (IOException e) {
+	        	
+	        }
+	}
+	
 	public static void insertData(String collection, String data, String dbName, String apiKey){
 		String httpsURL = "https://api.mlab.com/api/1/databases/"+dbName+"/collections/"+collection+"?apiKey="+apiKey;
 		

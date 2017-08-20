@@ -34,6 +34,7 @@ import com.chart.ChartNAV;
 import com.chart.ChartVO;
 import com.chart.ChartVOUI;
 import com.chart.ChartVOUIComparator;
+import com.chart.MonthlyData;
 import com.chart.NavVoUI;
 import com.common.FinConstants;
 import com.google.appengine.api.ThreadManager;
@@ -180,8 +181,37 @@ public class ProfileService {
 		}
 
 	}*/
+	
+public static List<ChartVO> getAllHouseTopPerformers(){
+	Iterator<String> itr = Constants.monthsDB.iterator();
+	List<MonthlyData> allHousesForAllYear = new ArrayList<>();
+	while(itr.hasNext()){
+		String month = itr.next();
+		log.info(month);
+		String allHousesForAMonth = ProfileDAO.getArrayData(month+"_all", Constants.allHouses, false, null,Constants.mlabKey_mutualFunfs);
+		Gson  json = new Gson();
+		allHousesForAllYear.addAll((List<MonthlyData> )json.fromJson(allHousesForAMonth, new TypeToken<List<MonthlyData>>() {}.getType()));
+
+		
+	}
+	Map<String, ChartVO>  schemCode_ChartVO_MAP = new HashMap<>();
+	ChartDAO dao = new ChartDAO(null,null);
+	for (MonthlyData data: allHousesForAllYear){
+		dao.populateChartVOMap(data.getNavs() ,  schemCode_ChartVO_MAP);
+	}
+	
+	
+	List<ChartVO> chartVos = new ArrayList<ChartVO>();
+	for (String schemeCode : schemCode_ChartVO_MAP.keySet()) {
+		chartVos.add(schemCode_ChartVO_MAP.get(schemeCode));
+		
+	}
+	
+	completeASchemeNavs(chartVos);
+	return chartVos;
+}
 public static List<ChartVOUI> getHouseChartData(String houseCode, int schemeCountFrom, int schemeCountTo){
-	List<ChartVO> listOfSchemes= ChartDAO.getHouseDataFromMDB(houseCode);
+	List<ChartVO> listOfSchemes= new ArrayList<>();ChartDAO.getHouseDataFromMDB(houseCode);
 	List<ChartVOUI> listOfSchemeUI = new ArrayList<ChartVOUI>();
 
 	for (ChartVO aScheme:listOfSchemes ){
@@ -328,7 +358,8 @@ private static boolean calculateMonthlyRollingReturn(List<NavVoUI> uiNAvs){
 		for (String houseID : houseIds) {
 			if (ChartDAO.isUpdateNeeded(houseID)) {
 				log.info("Creating a worker for house id  " + houseID);
-				ChartDAO worker = new ChartDAO(noOfSemesters, houseID);
+				boolean insertInfoAllHouseDb = false;
+				ChartDAO worker = new ChartDAO(noOfSemesters, houseID, insertInfoAllHouseDb);
 				// service.execute( worker);
 				workers.add(worker);
 				try {
@@ -349,22 +380,43 @@ private static boolean calculateMonthlyRollingReturn(List<NavVoUI> uiNAvs){
 
 	}
 	
-	public static void getAllHistoricalMonthlyData() {
+	public static void getAllHistoricalMonthlyData(boolean allDates) {
 		Set<String> houseIds = FinConstants.houseNameMap.keySet();
 
 		List<ChartVO> chartVos = new ArrayList<ChartVO>();
 		
 		List<ChartDAO> workers = new ArrayList<ChartDAO>();
-		
+		 Gson  json = new Gson();
+		 
 		for (String houseID : houseIds) {
 			if (ChartDAO.isUpdateNeeded(houseID)) {
 				log.info("Creating a worker for house id  " + houseID);
-				ChartDAO worker = new ChartDAO(0, houseID);
+				boolean insertInfoAllHouseDb = true;
+				ChartDAO worker = new ChartDAO(0, houseID, insertInfoAllHouseDb);
 				// service.execute( worker);
 				workers.add(worker);
 				try {
-					worker.getChartDataForAllDaysOfYear(); //It inserts in db as well
-					updateTimeStampIn(houseID);
+					Calendar fromCal =  new GregorianCalendar(), toCal =  new GregorianCalendar();
+					 
+					if (allDates){
+						 toCal.add(Calendar.MONTH,  -10); 
+						 toCal.set(Calendar.DATE, 1);
+						 fromCal.add(Calendar.MONTH, -11);
+						 fromCal.set(Calendar.DATE, 1);
+					}else {
+						
+						 toCal.add(Calendar.MONTH,  -11); 
+						 toCal.set(Calendar.DATE, 3);
+						fromCal.add(Calendar.MONTH, -11);
+						 fromCal.set(Calendar.DATE, 1);
+					}
+					if (worker.getChartDataForAllDaysOfYear(fromCal, toCal)) {
+						updateTimeStampIn(houseID);
+					}
+					
+					/*Map<String, ChartVO> result = worker.getResult();
+					 String dataToStore = json.toJson(result, new TypeToken<Map<String, ChartVO>>() {}.getType() );
+					ProfileDAO.createNewCollectionWithData("_"+houseID,Constants.dbName_mutualFunfs,dataToStore,Constants.mlabKey_mutualFunfs);*/
 					log.info("we have cached data for future use for house id  " + houseID);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -417,7 +469,7 @@ private static boolean calculateMonthlyRollingReturn(List<NavVoUI> uiNAvs){
 
 	public static List<ChartVO> getHistoricalDataForMyProfile(Portfolio portFolio) {
 		
-
+		boolean allDates = true;
 		
 		Set<String> houseIds = new HashSet<String>();
 		Set<String> schemeCodes = new HashSet<String>();
@@ -441,7 +493,21 @@ private static boolean calculateMonthlyRollingReturn(List<NavVoUI> uiNAvs){
 			ChartDAO worker = new ChartDAO( houseID, schemeCodes);
 			workers.add(worker);
 			try {
-				worker.getChartDataForAllDaysOfYear();
+				Calendar fromCal =  new GregorianCalendar(), toCal =  new GregorianCalendar();
+				 
+				if (allDates){
+					 toCal.add(Calendar.MONTH,  -10); 
+					 toCal.set(Calendar.DATE, 1);
+					 fromCal.add(Calendar.MONTH, -11);
+					 fromCal.set(Calendar.DATE, 1);
+				}else {
+					
+					 toCal.add(Calendar.MONTH,  -11); 
+					 toCal.set(Calendar.DATE, 3);
+					fromCal.add(Calendar.MONTH, -11);
+					 fromCal.set(Calendar.DATE, 1);
+				}
+				worker.getChartDataForAllDaysOfYear(fromCal, toCal);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -460,126 +526,110 @@ private static boolean calculateMonthlyRollingReturn(List<NavVoUI> uiNAvs){
 
 		}
 		
-		    double zoomFactor = 10;
-		    double chartMaxValue = 10;
-			/*for (ChartVO schemeChart: chartVos){
-				 List<ChartNAV> schemeNavs = schemeChart.getNavs();
-				 for (ChartNAV aNav : schemeNavs ){
-					 if (aNav.getNav() > 0){//Now look in another scheme
-						 if (aNav.getNav() < zoomFactor ){
-							 zoomFactor =  aNav.getNav() ;
-						 }
-						 break;
-					 }
-				 }
-			}*/
+		    
+		completeASchemeNavs(chartVos);
 		
 		
+		return chartVos;
+	}
+	
+	private static void completeASchemeNavs(List<ChartVO> chartVos){
+		double zoomFactor = 10;
+	    double chartMaxValue = 10;
+		
+	
+	
+			
+			Calendar chartEndDate = new GregorianCalendar();
+			chartEndDate.set(Calendar.HOUR_OF_DAY, 0);
+			chartEndDate.set(Calendar.MINUTE, 0);
+			chartEndDate.set(Calendar.SECOND, 0);
+			chartEndDate.set(Calendar.MILLISECOND, 0);
+			//Now fill default value if any  data if data not available due to system errors - add to last
+			for (ChartVO schemeChart: chartVos){
+				List<ChartNAV> completeNav = new ArrayList<ChartNAV>();
+				Calendar chartStartDate = new GregorianCalendar();
+				chartStartDate.set(Calendar.HOUR_OF_DAY, 0);
+				chartStartDate.set(Calendar.MINUTE, 0);
+				chartStartDate.set(Calendar.SECOND, 0);
+				chartStartDate.set(Calendar.MILLISECOND, 0);
+				chartStartDate.set(Calendar.DATE, 1);
+				chartStartDate.add(Calendar.MONTH, -11);
+				int chartNavePointer = 0;
 				
-				Calendar chartEndDate = new GregorianCalendar();
-				chartEndDate.set(Calendar.HOUR_OF_DAY, 0);
-				chartEndDate.set(Calendar.MINUTE, 0);
-				chartEndDate.set(Calendar.SECOND, 0);
-				chartEndDate.set(Calendar.MILLISECOND, 0);
-				//Now fill default value if any  data if data not available due to system errors - add to last
-				for (ChartVO schemeChart: chartVos){
-					List<ChartNAV> completeNav = new ArrayList<ChartNAV>();
-					Calendar chartStartDate = new GregorianCalendar();
-					chartStartDate.set(Calendar.HOUR_OF_DAY, 0);
-					chartStartDate.set(Calendar.MINUTE, 0);
-					chartStartDate.set(Calendar.SECOND, 0);
-					chartStartDate.set(Calendar.MILLISECOND, 0);
-					chartStartDate.set(Calendar.DATE, 1);
-					chartStartDate.add(Calendar.MONTH, -11);
-					int chartNavePointer = 0;
+				int settlePeriodDays = 0;
+				int nextNavStep = 1;
+				boolean allNavDone = false;
+				
+				
+				try {
 					
-					int settlePeriodDays = 0;
-					int nextNavStep = 1;
-					boolean allNavDone = false;
-					
-					
-					try {
+					ChartNAV nav = schemeChart.getNavs().get(0);
+					ChartNAV lastKnownNav = nav;
+					boolean zoomNeeded = false;
+					if (nav.getNav() > chartMaxValue ) {
+						zoomNeeded = true;
+						zoomFactor = nav.getNav() / chartMaxValue;
+					}
+					log.info("zoomNeeded  " + nav.getNav() + " ? " + zoomNeeded);
+					while(chartStartDate.before(chartEndDate) && !allNavDone){
 						
-						ChartNAV nav = schemeChart.getNavs().get(0);
-						ChartNAV lastKnownNav = nav;
-						boolean zoomNeeded = false;
-						if (nav.getNav() > chartMaxValue ) {
-							zoomNeeded = true;
-							zoomFactor = nav.getNav() / chartMaxValue;
-						}
-						log.info("zoomNeeded  " + nav.getNav() + " ? " + zoomNeeded);
-						while(chartStartDate.before(chartEndDate) && !allNavDone){
+						if (sdf.parse(nav.getDt()).getTime() == chartStartDate.getTime().getTime()){
 							
-							if (sdf.parse(nav.getDt()).getTime() == chartStartDate.getTime().getTime()){
-								
-							
-									if (chartNavePointer > settlePeriodDays){//Let it settle
-										
-										/*ChartNAV previousNav = schemeChart.getNavs().get(chartNavePointer -settlePeriodDays);
-										double payments[] = new double[2];
-										String dates[] = new String[2];
-										payments[0] =  previousNav.getNav() *-1;
-										payments[1] =  nav.getNav();
-										dates[0] = previousNav.getDt();
-										dates[1] = nav.getDt();
-										nav.setRollingRate( XirrCalculatorService.Newtons_method2(0.1,payments, dates));
-										if (nav.getRollingRate() == 0  ){
-											nav.setRollingRate(lastKnownNav.getRollingRate());
-										}*/
-										if (zoomNeeded){
-											nav.setScaled(nav.getNav()/zoomFactor);
-										}else {
-											nav.setScaled(nav.getNav());
-										}
-										lastKnownNav = nav;
-										completeNav.add(nav);
-										
+						
+								if (chartNavePointer > settlePeriodDays){//Let it settle
+									
+									
+									if (zoomNeeded){
+										nav.setScaled(nav.getNav()/zoomFactor);
+									}else {
+										nav.setScaled(nav.getNav());
 									}
+									lastKnownNav = nav;
+									completeNav.add(nav);
 									
-										if(schemeChart.getNavs().size() > (chartNavePointer +nextNavStep) ){
-											chartStartDate.add(Calendar.DAY_OF_MONTH, 1);//Move to next day
-											chartNavePointer +=nextNavStep;
-											nav = schemeChart.getNavs().get(chartNavePointer);//and get next nav from list
-										}else {
-											allNavDone = true;
-											
-										}
-									
-							
+								}
 								
-							}else if (sdf.parse(nav.getDt()).getTime() < chartStartDate.getTime().getTime()) {//This Date Nav is already added in the list ignore this
-								   
 									if(schemeChart.getNavs().size() > (chartNavePointer +nextNavStep) ){
+										chartStartDate.add(Calendar.DAY_OF_MONTH, 1);//Move to next day
 										chartNavePointer +=nextNavStep;
-										nav = schemeChart.getNavs().get(chartNavePointer);
+										nav = schemeChart.getNavs().get(chartNavePointer);//and get next nav from list
 									}else {
 										allNavDone = true;
 										
 									}
 								
-							}else {//Some navs are missing add dummy nav to complete the list
-								ChartNAV navToAdd = lastKnownNav.clone();
-								navToAdd.setDt(sdf.format(chartStartDate.getTime()));
-								completeNav.add(navToAdd);
-								chartStartDate.add(Calendar.DAY_OF_MONTH, 1);//Move to next day
-							}
+						
 							
-								
-								
+						}else if (sdf.parse(nav.getDt()).getTime() < chartStartDate.getTime().getTime()) {//This Date Nav is already added in the list ignore this
+							   
+								if(schemeChart.getNavs().size() > (chartNavePointer +nextNavStep) ){
+									chartNavePointer +=nextNavStep;
+									nav = schemeChart.getNavs().get(chartNavePointer);
+								}else {
+									allNavDone = true;
+									
+								}
 							
-							
-							
-							
+						}else {//Some navs are missing add dummy nav to complete the list
+							ChartNAV navToAdd = lastKnownNav.clone();
+							navToAdd.setDt(sdf.format(chartStartDate.getTime()));
+							completeNav.add(navToAdd);
+							chartStartDate.add(Calendar.DAY_OF_MONTH, 1);//Move to next day
 						}
-						schemeChart.setNavs(completeNav);
-					} catch (Exception e) {
-						e.printStackTrace();
+						
+							
+							
+						
+						
+						
+						
 					}
+					schemeChart.setNavs(completeNav);
+				} catch (Exception e) {
+					e.printStackTrace();
 				}
-
-		
-		
-		return chartVos;
+			}
 	}
 
 	private static int daysBetweenDates (Date date1 , Date date2){

@@ -52,8 +52,9 @@ public class ChartData extends HttpServlet {
 			ProfileService.getAllHistoricalData( noOfSemesters);
 		}
 		
+		
 		if (noOfMonths > 0){
-			ProfileService.getAllHistoricalMonthlyData( );
+			ProfileService.getAllHistoricalMonthlyData( false);
 		}
 		
 		

@@ -46,6 +46,7 @@ public class ChartDAO implements Runnable {
 	
 	private Set<String> schemeCodes;
 	private Map<String, ChartVO>  schemCode_ChartVO_MAP = new HashMap<String, ChartVO>();
+	private boolean insertInfoAllHouseDb;
 	
 	@Override
 	public void run() {
@@ -62,10 +63,11 @@ public class ChartDAO implements Runnable {
 		return schemCode_ChartVO_MAP;
 		
 	}
-	public ChartDAO (int noOfSemesters, String houseCode){
+	public ChartDAO (int noOfSemesters, String houseCode, boolean insertInfoAllHouseDb){
 		
 		this.noOfSemesters = noOfSemesters; 
 		this.houseCode = houseCode;
+		this.insertInfoAllHouseDb = insertInfoAllHouseDb;
 	}
 	public ChartDAO (int noOfSemesters, String houseCode, Set<String> schemeCodes){
 		
@@ -98,7 +100,7 @@ public class ChartDAO implements Runnable {
 	 		if (null!= historicalNavsForAHouse && historicalNavsForAHouse.size() > 100){
 	 			removeHeaders(historicalNavsForAHouse);
 		 		
-		 		populateChartVOMap(historicalNavsForAHouse);
+		 		populateChartVOMap(historicalNavsForAHouse, schemCode_ChartVO_MAP);
 	 		}
 	 		
 	 		log.info("Got result for above url");
@@ -113,7 +115,10 @@ public class ChartDAO implements Runnable {
 		String dataFromCache = null;
 		List<String> dataFromCacheList = null;
 		if (tryFromcache){
-			dataFromCache = ProfileDAO.getArrayData( monthArray[month],houseCode,false,null,Constants.mlabKey_mutualFunfs);
+			if (!insertInfoAllHouseDb){
+				dataFromCache = ProfileDAO.getArrayData( monthArray[month],houseCode,false,null,Constants.mlabKey_mutualFunfs);
+			}
+			
 		}
 		
 		if (null == dataFromCache || "[  ]".equals(dataFromCache) || !dataFromCache.startsWith("[ { \"_id\" : 1 ,")){
@@ -122,11 +127,25 @@ public class ChartDAO implements Runnable {
 			if (null != dataFromCacheList && dataFromCacheList.size() > 100){
 				MonthlyData data = new MonthlyData();
 				 data.setNavs(dataFromCacheList);
-				 ProfileDAO.createNewCollection(houseCode,monthArray[month],Constants.mlabKey_mutualFunfs);
 				 Gson  json = new Gson();
-				 dataFromCache = json.toJson(data, MonthlyData.class);
-				
-				 ProfileDAO.insertData(houseCode,dataFromCache,monthArray[month],Constants.mlabKey_mutualFunfs);
+				if (!insertInfoAllHouseDb){
+					
+					 ProfileDAO.createNewCollection(houseCode,monthArray[month],Constants.mlabKey_mutualFunfs);
+					
+					 dataFromCache = json.toJson(data, MonthlyData.class);
+					ProfileDAO.insertData(houseCode,dataFromCache,monthArray[month],Constants.mlabKey_mutualFunfs);
+				}else {
+					if (dataFromCacheList.get(0).indexOf("Scheme Code") >=0){
+						data.set_id(houseCode);
+						dataFromCache = json.toJson(data, MonthlyData.class);
+						ProfileDAO.createNewCollectionWithData("all_houses",monthArray[month]+"_all",dataFromCache,Constants.mlabKey_mutualFunfs);
+					}else {
+						dataFromCacheList = null;
+					}
+					
+					
+				}
+				 
 				 //log.info("month "+month +" houseCode "+houseCode +" inserted into cache : size "+ dataFromCacheList.size()); 
 			}
 			
@@ -141,16 +160,11 @@ public class ChartDAO implements Runnable {
 		}
 		return dataFromCacheList;
 	}
-	public   void getChartDataForAllDaysOfYear() throws IOException{
+	public   boolean getChartDataForAllDaysOfYear(Calendar fromCal , Calendar toCal) throws IOException{
 		Calendar today = new GregorianCalendar();
 		
 		String url = "";
-		Calendar toCal = new GregorianCalendar();
-		 toCal.add(Calendar.MONTH,  -10); 
-		 toCal.set(Calendar.DATE, 1);
-		 Calendar fromCal = new GregorianCalendar();
-		 fromCal.add(Calendar.MONTH, -11);
-		 fromCal.set(Calendar.DATE, 1);
+		
 		
 	    
 	   for (int i= 1 ;  i<= 12 ;  i++){
@@ -165,12 +179,14 @@ public class ChartDAO implements Runnable {
 	    		 historicalNavsForAHouse =  getMonthDataFromCache(url,fromCal.get(Calendar.MONTH),houseCode, false);
 	    	 }
 	    	
-	    	
+	    	if (null == historicalNavsForAHouse){
+	    		return false;
+	    	}
 	 		
 	 		if (null!= historicalNavsForAHouse && historicalNavsForAHouse.size() > 100){
 	 			removeHeaders(historicalNavsForAHouse);
 		 		
-		 		populateChartVOMap(historicalNavsForAHouse);
+		 		populateChartVOMap(historicalNavsForAHouse, schemCode_ChartVO_MAP);
 	 		}
 	 		
 	 		
@@ -178,6 +194,7 @@ public class ChartDAO implements Runnable {
 	    	 toCal.add(Calendar.MONTH, 1);
 	    	 fromCal.add(Calendar.MONTH, 1);
 	    }
+	   return true;
 	}
 	public   void getChartMonthly( int noOfMonths) throws IOException{
 		Calendar toMonth = new GregorianCalendar();
@@ -210,7 +227,7 @@ public class ChartDAO implements Runnable {
 	 		if (null!= historicalNavsForAHouse && historicalNavsForAHouse.size() > 100){
 	 			removeHeaders(historicalNavsForAHouse);
 		 		
-		 		populateChartVOMap(historicalNavsForAHouse);
+		 		populateChartVOMap(historicalNavsForAHouse, schemCode_ChartVO_MAP);
 	 		}
 	 		
 	 		log.info("Got result for above url");
@@ -225,6 +242,8 @@ public class ChartDAO implements Runnable {
 		
 		
 	}
+	
+	
 	public static List<ChartVO> getHouseDataFromMDB(String houseCode){
 		houseCode = "_"+houseCode;
 		String httpsURL = "https://api.mlab.com/api/1/databases/"+Constants.dbName_mutualFunfs+"/collections/"+houseCode+"?apiKey="+Constants.mlabKey_mutualFunfs;
@@ -259,43 +278,47 @@ public class ChartDAO implements Runnable {
 					}
 				}
 	}
-	private void populateChartVOMap(List<String> historicalNavsForAHouse){
+	public void populateChartVOMap(List<String> historicalNavsForAHouse ,Map<String, ChartVO>  schemCode_ChartVO_MAP ){
 		String schemeCode = "";
-
-		try{
-			for (String navLineItem : historicalNavsForAHouse){
-				if (navLineItem.indexOf(";") > 0){
-					schemeCode = navLineItem.substring(0, navLineItem.indexOf(";"));
-					if (schemeCode.matches("\\d+")){
-						if ( null == schemeCodes || schemeCodes.contains(schemeCode) ){//ppt has this scheme or we want all schemes
-							
-							ChartVO chartVO =  schemCode_ChartVO_MAP.get(schemeCode);
-							if (null == chartVO) {
+		if(null!= historicalNavsForAHouse){
+			try{
+				for (String navLineItem : historicalNavsForAHouse){
+					if (navLineItem.indexOf(";") > 0){
+						schemeCode = navLineItem.substring(0, navLineItem.indexOf(";"));
+						if (schemeCode.matches("\\d+")){
+							if ( null == schemeCodes || schemeCodes.contains(schemeCode) ){//ppt has this scheme or we want all schemes
 								
-								chartVO = new ChartVO();
-								chartVO.set_id(schemeCode);
-								schemCode_ChartVO_MAP.put(schemeCode, chartVO);
+								ChartVO chartVO =  schemCode_ChartVO_MAP.get(schemeCode);
+								if (null == chartVO) {
+									
+									chartVO = new ChartVO();
+									chartVO.set_id(schemeCode);
+									schemCode_ChartVO_MAP.put(schemeCode, chartVO);
+								}
+								ChartNAV charNav = parseRowToNAV(navLineItem);
+								if (null != charNav){
+									chartVO.getNavs().add(charNav);
+								}
+								
 							}
-							ChartNAV charNav = parseRowToNAV(navLineItem);
-							if (null != charNav){
-								chartVO.getNavs().add(charNav);
-							}
-							
 						}
+						
 					}
+					
 					
 				}
 				
 				
+			}catch(Exception e){
+				
+				e.printStackTrace();
 			}
-			
-			
-		}catch(Exception e){
-			
-			e.printStackTrace();
 		}
 		
+		
 	}
+	
+	
 	private  List<String> getNavFromAmfiindia(String endpoint) throws IOException{
 		List<String> navData = new ArrayList<String>();
 		
