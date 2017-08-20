@@ -36,7 +36,7 @@ export class Chart implements OnInit {
 private toggleInfo() {
         
         if ( this.msgs.length ==0){
-          this.msgs.push({severity:'info', summary:'Info: ', detail:"% Groth rate of mutual funds in your portfolio or others."});
+          this.msgs.push({severity:'info', summary:'Info: ', detail:"% Groth rate of mutual funds in your portfolio."});
         }else {
           this.msgs = [];
         }
