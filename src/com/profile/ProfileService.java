@@ -602,10 +602,10 @@ private static boolean calculateMonthlyRollingReturn(List<NavVoUI> uiNAvs){
 					ChartNAV nav = schemeChart.getNavs().get(0);
 					ChartNAV lastKnownNav = nav;
 					boolean zoomNeeded = false;
-					if (nav.getNav() > chartMaxValue ) {
+					//if (nav.getNav() > chartMaxValue ) {
 						zoomNeeded = true;
-						zoomFactor = nav.getNav() / chartMaxValue;
-					}
+						zoomFactor = nav.getNav();// / chartMaxValue;
+					//}
 					//log.info("zoomNeeded  " + nav.getNav() + " ? " + zoomNeeded);
 					while(chartStartDate.before(chartEndDate) && !allNavDone){
 						
