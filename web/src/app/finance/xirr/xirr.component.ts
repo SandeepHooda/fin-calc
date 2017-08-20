@@ -71,7 +71,7 @@ private refreshPage(){
    }
     
     this.route.events.subscribe(params => {
-      if (this.route.url === '/lumpsump'){
+      if (this.route.url === '/lumpsump' || this.route.url === '/Analytics'){
         this.showRefreshButton = true;
       }else {
         this.showRefreshButton = false;

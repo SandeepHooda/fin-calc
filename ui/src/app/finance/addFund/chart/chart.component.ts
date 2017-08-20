@@ -6,6 +6,8 @@ import {ChartDataSets} from './ChartDataSets';
 import {chartData} from './chartData';
 import {ChartService} from './chart.service';
 import {Company} from '../company';
+import {EventService} from '../../../common/EventService';
+import {Router} from '@angular/router';
 
 @Component({
  selector : 'chart', 
@@ -29,9 +31,11 @@ export class Chart implements OnInit {
     private showScaled : boolean = true;
     private range : SelectItem[] = [];
     private selectedRange : string = "&schemeCountFrom=1&schemeCountTo=10";
+     private refreshTime : number = 0;
     
 @ViewChild('spinnerElement') spinnerElement: ElementRef;
-    constructor(private chartService : ChartService, private renderer: Renderer) {
+    constructor(private chartService : ChartService, private renderer: Renderer, 
+    private eventService : EventService, private router:Router) {
    }
 private toggleInfo() {
         
@@ -52,7 +56,7 @@ private toggleInfo() {
   }
      ngOnInit(): void {
  this.renderer.setElementStyle(this.spinnerElement.nativeElement, 'display','block'); 
-         this.chartService.getChartDataUIForMyProfile().subscribe( 
+         this.chartService.getChartDataUIForMyProfile(false).subscribe( 
         charData => this.showChartDataUIForMyProfile(charData),
         error => this.showError(error)); 
 
@@ -78,7 +82,22 @@ private toggleInfo() {
         for (let j=0;j<companyProfiles.length;j++){
             this.allHouseProfiles[companyProfiles[j].SchemeCode] = companyProfiles[j].SchemeName;
         }
+    }
+    
+     this.eventService.refreshEvent.subscribe( (refresh : string)=> {
+        if ("/Analytics" === this.router.url ){
+          if ( ((new Date().getTime() - this.refreshTime ) > 1000)){
+            this.refreshTime = new Date().getTime();
+            console.log("Refesh from chart "+this.router.url);
+            this.renderer.setElementStyle(this.spinnerElement.nativeElement, 'display','block'); 
+            this.chartService.getChartDataUIForMyProfile(true).subscribe( 
+            charData => this.showChartDataUIForMyProfile(charData),
+                error => this.showError(error)); 
+          }
+         
         }
+        
+      })
         
   }
   private fetchData (){

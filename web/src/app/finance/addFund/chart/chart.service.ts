@@ -27,10 +27,13 @@ export class ChartService {
                         .catch(this.handleError);
     }
 
- public getChartDataUIForMyProfile() : Observable<Array<ChartVO>>{
+ public getChartDataUIForMyProfile(force : boolean ) : Observable<Array<ChartVO>>{
    //let url = "http://localhost:8888/ChartDataUIForMyProfile";
    //let url = "https://fin-cal.appspot.com/ChartDataUIForMyProfile";
    let url = "/ChartDataUIForMyProfile";
+   if (force){
+     url += "?a="+Math.random();
+   }
        return this.http.get(this.hostName+url)
                         .map(this.extractData)
                         .catch(this.handleError);

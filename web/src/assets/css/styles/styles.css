@@ -53,7 +53,8 @@ a {
   cursor: hand;
 }
 .refresh {
-  padding-right: 50px; 
+  padding-top: 25px;
+  padding-right: 10px; 
   float: right;
 
 }

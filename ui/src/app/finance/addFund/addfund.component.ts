@@ -64,7 +64,7 @@ export class AddFunds implements OnInit {
       this.refreshPage(true);
     }
     private refreshPage(forceRefresh: boolean){
-      if (forceRefresh && ((new Date().getTime() - this.refreshTime ) > 60000)){
+      if (forceRefresh && ((new Date().getTime() - this.refreshTime ) > 1000)){
         this.refreshTime = new Date().getTime();
       }else {
         forceRefresh = false;
