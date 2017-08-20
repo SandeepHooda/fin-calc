@@ -32,6 +32,7 @@ import com.Constants;
 import com.chart.ChartDAO;
 import com.chart.ChartNAV;
 import com.chart.ChartVO;
+import com.chart.ChartVOComparator;
 import com.chart.ChartVOUI;
 import com.chart.ChartVOUIComparator;
 import com.chart.MonthlyData;
@@ -182,33 +183,67 @@ public class ProfileService {
 
 	}*/
 	
-public static List<ChartVO> getAllHouseTopPerformers(){
-	Iterator<String> itr = Constants.monthsDB.iterator();
-	List<MonthlyData> allHousesForAllYear = new ArrayList<>();
-	while(itr.hasNext()){
-		String month = itr.next();
-		log.info(month);
-		String allHousesForAMonth = ProfileDAO.getArrayData(month+"_all", Constants.allHouses, false, null,Constants.mlabKey_mutualFunfs);
-		Gson  json = new Gson();
-		allHousesForAllYear.addAll((List<MonthlyData> )json.fromJson(allHousesForAMonth, new TypeToken<List<MonthlyData>>() {}.getType()));
-
-		
-	}
-	Map<String, ChartVO>  schemCode_ChartVO_MAP = new HashMap<>();
-	ChartDAO dao = new ChartDAO(null,null);
-	for (MonthlyData data: allHousesForAllYear){
-		dao.populateChartVOMap(data.getNavs() ,  schemCode_ChartVO_MAP);
-	}
-	
-	
+public static List<ChartVO> getAllHouseTopPerformers(int schemeCountFrom, int schemeCountTo){
 	List<ChartVO> chartVos = new ArrayList<ChartVO>();
-	for (String schemeCode : schemCode_ChartVO_MAP.keySet()) {
-		chartVos.add(schemCode_ChartVO_MAP.get(schemeCode));
-		
+	Gson  json = new Gson();
+	
+	Calendar cal = new GregorianCalendar();
+	cal.set(Calendar.DATE, 1);
+	cal.add(Calendar.MONTH, 1);
+	
+	List<String> months = new ArrayList<>();
+	for (int i=0;i<12;i++){
+		months.add(ChartDAO.monthArray[cal.get(Calendar.MONTH)]);
+		cal.add(Calendar.MONTH, 1);
 	}
 	
-	completeASchemeNavs(chartVos);
-	return chartVos;
+	if (ChartDAO.isUpdateNeeded("all_house")){
+	//if (true){
+		Iterator<String> itr = months.iterator();
+		List<MonthlyData> allHousesForAllYear = new ArrayList<>();
+		while(itr.hasNext()){
+			String month = itr.next();
+			
+			String allHousesForAMonth = ProfileDAO.getArrayData(month+"_all", Constants.allHouses, false, null,Constants.mlabKey_mutualFunfs);
+			//log.info(month);
+			//log.info(allHousesForAMonth);
+			allHousesForAllYear.addAll((List<MonthlyData> )json.fromJson(allHousesForAMonth, new TypeToken<List<MonthlyData>>() {}.getType()));
+
+			
+		}
+		Map<String, ChartVO>  schemCode_ChartVO_MAP = new HashMap<>();
+		ChartDAO dao = new ChartDAO(null,null);
+		for (MonthlyData data: allHousesForAllYear){
+			dao.populateChartVOMap(data.getNavs() ,  schemCode_ChartVO_MAP);
+		}
+		
+		
+		
+		for (String schemeCode : schemCode_ChartVO_MAP.keySet()) {
+			chartVos.add(schemCode_ChartVO_MAP.get(schemeCode));
+			
+		}
+		
+		completeASchemeNavs(chartVos, 3);
+		chartVos.sort(new ChartVOComparator());
+		
+		String chartDataStr = json.toJson(chartVos, new TypeToken<List<ChartVO>>() {}.getType());
+		ProfileDAO.createNewCollectionWithData("_all_house", "historical_data_sorted", chartDataStr, Constants.mlabKey_mutualFunfs);
+		
+		ChartVO timeOfUpdate = new ChartVO();
+		timeOfUpdate.set_id(Constants.timeOfUpdateKey);
+		timeOfUpdate.setTm(new Date().getTime());
+		String timestamp = json.toJson(timeOfUpdate, ChartVO.class);
+		ProfileDAO.createNewCollectionWithData("_all_house", Constants.timestamp,timestamp, Constants.mlabKey_mutualFunfs);
+		
+	}else {
+		String allHousesData = ProfileDAO.getArrayData("historical_data_sorted", "all_house", false, null,Constants.mlabKey_mutualFunfs);
+		chartVos = json.fromJson(allHousesData, new TypeToken<List<ChartVO>>() {}.getType());
+		chartVos.sort(new ChartVOComparator());
+	}
+	
+	
+	return chartVos.subList(schemeCountFrom -1, schemeCountTo);
 }
 public static List<ChartVOUI> getHouseChartData(String houseCode, int schemeCountFrom, int schemeCountTo){
 	List<ChartVO> listOfSchemes= new ArrayList<>();ChartDAO.getHouseDataFromMDB(houseCode);
@@ -527,13 +562,13 @@ private static boolean calculateMonthlyRollingReturn(List<NavVoUI> uiNAvs){
 		}
 		
 		    
-		completeASchemeNavs(chartVos);
+		completeASchemeNavs(chartVos, 31);
 		
 		
 		return chartVos;
 	}
 	
-	private static void completeASchemeNavs(List<ChartVO> chartVos){
+	private static void completeASchemeNavs(List<ChartVO> chartVos, int maxDaysInMonth){
 		double zoomFactor = 10;
 	    double chartMaxValue = 10;
 		
@@ -560,7 +595,7 @@ private static boolean calculateMonthlyRollingReturn(List<NavVoUI> uiNAvs){
 				int settlePeriodDays = 0;
 				int nextNavStep = 1;
 				boolean allNavDone = false;
-				
+				int daysIncluded = 0;
 				
 				try {
 					
@@ -571,7 +606,7 @@ private static boolean calculateMonthlyRollingReturn(List<NavVoUI> uiNAvs){
 						zoomNeeded = true;
 						zoomFactor = nav.getNav() / chartMaxValue;
 					}
-					log.info("zoomNeeded  " + nav.getNav() + " ? " + zoomNeeded);
+					//log.info("zoomNeeded  " + nav.getNav() + " ? " + zoomNeeded);
 					while(chartStartDate.before(chartEndDate) && !allNavDone){
 						
 						if (sdf.parse(nav.getDt()).getTime() == chartStartDate.getTime().getTime()){
@@ -592,6 +627,15 @@ private static boolean calculateMonthlyRollingReturn(List<NavVoUI> uiNAvs){
 								
 									if(schemeChart.getNavs().size() > (chartNavePointer +nextNavStep) ){
 										chartStartDate.add(Calendar.DAY_OF_MONTH, 1);//Move to next day
+										if (maxDaysInMonth < 25){
+											daysIncluded ++;
+											if (daysIncluded >= maxDaysInMonth){
+												chartStartDate.add(Calendar.MONTH, 1);
+												chartStartDate.set(Calendar.DATE, 1);
+												daysIncluded =0;
+											}
+										}
+										
 										chartNavePointer +=nextNavStep;
 										nav = schemeChart.getNavs().get(chartNavePointer);//and get next nav from list
 									}else {
@@ -613,9 +657,23 @@ private static boolean calculateMonthlyRollingReturn(List<NavVoUI> uiNAvs){
 							
 						}else {//Some navs are missing add dummy nav to complete the list
 							ChartNAV navToAdd = lastKnownNav.clone();
+							if (zoomNeeded){
+								navToAdd.setScaled(navToAdd.getNav()/zoomFactor);
+							}else {
+								navToAdd.setScaled(navToAdd.getNav());
+							}
 							navToAdd.setDt(sdf.format(chartStartDate.getTime()));
 							completeNav.add(navToAdd);
 							chartStartDate.add(Calendar.DAY_OF_MONTH, 1);//Move to next day
+							if (maxDaysInMonth < 25){
+								daysIncluded ++;
+								if (daysIncluded >= maxDaysInMonth){
+									chartStartDate.add(Calendar.MONTH, 1);
+									chartStartDate.set(Calendar.DATE, 1);
+									daysIncluded =0;
+								}
+							}
+							
 						}
 						
 							
@@ -632,12 +690,13 @@ private static boolean calculateMonthlyRollingReturn(List<NavVoUI> uiNAvs){
 			}
 	}
 
+	
 	private static int daysBetweenDates (Date date1 , Date date2){
 		  return Math.round((date2.getTime() -date1.getTime() )/FinConstants.aDay); 
 		}
 	public static Portfolio getPortfolioDromDB(String collection) {
 		String portfolioStr = "{ \"allProfiles\" : [ { \"profileID\" : 1501383477625 , \"investmentDate\" : \"7-Jun-2017\" , \"schemeName\" : \"Tata Banking And Financial Services Fund-Direct Plan-Growth\" , \"schemeCode\" : \"135793\" , \"nav\" : 16.216 , \"investmentAmount\" : 20000.0 , \"units\" : 1233.3497779970398 , \"currentValue\" : 21931.79575727676 , \"currentNav\" : 17.7823 , \"lastKnownNav\" : 17.7823 , \"xirr\" : 76.901310434256 , \"companyName\" : \"Tata Mutual Fund\" , \"companyXirr\" : 77.89734563263954 , \"companyTotalInvestment\" : 40000.0} , { \"profileID\" : 1501383508987 , \"investmentDate\" : \"6-Jul-2017\" , \"schemeName\" : \"Tata Banking And Financial Services Fund-Direct Plan-Growth\" , \"schemeCode\" : \"135793\" , \"nav\" : 16.708 , \"investmentAmount\" : 10000.0 , \"units\" : 598.5156811108452 , \"currentValue\" : 10642.985396217382 , \"currentNav\" : 17.7823 , \"lastKnownNav\" : 17.7823 , \"xirr\" : 113.43821019391093 , \"companyName\" : \"Tata Mutual Fund\" , \"companyXirr\" : 77.89734563263954 , \"companyTotalInvestment\" : 40000.0} , { \"profileID\" : 1501643072554 , \"investmentDate\" : \"1-Aug-2017\" , \"schemeName\" : \"Tata Banking And Financial Services Fund-Direct Plan-Growth\" , \"schemeCode\" : \"135793\" , \"nav\" : 17.9165 , \"investmentAmount\" : 10000.0 , \"units\" : 558.1447269276924 , \"currentValue\" : 9925.096977646304 , \"currentNav\" : 17.7823 , \"lastKnownNav\" : 17.7823 , \"xirr\" : -49.64451913397262 , \"companyName\" : \"Tata Mutual Fund\" , \"companyXirr\" : 77.89734563263954 , \"companyTotalInvestment\" : 40000.0} , { \"profileID\" : 1501383546880 , \"investmentDate\" : \"12-Jun-2017\" , \"schemeName\" : \"ICICI Prudential Banking and Financial Services Fund - Direct Plan -  Growth\" , \"schemeCode\" : \"120244\" , \"nav\" : 59.71 , \"investmentAmount\" : 20000.0 , \"units\" : 334.95226930162454 , \"currentValue\" : 21279.51766873221 , \"currentNav\" : 63.53 , \"lastKnownNav\" : 63.53 , \"xirr\" : 52.068377206971164 , \"companyName\" : \"ICICI Prudential Mutual Fund\" , \"companyXirr\" : 52.068377206971164 , \"companyTotalInvestment\" : 20000.0} , { \"profileID\" : 1501383200382 , \"investmentDate\" : \"2-Jun-2017\" , \"schemeName\" : \"DSP BlackRock Natural Resources and New Energy Fund - Direct Plan - Growth\" , \"schemeCode\" : \"119028\" , \"nav\" : 31.25 , \"investmentAmount\" : 20000.0 , \"units\" : 640.0 , \"currentValue\" : 21260.8 , \"currentNav\" : 33.22 , \"lastKnownNav\" : 33.22 , \"xirr\" : 41.714939715327034 , \"companyName\" : \"DSP BlackRock Mutual Fund\" , \"companyXirr\" : 41.714939715327034 , \"companyTotalInvestment\" : 20000.0} , { \"profileID\" : 1501379186922 , \"investmentDate\" : \"1-Jun-2017\" , \"schemeName\" : \"L&T Mid Cap Fund-Direct Plan-Growth Plan\" , \"schemeCode\" : \"119807\" , \"nav\" : 131.08 , \"investmentAmount\" : 25000.0 , \"units\" : 190.72322245956667 , \"currentValue\" : 26417.07354287458 , \"currentNav\" : 138.51 , \"lastKnownNav\" : 138.51 , \"xirr\" : 36.288325205709135 , \"companyName\" : \"L&T Mutual Fund\" , \"companyXirr\" : 33.578656053147505 , \"companyTotalInvestment\" : 35000.0} , { \"profileID\" : 1501382919277 , \"investmentDate\" : \"6-Jul-2017\" , \"schemeName\" : \"L&T Mid Cap Fund-Direct Plan-Growth Plan\" , \"schemeCode\" : \"119807\" , \"nav\" : 136.51 , \"investmentAmount\" : 10000.0 , \"units\" : 73.25470661490002 , \"currentValue\" : 10146.5094132298 , \"currentNav\" : 138.51 , \"lastKnownNav\" : 138.51 , \"xirr\" : 19.358328546622104 , \"companyName\" : \"L&T Mutual Fund\" , \"companyXirr\" : 33.578656053147505 , \"companyTotalInvestment\" : 35000.0} , { \"profileID\" : 1501383156577 , \"investmentDate\" : \"2-Jun-2017\" , \"schemeName\" : \"L&T Infrastructure Fund -Direct Plan-Growth Option\" , \"schemeCode\" : \"119413\" , \"nav\" : 15.79 , \"investmentAmount\" : 25000.0 , \"units\" : 1583.2805573147562 , \"currentValue\" : 26139.962001266627 , \"currentNav\" : 16.51 , \"lastKnownNav\" : 16.51 , \"xirr\" : 28.955743356765133 , \"companyName\" : \"L&T Mutual Fund\" , \"companyXirr\" : 28.955743356765133 , \"companyTotalInvestment\" : 25000.0} , { \"profileID\" : 1501383093995 , \"investmentDate\" : \"2-Jun-2017\" , \"schemeName\" : \"Kotak Select Focus Fund - Growth - Direct\" , \"schemeCode\" : \"120166\" , \"nav\" : 32.109 , \"investmentAmount\" : 25000.0 , \"units\" : 778.5979009000591 , \"currentValue\" : 25928.08869787287 , \"currentNav\" : 33.301 , \"lastKnownNav\" : 33.301 , \"xirr\" : 23.107154129383588 , \"companyName\" : \"Kotak Mahindra Mutual Fund\" , \"companyXirr\" : 23.107154129383588 , \"companyTotalInvestment\" : 25000.0} , { \"profileID\" : 1501383259924 , \"investmentDate\" : \"2-Jun-2017\" , \"schemeName\" : \"Birla Sun Life Midcap Fund - Growth - Direct Plan\" , \"schemeCode\" : \"119620\" , \"nav\" : 303.95 , \"investmentAmount\" : 25000.0 , \"units\" : 82.25037012666557 , \"currentValue\" : 25880.07896035532 , \"currentNav\" : 314.65 , \"lastKnownNav\" : 314.65 , \"xirr\" : 21.812767042941566 , \"companyName\" : \"Birla Sun Life Mutual Fund\" , \"companyXirr\" : 21.812767042941566 , \"companyTotalInvestment\" : 25000.0} , { \"profileID\" : 1501383350497 , \"investmentDate\" : \"5-Jun-2017\" , \"schemeName\" : \"ICICI Prudential Top 100 Fund - Direct Plan -  Growth\" , \"schemeCode\" : \"120596\" , \"nav\" : 312.28 , \"investmentAmount\" : 20000.0 , \"units\" : 64.04508774177022 , \"currentValue\" : 20664.14755988216 , \"currentNav\" : 322.65 , \"lastKnownNav\" : 322.65 , \"xirr\" : 21.588474731024075 , \"companyName\" : \"ICICI Prudential Mutual Fund\" , \"companyXirr\" : 21.588474731024075 , \"companyTotalInvestment\" : 20000.0} , { \"profileID\" : 1501383395107 , \"investmentDate\" : \"5-Jun-2017\" , \"schemeName\" : \"ICICI Prudential Value Discovery Fund - Direct Plan - Growth\" , \"schemeCode\" : \"120323\" , \"nav\" : 141.1 , \"investmentAmount\" : 20000.0 , \"units\" : 141.74344436569808 , \"currentValue\" : 20412.47342310418 , \"currentNav\" : 144.01 , \"lastKnownNav\" : 144.01 , \"xirr\" : 12.992193185683728 , \"companyName\" : \"ICICI Prudential Mutual Fund\" , \"companyXirr\" : 12.992193185683728 , \"companyTotalInvestment\" : 20000.0} , { \"profileID\" : 1501383315183 , \"investmentDate\" : \"5-Jun-2017\" , \"schemeName\" : \"ICICI Prudential Multicap Fund - Direct Plan -  Growth\" , \"schemeCode\" : \"120599\" , \"nav\" : 265.47 , \"investmentAmount\" : 20000.0 , \"units\" : 75.33807963235016 , \"currentValue\" : 20327.720646400718 , \"currentNav\" : 269.82 , \"lastKnownNav\" : 269.82 , \"xirr\" : 10.213910680254138 , \"companyName\" : \"ICICI Prudential Mutual Fund\" , \"companyXirr\" : 10.213910680254138 , \"companyTotalInvestment\" : 20000.0} , { \"profileID\" : 1501383023193 , \"investmentDate\" : \"1-Jun-2017\" , \"schemeName\" : \"Kotak-Mid-Cap-Growth - Direct\" , \"schemeCode\" : \"120164\" , \"nav\" : 76.772 , \"investmentAmount\" : 25000.0 , \"units\" : 325.6395560881571 , \"currentValue\" : 25317.49856718595 , \"currentNav\" : 77.747 , \"lastKnownNav\" : 77.747 , \"xirr\" : 7.343730747059469 , \"companyName\" : \"Kotak Mahindra Mutual Fund\" , \"companyXirr\" : 7.343730747059469 , \"companyTotalInvestment\" : 25000.0}] , \"totalGain\" : 11273.74861204486 , \"totalXirr\" : 28.854294303825007 , \"totalInvetment\" : 1.375E7} ";
-		portfolioStr = ProfileDAO.getUserPortfolio(collection, true, null);
+		portfolioStr = ProfileDAO.getUserPortfolio(collection, false, null);
 		Gson json = new Gson();
 		Portfolio portfolio = json.fromJson(portfolioStr, Portfolio.class);
 		return portfolio;

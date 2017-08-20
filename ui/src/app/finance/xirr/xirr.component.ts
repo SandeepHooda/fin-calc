@@ -48,10 +48,7 @@ private refreshPage(){
  
   ngOnInit(): void {
     //Get chart historical data on page load- just make a background call so that serve refresh its cache
-    this.xirrService.loadChartData().subscribe( 
-        result => {},
-        error => {}
-      );
+    
       this.xirrService.loadMyProfileChartData().subscribe( 
         result => {},
         error => {}
@@ -60,6 +57,8 @@ private refreshPage(){
       
    this.signedInUserEmail =  localStorage.getItem('signedInUserEmail');
    this.signedInUser =  localStorage.getItem('signedInUser');
+   this.signedInUserEmail = "a";
+   this.signedInUser = "b";
    if (!this.signedInUserEmail){
     this.xirrService.signedUserName().subscribe( 
         name => this.showName(name),

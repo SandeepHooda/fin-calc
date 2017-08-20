@@ -9,6 +9,15 @@
 <br/><br/>
 <p-messages [(value)]="msgs"></p-messages> 
 
+
+<p-toggleButton [(ngModel)]="showScaled" onLabel="Show Absolute nav values" offLabel="Show Scaled values"></p-toggleButton>
+        <span *ngIf="!showScaled">
+        <p-chart type="line" [data]="myProfile" (onDataSelect)="selectData($event)"></p-chart>
+        </span>
+        <span *ngIf="showScaled">
+        <p-chart type="line" [data]="myProfileScaled" (onDataSelect)="selectData($event)"></p-chart>
+        </span>
+<!--        
 <p-accordion [multiple]="true">
     <p-accordionTab header="All Funds">
         <b>Annualized growth rate at various points of time.</b><br/>
@@ -27,4 +36,5 @@
         </span>
     </p-accordionTab>
 </p-accordion>
+-->
 </div>

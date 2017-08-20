@@ -35,7 +35,7 @@ public class ChartData extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String email = (String)request.getSession().getAttribute("email");
+		/*String email = (String)request.getSession().getAttribute("email");
 		int noOfSemesters = 0;
 		if (null != request.getParameter("noOfSemesters")){
 			noOfSemesters = Integer.parseInt(request.getParameter("noOfSemesters"));
@@ -67,9 +67,9 @@ public class ChartData extends HttpServlet {
 			ProfileService.getAllHistoricalData( noOfSemesters);
 			noOfSemesters -=2;
 			
-		}
+		}*/
 		
-		response.getWriter().append("Done");
+		response.getWriter().append("Data not available");
 		
 	}
 

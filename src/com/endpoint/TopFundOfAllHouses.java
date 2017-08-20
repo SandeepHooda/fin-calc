@@ -29,14 +29,14 @@ public class TopFundOfAllHouses extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		int schemeCountFrom = Integer.parseInt(request.getParameter("schemeCountFrom"));
+		/*int schemeCountFrom = Integer.parseInt(request.getParameter("schemeCountFrom"));
 		int schemeCountTo = Integer.parseInt(request.getParameter("schemeCountTo"));
-		List<ChartVO> chartVOs = ProfileService.getAllHouseTopPerformers();
+		List<ChartVO> chartVOs = ProfileService.getAllHouseTopPerformers(schemeCountFrom, schemeCountTo);
 		
 		Gson  json = new Gson();
 		String chartDataStr = json.toJson(chartVOs, new TypeToken<List<ChartVO>>() {}.getType());
-		response.addHeader("Cache-Control", "max-age=86400");
-		response.getWriter().append(chartDataStr);
+		response.addHeader("Cache-Control", "max-age=86400");*/
+		response.getWriter().append("Data not availabe");
 	}
 
 	

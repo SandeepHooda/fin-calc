@@ -42,7 +42,7 @@ public class ChartDAO implements Runnable {
 	private static SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy");
 	private String   houseCode;
 	private int noOfSemesters = 6;
-	private static final String[] monthArray = {"jan", "feb", "mar", "apr", "may", "jun","jul", "aug","sep", "oct","nov","dec"};
+	public static final String[] monthArray = {"jan", "feb", "mar", "apr", "may", "jun","jul", "aug","sep", "oct","nov","dec"};
 	
 	private Set<String> schemeCodes;
 	private Map<String, ChartVO>  schemCode_ChartVO_MAP = new HashMap<String, ChartVO>();

@@ -158,9 +158,9 @@ private showChartDataUIForMyProfile(charData : Array<ChartVO>){
 
          let borderColor : Array<string> = ["#000000","#c0c0c0","#800000", "#ff0000","#800080","#ff00ff", "#008000","#00ff00","#808000", "#ffff00","#000080","#0000ff", "#00ffff","#ffa500","#006400"];
         let today : Date = new Date( );
-         let labelStartDate : Date = new Date(today.getFullYear() -3, today.getMonth(), 1 );
+         let labelStartDate : Date = new Date(today.getFullYear() -1, today.getMonth(), 1 );
           let labelEndtDate : Date = new Date(today.getFullYear() , today.getMonth()-1, 1 );
-          let labelDate : Date = new Date(today.getFullYear() -3, today.getMonth(), 1 );
+          let labelDate : Date = new Date(today.getFullYear() -1, today.getMonth(), 1 );
         while(labelDate.getTime() <= labelEndtDate.getTime()){
             houseData.labels.push((labelDate.getMonth() +1)+"/"+labelDate.getFullYear());
             labelDate.setMonth(labelDate.getMonth()+1);
@@ -170,7 +170,8 @@ private showChartDataUIForMyProfile(charData : Array<ChartVO>){
         let colorID : number = 0;
         for (let i=0;i<this.chartJson.length;i++){
             let chartVO : ChartVO = this.chartJson[i];
-            let dataSet : ChartDataSets = new ChartDataSets();
+            if (chartVO.navs.length > 0){
+                let dataSet : ChartDataSets = new ChartDataSets();
             //if (this.selectedHouse == "Top Performers"){
                 dataSet.label = this.allHouseProfiles[chartVO._id] || chartVO._id;
            /* }else {
@@ -183,6 +184,7 @@ private showChartDataUIForMyProfile(charData : Array<ChartVO>){
             if (colorID> 14){
                 colorID = 0;
             }
+            console.log(chartVO.navs[0]);
             let navStartDate = new Date(parseInt(chartVO.navs[0].dt.substr(7,4)),
             this.m_names.indexOf(chartVO.navs[0].dt.substr(3,3)), parseInt(chartVO.navs[0].dt.substr(0,2)));
             let blankNavsPrefill : number = this.monthDiff(labelStartDate,navStartDate);
@@ -193,7 +195,7 @@ private showChartDataUIForMyProfile(charData : Array<ChartVO>){
             let navSize = chartVO.navs.length;
             for (let j=0;j<navSize;j++){
                 let charNAV : ChartNAV = chartVO.navs[j];
-                dataSet.data.push(charNAV.scaled);
+                dataSet.data.push(charNAV.nav);
             }
 
             let navEndDate = new Date(parseInt(chartVO.navs[navSize-1].dt.substr(7,4)),
@@ -204,6 +206,8 @@ private showChartDataUIForMyProfile(charData : Array<ChartVO>){
                 dataSet.data.push(0);
             }
            houseData.datasets.push(dataSet);
+            }
+            
         }
 
      this.data = houseData;
