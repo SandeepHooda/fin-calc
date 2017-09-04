@@ -1,0 +1,8 @@
+
+<h4>Select stock</h4>
+<hr/>
+<p-toggleButton [(ngModel)]="nseExchange" onLabel="NSE" offLabel="BSE" ></p-toggleButton>
+
+<p-listbox *ngIf="!nseExchange" [options]="allListedStocksBSE"  filter="filter" (onChange)="notifyParentAboutStockSelection()"  [(ngModel)]="selectedStock" [style]="{'width':'95%','max-height':'350px'}" ></p-listbox>
+<p-listbox *ngIf="nseExchange"  [options]="allListedStocksNSE" filter="filter" (onChange)="notifyParentAboutStockSelection()"  [(ngModel)]="selectedStock" [style]="{'width':'95%','max-height':'350px'}" ></p-listbox>
+

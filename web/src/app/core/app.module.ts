@@ -34,7 +34,10 @@ import {SchemeLoanService } from '../finance/loan/scheme/sip-service';
 import { Loan} from '../finance/loan/sip.component';
 import {LoanScheme} from '../finance/loan/scheme/sip.scheme.component';
 import {EventService} from '../common/EventService';
-
+import {Stock} from '../finance/addStock/addStock.component';
+import {StockService} from '../finance/addStock/stockService';
+import {SearchStock} from '../finance/addStock/searchStock/searchStock.component';
+import {AddStock} from '../finance/addStock/addStockDetails/addStock.component';
 @NgModule({
   imports: [
     BrowserModule,
@@ -53,11 +56,11 @@ import {EventService} from '../common/EventService';
   ],
   declarations: [
     XIRR,   NAVBAR,    AddCompany, Sip, AddFunds, AddProfile, AddFundsDetails, SipScheme, Chart, 
-    Pension, PensionScheme, Loan , LoanScheme
+    Pension, PensionScheme, Loan , LoanScheme,Stock , SearchStock,AddStock
   ],
   providers: [ XirrService , XirrRequest, FundService, SipService, NavService, schemeSipService, 
   ChartService, EventService,
-  PensionService,SchemePensionService, SchemeLoanService, LoanService],
+  PensionService,SchemePensionService, SchemeLoanService, LoanService, StockService],
   bootstrap: [ XIRR ]
 })
 export class AppModule { }

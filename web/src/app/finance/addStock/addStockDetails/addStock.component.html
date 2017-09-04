@@ -1,0 +1,50 @@
+
+<h4>Add details</h4>
+<hr/>
+<div class="sip">
+      <span class="headings textPadding">Stock exchange &nbsp;</span>
+    </div>
+    <div class="sip componentPadding"> 
+    <span >{{selectedStock.exchange}}</span >
+</div>
+<div class="sip">
+      <span class="headings textPadding">Stock ticker &nbsp;</span>
+    </div>
+    <div class="sip componentPadding"> 
+    <span >{{selectedStock.ticker}}</span >
+</div>
+<div class="sip">
+      <span class="headings textPadding">Company name &nbsp;</span>
+    </div>
+    <div class="sip componentPadding"> 
+    <span >{{selectedStock.companyName}}</span >
+</div>
+<hr/>
+<div class="sip">
+      <span class="headings textPadding">Investment date &nbsp;</span>
+    </div>
+    <div class="sip componentPadding"> 
+    <span ><p-calendar inputStyleClass="calender"   [(ngModel)]="investmentDate"   [monthNavigator]="true" [yearNavigator]="true" yearRange="2000:2100"></p-calendar> </span >
+</div>
+
+ <div class="sip textPadding" >
+     <span class="headings">Purchase Quantity &nbsp;</span>
+ </div>
+ <div class="sip" >
+        <input type="text" pInputText   [(ngModel)]="purchaseQty" /> 
+ </div>
+<div class="sip textPadding" >
+     <span class="headings">Purchase price &nbsp;</span>
+ </div>
+ <div class="sip" >
+        <input type="text" pInputText   [(ngModel)]="purchasePrice" /> 
+ </div>
+<hr/>
+<div style="width:95%" align="right">
+<button  (click)="saveFundDetails()" pButton type="button" [disabled]="!units || formSubmit" class="ui-button-success"  label="Save" ></button>
+
+</div>
+
+    {{httpError}}
+
+

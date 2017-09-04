@@ -56,9 +56,9 @@ private toggleInfo() {
   }
      ngOnInit(): void {
  this.renderer.setElementStyle(this.spinnerElement.nativeElement, 'display','block'); 
-         this.chartService.getChartDataUIForMyProfile(false).subscribe( 
+        /* this.chartService.getChartDataUIForMyProfile(false).subscribe( 
         charData => this.showChartDataUIForMyProfile(charData),
-        error => this.showError(error)); 
+        error => this.showError(error)); */
 
           this.allFunds = JSON.parse(localStorage.getItem('allFunds'));
          

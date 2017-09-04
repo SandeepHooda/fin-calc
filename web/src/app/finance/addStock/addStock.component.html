@@ -1,0 +1,66 @@
+<!-- Spinner loader -->
+<div class="loading-overlay" #spinnerElement  >
+    <div class="spinner">
+    <md-spinner></md-spinner>
+    </div>
+</div>
+
+<span *ngIf="stepIndicator == 0"  class="info"><i class="fa fa-2x fa-info-circle"  aria-hidden="true" (click)="toggleInfo()"></i></span>
+<button  *ngIf="stepIndicator > 1" pButton type="button" (click)="previousStep()"   icon="fa-arrow-left" label="Back" ></button>
+<button *ngIf="stepIndicator > 0"  pButton type="button" (click)="showProfileSummaryStep()" icon="fa-close"      style="float:right;" label="Cancel"></button>
+<button *ngIf="stepIndicator == 0" pButton type="button" (click)="moveToSearchStockPage()"      icon="fa-plus" style="float:right;" label="Add"></button><br/>
+<search-stock *ngIf="stepIndicator == 1" [allListedStocksBSE]="allListedStocksBSE" [allListedStocksNSE]="allListedStocksNSE" (onStockSelect)="userSelectedAStock($event)" ></search-stock>
+<add-stock-details *ngIf="stepIndicator == 2"  [selectedStockStr]="newStockSelected"></add-stock-details>
+<div *ngIf="stepIndicator == 0">
+  
+    <p-messages [(value)]="msgs"></p-messages> 
+<hr class="ui-widget-content" style="border-top:0">
+
+<p-dataGrid [value]="allProfiles" [paginator]="true" [rows]="20">
+    <p-header>
+        <div class="grid-heder">
+        <b>All Portfolio's</b><br/>
+       Returns : {{totalGain | number : '1.2-2'}} <br/>
+       XIRR : ({{totalXirr | number : '1.2-2'}} %) <br/>
+       Absolute Returns : ({{totalPercentGainAbsolute | number : '1.2-2'}} %) <br/>
+       Total Investment : {{totalInvetment | number : '1.2-2' }} <br/>
+       </div>
+    </p-header>
+    <ng-template let-profile pTemplate="item">
+        <div style="padding:3px" class="ui-g-12 ui-md-3">
+             <p-panel  [style]="{'text-align':'left'}"  > 
+               <p-header>
+                  <b> {{profile.schemeName}} </b><br/>
+                   Returns : {{profile.companyTotalGain | number : '1.2-2'}} <br/>
+                   XIRR : ({{profile.companyXirr | number : '1.2-2'}} %) <br/>
+                   Absolute Returns : ({{profile.companyAbsoluteGainPercent | number : '1.2-2'}} % ) <br/>
+                   Current Value : {{profile.companyCurrentValue | number : '1.2-2'}} <br/>
+                   Total Investment : {{profile.companyTotalInvestment | number : '1.2-2'}} <br/>
+               </p-header> 
+               <div [ngClass]="{'profitBack' : (profile.absoluteGain >=0) , 'lossBack' : (profile.absoluteGain < 0)}"> 
+                <div >Return : {{profile.absoluteGain | number : '1.2-2'}}</div> 
+                 <div>XIRR: {{profile.xirr | number : '1.2-2'}} %</div>
+                 <!--<div>Anual Returns : {{profile.percentGainAnual | number : '1.2-2'}} %</div> -->
+                 <div>Absolute Returns : {{profile.percentGainAbsolute | number : '1.2-2'}} %</div>
+                 <div>Nav Date : {{profile.navDate }} </div>
+                 <div>Current value : {{profile.currentValue | number : '1.2-2'}} </div>
+                <hr class="ui-widget-content" style="border-top:0; margin-top:1px;margin-bottom:1px">
+                <div >Purchase Date : {{profile.investmentDate}}</div>
+                <div >Amount : {{profile.investmentAmount | number : '1.2-2'}}</div>
+                <div >Units : {{profile.units | number : '1.2-2'}}</div>
+                </div> 
+                <p-footer>
+                <span (click)="deleteProfile(profile.profileID)" ><i class="fa fa-trash-o" aria-hidden="true"></i></span>
+                </p-footer>
+            </p-panel>
+        </div>
+    </ng-template>
+</p-dataGrid>
+<p-dialog header="Confirmation" [(visible)]="displayConfirmation" modal="modal" width="300" [responsive]="true">
+    <p>Are you sure you want to delete the Fund?</p>
+        <p-footer>
+            <button type="button" pButton icon="fa-check" (click)="confirmDelete()" label="Yes"></button>
+            <button type="button" pButton icon="fa-close" (click)="displayConfirmation=false" label="No"></button>
+        </p-footer>
+</p-dialog>
+</div>
