@@ -12,7 +12,7 @@
 <search-stock *ngIf="stepIndicator == 1" [allListedStocksBSE]="allListedStocksBSE" [allListedStocksNSE]="allListedStocksNSE" (onStockSelect)="userSelectedAStock($event)" ></search-stock>
 <add-stock-details *ngIf="stepIndicator == 2"  [selectedStockStr]="newStockSelected" (onSaveSuccess)="refreshPage()"></add-stock-details>
 <div *ngIf="stepIndicator == 0">
-  
+   
     <p-messages [(value)]="msgs"></p-messages> 
 <hr class="ui-widget-content" style="border-top:0">
 <p-dataGrid [value]="allStocks" [paginator]="true" [rows]="20">
