@@ -52,7 +52,7 @@ import com.xirr.XirrCalculatorService;
 public class ProfileService {
 	private static final Logger log = Logger.getLogger(ProfileService.class.getName());
 	private static SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy");
-
+	private static SimpleDateFormat sdf_YMD = new SimpleDateFormat("yyyy-MM-dd");
 	public static void deleteFromPortfolio(String collection, long profileID) {
 		log.info("Deleting from   user profile " + collection + profileID);
 		String currentData = ProfileDAO.getUserPortfolio(Constants.dbName, collection, false, null, Constants.mlabKey);// get
@@ -764,14 +764,22 @@ private static boolean calculateMonthlyRollingReturn(List<NavVoUI> uiNAvs){
 						
 							double[] payments = new double[2];
 							Date[] dates = new Date[2];
-							payments[0] = aStock.getPurchasePrice() * aStock.getPurchaseQty() * -1;
+							aStock.setInvestmentAmount(aStock.getPurchasePrice() * aStock.getPurchaseQty());
+							payments[0] = aStock.getInvestmentAmount() * -1;
 							dates[0] = sdf.parse(aStock.getPurchaseDateStr());
 							payments[1] = aStock.getLastKnownPrice() * aStock.getPurchaseQty();
+							aStock.setCurrentValue(payments[1]);
 							
 							dates[1] = new Date();
 							double xirr = XirrCalculatorService.Newtons_method(0.1, payments, dates);
 							aStock.setXirr(xirr);
-							aStock.setPercentGainAbsolute((payments[1] + payments[0])/ payments[0] * -100);
+							aStock.setPercentGainAbsolute((aStock.getCurrentValue() - aStock.getInvestmentAmount())/ aStock.getInvestmentAmount() * 100);
+							aStock.setAbsoluteGain(aStock.getCurrentValue() - aStock.getInvestmentAmount());
+							String asOfDate = aStock.getAsOfDate().substring(0,10);
+							asOfDate=  sdf.format(sdf_YMD.parse(asOfDate)) +" "+ aStock.getAsOfDate().substring(11);
+							asOfDate = asOfDate.substring(0,asOfDate.length()-1);
+							aStock.setAsOfDate(asOfDate);
+							
 							//aStock.setPercentGainAnual(profile.getPercentGainAbsolute() *365/daysBetweenDates(dates[0],dates[1]));
 							
 						

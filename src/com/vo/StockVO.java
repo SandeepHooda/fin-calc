@@ -11,6 +11,7 @@ public class StockVO {
 	private String purchaseDateStr  ;
 	private double purchaseQty ;
 	private double purchasePrice;
+	private double investmentAmount;
 	private double lastTradePrice ;
 	private String asOfDate ;
 	
@@ -159,6 +160,12 @@ public class StockVO {
 	}
 	public void setCompanyTotalGain(double companyTotalGain) {
 		this.companyTotalGain = companyTotalGain;
+	}
+	public double getInvestmentAmount() {
+		return investmentAmount;
+	}
+	public void setInvestmentAmount(double investmentAmount) {
+		this.investmentAmount = investmentAmount;
 	}
 
 }

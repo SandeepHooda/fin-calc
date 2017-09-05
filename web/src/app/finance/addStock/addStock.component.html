@@ -12,7 +12,7 @@
 <search-stock *ngIf="stepIndicator == 1" [allListedStocksBSE]="allListedStocksBSE" [allListedStocksNSE]="allListedStocksNSE" (onStockSelect)="userSelectedAStock($event)" ></search-stock>
 <add-stock-details *ngIf="stepIndicator == 2"  [selectedStockStr]="newStockSelected" (onSaveSuccess)="refreshPage()"></add-stock-details>
 <div *ngIf="stepIndicator == 0">
-  
+   
     <p-messages [(value)]="msgs"></p-messages> 
 <hr class="ui-widget-content" style="border-top:0">
 <p-dataGrid [value]="allStocks" [paginator]="true" [rows]="20">
@@ -41,12 +41,12 @@
                  <div>XIRR: {{profile.xirr | number : '1.2-2'}} %</div>
                  <!--<div>Anual Returns : {{profile.percentGainAnual | number : '1.2-2'}} %</div> -->
                  <div>Absolute Returns : {{profile.percentGainAbsolute | number : '1.2-2'}} %</div>
-                 <div>Nav Date : {{profile.navDate }} </div>
+                 <div>Time : {{profile.asOfDate }} </div>
                  <div>Current value : {{profile.currentValue | number : '1.2-2'}} </div>
                 <hr class="ui-widget-content" style="border-top:0; margin-top:1px;margin-bottom:1px">
-                <div >Purchase Date : {{profile.investmentDate}}</div>
+                <div >Purchase Date : {{profile.purchaseDateStr}}</div>
                 <div >Amount : {{profile.investmentAmount | number : '1.2-2'}}</div>
-                <div >Units : {{profile.units | number : '1.2-2'}}</div>
+                <div >Units : {{profile.purchaseQty | number : '1.2-2'}}</div>
                 </div> 
                 <p-footer>
                 <span (click)="deleteProfile(profile.profileID)" ><i class="fa fa-trash-o" aria-hidden="true"></i></span>
