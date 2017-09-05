@@ -12,7 +12,7 @@ import {StockService} from '../stockService';
    
 })
 
-export class AddStock  implements OnInit{
+export class AddStockDetails  implements OnInit{
   @Input()
   selectedStockStr : string;
   @Output() onStockSelect :EventEmitter<StockVO> = new EventEmitter();
@@ -30,6 +30,8 @@ export class AddStock  implements OnInit{
      
 
     ngOnInit(): void {
+      
+      //this.renderer.setElementStyle(this.spinnerElement.nativeElement, 'display','none');
       let stockDetails : string [] = this.selectedStockStr.split(":");
       this.selectedStock.exchange = stockDetails[0];
       this.selectedStock.ticker = stockDetails[1];
@@ -40,11 +42,10 @@ export class AddStock  implements OnInit{
     private addStockToProfile(){
       this.httpError = "";
       this.formSubmit = false;
-      this.selectedStock.purchaseDate = this.purchaseDate;
       this.selectedStock.purchaseDateStr = this.navService.dateToStr(this.purchaseDate);
       this.selectedStock.purchasePrice = this.purchasePrice;
       this.selectedStock.purchaseQty = this.purchaseQty;
-      this.renderer.setElementStyle(this.spinnerElement.nativeElement, 'display','block');
+      //this.renderer.setElementStyle(this.spinnerElement.nativeElement, 'display','block');
       this.stockService.addStockToProfile(this.selectedStock).subscribe( 
         result => this.addedToProfile(result),
         error => this.showError());
@@ -52,14 +53,14 @@ export class AddStock  implements OnInit{
 
   private addedToProfile(result:string){
         this.formSubmit = false;
-        this.renderer.setElementStyle(this.spinnerElement.nativeElement, 'display','none');
+        //this.renderer.setElementStyle(this.spinnerElement.nativeElement, 'display','none');
         if ("SUCCESS" == result){
            this.onSaveSuccess.emit();
            
         }
     }
      private showError(){
-       this.renderer.setElementStyle(this.spinnerElement.nativeElement, 'display','none');  
+      // this.renderer.setElementStyle(this.spinnerElement.nativeElement, 'display','none');  
     }
     public anyErrorInForm():boolean{
       return !this.purchaseDate || !this.purchaseQty || !this.purchasePrice || this.formSubmit;

@@ -2,6 +2,10 @@ package com.profile;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
 
 
@@ -13,15 +17,123 @@ import com.google.appengine.api.urlfetch.HTTPRequest;
 import com.google.appengine.api.urlfetch.HTTPResponse;
 import com.google.appengine.api.urlfetch.URLFetchService;
 import com.google.appengine.api.urlfetch.URLFetchServiceFactory;
+import com.nav.CurrentMarketPrice;
+import com.vo.Portfolio;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 public class ProfileDAO {
 	private static final Logger log = Logger.getLogger(ProfileDAO.class.getName());
 	private static FetchOptions lFetchOptions = FetchOptions.Builder.doNotValidateCertificate().setDeadline(300d);
 	private static URLFetchService fetcher = URLFetchServiceFactory.getURLFetchService();
 
-	public static String getUserPortfolio(String userID, boolean suppressDefaultKey, String datakey ){
+	public static Map<String, CurrentMarketPrice> getCurrentMarkerPrice(List<CurrentMarketPrice> request){
+		Map<String , CurrentMarketPrice> markerResponse = new HashMap<String , CurrentMarketPrice>();
+		String nseURLOrg = "https://www.google.com/finance/info?q=NSE:";
+		String bseURLOrg = "https://www.google.com/finance/info?q=BSE:";
+		String nseURL = "https://www.google.com/finance/info?q=NSE:";
+		String bseURL = "https://www.google.com/finance/info?q=BSE:";
+		String respoNse  = null, respoBse = null;
+		boolean hasNSEReq = false;
+		boolean hasBSEReq = false;
+		 List<CurrentMarketPrice> bseData = null;
+		 List<CurrentMarketPrice> nseData = null;
+		Gson  json = new Gson();
+		for (CurrentMarketPrice ticker: request){
+			if ("NSE".equals(ticker.getE())){
+				nseURL +=ticker.getT();
+				hasNSEReq = true;
+			}else {
+				bseURL +=ticker.getT();
+				hasBSEReq = true;
+			}
+		}
+		if (hasNSEReq){
+			try {
+				
+		        URL url = new URL(nseURL);
+	            HTTPRequest req = new HTTPRequest(url, HTTPMethod.GET, lFetchOptions);
+	            HTTPResponse res = fetcher.fetch(req);
+	            respoNse =(new String(res.getContent()));
+	            respoNse = respoNse.replaceAll("/", "");
+	            nseData = json.fromJson(respoNse, new TypeToken<List<CurrentMarketPrice>>() {}.getType());
+	        } catch (IOException e) {
+	        	e.printStackTrace();
+	        }
+			
+		}
+		if(hasBSEReq){
+			try {
+				
+		        URL url = new URL(bseURL);
+	            HTTPRequest req = new HTTPRequest(url, HTTPMethod.GET, lFetchOptions);
+	            HTTPResponse res = fetcher.fetch(req);
+	            respoBse =(new String(res.getContent()));
+	            respoBse = respoBse.replaceAll("/", "");
+	            bseData = json.fromJson(respoBse, new TypeToken<List<CurrentMarketPrice>>() {}.getType());
+	        } catch (IOException e) {
+	        	e.printStackTrace();
+	        }
+			
+		}
+		
+		
+		
+		
+		
+		if (null != nseData){
+			for (CurrentMarketPrice nseResp : nseData){
+				if ("NSE".equals(nseResp.getE())){
+					markerResponse.put(nseResp.getT(), nseResp);
+				}else {
+					try {
+						
+				        URL url = new URL(nseURLOrg+nseResp.getT());
+			            HTTPRequest req = new HTTPRequest(url, HTTPMethod.GET, lFetchOptions);
+			            HTTPResponse res = fetcher.fetch(req);
+			           String respoNseSingle =(new String(res.getContent()));
+			           respoNseSingle = respoNseSingle.replaceAll("/", "");
+			            List<CurrentMarketPrice> nseDataSingle = json.fromJson(respoNseSingle, new TypeToken<List<CurrentMarketPrice>>() {}.getType());
+			            if(null != nseDataSingle && nseDataSingle.size() > 0){
+			            	markerResponse.put(nseDataSingle.get(0).getT(), nseDataSingle.get(0));
+			            }
+			            
+			        } catch (IOException e) {
+			        	e.printStackTrace();
+			        }
+				}
+			}
+		}
+		
+		if (null != bseData){
+			for (CurrentMarketPrice bseResp : bseData){
+				if ("BOM".equals(bseResp.getE())){
+					markerResponse.put(bseResp.getT(), bseResp);
+				}else {
+					try {
+						
+				        URL url = new URL(bseURLOrg+bseResp.getT());
+			            HTTPRequest req = new HTTPRequest(url, HTTPMethod.GET, lFetchOptions);
+			            HTTPResponse res = fetcher.fetch(req);
+			           String respoBseSingle =(new String(res.getContent()));
+			           respoBseSingle = respoBseSingle.replaceAll("/", "");
+			            List<CurrentMarketPrice> bseDataSingle = json.fromJson(respoBseSingle, new TypeToken<List<CurrentMarketPrice>>() {}.getType());
+			            if(null != bseDataSingle && bseDataSingle.size() > 0){
+			            	markerResponse.put(bseDataSingle.get(0).getT(), bseDataSingle.get(0));
+			            }
+			            
+			        } catch (IOException e) {
+			        	e.printStackTrace();
+			        }
+				}
+			}
+		}
+		
+		return markerResponse;
+	}
+	public static String getUserPortfolio(String dbName, String userID, boolean suppressDefaultKey, String datakey, String apiKey ){
 	
-		String httpsURL = "https://api.mlab.com/api/1/databases/"+Constants.dbName+"/collections/"+userID+"?apiKey="+Constants.mlabKey;
+		String httpsURL = "https://api.mlab.com/api/1/databases/"+dbName+"/collections/"+userID+"?apiKey="+apiKey;
 		if (datakey != null && datakey.trim().length() > 0){
 			httpsURL += "&f={\""+datakey+"\":1,\"_id\":0}";
 		}else{
@@ -54,6 +166,7 @@ public class ProfileDAO {
 		
 		
 	}
+	
 	public static String getArrayData (String dbName, String collection, boolean suppressDefaultKey, String datakey, String mlabApiKey){
 		String httpsURL = "https://api.mlab.com/api/1/databases/"+dbName+"/collections/"+collection+"?apiKey="+mlabApiKey;
 		if (datakey != null && datakey.trim().length() > 0){

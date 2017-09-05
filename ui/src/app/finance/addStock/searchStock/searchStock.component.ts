@@ -4,6 +4,7 @@ import {SelectItem} from 'primeng/primeng';
 import {ValueAccessorBase} from '../../../common/value.access';
 import {StockVO} from '../stockVO'
 
+
 @Component({
  selector : 'search-stock', 
   templateUrl: './searchStock.component.html',

@@ -214,4 +214,24 @@
     <servlet-name>ChartDataUIForMyProfile</servlet-name>
     <url-pattern>/ChartDataUIForMyProfile</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>AddStock</display-name>
+    <servlet-name>AddStock</servlet-name>
+    <servlet-class>com.endpoint.AddStock</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>AddStock</servlet-name>
+    <url-pattern>/AddStock</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>GetStockProfile</display-name>
+    <servlet-name>GetStockProfile</servlet-name>
+    <servlet-class>com.endpoint.GetStockProfile</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>GetStockProfile</servlet-name>
+    <url-pattern>/GetStockProfile</url-pattern>
+  </servlet-mapping>
 </web-app>

@@ -10,16 +10,15 @@
 <button *ngIf="stepIndicator > 0"  pButton type="button" (click)="showProfileSummaryStep()" icon="fa-close"      style="float:right;" label="Cancel"></button>
 <button *ngIf="stepIndicator == 0" pButton type="button" (click)="moveToSearchStockPage()"      icon="fa-plus" style="float:right;" label="Add"></button><br/>
 <search-stock *ngIf="stepIndicator == 1" [allListedStocksBSE]="allListedStocksBSE" [allListedStocksNSE]="allListedStocksNSE" (onStockSelect)="userSelectedAStock($event)" ></search-stock>
-<add-stock-details *ngIf="stepIndicator == 2"  [selectedStockStr]="newStockSelected"></add-stock-details>
+<add-stock-details *ngIf="stepIndicator == 2"  [selectedStockStr]="newStockSelected" (onSaveSuccess)="refreshPage()"></add-stock-details>
 <div *ngIf="stepIndicator == 0">
   
     <p-messages [(value)]="msgs"></p-messages> 
 <hr class="ui-widget-content" style="border-top:0">
-
-<p-dataGrid [value]="allProfiles" [paginator]="true" [rows]="20">
+<p-dataGrid [value]="allStocks" [paginator]="true" [rows]="20">
     <p-header>
         <div class="grid-heder">
-        <b>All Portfolio's</b><br/>
+        <b>All Stocks's</b><br/>
        Returns : {{totalGain | number : '1.2-2'}} <br/>
        XIRR : ({{totalXirr | number : '1.2-2'}} %) <br/>
        Absolute Returns : ({{totalPercentGainAbsolute | number : '1.2-2'}} %) <br/>
@@ -30,7 +29,7 @@
         <div style="padding:3px" class="ui-g-12 ui-md-3">
              <p-panel  [style]="{'text-align':'left'}"  > 
                <p-header>
-                  <b> {{profile.schemeName}} </b><br/>
+                  <b> {{profile.companyName}} </b><br/>
                    Returns : {{profile.companyTotalGain | number : '1.2-2'}} <br/>
                    XIRR : ({{profile.companyXirr | number : '1.2-2'}} %) <br/>
                    Absolute Returns : ({{profile.companyAbsoluteGainPercent | number : '1.2-2'}} % ) <br/>

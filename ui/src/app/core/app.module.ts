@@ -37,7 +37,7 @@ import {EventService} from '../common/EventService';
 import {Stock} from '../finance/addStock/addStock.component';
 import {StockService} from '../finance/addStock/stockService';
 import {SearchStock} from '../finance/addStock/searchStock/searchStock.component';
-import {AddStock} from '../finance/addStock/addStockDetails/addStock.component';
+import {AddStockDetails} from '../finance/addStock/addStockDetails/addStockDetails.component';
 @NgModule({
   imports: [
     BrowserModule,
@@ -56,7 +56,7 @@ import {AddStock} from '../finance/addStock/addStockDetails/addStock.component';
   ],
   declarations: [
     XIRR,   NAVBAR,    AddCompany, Sip, AddFunds, AddProfile, AddFundsDetails, SipScheme, Chart, 
-    Pension, PensionScheme, Loan , LoanScheme,Stock , SearchStock,AddStock
+    Pension, PensionScheme, Loan , LoanScheme,Stock , SearchStock,AddStockDetails
   ],
   providers: [ XirrService , XirrRequest, FundService, SipService, NavService, schemeSipService, 
   ChartService, EventService,

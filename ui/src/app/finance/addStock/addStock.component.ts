@@ -5,6 +5,8 @@ import {Message} from 'primeng/primeng';
 import {Router} from '@angular/router';
 import {EventService} from '../../common/EventService';
 import {StockVO} from './stockVO';
+import {StockPortfolioVO} from './StockPortfolioVO';
+
 import {StockService} from './stockService';
 @Component({
  selector : 'add-stock', 
@@ -19,6 +21,8 @@ export class Stock implements OnInit {
   public allListedStocksNSE : SelectItem[];
   public allListedStocksBSE : SelectItem[];
  @ViewChild('spinnerElement') spinnerElement: ElementRef;
+
+ public allStocks : Array<StockVO> = [];
   
     constructor(private renderer: Renderer, private stockService : StockService) {} 
    
@@ -51,6 +55,7 @@ private toggleInfo() {
         this.stepIndicator ++;
   }
    private refreshPage(){
+     this.stepIndicator = 0;
      this.allListedStocksNSE = JSON.parse(localStorage.getItem('allListedStocksNSE'));
      this.allListedStocksBSE = JSON.parse(localStorage.getItem('allListedStocksBSE'));
      if (!this.allListedStocksNSE || !this.allListedStocksBSE ){
@@ -58,9 +63,16 @@ private toggleInfo() {
             funds => this.getAllListedStocksResult(funds),
             error => this.showError(error))
      }
-     }
+    this.stockService.getStockProfile().subscribe( 
+            funds => this.getStockProfileResult(funds),
+            error => this.showError(error))
+  }
      
-
+private getStockProfileResult( stocks : StockPortfolioVO ){
+console.log(stocks);
+  this.allStocks = stocks.allStocks;
+    
+  }
 private getAllListedStocksResult( stocks : Array <StockVO> ){
 
     this.allListedStocksNSE = [];
@@ -82,7 +94,7 @@ private getAllListedStocksResult( stocks : Array <StockVO> ){
 
    localStorage.setItem('allListedStocksNSE', JSON.stringify(this.allListedStocksNSE));
    localStorage.setItem('allListedStocksBSE', JSON.stringify(this.allListedStocksBSE));
-   this.renderer.setElementStyle(this.spinnerElement.nativeElement, 'display','none');
+   //this.renderer.setElementStyle(this.spinnerElement.nativeElement, 'display','none');
   }
 
     private showError(error:any) {
