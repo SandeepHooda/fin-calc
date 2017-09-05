@@ -54,10 +54,9 @@ export class AddStockDetails  implements OnInit{
   private addedToProfile(result:string){
         this.formSubmit = false;
         //this.renderer.setElementStyle(this.spinnerElement.nativeElement, 'display','none');
-        if ("SUCCESS" == result){
-           this.onSaveSuccess.emit();
+      this.onSaveSuccess.emit();
            
-        }
+        
     }
      private showError(){
       // this.renderer.setElementStyle(this.spinnerElement.nativeElement, 'display','none');  
