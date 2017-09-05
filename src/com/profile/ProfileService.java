@@ -55,12 +55,8 @@ public class ProfileService {
 	private static SimpleDateFormat sdf_YMD = new SimpleDateFormat("yyyy-MM-dd");
 	public static void deleteFromPortfolio(String collection, long profileID) {
 		log.info("Deleting from   user profile " + collection + profileID);
-		String currentData = ProfileDAO.getUserPortfolio(Constants.dbName, collection, false, null, Constants.mlabKey);// get
-																					// data
-																					// along
-																					// with
-																					// default
-																					// key
+		String currentData = ProfileDAO.getUserPortfolio(Constants.dbName, collection, false, null, Constants.mlabKey);
+																					
 		if (null == currentData || "".equals(currentData.trim())) {
 			log.info("Creating a new profile " + collection);
 			ProfileDAO.createNewCollection(collection, Constants.dbName, Constants.mlabKey);
@@ -90,6 +86,35 @@ public class ProfileService {
 
 		dataToAdd = json.toJson(pf, new TypeToken<Portfolio>() {}.getType());
 		ProfileDAO.insertData(collection, dataToAdd);
+	}
+	public static void deleteStockFromPortfolio(String collection, long profileID) {
+		log.info("Deleting from   user profile " + collection + profileID);
+		String currentData = ProfileDAO.getUserPortfolio(Constants.stockEquityDB, collection, false, null, Constants.mlabKey);
+																					
+		if (null == currentData || "".equals(currentData.trim())) {
+			log.info("Creating a new profile " + collection);
+			ProfileDAO.createNewCollection(collection, Constants.stockEquityDB, Constants.mlabKey);
+		} else {
+
+			log.info("Profile already exists " + currentData);
+		}
+		String dataToAdd = null;
+		StockPortfolio pf = null;
+		Gson json = new Gson();
+		currentData = ProfileDAO.getUserPortfolio(Constants.stockEquityDB, collection, false, null,Constants.mlabKey);// get
+																			
+		currentData = currentData.trim();
+		log.info("currentData =" + currentData + "#");
+		pf = json.fromJson(currentData, StockPortfolio.class);
+		Iterator<StockVO> profileItr = pf.getAllStocks().iterator();
+		while (profileItr.hasNext()) {
+			if (profileItr.next().getProfileID() == profileID) {
+				profileItr.remove();
+			}
+		}
+
+		dataToAdd = json.toJson(pf, new TypeToken<StockPortfolio>() {}.getType());
+		ProfileDAO.insertData(collection, dataToAdd, Constants.stockEquityDB,Constants.mlabKey);
 	}
 
 	public static void addFundToPortfolio(String collection, Profile profile) {

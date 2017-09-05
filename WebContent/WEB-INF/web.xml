@@ -234,4 +234,14 @@
     <servlet-name>GetStockProfile</servlet-name>
     <url-pattern>/GetStockProfile</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>DeleteStockFromProfile</display-name>
+    <servlet-name>DeleteStockFromProfile</servlet-name>
+    <servlet-class>com.endpoint.DeleteStockFromProfile</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>DeleteStockFromProfile</servlet-name>
+    <url-pattern>/DeleteStockFromProfile</url-pattern>
+  </servlet-mapping>
 </web-app>

@@ -27,6 +27,11 @@ export class StockService {
                         .map(this.extractData)
                         .catch(this.handleError);
     }
+    deleteFromProfile(profileID : number) : Observable<string>{
+      return this.http.delete(this.hostName+'/DeleteStockFromProfile?profileID='+profileID)
+            .map(this.extractData)
+            .catch(this.handleError);
+    }
   private extractData(res: Response) {
     let body = res.json();
     return body;

@@ -20,6 +20,8 @@ export class Stock implements OnInit {
   private newStockSelected : string;
   public allListedStocksNSE : SelectItem[];
   public allListedStocksBSE : SelectItem[];
+  private displayConfirmation : boolean = false;
+  private profileIDToBedeleted : number;
  @ViewChild('spinnerElement') spinnerElement: ElementRef;
 
  public allStocks : Array<StockVO> = [];
@@ -67,7 +69,22 @@ private toggleInfo() {
             funds => this.getStockProfileResult(funds),
             error => this.showError(error))
   }
-     
+private deleteFromProfile(profileID : number){
+  this.profileIDToBedeleted = profileID;
+  this.displayConfirmation = true;
+}  
+private confirmDelete(){
+this.displayConfirmation = false;
+ console.log("deleting "+this.profileIDToBedeleted);
+ this.renderer.setElementStyle(this.spinnerElement.nativeElement, 'display','block');
+ this.stockService.deleteFromProfile(this.profileIDToBedeleted).subscribe( 
+        msg => this.deletedFromProfile(msg),
+        error => this.showError(error));
+}
+private deletedFromProfile(message:string){
+   this.renderer.setElementStyle(this.spinnerElement.nativeElement, 'display','none');
+   this.refreshPage();
+}
 private getStockProfileResult( stocks : StockPortfolioVO ){
 console.log(stocks);
   this.allStocks = stocks.allStocks;
