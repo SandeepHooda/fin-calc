@@ -20,7 +20,7 @@ export class ChartService {
     getHouseChartData(houseCode : string, range: string): Observable<Array<ChartVO>> {
       let url = "/ChartDataUI?houseCode="+houseCode+range;
       if (houseCode == "AllHouses"){
-        url = "http://localhost:8888/TopFundOfAllHouses?houseCode="+houseCode+range;
+        url = "/TopFundOfAllHouses?houseCode="+houseCode+range;
       }
        return this.http.get(this.hostName+url)
                         .map(this.extractData)

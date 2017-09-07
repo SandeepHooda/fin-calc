@@ -22,6 +22,10 @@ export class Stock implements OnInit {
   public allListedStocksBSE : SelectItem[];
   private displayConfirmation : boolean = false;
   private profileIDToBedeleted : number;
+  private totalGain : number;
+  private totalXirr : number;
+  private totalPercentGainAbsolute : number;
+  private totalInvetment : number;
  @ViewChild('spinnerElement') spinnerElement: ElementRef;
 
  public allStocks : Array<StockVO> = [];
@@ -58,8 +62,14 @@ private toggleInfo() {
   }
    private refreshPage(){
      this.stepIndicator = 0;
-     this.allListedStocksNSE = JSON.parse(localStorage.getItem('allListedStocksNSE'));
-     this.allListedStocksBSE = JSON.parse(localStorage.getItem('allListedStocksBSE'));
+     if (localStorage.getItem('allListedStocksNSE') && localStorage.getItem('allListedStocksNSE') != 'undefined'){
+      
+      this.allListedStocksNSE = JSON.parse(localStorage.getItem('allListedStocksNSE'));
+     }
+     if (localStorage.getItem('allListedStocksBSE')  && localStorage.getItem('allListedStocksBSE') != 'undefined'){
+      this.allListedStocksBSE = JSON.parse(localStorage.getItem('allListedStocksBSE'));
+     }
+     
      if (!this.allListedStocksNSE || !this.allListedStocksBSE ){
         this.stockService.getAllListedStocks().subscribe( 
             funds => this.getAllListedStocksResult(funds),
@@ -88,7 +98,10 @@ private deletedFromProfile(message:string){
 private getStockProfileResult( stocks : StockPortfolioVO ){
 console.log(stocks);
   this.allStocks = stocks.allStocks;
-    
+     this.totalGain= stocks.totalGain;
+    this.totalXirr = stocks.totalXirr;
+    this.totalPercentGainAbsolute = stocks.percentGainAbsolute;
+    this.totalInvetment = stocks.totalGain;
   }
 private getAllListedStocksResult( stocks : Array <StockVO> ){
 
@@ -99,11 +112,11 @@ private getAllListedStocksResult( stocks : Array <StockVO> ){
     for ( let i=0; i < stockDataLen ; i++){
     if ("NSE" === stocks[i].exchange ){
       
-      this.allListedStocksNSE.push({label: stocks[i].exchange +":"+  stocks[i].ticker +" - "+stocks[i].companyName  , 
+      this.allListedStocksNSE.push({label: stocks[i].exchange +":"+  stocks[i].ticker +" - "+stocks[i].companyName +"- isin : "+stocks[i].isin , 
       value:stocks[i].exchange + ":"+ stocks[i].ticker+ ":"+stocks[i].companyName})
     }else {
      
-      this.allListedStocksBSE.push({label: stocks[i].exchange +":"+  stocks[i].ticker +" - "+stocks[i].companyName  , 
+      this.allListedStocksBSE.push({label: stocks[i].exchange +":"+  stocks[i].ticker +" - "+stocks[i].companyName +"- isin : "+stocks[i].isin , 
       value:stocks[i].exchange + ":"+ stocks[i].ticker+ ":"+stocks[i].companyName})
     }
       

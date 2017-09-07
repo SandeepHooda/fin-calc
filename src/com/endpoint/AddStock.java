@@ -34,9 +34,7 @@ public class AddStock extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String email = (String)request.getSession().getAttribute("email");
-		if (null == email){
-			email = "sonu.hooda@gmail.com";
-		}
+		
 		StringBuilder buffer = new StringBuilder();
 		BufferedReader reader = request.getReader();
         String line;

@@ -164,7 +164,9 @@ public class ProfileService {
 		}
 		String dataToAdd = null;
 		StockPortfolio pf = null;
-		Gson json = new Gson();
+		GsonBuilder builder = new GsonBuilder();
+		builder.serializeSpecialFloatingPointValues();
+		 Gson json =builder.create();
 		currentData = ProfileDAO.getUserPortfolio(Constants.stockEquityDB,collection, false, null, Constants.mlabKey);
 		if (null == currentData || "".equals(currentData.trim())) {// empty
 																	// commection
@@ -805,14 +807,13 @@ private static boolean calculateMonthlyRollingReturn(List<NavVoUI> uiNAvs){
 							asOfDate = asOfDate.substring(0,asOfDate.length()-1);
 							aStock.setAsOfDate(asOfDate);
 							
-							//aStock.setPercentGainAnual(profile.getPercentGainAbsolute() *365/daysBetweenDates(dates[0],dates[1]));
 							
 						
 	
 			}
 
-			//calculateTotalGain(portfolio);
-			//calculateCompanyGain(portfolio);
+			calculateTotalGainForStock(portfolio);
+			calculateCompanyGainForStock(portfolio);
 		} catch (Exception e) {
 
 			e.printStackTrace();
@@ -911,6 +912,32 @@ private static boolean calculateMonthlyRollingReturn(List<NavVoUI> uiNAvs){
 		return portfolio;
 	}
 
+	private static void calculateTotalGainForStock(StockPortfolio portfolio) throws ParseException {
+		double totalGain = 0;
+		Date today = new Date();
+		List<Double> payments = new ArrayList<Double>();
+		List<Date> dates = new ArrayList<Date>();
+		portfolio.setTotalInvetment(0);
+		for (StockVO aprofile : portfolio.getAllStocks()) {
+			payments.add(aprofile.getInvestmentAmount() * -1);
+			dates.add(sdf.parse(aprofile.getPurchaseDateStr()));
+			payments.add(aprofile.getCurrentValue());
+			dates.add(today);
+			totalGain += (aprofile.getCurrentValue() - aprofile.getInvestmentAmount());
+			
+			portfolio.setTotalInvetment(portfolio.getTotalInvetment() + aprofile.getInvestmentAmount());
+		}
+		portfolio.setTotalGain(totalGain);
+		double[] allPayments = new double[payments.size()];
+		Date[] alldates = new Date[dates.size()];
+		for (int i = 0; i < allPayments.length; i++) {
+			allPayments[i] = payments.get(i);
+			alldates[i] = dates.get(i);
+		}
+
+		portfolio.setTotalXirr(XirrCalculatorService.Newtons_method(0.1, allPayments, alldates));
+		portfolio.setPercentGainAbsolute(totalGain/portfolio.getTotalInvetment()*100);
+	}
 	private static void calculateTotalGain(Portfolio portfolio) throws ParseException {
 		double totalGain = 0;
 		Date today = new Date();
@@ -978,6 +1005,56 @@ private static boolean calculateMonthlyRollingReturn(List<NavVoUI> uiNAvs){
 
 			double xirr = XirrCalculatorService.Newtons_method(0.1, allPayments, alldates);
 			for (Profile aprofile : compantyProfilesList) {
+				aprofile.setCompanyXirr(xirr);
+				aprofile.setCompanyTotalInvestment(companyTotalInvestment);
+				aprofile.setCompanyTotalGain(companyTotalGain);
+				aprofile.setCompanyCurrentValue(companyCurrentValue);
+				aprofile.setCompanyAbsoluteGainPercent(companyTotalGain/companyTotalInvestment *100);
+			}
+		}
+
+	}
+	private static void calculateCompanyGainForStock(StockPortfolio portfolio) throws ParseException {
+		Date today = new Date();
+		Map<String, List<StockVO>> companyProfilesMap = new HashMap<String, List<StockVO>>();
+		for (StockVO aprofile : portfolio.getAllStocks()) {
+			String key = aprofile.getExchange()+aprofile.getTicker();
+			if (null == companyProfilesMap.get(key)) {
+				List<StockVO> compantyProfilesList = new ArrayList<StockVO>();
+				compantyProfilesList.add(aprofile);
+				companyProfilesMap.put(key, compantyProfilesList);
+			} else {
+				List<StockVO> compantyProfilesList = companyProfilesMap.get(key);
+				compantyProfilesList.add(aprofile);
+			}
+		}
+
+		for (String schemeCode : companyProfilesMap.keySet()) {
+			List<StockVO> compantyProfilesList = companyProfilesMap.get(schemeCode);
+			List<Double> payments = new ArrayList<Double>();
+			List<Date> dates = new ArrayList<Date>();
+			double companyTotalInvestment = 0;
+			double companyCurrentValue = 0;
+			double companyTotalGain = 0;
+			for (StockVO aprofile : compantyProfilesList) {
+				payments.add(aprofile.getInvestmentAmount() * -1);
+				dates.add(sdf.parse(aprofile.getPurchaseDateStr()));
+				payments.add(aprofile.getCurrentValue());
+				dates.add(today);
+				companyTotalInvestment += aprofile.getInvestmentAmount();
+				companyTotalGain += aprofile.getAbsoluteGain();
+				companyCurrentValue  += aprofile.getCurrentValue();
+			}
+
+			double[] allPayments = new double[payments.size()];
+			Date[] alldates = new Date[dates.size()];
+			for (int i = 0; i < allPayments.length; i++) {
+				allPayments[i] = payments.get(i);
+				alldates[i] = dates.get(i);
+			}
+
+			double xirr = XirrCalculatorService.Newtons_method(0.1, allPayments, alldates);
+			for (StockVO aprofile : compantyProfilesList) {
 				aprofile.setCompanyXirr(xirr);
 				aprofile.setCompanyTotalInvestment(companyTotalInvestment);
 				aprofile.setCompanyTotalGain(companyTotalGain);

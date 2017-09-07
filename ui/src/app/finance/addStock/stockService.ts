@@ -8,7 +8,7 @@ import {StockVO} from './stockVO';
 import {StockPortfolioVO} from './StockPortfolioVO';
 @Injectable()
 export class StockService {
-     private hostName:string = 'http://localhost:8888';
+     private hostName:string = '';
 
   private getAllListedStocksUrl:string = '/web/data/allListedStocks.json';  // URL to web API
   private addStockToProfileUrl:string = '/AddStock';

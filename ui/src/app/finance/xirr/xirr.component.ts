@@ -76,17 +76,25 @@ private refreshPage(){
       }else {
         this.showRefreshButton = false;
       }
+       localStorage.setItem('mostRecentState', this.route.url);
    
 });
    //localStorage.setItem('signedInUser', 'Sandeep Hooda');  
    //localStorage.setItem('signedInUserEmail', 'sonu.hooda@gmail.com'); 
   //this.signedInUser = "sonu";
+  let  mostRecentState : string =localStorage.getItem('mostRecentState');
+  if (mostRecentState){
+    this.route.navigateByUrl(mostRecentState);
+  }
+  
 }
 
 private deleteLocalStorage(){
   localStorage.removeItem('signedInUser');
   localStorage.removeItem('signedInUserEmail');
   localStorage.removeItem('lastKnownPortFolio');
+   localStorage.removeItem('allListedStocksNSE');
+    localStorage.removeItem('allListedStocksBSE');
 }
    
 }

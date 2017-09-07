@@ -24,9 +24,7 @@ public class DeleteStockFromProfile extends HttpServlet {
 
     protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String email = (String)request.getSession().getAttribute("email");
-		if (null == email){
-			email = "sonu.hooda@gmail.com";
-		}
+		
 		String profileID = request.getParameter("profileID");
 		response.setContentType("application/json");
 		if (null != profileID){

@@ -1,6 +1,6 @@
 
 export class StockVO {
-
+    public isin : string;
     public companyName : string;
     public ticker : string;
     public exchange : string;

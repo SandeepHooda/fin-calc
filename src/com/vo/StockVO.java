@@ -4,6 +4,7 @@ import java.util.Date;
 
 public class StockVO {
 	private long profileID;
+	public String isin;
 	private String companyName  ;
 	private String ticker ;
 	private String exchange ;
@@ -166,6 +167,12 @@ public class StockVO {
 	}
 	public void setInvestmentAmount(double investmentAmount) {
 		this.investmentAmount = investmentAmount;
+	}
+	public String getIsin() {
+		return isin;
+	}
+	public void setIsin(String isin) {
+		this.isin = isin;
 	}
 
 }

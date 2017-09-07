@@ -41,10 +41,20 @@ public class ProfileDAO {
 		Gson  json = new Gson();
 		for (CurrentMarketPrice ticker: request){
 			if ("NSE".equals(ticker.getE())){
-				nseURL +=ticker.getT();
+				if (hasNSEReq){
+					nseURL +=","+ticker.getT();
+				}else {
+					nseURL +=ticker.getT();
+				}
+				
 				hasNSEReq = true;
 			}else {
-				bseURL +=ticker.getT();
+				if (hasBSEReq){
+					bseURL +=","+ticker.getT();
+				}else {
+					bseURL +=ticker.getT();
+				}
+				
 				hasBSEReq = true;
 			}
 		}

@@ -34,11 +34,12 @@ public class GetStockProfile extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String email = (String)request.getSession().getAttribute("email");
-		if (null == email){
-			email = "sonu.hooda@gmail.com";
-		}
+		
 		
 		StockPortfolio portfolio = ProfileService.getStockPortfolio(email);
+		if(null == portfolio){
+			portfolio = new StockPortfolio();
+		}
 		log.info("Total value"+portfolio.getTotalGain());
 		log.info("Total XIRR"+portfolio.getTotalXirr());
 		GsonBuilder builder = new GsonBuilder();
@@ -46,7 +47,7 @@ public class GetStockProfile extends HttpServlet {
 		 Gson gson =builder	.create();
 		String portfolioStr = gson.toJson(portfolio, StockPortfolio.class);
 		portfolioStr = portfolioStr.replaceAll("NaN", "0.0");
-		response.addHeader("Cache-Control", "max-age=3600");
+		//response.addHeader("Cache-Control", "max-age=3600");
 		response.getWriter().append(portfolioStr);
 	}
 

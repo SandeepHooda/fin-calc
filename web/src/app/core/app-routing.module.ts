@@ -9,13 +9,14 @@ import {Chart} from '../finance/addFund/chart/chart.component';
 import {Pension} from '../finance/pension/sip.component';
 import { Loan} from '../finance/loan/sip.component';
 const routes: Routes = [
-  { path: '', redirectTo: '/lumpsump', pathMatch: 'full' },
+  { path: '', redirectTo: '/Stock', pathMatch: 'full' },
+  { path: 'Stock',  component: Stock },
    { path: 'lumpsump',  component: AddFunds },
    { path: 'sip',  component: Sip },
    //{ path: 'Analytics',  component: Chart },
    { path: 'Pension',  component: Pension },
-   { path: 'Loan',  component: Loan },
-   { path: 'Stock',  component: Stock }
+   { path: 'Loan',  component: Loan }
+   
   
 ];
 
