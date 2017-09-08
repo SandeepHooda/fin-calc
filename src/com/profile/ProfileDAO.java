@@ -3,11 +3,13 @@ package com.profile;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
-
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import com.Constants;
 import com.google.appengine.api.urlfetch.FetchOptions;
@@ -26,118 +28,66 @@ public class ProfileDAO {
 	private static final Logger log = Logger.getLogger(ProfileDAO.class.getName());
 	private static FetchOptions lFetchOptions = FetchOptions.Builder.doNotValidateCertificate().setDeadline(300d);
 	private static URLFetchService fetcher = URLFetchServiceFactory.getURLFetchService();
-
+	final static Pattern nse_pattern = Pattern.compile("\"lastPrice\":\"(.+?)\",");
+	final static Pattern nse_patternDate = Pattern.compile("\"lastUpdateTime\":\"(.+?)\",");
+	final static Pattern bse_pattern = Pattern.compile("<td.*>(.+?)</td><td><img");
+	
 	public static Map<String, CurrentMarketPrice> getCurrentMarkerPrice(List<CurrentMarketPrice> request){
 		Map<String , CurrentMarketPrice> markerResponse = new HashMap<String , CurrentMarketPrice>();
-		String nseURLOrg = "https://www.google.com/finance/info?q=NSE:";
-		String bseURLOrg = "https://www.google.com/finance/info?q=BSE:";
-		String nseURL = "https://www.google.com/finance/info?q=NSE:";
-		String bseURL = "https://www.google.com/finance/info?q=BSE:";
-		String respoNse  = null, respoBse = null;
-		boolean hasNSEReq = false;
-		boolean hasBSEReq = false;
-		 List<CurrentMarketPrice> bseData = null;
-		 List<CurrentMarketPrice> nseData = null;
-		Gson  json = new Gson();
+		
+		String nseURL = "https://www.nseindia.com/live_market/dynaContent/live_watch/get_quote/GetQuote.jsp?symbol=";
+		String nsePostFix = "&illiquid=0&smeFlag=0&itpFlag=0";
+		String bseURL = "http://www.bseindia.com/stock-share-price/SiteCache/IrBackupStockReach.aspx?scripcode=";
+
+
+		 
+	
 		for (CurrentMarketPrice ticker: request){
 			if ("NSE".equals(ticker.getE())){
-				if (hasNSEReq){
-					nseURL +=","+ticker.getT();
-				}else {
-					nseURL +=ticker.getT();
-				}
-				
-				hasNSEReq = true;
+				try {
+					
+			        URL url = new URL(nseURL+ticker.getT()+nsePostFix);
+		            HTTPRequest req = new HTTPRequest(url, HTTPMethod.GET, lFetchOptions);
+		            HTTPResponse res = fetcher.fetch(req);
+		            String respoNse =(new String(res.getContent()));
+		            final Matcher quote = nse_pattern.matcher(respoNse);
+					Matcher quoteDate = nse_patternDate.matcher(respoNse);
+					quote.find();
+					quoteDate.find();
+					CurrentMarketPrice nseQuote = new CurrentMarketPrice();
+					nseQuote.setT(ticker.getT());
+					nseQuote.setE("NSE");
+					nseQuote.setLt_dts(quoteDate.group(1));
+					nseQuote.setL_fix(Double.parseDouble(quote.group(1)));
+					markerResponse.put(nseQuote.getT(), nseQuote);
+					log.info("Quote from NSE "+nseQuote.getT() +" = "+nseQuote.getL_fix());
+		        } catch (Exception e) {
+		        	e.printStackTrace();
+		        }
 			}else {
-				if (hasBSEReq){
-					bseURL +=","+ticker.getT();
-				}else {
-					bseURL +=ticker.getT();
-				}
-				
-				hasBSEReq = true;
-			}
-		}
-		if (hasNSEReq){
-			try {
-				
-		        URL url = new URL(nseURL);
-	            HTTPRequest req = new HTTPRequest(url, HTTPMethod.GET, lFetchOptions);
-	            HTTPResponse res = fetcher.fetch(req);
-	            respoNse =(new String(res.getContent()));
-	            respoNse = respoNse.replaceAll("/", "");
-	            nseData = json.fromJson(respoNse, new TypeToken<List<CurrentMarketPrice>>() {}.getType());
-	        } catch (IOException e) {
-	        	e.printStackTrace();
-	        }
-			
-		}
-		if(hasBSEReq){
-			try {
-				
-		        URL url = new URL(bseURL);
-	            HTTPRequest req = new HTTPRequest(url, HTTPMethod.GET, lFetchOptions);
-	            HTTPResponse res = fetcher.fetch(req);
-	            respoBse =(new String(res.getContent()));
-	            respoBse = respoBse.replaceAll("/", "");
-	            bseData = json.fromJson(respoBse, new TypeToken<List<CurrentMarketPrice>>() {}.getType());
-	        } catch (IOException e) {
-	        	e.printStackTrace();
-	        }
-			
-		}
-		
-		
-		
-		
-		
-		if (null != nseData){
-			for (CurrentMarketPrice nseResp : nseData){
-				if ("NSE".equals(nseResp.getE())){
-					markerResponse.put(nseResp.getT(), nseResp);
-				}else {
 					try {
-						
-				        URL url = new URL(nseURLOrg+nseResp.getT());
-			            HTTPRequest req = new HTTPRequest(url, HTTPMethod.GET, lFetchOptions);
-			            HTTPResponse res = fetcher.fetch(req);
-			           String respoNseSingle =(new String(res.getContent()));
-			           respoNseSingle = respoNseSingle.replaceAll("/", "");
-			            List<CurrentMarketPrice> nseDataSingle = json.fromJson(respoNseSingle, new TypeToken<List<CurrentMarketPrice>>() {}.getType());
-			            if(null != nseDataSingle && nseDataSingle.size() > 0){
-			            	markerResponse.put(nseDataSingle.get(0).getT(), nseDataSingle.get(0));
-			            }
-			            
-			        } catch (IOException e) {
-			        	e.printStackTrace();
-			        }
-				}
+					
+			        URL url = new URL(bseURL+ticker.getT());
+		            HTTPRequest req = new HTTPRequest(url, HTTPMethod.GET, lFetchOptions);
+		            HTTPResponse res = fetcher.fetch(req);
+		            String respoBse =(new String(res.getContent()));
+		            final Matcher quote = bse_pattern.matcher(respoBse);
+					quote.find();
+					CurrentMarketPrice bseQuote = new CurrentMarketPrice();
+					bseQuote.setT(ticker.getT());
+					bseQuote.setE("BSE");
+					bseQuote.setLt_dts(ProfileService.stockQuoteDateTime.format(new Date()));
+					bseQuote.setL_fix(Double.parseDouble(quote.group(1)));
+					markerResponse.put(bseQuote.getT(), bseQuote);
+					log.info("Quote from BSE "+bseQuote.getT() +" = "+bseQuote.getL_fix());
+		        } catch (Exception e) {
+		        	e.printStackTrace();
+		        }
+				
+				
 			}
 		}
-		
-		if (null != bseData){
-			for (CurrentMarketPrice bseResp : bseData){
-				if ("BOM".equals(bseResp.getE())){
-					markerResponse.put(bseResp.getT(), bseResp);
-				}else {
-					try {
-						
-				        URL url = new URL(bseURLOrg+bseResp.getT());
-			            HTTPRequest req = new HTTPRequest(url, HTTPMethod.GET, lFetchOptions);
-			            HTTPResponse res = fetcher.fetch(req);
-			           String respoBseSingle =(new String(res.getContent()));
-			           respoBseSingle = respoBseSingle.replaceAll("/", "");
-			            List<CurrentMarketPrice> bseDataSingle = json.fromJson(respoBseSingle, new TypeToken<List<CurrentMarketPrice>>() {}.getType());
-			            if(null != bseDataSingle && bseDataSingle.size() > 0){
-			            	markerResponse.put(bseDataSingle.get(0).getT(), bseDataSingle.get(0));
-			            }
-			            
-			        } catch (IOException e) {
-			        	e.printStackTrace();
-			        }
-				}
-			}
-		}
+	
 		
 		return markerResponse;
 	}

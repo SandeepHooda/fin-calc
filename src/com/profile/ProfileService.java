@@ -15,6 +15,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TimeZone;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
@@ -52,7 +53,10 @@ import com.xirr.XirrCalculatorService;
 public class ProfileService {
 	private static final Logger log = Logger.getLogger(ProfileService.class.getName());
 	private static SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy");
-	private static SimpleDateFormat sdf_YMD = new SimpleDateFormat("yyyy-MM-dd");
+	public static SimpleDateFormat stockQuoteDateTime = new SimpleDateFormat("dd-MMM-yyyy h:m:s");
+	static {
+		stockQuoteDateTime.setTimeZone(TimeZone.getTimeZone("IST"));
+	}
 	public static void deleteFromPortfolio(String collection, long profileID) {
 		log.info("Deleting from   user profile " + collection + profileID);
 		String currentData = ProfileDAO.getUserPortfolio(Constants.dbName, collection, false, null, Constants.mlabKey);
@@ -802,10 +806,7 @@ private static boolean calculateMonthlyRollingReturn(List<NavVoUI> uiNAvs){
 							aStock.setXirr(xirr);
 							aStock.setPercentGainAbsolute((aStock.getCurrentValue() - aStock.getInvestmentAmount())/ aStock.getInvestmentAmount() * 100);
 							aStock.setAbsoluteGain(aStock.getCurrentValue() - aStock.getInvestmentAmount());
-							String asOfDate = aStock.getAsOfDate().substring(0,10);
-							asOfDate=  sdf.format(sdf_YMD.parse(asOfDate)) +" "+ aStock.getAsOfDate().substring(11);
-							asOfDate = asOfDate.substring(0,asOfDate.length()-1);
-							aStock.setAsOfDate(asOfDate);
+						
 							
 							
 						
