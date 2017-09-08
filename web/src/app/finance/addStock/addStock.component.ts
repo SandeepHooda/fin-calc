@@ -26,15 +26,25 @@ export class Stock implements OnInit {
   private totalXirr : number;
   private totalPercentGainAbsolute : number;
   private totalInvetment : number;
+  
  @ViewChild('spinnerElement') spinnerElement: ElementRef;
 
  public allStocks : Array<StockVO> = [];
   
-    constructor(private renderer: Renderer, private stockService : StockService) {} 
+    constructor(private renderer: Renderer, private stockService : StockService,
+    private eventService : EventService,private router:Router) {} 
    
     ngOnInit(): void {
-     this.renderer.setElementStyle(this.spinnerElement.nativeElement, 'display','none');
+     
      this.refreshPage();
+     this.eventService.refreshEvent.subscribe( (refresh : string)=> {
+        if ("/Stock" === this.router.url ){
+          
+          console.log("Refesh from lump sump "+this.router.url);
+         this.refreshPage();
+        }
+        
+      })
   }
 
 private toggleInfo() {
@@ -61,6 +71,7 @@ private toggleInfo() {
         this.stepIndicator ++;
   }
    private refreshPage(){
+     this.renderer.setElementStyle(this.spinnerElement.nativeElement, 'display','block');
      this.stepIndicator = 0;
      if (localStorage.getItem('allListedStocksNSE') && localStorage.getItem('allListedStocksNSE') != 'undefined'){
       
@@ -96,6 +107,7 @@ private deletedFromProfile(message:string){
    this.refreshPage();
 }
 private getStockProfileResult( stocks : StockPortfolioVO ){
+  this.renderer.setElementStyle(this.spinnerElement.nativeElement, 'display','none');
 console.log(stocks);
   this.allStocks = stocks.allStocks;
      this.totalGain= stocks.totalGain;
@@ -124,7 +136,7 @@ private getAllListedStocksResult( stocks : Array <StockVO> ){
 
    localStorage.setItem('allListedStocksNSE', JSON.stringify(this.allListedStocksNSE));
    localStorage.setItem('allListedStocksBSE', JSON.stringify(this.allListedStocksBSE));
-   //this.renderer.setElementStyle(this.spinnerElement.nativeElement, 'display','none');
+  
   }
 
     private showError(error:any) {

@@ -45,7 +45,7 @@ public class ProfileDAO {
 		for (CurrentMarketPrice ticker: request){
 			if ("NSE".equals(ticker.getE())){
 				try {
-					
+					log.info("Getting Quote from NSE "+ticker.getT());
 			        URL url = new URL(nseURL+ticker.getT()+nsePostFix);
 		            HTTPRequest req = new HTTPRequest(url, HTTPMethod.GET, lFetchOptions);
 		            HTTPResponse res = fetcher.fetch(req);
@@ -58,15 +58,17 @@ public class ProfileDAO {
 					nseQuote.setT(ticker.getT());
 					nseQuote.setE("NSE");
 					nseQuote.setLt_dts(quoteDate.group(1));
-					nseQuote.setL_fix(Double.parseDouble(quote.group(1)));
+					String price = quote.group(1).replaceAll(",", "");
+					nseQuote.setL_fix(Double.parseDouble(price));
 					markerResponse.put(nseQuote.getT(), nseQuote);
 					log.info("Quote from NSE "+nseQuote.getT() +" = "+nseQuote.getL_fix());
 		        } catch (Exception e) {
+		        	log.warning("Error while getting quote from NSE "+nseURL+ticker.getT()+nsePostFix+" "+e.getMessage());
 		        	e.printStackTrace();
 		        }
 			}else {
 					try {
-					
+					log.info("Getting Quote from BSE "+ticker.getT());
 			        URL url = new URL(bseURL+ticker.getT());
 		            HTTPRequest req = new HTTPRequest(url, HTTPMethod.GET, lFetchOptions);
 		            HTTPResponse res = fetcher.fetch(req);
@@ -77,10 +79,12 @@ public class ProfileDAO {
 					bseQuote.setT(ticker.getT());
 					bseQuote.setE("BSE");
 					bseQuote.setLt_dts(ProfileService.stockQuoteDateTime.format(new Date()));
-					bseQuote.setL_fix(Double.parseDouble(quote.group(1)));
+					String price = quote.group(1).replaceAll(",", "");
+					bseQuote.setL_fix(Double.parseDouble(price));
 					markerResponse.put(bseQuote.getT(), bseQuote);
 					log.info("Quote from BSE "+bseQuote.getT() +" = "+bseQuote.getL_fix());
 		        } catch (Exception e) {
+		        	log.warning("Error while getting quote from BSE "+bseURL+ticker.getT() +" "+e.getMessage());
 		        	e.printStackTrace();
 		        }
 				

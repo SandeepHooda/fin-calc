@@ -47,6 +47,7 @@ import com.vo.Portfolio;
 import com.vo.Profile;
 import com.vo.ProfileSort;
 import com.vo.StockPortfolio;
+import com.vo.StockSort;
 import com.vo.StockVO;
 import com.xirr.XirrCalculatorService;
 
@@ -820,7 +821,7 @@ private static boolean calculateMonthlyRollingReturn(List<NavVoUI> uiNAvs){
 			e.printStackTrace();
 		} 
 
-		//Collections.sort(portfolio.getAllProfiles(), new ProfileSort());
+		Collections.sort(portfolio.getAllStocks(), new StockSort());
 		GsonBuilder builder = new GsonBuilder();
 		builder.serializeSpecialFloatingPointValues();
 		Gson gson = builder.create();

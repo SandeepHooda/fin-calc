@@ -43,10 +43,13 @@
                  <div>Absolute Returns : {{profile.percentGainAbsolute | number : '1.2-2'}} %</div>
                  <div>Time : {{profile.asOfDate }} </div>
                  <div>Current value : {{profile.currentValue | number : '1.2-2'}} </div>
+                 <div>Current price : {{profile.lastKnownPrice | number : '1.2-2'}} </div>
                 <hr class="ui-widget-content" style="border-top:0; margin-top:1px;margin-bottom:1px">
                 <div >Purchase Date : {{profile.purchaseDateStr}}</div>
                 <div >Amount : {{profile.investmentAmount | number : '1.2-2'}}</div>
                 <div >Units : {{profile.purchaseQty | number : '1.2-2'}}</div>
+                <div >Purchase price : {{profile.purchasePrice | number : '1.2-2'}} @ {{profile.exchange}} </div>
+                
                 </div> 
                 <p-footer>
                 <span (click)="deleteFromProfile(profile.profileID)" ><i class="fa fa-trash-o" aria-hidden="true"></i></span>
