@@ -113,7 +113,7 @@ console.log(stocks);
      this.totalGain= stocks.totalGain;
     this.totalXirr = stocks.totalXirr;
     this.totalPercentGainAbsolute = stocks.percentGainAbsolute;
-    this.totalInvetment = stocks.totalGain;
+    this.totalInvetment = stocks.totalInvetment;
   }
 private getAllListedStocksResult( stocks : Array <StockVO> ){
 

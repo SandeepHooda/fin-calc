@@ -29,7 +29,7 @@
         <div style="padding:3px" class="ui-g-12 ui-md-3">
              <p-panel  [style]="{'text-align':'left'}"  > 
                <p-header>
-                  <b> {{profile.companyName}} </b><br/>
+                  <b> {{profile.companyName}} - {{profile.ticker}} </b><br/>
                    Returns : {{profile.companyTotalGain | number : '1.2-2'}} <br/>
                    XIRR : ({{profile.companyXirr | number : '1.2-2'}} %) <br/>
                    Absolute Returns : ({{profile.companyAbsoluteGainPercent | number : '1.2-2'}} % ) <br/>
