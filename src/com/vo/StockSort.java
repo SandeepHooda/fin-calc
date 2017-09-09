@@ -9,7 +9,7 @@ public class StockSort implements Comparator<StockVO> {
 			return -1;
 		}else {
 			if (o1.getCompanyXirr() == o2.getCompanyXirr()){
-				if (o1.getAbsoluteGain() > o2.getAbsoluteGain()){
+				if (o1.getCompanyAbsoluteGainPercent() > o2.getCompanyAbsoluteGainPercent()){
 					return -1;
 				}else {
 					return 1;
