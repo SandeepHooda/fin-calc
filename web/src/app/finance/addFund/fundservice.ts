@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Inject } from '@angular/core';
 import { Http, Response }          from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/catch';
@@ -6,6 +6,7 @@ import  'rxjs/add/operator/map';
 import { Headers, RequestOptions } from '@angular/http';
 import {Company} from './Company';
 import {Portfolio} from './portfolio';
+import { DOCUMENT } from '@angular/platform-browser';
 
 @Injectable()
 export class FundService {
@@ -13,9 +14,9 @@ export class FundService {
       private hostName:string = '';
 
   private allFunds:string = '/web/data/navdata.json';  // URL to web API
-   private getPortfolioUrl:string = this.hostName+'/GetProfiles';  // URL to web API
+  private getPortfolioUrl:string = '/GetProfiles';  // URL to web API
  
-     constructor (private http: Http) {}
+     constructor (private http: Http, @Inject(DOCUMENT) document: any) {}
    
     getAllFunds(): Observable<Array<Company>> {
        return this.http.get(this.allFunds)
@@ -30,12 +31,37 @@ private getChartData (res: Response){
    return "Done";
  }
  public   getPortfolio(refresh : boolean) : Observable<Portfolio>{
+   
+   if (document.location.href.indexOf("localhost") > 0){
+    this.hostName = "http://localhost:8888"
+   }else {
+     this.hostName  = '';
+   }
    if (refresh){
-return this.http.get(this.getPortfolioUrl+"?a="+Math.random())
+  return this.http.get(this.hostName+this.getPortfolioUrl+"?a="+Math.random())
                         .map(this.extractData)
                         .catch(this.handleError);
    }else {
-return this.http.get(this.getPortfolioUrl)
+  return this.http.get(this.hostName+this.getPortfolioUrl)
+                        .map(this.extractData)
+                        .catch(this.handleError);
+   }
+ 
+}
+
+ public   getPortfolio_mf_archive(refresh : boolean) : Observable<Portfolio>{
+   let getPortfolioUrl_mf_archive : string = '/GetProfiles_mf_archive';  // URL to web API
+   if (document.location.href.indexOf("localhost") > 0){
+    this.hostName = "http://localhost:8888"
+   }else {
+     this.hostName  = '';
+   }
+   if (refresh){
+  return this.http.get(this.hostName+getPortfolioUrl_mf_archive+"?a="+Math.random())
+                        .map(this.extractData)
+                        .catch(this.handleError);
+   }else {
+  return this.http.get(this.hostName+getPortfolioUrl_mf_archive)
                         .map(this.extractData)
                         .catch(this.handleError);
    }
@@ -48,8 +74,12 @@ return this.http.get(this.getPortfolioUrl)
   }
  
  public deleteProfile(profileID : number) : Observable<string>{
-
-   return this.http.delete('/DeleteProfile?profileID='+profileID)
+  if (document.location.href.indexOf("localhost") > 0){
+    this.hostName = "http://localhost:8888"
+   }else {
+     this.hostName  = '';
+   }
+   return this.http.delete( this.hostName+'/DeleteProfile?profileID='+profileID)
             .map(this.extractData)
             .catch(this.handleError);
  }
@@ -66,4 +96,25 @@ return this.http.get(this.getPortfolioUrl)
     console.error(errMsg);
     return Observable.throw(errMsg);
   }
+
+  public sendDownloadRequest() {
+   
+    if (document.location.href.indexOf("localhost") > 0){
+    this.hostName = "http://localhost:8888"
+   }else {
+     this.hostName  = '';
+   }
+    let downLoadUrl = "/GetProfiles_mf_archive_csv"
+         console.log(" sending request "+this.hostName+downLoadUrl)
+        return this.http.get(this.hostName+downLoadUrl+"?a="+Math.random())
+                        .map(this.extractCsvData)
+                        .catch(this.handleError);
+    }
+ 
+private extractCsvData(res: Response) {
+    
+    return res;
+  }
+ 
+
 }

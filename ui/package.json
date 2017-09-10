@@ -42,6 +42,7 @@
     "@angular/tsc-wrapped": "~4.2.0",
     "@angular/upgrade": "~4.2.0",
     "angular-in-memory-web-api": "~0.3.2",
+    "angular2-csv": "^0.2.5",
     "angular2-fontawesome": "~0.9.0",
     "bootstrap": "^3.3.6",
     "core-js": "^2.4.1",

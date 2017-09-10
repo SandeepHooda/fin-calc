@@ -14,7 +14,7 @@ export class FundService {
       private hostName:string = '';
 
   private allFunds:string = '/web/data/navdata.json';  // URL to web API
-   private getPortfolioUrl:string = '/GetProfiles';  // URL to web API
+  private getPortfolioUrl:string = '/GetProfiles';  // URL to web API
  
      constructor (private http: Http, @Inject(DOCUMENT) document: any) {}
    
@@ -49,6 +49,25 @@ private getChartData (res: Response){
  
 }
 
+ public   getPortfolio_mf_archive(refresh : boolean) : Observable<Portfolio>{
+   let getPortfolioUrl_mf_archive : string = '/GetProfiles_mf_archive';  // URL to web API
+   if (document.location.href.indexOf("localhost") > 0){
+    this.hostName = "http://localhost:8888"
+   }else {
+     this.hostName  = '';
+   }
+   if (refresh){
+  return this.http.get(this.hostName+getPortfolioUrl_mf_archive+"?a="+Math.random())
+                        .map(this.extractData)
+                        .catch(this.handleError);
+   }else {
+  return this.http.get(this.hostName+getPortfolioUrl_mf_archive)
+                        .map(this.extractData)
+                        .catch(this.handleError);
+   }
+ 
+}
+
   private extractData(res: Response) {
     let body = res.json();
     return body;
@@ -77,4 +96,25 @@ private getChartData (res: Response){
     console.error(errMsg);
     return Observable.throw(errMsg);
   }
+
+  public sendDownloadRequest() {
+   
+    if (document.location.href.indexOf("localhost") > 0){
+    this.hostName = "http://localhost:8888"
+   }else {
+     this.hostName  = '';
+   }
+    let downLoadUrl = "/GetProfiles_mf_archive_csv"
+         console.log(" sending request "+this.hostName+downLoadUrl)
+        return this.http.get(this.hostName+downLoadUrl+"?a="+Math.random())
+                        .map(this.extractCsvData)
+                        .catch(this.handleError);
+    }
+ 
+private extractCsvData(res: Response) {
+    
+    return res;
+  }
+ 
+
 }

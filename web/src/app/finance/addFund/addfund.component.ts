@@ -9,6 +9,8 @@ import {Portfolio} from './portfolio';
 import {Profile} from './profile';
 import {Router} from '@angular/router';
 import {EventService} from '../../common/EventService';
+
+
 @Component({
  selector : 'add-fund', 
   templateUrl: './addFund.component.html',
@@ -31,6 +33,8 @@ export class AddFunds implements OnInit {
     private companyName:string;
      private portfolio:Portfolio;
      private allProfiles : Array<Profile> = [];
+     private allProfiles_mf_archive : Array<Profile> = [];
+     
      private totalGain : number;
      private totalXirr : number;
      private totalPercentGainAbsolute : number;
@@ -101,6 +105,11 @@ export class AddFunds implements OnInit {
         this.fundService.getPortfolio(forceRefresh).subscribe( 
         portfolio => this.portFolioLoaded(portfolio),
         error => this.showError(error));
+        this.fundService.getPortfolio_mf_archive(forceRefresh).subscribe( 
+        portfolio => this.portFolioLoaded_mf_archive(portfolio),
+        error => this.showError(error));
+        
+    
     }
     ngOnInit(): void {
       this.refreshPage(false);
@@ -125,6 +134,13 @@ private portFolioLoaded(portfolio:Portfolio){
     this.totalPercentGainAbsolute = this.portfolio.percentGainAbsolute;
     this.totalInvetment = this.portfolio.totalInvetment;
     this.renderer.setElementStyle(this.spinnerElement.nativeElement, 'display','none');
+}
+private portFolioLoaded_mf_archive(portfolio:Portfolio){
+     
+    this.portfolio = portfolio;
+    localStorage.setItem('lastKnownPortFolio_mf_archive', JSON.stringify(portfolio));
+    this.allProfiles_mf_archive = portfolio.allProfiles;
+   
 }
 private profileDeleted(message:string){
    this.renderer.setElementStyle(this.spinnerElement.nativeElement, 'display','none');
@@ -176,5 +192,38 @@ private selectCompanyStep() {
 private showProfileSummaryStep(){
   this.stepIndicator = 0;
 }
+
+private saveTerminatedScheme(event: Event){
+
+
   
+}
+
+private exportToExcel(){
+  this.renderer.setElementStyle(this.spinnerElement.nativeElement, 'display','block');
+  this.fundService.sendDownloadRequest().subscribe( 
+        data => this.downloadFile(data),
+        error => this.showError(error)
+      );
+}
+  
+  private downloadFile(data: Response){
+ 
+   let parsedResponse = data.text();
+        let blob = new Blob(['\ufeff' + parsedResponse], { type: 'text/csv;charset=utf-8;' });
+        let dwldLink = document.createElement("a");
+        let url = window.URL.createObjectURL(blob);
+        let isSafariBrowser = navigator.userAgent.indexOf('Safari') != -1 && navigator.userAgent.indexOf('Chrome') == -1;
+        if (isSafariBrowser) {  //if Safari open in new window to save file with random filename.
+        dwldLink.setAttribute("target", "_blank");
+    }
+        dwldLink.setAttribute("href", url);
+        dwldLink.setAttribute("download", "Enterprise.csv");
+        dwldLink.style.visibility = "hidden";
+        document.body.appendChild(dwldLink);
+        dwldLink.click();
+        document.body.removeChild(dwldLink);
+        window.URL.revokeObjectURL(url);
+        this.renderer.setElementStyle(this.spinnerElement.nativeElement, 'display','none');
+   }
 }

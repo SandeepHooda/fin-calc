@@ -96,6 +96,7 @@ public class ProfileService {
 			Profile profileToBeDelated = profileItr.next();
 			if (profileToBeDelated.getProfileID() == profileID) {
 				profileToBeDelated.setExitDate(sdf.format(new Date()));
+				profileToBeDelated.setExitUnits(profileToBeDelated.getUnits());
 				pf_mf_archive.getAllProfiles().add(profileToBeDelated);
 				profileItr.remove();
 			}
@@ -908,6 +909,16 @@ private static boolean calculateMonthlyRollingReturn(List<NavVoUI> uiNAvs){
 		String data = gson.toJson(portfolio, Portfolio.class);
 		ProfileDAO.insertData(collection, data);
 		return portfolio;
+	}
+	
+	public static Portfolio getPortfolio_mf_archive(String collection) {
+	Portfolio portfolio = new Portfolio();
+	String portfolioStr = ProfileDAO.getUserPortfolio(Constants.dbName, collection+Constants.mf_archive, false, null,Constants.mlabKey);
+	if (null != portfolioStr && !"".equals(portfolioStr)){
+		Gson json = new Gson();
+		 portfolio = json.fromJson(portfolioStr, Portfolio.class);
+	}
+	return portfolio;
 	}
 
 	public static List<SipSchemeVO> getSipList(String collection) {

@@ -244,4 +244,24 @@
     <servlet-name>DeleteStockFromProfile</servlet-name>
     <url-pattern>/DeleteStockFromProfile</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>GetProfiles_mf_archive</display-name>
+    <servlet-name>GetProfiles_mf_archive</servlet-name>
+    <servlet-class>com.endpoint.GetProfiles_mf_archive</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>GetProfiles_mf_archive</servlet-name>
+    <url-pattern>/GetProfiles_mf_archive</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>GetProfiles_mf_archive_csv</display-name>
+    <servlet-name>GetProfiles_mf_archive_csv</servlet-name>
+    <servlet-class>com.endpoint.GetProfiles_mf_archive_csv</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>GetProfiles_mf_archive_csv</servlet-name>
+    <url-pattern>/GetProfiles_mf_archive_csv</url-pattern>
+  </servlet-mapping>
 </web-app>

@@ -16,7 +16,7 @@
 <div *ngIf="stepIndicator == 0">
   
     <p-messages [(value)]="msgs"></p-messages> 
-<hr class="ui-widget-content" style="border-top:0">
+<hr class="ui-widget-content" style="border-top:0"/>
 
 <p-dataGrid [value]="allProfiles" [paginator]="true" [rows]="20">
     <p-header>
@@ -46,7 +46,7 @@
                  <div>Absolute Returns : {{profile.percentGainAbsolute | number : '1.2-2'}} %</div>
                  <div>Nav Date : {{profile.navDate }} </div>
                  <div>Current value : {{profile.currentValue | number : '1.2-2'}} </div>
-                <hr class="ui-widget-content" style="border-top:0; margin-top:1px;margin-bottom:1px">
+                <hr class="ui-widget-content" style="border-top:0; margin-top:1px;margin-bottom:1px"/>
                 <div >Purchase Date : {{profile.investmentDate}}</div>
                 <div >Amount : {{profile.investmentAmount | number : '1.2-2'}}</div>
                 <div >Units : {{profile.units | number : '1.2-2'}}</div>
@@ -65,4 +65,58 @@
             <button type="button" pButton icon="fa-close" (click)="displayConfirmation=false" label="No"></button>
         </p-footer>
 </p-dialog>
+
+<div id="terminatedSchemes"  *ngIf="allProfiles_mf_archive && allProfiles_mf_archive.length > 0">
+    <br/><br/>
+    <hr class="ui-widget-content" style="border-top:0; margin-top:1px;margin-bottom:1px"/>
+    <br/>
+    <b>Terminated Schemes</b> 
+    <!--
+    <button  pButton type="button" (click)="exportToExcel()"      style="float:right;" label="Export to csv"></button>
+    -->
+    <button type="button" pButton icon="fa-file-o" iconPos="left" label="CSV" (click)="dt.exportCSV()" style="float:right;"></button>
+    <br/><br/>
+    <p-dataTable  #dt [value]="allProfiles_mf_archive" [editable]="true" (onEditComplete)="saveTerminatedScheme($event)">
+        <p-column field="schemeName" header="Scheme Name" [editable]="false" [sortable]="true"></p-column>
+        <p-column field="investmentAmount" header="Investment Amount" [editable]="false" [sortable]="true"></p-column>
+        <p-column field="investmentDate" header="Investment Date" [editable]="false" [sortable]="true"></p-column>
+        <p-column field="units" header="Units" [editable]="false" [sortable]="true">
+            <ng-template let-col let-profile="rowData" let-ri="rowIndex" pTemplate="body">
+                <span>{{profile[col.field] | number : '1.2-2'}}</span>
+            </ng-template>
+        </p-column>
+        <p-column field="currentValue" header="Return Amount" [editable]="true" [sortable]="true">
+            <ng-template let-col let-profile="rowData" let-ri="rowIndex" pTemplate="body">
+                <span>{{profile[col.field] | number : '1.2-2'}}</span>
+            </ng-template>
+        </p-column>
+        <p-column field="exitDate" header="Exit Date" [editable]="true" [sortable]="true" >
+
+        </p-column>
+        <p-column field="exitUnits" header="Units Sold" [editable]="true" [sortable]="true">
+        <ng-template let-col let-profile="rowData" let-ri="rowIndex" pTemplate="body">
+                <span>{{profile[col.field] | number : '1.2-2'}}</span>
+            </ng-template>
+        </p-column>
+        <p-column field="absoluteGain" header="Gain/Loss" [editable]="true" [sortable]="true">
+            <ng-template let-col let-profile="rowData" let-ri="rowIndex" pTemplate="body">
+                <span>{{profile[col.field] | number : '1.2-2'}}</span>
+            </ng-template>
+        </p-column>
+        <p-column field="percentGainAbsolute" header="Gain/Loss %" [editable]="true" [sortable]="true">
+            <ng-template let-col let-profile="rowData" let-ri="rowIndex" pTemplate="body">
+                <span>{{profile[col.field] | number : '1.2-2'}}</span>
+            </ng-template>
+        </p-column>
+        <p-column field="xirr" header="Xirr" [editable]="true" [sortable]="true">
+            <ng-template let-col let-profile="rowData" let-ri="rowIndex" pTemplate="body">
+                <span>{{profile[col.field] | number : '1.2-2'}}</span>
+            </ng-template>
+        </p-column>
+
+        
+
+    </p-dataTable>
+</div>
+
 </div>

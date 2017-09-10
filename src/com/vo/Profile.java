@@ -8,6 +8,7 @@ public class Profile {
 	private double nav;
 	private double investmentAmount;
 	private double units;
+	private double exitUnits;
 	private double absoluteGain;
 	private double currentValue;
 	private double currentNav;
@@ -163,6 +164,12 @@ public class Profile {
 	}
 	public void setExitDate(String exitDate) {
 		this.exitDate = exitDate;
+	}
+	public double getExitUnits() {
+		return exitUnits;
+	}
+	public void setExitUnits(double exitUnits) {
+		this.exitUnits = exitUnits;
 	}
 	
 

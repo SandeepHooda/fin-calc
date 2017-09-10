@@ -1,8 +1,10 @@
 export class Profile {
     public investmentDate : string;
+    public exitDate : string;
     public nav: number;
     public investmentAmount: number;
     public units: number;
+    public exitUnits: number;
     public schemeName : string;
     public schemeCode : string;
     public absoluteGain : number;
