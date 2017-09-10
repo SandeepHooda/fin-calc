@@ -34,7 +34,10 @@ export class AddFunds implements OnInit {
      private portfolio:Portfolio;
      private allProfiles : Array<Profile> = [];
      private allProfiles_mf_archive : Array<Profile> = [];
-     
+     private mf_archive_totalInvestment : number;
+     private mf_archive_totalReturn : number;
+     private mf_archive_totalProfit : number;
+     private mf_archive_totalProfitPercent : number;
      private totalGain : number;
      private totalXirr : number;
      private totalPercentGainAbsolute : number;
@@ -139,7 +142,15 @@ private portFolioLoaded_mf_archive(portfolio:Portfolio){
      
     this.portfolio = portfolio;
     localStorage.setItem('lastKnownPortFolio_mf_archive', JSON.stringify(portfolio));
-    this.allProfiles_mf_archive = portfolio.allProfiles;   
+    this.allProfiles_mf_archive = portfolio.allProfiles;  
+    this.mf_archive_totalInvestment = 0;
+    this.mf_archive_totalReturn = 0;
+    for (let i=0 ; i< this.allProfiles_mf_archive.length ;i++){
+      this.mf_archive_totalInvestment +=this.allProfiles_mf_archive[i].investmentAmount;
+      this.mf_archive_totalReturn += this.allProfiles_mf_archive[i].currentValue;
+    } 
+    this.mf_archive_totalProfit = this.mf_archive_totalReturn -  this.mf_archive_totalInvestment;
+    this.mf_archive_totalProfitPercent = this.mf_archive_totalProfit/this.mf_archive_totalInvestment *100;
 }
 private profileDeleted(message:string){
    this.renderer.setElementStyle(this.spinnerElement.nativeElement, 'display','none');

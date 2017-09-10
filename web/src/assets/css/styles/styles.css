@@ -257,3 +257,11 @@ nav {
 
 
 /* End of menu icon*/
+
+.ui-datatable .ui-datatable-tfoot > tr > td {
+    text-align: left;
+    font-weight: bold;
+}
+.ui-datatable .ui-datatable-thead > tr > th{
+    font-weight: bold;
+}

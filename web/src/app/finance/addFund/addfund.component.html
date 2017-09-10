@@ -76,9 +76,13 @@
     -->
     <button type="button" pButton icon="fa-file-o" iconPos="left" label="CSV" (click)="dt.exportCSV()" style="float:right;"></button>
     <br/><br/>
-    <p-dataTable  #dt [value]="allProfiles_mf_archive" [editable]="true" (onEditComplete)="saveTerminatedScheme($event)"  [rows]="10" [paginator]="true">
+    <p-dataTable [responsive]="true" #dt [value]="allProfiles_mf_archive" [editable]="true" (onEditComplete)="saveTerminatedScheme($event)"  [rows]="10" [paginator]="true">
         <p-column field="schemeName" header="Scheme Name" [editable]="false" [sortable]="true"></p-column>
-        <p-column field="investmentAmount" header="Investment Amount" [editable]="false" [sortable]="true"></p-column>
+        <p-column field="investmentAmount" header="Investment Amount" [editable]="false" [sortable]="true">
+            <ng-template let-col let-profile="rowData" let-ri="rowIndex" pTemplate="body">
+                <span>{{profile[col.field] | number : '1.2-2'}}</span>
+            </ng-template>
+        </p-column>
         <p-column field="investmentDate" header="Investment Date" [editable]="false" [sortable]="true"></p-column>
         <p-column field="units" header="Units" [editable]="false" [sortable]="true">
             <ng-template let-col let-profile="rowData" let-ri="rowIndex" pTemplate="body">
@@ -100,23 +104,40 @@
         </p-column>
         <p-column field="absoluteGain" header="Gain/Loss" [editable]="true" [sortable]="true">
             <ng-template let-col let-profile="rowData" let-ri="rowIndex" pTemplate="body">
-                <span>{{profile[col.field] | number : '1.2-2'}}</span>
+                <span [ngClass]="{'profitBack' : (profile[col.field] >=0) , 'lossBack' : (profile[col.field] < 0)}">{{profile[col.field] | number : '1.2-2'}}</span>
             </ng-template>
         </p-column>
         <p-column field="percentGainAbsolute" header="Gain/Loss %" [editable]="true" [sortable]="true">
             <ng-template let-col let-profile="rowData" let-ri="rowIndex" pTemplate="body">
-                <span>{{profile[col.field] | number : '1.2-2'}}</span>
+                <span [ngClass]="{'profitBack' : (profile[col.field] >=0) , 'lossBack' : (profile[col.field] < 0)}">{{profile[col.field] | number : '1.2-2'}}</span>
             </ng-template>
+            
         </p-column>
         <p-column field="xirr" header="Xirr" [editable]="true" [sortable]="true">
             <ng-template let-col let-profile="rowData" let-ri="rowIndex" pTemplate="body">
-                <span>{{profile[col.field] | number : '1.2-2'}}</span>
+                <span [ngClass]="{'profitBack' : (profile[col.field] >=0) , 'lossBack' : (profile[col.field] < 0)}">{{profile[col.field] | number : '1.2-2'}}</span>
             </ng-template>
         </p-column>
 
-        
+        <p-footerColumnGroup>
+        <p-row>
+            <p-column  footer="Totals:" colspan="1"></p-column>
+            <p-column  footer="{{mf_archive_totalInvestment | number : '1.2-2' }}">
+                <ng-template let-col let-data="rowData" let-ri="rowIndex" pTemplate="body">
+                <span>{{data[col.field]}}</span>
+                </ng-template>
+            </p-column>
+            <p-column  footer="" colspan="2"></p-column>
+            <p-column  footer="{{mf_archive_totalReturn | number : '1.2-2'}}"></p-column>
+            <p-column  footer="" colspan="2"></p-column>
+            <p-column  footer="{{mf_archive_totalProfit | number : '1.2-2'}}"></p-column>
+            <p-column  footer="{{mf_archive_totalProfitPercent | number : '1.2-2'}}"></p-column>
+            <p-column  footer="" colspan="1"></p-column>
+        </p-row>
+    </p-footerColumnGroup>
 
     </p-dataTable>
+  
     <br/><br/>
     <div style="padding-left: 50%">
     <button type="button" pButton icon="fa-file-o" iconPos="left" label="Save" (click)="saveTerminatedScheme()" ></button>
