@@ -274,4 +274,24 @@
     <servlet-name>EditProfiles_mf_archive</servlet-name>
     <url-pattern>/EditProfiles_mf_archive</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>GetStockProfile_eq_archive</display-name>
+    <servlet-name>GetStockProfile_eq_archive</servlet-name>
+    <servlet-class>com.endpoint.GetStockProfile_eq_archive</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>GetStockProfile_eq_archive</servlet-name>
+    <url-pattern>/GetStockProfile_eq_archive</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>EditProfiles_eq_archive</display-name>
+    <servlet-name>EditProfiles_eq_archive</servlet-name>
+    <servlet-class>com.endpoint.EditProfiles_eq_archive</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>EditProfiles_eq_archive</servlet-name>
+    <url-pattern>/EditProfiles_eq_archive</url-pattern>
+  </servlet-mapping>
 </web-app>

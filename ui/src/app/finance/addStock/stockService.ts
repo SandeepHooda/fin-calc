@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable , Inject} from '@angular/core';
 import { Http, Response }          from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/catch';
@@ -6,16 +6,17 @@ import  'rxjs/add/operator/map';
 import { Headers, RequestOptions } from '@angular/http';
 import {StockVO} from './stockVO';
 import {StockPortfolioVO} from './StockPortfolioVO';
+import { DOCUMENT } from '@angular/platform-browser';
 @Injectable()
 export class StockService {
-     private hostName:string = '';
+     
 
   private getAllListedStocksUrl:string = '/web/data/allListedStocks.json';  // URL to web API
   private addStockToProfileUrl:string = '/AddStock';
   private GetStockProfileUrl:string = '/GetStockProfile';
   
  
-     constructor (private http: Http) {}
+     constructor (private http: Http, @Inject(DOCUMENT) document: any) {}
    
     getAllListedStocks(): Observable<Array<StockVO>> {
        return this.http.get(this.getAllListedStocksUrl)
@@ -23,24 +24,47 @@ export class StockService {
                         .catch(this.handleError);
     }
     getStockProfile(): Observable<StockPortfolioVO> {
-       return this.http.get(this.hostName+this.GetStockProfileUrl)
+      let hostName:string = '';
+      if (document.location.href.indexOf("localhost") > 0){
+        hostName = "http://localhost:8888"
+       }
+       return this.http.get(hostName+this.GetStockProfileUrl)
                         .map(this.extractData)
                         .catch(this.handleError);
     }
+    getStockProfile_eq_archive(): Observable<StockPortfolioVO> {
+      let hostName:string = '';
+      if (document.location.href.indexOf("localhost") > 0){
+        hostName = "http://localhost:8888"
+       }
+       let url  = "/GetStockProfile_eq_archive";
+      return this.http.get(hostName+url)
+                       .map(this.extractData)
+                       .catch(this.handleError);
+   }
     deleteFromProfile(profileID : number) : Observable<string>{
-      return this.http.delete(this.hostName+'/DeleteStockFromProfile?profileID='+profileID)
+      let hostName:string = '';
+      if (document.location.href.indexOf("localhost") > 0){
+        hostName = "http://localhost:8888"
+       }
+      return this.http.delete(hostName+'/DeleteStockFromProfile?profileID='+profileID)
             .map(this.extractData)
             .catch(this.handleError);
     }
   private extractData(res: Response) {
+    console.log(" res ="+res.json());
     let body = res.json();
     return body;
   }
  
  public addStockToProfile(selectedStock : StockVO) : Observable<string>{
+  let hostName:string = '';
+  if (document.location.href.indexOf("localhost") > 0){
+    hostName = "http://localhost:8888"
+   }
      var headers = new Headers({ 'Content-Type': 'application/json' });
   var options = new RequestOptions({ headers: headers });
-  return this.http.post(this.hostName+this.addStockToProfileUrl, { selectedStock }, options)
+  return this.http.post(hostName+this.addStockToProfileUrl, { selectedStock }, options)
             .map(this.extractData)
             .catch(this.handleError)
  }
@@ -54,7 +78,7 @@ export class StockService {
     } else {
       errMsg = error.message ? error.message : error.toString();
     }
-    console.error(errMsg);
+    
     return Observable.throw(errMsg);
   }
 }

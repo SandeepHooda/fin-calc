@@ -9,8 +9,10 @@ public class StockVO {
 	private String ticker ;
 	private String exchange ;
 	private Date purchaseDate ;
+	private String exitDateStr;
 	private String purchaseDateStr  ;
 	private double purchaseQty ;
+	private double exitQty ;
 	private double purchasePrice;
 	private double investmentAmount;
 	private double lastTradePrice ;
@@ -173,6 +175,18 @@ public class StockVO {
 	}
 	public void setIsin(String isin) {
 		this.isin = isin;
+	}
+	public String getExitDateStr() {
+		return exitDateStr;
+	}
+	public void setExitDateStr(String exitDateStr) {
+		this.exitDateStr = exitDateStr;
+	}
+	public double getExitQty() {
+		return exitQty;
+	}
+	public void setExitQty(double exitQty) {
+		this.exitQty = exitQty;
 	}
 
 }

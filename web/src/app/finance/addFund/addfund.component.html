@@ -59,14 +59,14 @@
     </ng-template>
 </p-dataGrid>
 <p-dialog header="Confirmation" [(visible)]="displayConfirmation" modal="modal" width="300" [responsive]="true">
-    <p>Are you sure you want to delete the Fund?</p>
+    <p>Are you sure you want to redeem this stock?</p>
         <p-footer>
             <button type="button" pButton icon="fa-check" (click)="confirmDelete()" label="Yes"></button>
             <button type="button" pButton icon="fa-close" (click)="displayConfirmation=false" label="No"></button>
         </p-footer>
 </p-dialog>
 <p-dialog header="Confirmation" [(visible)]="displayConfirmation_pastMF" modal="modal" width="300" [responsive]="true">
-    <p>Are you sure you want to delete the Fund?</p>
+    <p>Are you sure you want to delete the archived record from history?</p>
         <p-footer>
             <button type="button" pButton icon="fa-check" (click)="confirmDelete_pastMF()" label="Yes"></button>
             <button type="button" pButton icon="fa-close" (click)="displayConfirmation_pastMF=false" label="No"></button>

@@ -30,6 +30,11 @@ export class Stock implements OnInit {
  @ViewChild('spinnerElement') spinnerElement: ElementRef;
 
  public allStocks : Array<StockVO> = [];
+ private allStocks_eq_archive : Array<StockVO> = [];
+ private eq_archive_totalInvestment : number;
+ private eq_archive_totalReturn : number;
+ private eq_archive_totalProfit : number;
+ private eq_archive_totalProfitPercent : number;
   
     constructor(private renderer: Renderer, private stockService : StockService,
     private eventService : EventService,private router:Router) {} 
@@ -39,8 +44,7 @@ export class Stock implements OnInit {
      this.refreshPage();
      this.eventService.refreshEvent.subscribe( (refresh : string)=> {
         if ("/Stock" === this.router.url ){
-          
-          console.log("Refesh from lump sump "+this.router.url);
+         console.log("Refesh from lump sump "+this.router.url);
          this.refreshPage();
         }
         
@@ -88,7 +92,10 @@ private toggleInfo() {
      }
     this.stockService.getStockProfile().subscribe( 
             funds => this.getStockProfileResult(funds),
-            error => this.showError(error))
+            error => this.showError(error));
+    this.stockService.getStockProfile_eq_archive().subscribe( 
+              funds => this.getStockProfileResult_eq_archive(funds),
+              error => this.showError(error));
   }
 private deleteFromProfile(profileID : number){
   this.profileIDToBedeleted = profileID;
@@ -114,6 +121,26 @@ console.log(stocks);
     this.totalXirr = stocks.totalXirr;
     this.totalPercentGainAbsolute = stocks.percentGainAbsolute;
     this.totalInvetment = stocks.totalInvetment;
+  }
+  private getStockProfileResult_eq_archive( stocks : StockPortfolioVO ){
+     this.allStocks_eq_archive = stocks.allStocks; 
+     this.calculateTotalsForEqArchive();
+  }
+  private calculateTotalsForEqArchive(){
+    this.eq_archive_totalInvestment = 0;
+    this.eq_archive_totalReturn = 0;
+    for (let i=0 ; i< this.allStocks_eq_archive.length ;i++){
+      this.allStocks_eq_archive[i].absoluteGain = this.allStocks_eq_archive[i].currentValue -
+                                                    this.allStocks_eq_archive[i].investmentAmount;
+      this.allStocks_eq_archive[i].percentGainAbsolute = 
+      this.allStocks_eq_archive[i].absoluteGain / this.allStocks_eq_archive[i].investmentAmount *100;
+
+      this.eq_archive_totalInvestment +=this.allStocks_eq_archive[i].investmentAmount;
+      this.eq_archive_totalReturn += this.allStocks_eq_archive[i].currentValue;
+    } 
+    this.eq_archive_totalProfit = this.eq_archive_totalReturn -  this.eq_archive_totalInvestment;
+    this.eq_archive_totalProfitPercent = this.eq_archive_totalProfit/this.eq_archive_totalInvestment *100;
+
   }
 private getAllListedStocksResult( stocks : Array <StockVO> ){
 
