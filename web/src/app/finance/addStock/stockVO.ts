@@ -1,5 +1,6 @@
 
 export class StockVO {
+    public  profileID : number;
     public isin : string;
     public companyName : string;
     public ticker : string;

@@ -30,7 +30,9 @@ public class GetStockProfile_eq_archive extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 String email = (String)request.getSession().getAttribute("email");
-		
+		if(null == email){
+			email = "sonu.hooda@gmail.com";
+		}
 		
 		StockPortfolio portfolio = ProfileService.getStockPortfolio_eq_archive(email);
 		if(null == portfolio){

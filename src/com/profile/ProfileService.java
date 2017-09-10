@@ -125,7 +125,7 @@ public class ProfileService {
 		StockPortfolio pf_eq_archive = null;
 		if (null == currentData_eq_archive || "".equals(currentData_eq_archive.trim())) {
 			pf_eq_archive = new StockPortfolio();
-			ProfileDAO.createNewCollection(collection+Constants.eq_archive, Constants.dbName, Constants.mlabKey);
+			ProfileDAO.createNewCollection(collection+Constants.eq_archive, Constants.stockEquityDB, Constants.mlabKey);
 		}else {
 			currentData_eq_archive = currentData_eq_archive.trim();
 			pf_eq_archive = json.fromJson(currentData_eq_archive, StockPortfolio.class);
@@ -152,7 +152,7 @@ public class ProfileService {
 		dataToAdd = json.toJson(pf, new TypeToken<StockPortfolio>() {}.getType());
 		ProfileDAO.insertData(collection, dataToAdd, Constants.stockEquityDB,Constants.mlabKey);
 		String dataToAdd_eq_eqarchive = json.toJson(pf_eq_archive, new TypeToken<StockPortfolio>() {}.getType());
-		ProfileDAO.insertData(collection+Constants.eq_archive, dataToAdd_eq_eqarchive);
+		ProfileDAO.insertData(collection+Constants.eq_archive, dataToAdd_eq_eqarchive, Constants.stockEquityDB,Constants.mlabKey);
 	}
 	
 	
@@ -168,13 +168,13 @@ public class ProfileService {
 	}
 	public static void EditProfiles_eq_archive(String collection, List<StockVO> oldProfilesList) {
 		Gson json = new Gson();
-		String currentData_eq_archive = ProfileDAO.getUserPortfolio(Constants.dbName, collection+Constants.eq_archive, false, null, Constants.mlabKey);
+		String currentData_eq_archive = ProfileDAO.getUserPortfolio(Constants.stockEquityDB, collection+Constants.eq_archive, false, null, Constants.mlabKey);
 		StockPortfolio pf_eq_archive = null;
 		currentData_eq_archive = currentData_eq_archive.trim();
 		pf_eq_archive = json.fromJson(currentData_eq_archive, StockPortfolio.class);
 		pf_eq_archive.setAllStocks(oldProfilesList);
 		String dataToAdd_eq_archive = json.toJson(pf_eq_archive, new TypeToken<StockPortfolio>() {}.getType());
-		ProfileDAO.insertData(collection+Constants.eq_archive, dataToAdd_eq_archive);
+		ProfileDAO.insertData(collection+Constants.eq_archive, dataToAdd_eq_archive,Constants.stockEquityDB,Constants.mlabKey);
 	}
 
 	public static void addFundToPortfolio(String collection, Profile profile) {

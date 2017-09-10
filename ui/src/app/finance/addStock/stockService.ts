@@ -42,6 +42,18 @@ export class StockService {
                        .map(this.extractData)
                        .catch(this.handleError);
    }
+   public editProfiles_eq_archive(allProfiles_eq_archive:Array<StockVO>) : Observable<string>{
+    let hostName:string = '';
+    if (document.location.href.indexOf("localhost") > 0){
+     hostName = "http://localhost:8888"
+    }
+     let EditProfiles_eq_archiveUrl = hostName+"/EditProfiles_eq_archive"
+   var headers = new Headers({ 'Content-Type': 'application/json' });
+   var options = new RequestOptions({ headers: headers });
+   return this.http.post(EditProfiles_eq_archiveUrl, { allProfiles_eq_archive }, options)
+             .map(this.extractData)
+             .catch(this.handleError);
+ }
     deleteFromProfile(profileID : number) : Observable<string>{
       let hostName:string = '';
       if (document.location.href.indexOf("localhost") > 0){
@@ -52,7 +64,7 @@ export class StockService {
             .catch(this.handleError);
     }
   private extractData(res: Response) {
-    console.log(" res ="+res.json());
+  
     let body = res.json();
     return body;
   }

@@ -26,6 +26,8 @@ export class Stock implements OnInit {
   private totalXirr : number;
   private totalPercentGainAbsolute : number;
   private totalInvetment : number;
+  private displayConfirmation_pastEQ : boolean = false;
+  private profileIDToBedeleted_pastEQ : number;
   
  @ViewChild('spinnerElement') spinnerElement: ElementRef;
 
@@ -51,6 +53,25 @@ export class Stock implements OnInit {
       })
   }
 
+  private deleteProfileFromPastData(profileID : number){
+    
+     this.profileIDToBedeleted_pastEQ = profileID;
+     this.displayConfirmation_pastEQ = true;
+     
+  }
+  private confirmDelete_pastEQ(){
+    this.displayConfirmation_pastEQ = false;
+  let  allProfiles_EQ_archive_afterDelete : Array<StockVO> = [];
+  for (let i =0;i<this.allStocks_eq_archive.length;i++){
+       if(this.allStocks_eq_archive[i].profileID != this.profileIDToBedeleted_pastEQ){
+        allProfiles_EQ_archive_afterDelete.push(this.allStocks_eq_archive[i]);
+       }else {
+         console.log(" I will delte "+this.profileIDToBedeleted_pastEQ)
+       }
+     }
+     this.allStocks_eq_archive = allProfiles_EQ_archive_afterDelete;
+     this.saveTerminatedScheme();
+  }
 private toggleInfo() {
         
         if ( this.msgs.length ==0){
@@ -115,7 +136,6 @@ private deletedFromProfile(message:string){
 }
 private getStockProfileResult( stocks : StockPortfolioVO ){
   this.renderer.setElementStyle(this.spinnerElement.nativeElement, 'display','none');
-console.log(stocks);
   this.allStocks = stocks.allStocks;
      this.totalGain= stocks.totalGain;
     this.totalXirr = stocks.totalXirr;
@@ -142,6 +162,19 @@ console.log(stocks);
     this.eq_archive_totalProfitPercent = this.eq_archive_totalProfit/this.eq_archive_totalInvestment *100;
 
   }
+
+  private saveTerminatedScheme(){
+    this.renderer.setElementStyle(this.spinnerElement.nativeElement, 'display','block');
+    this.stockService.editProfiles_eq_archive(this.allStocks_eq_archive).subscribe( 
+            data => this.editSuccess(data),
+            error => this.showError(error)
+          );
+    
+    
+    }
+    private editSuccess(data : string){
+      this.renderer.setElementStyle(this.spinnerElement.nativeElement, 'display','none');
+    }
 private getAllListedStocksResult( stocks : Array <StockVO> ){
 
     this.allListedStocksNSE = [];
@@ -170,5 +203,7 @@ private getAllListedStocksResult( stocks : Array <StockVO> ){
       
       this.renderer.setElementStyle(this.spinnerElement.nativeElement, 'display','none');
     }
+
+    
 
 }

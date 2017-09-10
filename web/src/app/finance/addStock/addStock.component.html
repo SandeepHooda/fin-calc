@@ -67,11 +67,11 @@
 </p-dialog>
 
 
-<p-dialog header="Confirmation" [(visible)]="displayConfirmation_pastMF" modal="modal" width="300" [responsive]="true">
+<p-dialog header="Confirmation" [(visible)]="displayConfirmation_pastEQ" modal="modal" width="300" [responsive]="true">
     <p>Are you sure you want to delete the archived record from history?</p>
         <p-footer>
-            <button type="button" pButton icon="fa-check" (click)="confirmDelete_pastMF()" label="Yes"></button>
-            <button type="button" pButton icon="fa-close" (click)="displayConfirmation_pastMF=false" label="No"></button>
+            <button type="button" pButton icon="fa-check" (click)="confirmDelete_pastEQ()" label="Yes"></button>
+            <button type="button" pButton icon="fa-close" (click)="displayConfirmation_pastEQ=false" label="No"></button>
         </p-footer>
 </p-dialog>
 
@@ -86,20 +86,20 @@
     -->
     <button type="button" pButton icon="fa-file-o" iconPos="left" label="CSV" (click)="dt.exportCSV()" style="float:right;"></button>
     <br/><br/>
-    <p-dataTable [responsive]="true" #dt [value]="allProfiles_mf_archive" [editable]="true" (onEditComplete)="recalculatePastMFtotals($event)"  [rows]="10" [paginator]="true">
+    <p-dataTable [responsive]="true" #dt [value]="allStocks_eq_archive" [editable]="true" (onEditComplete)="calculateTotalsForEqArchive()"  [rows]="10" [paginator]="true">
         <p-column  [editable]="false" [sortable]="false" [style]="{'width':'50px'}">
             <ng-template pTemplate="body" let-col let-profile="rowData">
                 <span  (click)="deleteProfileFromPastData(profile.profileID)" ><i class="fa fa-trash-o" aria-hidden="true"></i></span>
             </ng-template>
         </p-column>
-        <p-column field="schemeName" header="Scheme Name" [editable]="false" [sortable]="true"></p-column>
+        <p-column field="companyName" header="Company Name" [editable]="false" [sortable]="true"></p-column>
         <p-column field="investmentAmount" header="Investment Amount" [editable]="false" [sortable]="true">
             <ng-template let-col let-profile="rowData" let-ri="rowIndex" pTemplate="body">
                 <span>{{profile[col.field] | number : '1.2-2'}}</span>
             </ng-template>
         </p-column>
-        <p-column field="investmentDate" header="Investment Date" [editable]="false" [sortable]="true"></p-column>
-        <p-column field="units" header="Units" [editable]="false" [sortable]="true">
+        <p-column field="purchaseDateStr" header="Investment Date" [editable]="false" [sortable]="true"></p-column>
+        <p-column field="purchaseQty" header="Units" [editable]="false" [sortable]="true">
             <ng-template let-col let-profile="rowData" let-ri="rowIndex" pTemplate="body">
                 <span>{{profile[col.field] | number : '1.2-2'}}</span>
             </ng-template>
@@ -109,10 +109,10 @@
                 <span>{{profile[col.field] | number : '1.2-2'}}</span>
             </ng-template>
         </p-column>
-        <p-column field="exitDate" header="Exit Date" [editable]="true" [sortable]="true" >
+        <p-column field="exitDateStr" header="Exit Date" [editable]="true" [sortable]="true" >
 
         </p-column>
-        <p-column field="exitUnits" header="Units Sold" [editable]="true" [sortable]="true">
+        <p-column field="exitQty" header="Units Sold" [editable]="true" [sortable]="true">
         <ng-template let-col let-profile="rowData" let-ri="rowIndex" pTemplate="body">
                 <span>{{profile[col.field] | number : '1.2-2'}}</span>
             </ng-template>
@@ -134,16 +134,16 @@
         <p-row>
             <p-column  footer="" colspan="1"></p-column>
             <p-column  footer="Totals:" colspan="1"></p-column>
-            <p-column  footer="{{mf_archive_totalInvestment | number : '1.2-2' }}">
+            <p-column  footer="{{eq_archive_totalInvestment | number : '1.2-2' }}">
                 <ng-template let-col let-data="rowData" let-ri="rowIndex" pTemplate="body">
                 <span>{{data[col.field]}}</span>
                 </ng-template>
             </p-column>
             <p-column  footer="" colspan="2"></p-column>
-            <p-column  footer="{{mf_archive_totalReturn | number : '1.2-2'}}"></p-column>
+            <p-column  footer="{{eq_archive_totalReturn | number : '1.2-2'}}"></p-column>
             <p-column  footer="" colspan="2"></p-column>
-            <p-column  footer="{{mf_archive_totalProfit | number : '1.2-2'}}"></p-column>
-            <p-column  footer="{{mf_archive_totalProfitPercent | number : '1.2-2'}}"></p-column>
+            <p-column  footer="{{eq_archive_totalProfit | number : '1.2-2'}}"></p-column>
+            <p-column  footer="{{eq_archive_totalProfitPercent | number : '1.2-2'}}"></p-column>
             
         </p-row>
     </p-footerColumnGroup>
