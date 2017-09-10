@@ -28,8 +28,7 @@ export class ChartService {
     }
 
  public getChartDataUIForMyProfile(force : boolean ) : Observable<Array<ChartVO>>{
-   //let url = "http://localhost:8888/ChartDataUIForMyProfile";
-   //let url = "https://fin-cal.appspot.com/ChartDataUIForMyProfile";
+
    let url = "/ChartDataUIForMyProfile";
    if (force){
      url += "?a="+Math.random();
