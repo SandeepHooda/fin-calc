@@ -157,6 +157,23 @@ private profileDeleted(message:string){
    this.refreshPage(true);
 }
 
+private recalculatePastMFtotals(){
+
+  this.mf_archive_totalInvestment = 0;
+    this.mf_archive_totalReturn = 0;
+    for (let i=0 ; i< this.allProfiles_mf_archive.length ;i++){
+      this.allProfiles_mf_archive[i].absoluteGain = this.allProfiles_mf_archive[i].currentValue -
+                                                    this.allProfiles_mf_archive[i].investmentAmount;
+      this.allProfiles_mf_archive[i].percentGainAbsolute = 
+      this.allProfiles_mf_archive[i].absoluteGain / this.allProfiles_mf_archive[i].investmentAmount *100;
+
+      this.mf_archive_totalInvestment +=this.allProfiles_mf_archive[i].investmentAmount;
+      this.mf_archive_totalReturn += this.allProfiles_mf_archive[i].currentValue;
+    } 
+    this.mf_archive_totalProfit = this.mf_archive_totalReturn -  this.mf_archive_totalInvestment;
+    this.mf_archive_totalProfitPercent = this.mf_archive_totalProfit/this.mf_archive_totalInvestment *100;
+
+}
 private deleteProfile(profileID :number){
   this.profileIDToBedeleted = profileID;
   this.displayConfirmation = true;

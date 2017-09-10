@@ -70,13 +70,14 @@
     <br/><br/>
     <hr class="ui-widget-content" style="border-top:0; margin-top:1px;margin-bottom:1px"/>
     <br/>
-    <b>Terminated Schemes</b> 
+    <b>Terminated Schemes</b> <br/>
+     Double click on data table column to edit it
     <!--
     <button  pButton type="button" (click)="exportToExcel()"      style="float:right;" label="Export to csv"></button>
     -->
     <button type="button" pButton icon="fa-file-o" iconPos="left" label="CSV" (click)="dt.exportCSV()" style="float:right;"></button>
     <br/><br/>
-    <p-dataTable [responsive]="true" #dt [value]="allProfiles_mf_archive" [editable]="true" (onEditComplete)="saveTerminatedScheme($event)"  [rows]="10" [paginator]="true">
+    <p-dataTable [responsive]="true" #dt [value]="allProfiles_mf_archive" [editable]="true" (onEditComplete)="recalculatePastMFtotals($event)"  [rows]="10" [paginator]="true">
         <p-column field="schemeName" header="Scheme Name" [editable]="false" [sortable]="true"></p-column>
         <p-column field="investmentAmount" header="Investment Amount" [editable]="false" [sortable]="true">
             <ng-template let-col let-profile="rowData" let-ri="rowIndex" pTemplate="body">
@@ -102,22 +103,18 @@
                 <span>{{profile[col.field] | number : '1.2-2'}}</span>
             </ng-template>
         </p-column>
-        <p-column field="absoluteGain" header="Gain/Loss" [editable]="true" [sortable]="true">
+        <p-column field="absoluteGain" header="Gain/Loss" [editable]="false" [sortable]="true">
             <ng-template let-col let-profile="rowData" let-ri="rowIndex" pTemplate="body">
                 <span [ngClass]="{'profitBack' : (profile[col.field] >=0) , 'lossBack' : (profile[col.field] < 0)}">{{profile[col.field] | number : '1.2-2'}}</span>
             </ng-template>
         </p-column>
-        <p-column field="percentGainAbsolute" header="Gain/Loss %" [editable]="true" [sortable]="true">
+        <p-column field="percentGainAbsolute" header="Gain/Loss %" [editable]="false" [sortable]="true">
             <ng-template let-col let-profile="rowData" let-ri="rowIndex" pTemplate="body">
                 <span [ngClass]="{'profitBack' : (profile[col.field] >=0) , 'lossBack' : (profile[col.field] < 0)}">{{profile[col.field] | number : '1.2-2'}}</span>
             </ng-template>
             
         </p-column>
-        <p-column field="xirr" header="Xirr" [editable]="true" [sortable]="true">
-            <ng-template let-col let-profile="rowData" let-ri="rowIndex" pTemplate="body">
-                <span [ngClass]="{'profitBack' : (profile[col.field] >=0) , 'lossBack' : (profile[col.field] < 0)}">{{profile[col.field] | number : '1.2-2'}}</span>
-            </ng-template>
-        </p-column>
+        
 
         <p-footerColumnGroup>
         <p-row>
@@ -132,7 +129,7 @@
             <p-column  footer="" colspan="2"></p-column>
             <p-column  footer="{{mf_archive_totalProfit | number : '1.2-2'}}"></p-column>
             <p-column  footer="{{mf_archive_totalProfitPercent | number : '1.2-2'}}"></p-column>
-            <p-column  footer="" colspan="1"></p-column>
+            
         </p-row>
     </p-footerColumnGroup>
 
