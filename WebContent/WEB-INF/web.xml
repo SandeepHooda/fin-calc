@@ -264,4 +264,14 @@
     <servlet-name>GetProfiles_mf_archive_csv</servlet-name>
     <url-pattern>/GetProfiles_mf_archive_csv</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>EditProfiles_mf_archive</display-name>
+    <servlet-name>EditProfiles_mf_archive</servlet-name>
+    <servlet-class>com.endpoint.EditProfiles_mf_archive</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>EditProfiles_mf_archive</servlet-name>
+    <url-pattern>/EditProfiles_mf_archive</url-pattern>
+  </servlet-mapping>
 </web-app>

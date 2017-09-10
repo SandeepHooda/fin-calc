@@ -7,9 +7,10 @@ import { Headers, RequestOptions } from '@angular/http';
 import {Company} from './Company';
 import {Portfolio} from './portfolio';
 import { DOCUMENT } from '@angular/platform-browser';
-
+import {Profile} from './profile';
 @Injectable()
 export class FundService {
+
     private  m_names = new Array("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec");
       private hostName:string = '';
 
@@ -116,5 +117,18 @@ private extractCsvData(res: Response) {
     return res;
   }
  
+ public editProfiles_mf_archive(allProfiles_mf_archive:Array<Profile>) : Observable<string>{
+   if (document.location.href.indexOf("localhost") > 0){
+    this.hostName = "http://localhost:8888"
+   }else {
+     this.hostName  = '';
+   }
+    let EditProfiles_mf_archiveUrl = this.hostName+"/EditProfiles_mf_archive"
+  var headers = new Headers({ 'Content-Type': 'application/json' });
+  var options = new RequestOptions({ headers: headers });
+  return this.http.post(EditProfiles_mf_archiveUrl, { allProfiles_mf_archive }, options)
+            .map(this.extractData)
+            .catch(this.handleError);
+}
 
 }

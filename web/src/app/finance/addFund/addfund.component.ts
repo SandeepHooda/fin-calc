@@ -139,8 +139,7 @@ private portFolioLoaded_mf_archive(portfolio:Portfolio){
      
     this.portfolio = portfolio;
     localStorage.setItem('lastKnownPortFolio_mf_archive', JSON.stringify(portfolio));
-    this.allProfiles_mf_archive = portfolio.allProfiles;
-   
+    this.allProfiles_mf_archive = portfolio.allProfiles;   
 }
 private profileDeleted(message:string){
    this.renderer.setElementStyle(this.spinnerElement.nativeElement, 'display','none');
@@ -193,12 +192,19 @@ private showProfileSummaryStep(){
   this.stepIndicator = 0;
 }
 
-private saveTerminatedScheme(event: Event){
+private saveTerminatedScheme(){
+this.renderer.setElementStyle(this.spinnerElement.nativeElement, 'display','block');
+this.fundService.editProfiles_mf_archive(this.allProfiles_mf_archive).subscribe( 
+        data => this.editSuccess(data),
+        error => this.showError(error)
+      );
+console.log(this.allProfiles_mf_archive[0].exitDate);
 
-
-  
 }
 
+private editSuccess(data : string){
+  this.renderer.setElementStyle(this.spinnerElement.nativeElement, 'display','none');
+}
 private exportToExcel(){
   this.renderer.setElementStyle(this.spinnerElement.nativeElement, 'display','block');
   this.fundService.sendDownloadRequest().subscribe( 

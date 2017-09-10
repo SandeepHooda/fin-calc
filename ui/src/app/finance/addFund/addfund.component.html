@@ -76,7 +76,7 @@
     -->
     <button type="button" pButton icon="fa-file-o" iconPos="left" label="CSV" (click)="dt.exportCSV()" style="float:right;"></button>
     <br/><br/>
-    <p-dataTable  #dt [value]="allProfiles_mf_archive" [editable]="true" (onEditComplete)="saveTerminatedScheme($event)">
+    <p-dataTable  #dt [value]="allProfiles_mf_archive" [editable]="true" (onEditComplete)="saveTerminatedScheme($event)"  [rows]="10" [paginator]="true">
         <p-column field="schemeName" header="Scheme Name" [editable]="false" [sortable]="true"></p-column>
         <p-column field="investmentAmount" header="Investment Amount" [editable]="false" [sortable]="true"></p-column>
         <p-column field="investmentDate" header="Investment Date" [editable]="false" [sortable]="true"></p-column>
@@ -117,6 +117,10 @@
         
 
     </p-dataTable>
+    <br/><br/>
+    <div style="padding-left: 50%">
+    <button type="button" pButton icon="fa-file-o" iconPos="left" label="Save" (click)="saveTerminatedScheme()" ></button>
+    </div>
 </div>
 
 </div>

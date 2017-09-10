@@ -1,6 +1,7 @@
 package com.profile;
 
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -107,6 +108,7 @@ public class ProfileService {
 		String dataToAdd_mf_archive = json.toJson(pf_mf_archive, new TypeToken<Portfolio>() {}.getType());
 		ProfileDAO.insertData(collection+Constants.mf_archive, dataToAdd_mf_archive);
 	}
+	
 	public static void deleteStockFromPortfolio(String collection, long profileID) {
 		log.info("Deleting from   user profile " + collection + profileID);
 		String currentData = ProfileDAO.getUserPortfolio(Constants.stockEquityDB, collection, false, null, Constants.mlabKey);
@@ -135,6 +137,17 @@ public class ProfileService {
 
 		dataToAdd = json.toJson(pf, new TypeToken<StockPortfolio>() {}.getType());
 		ProfileDAO.insertData(collection, dataToAdd, Constants.stockEquityDB,Constants.mlabKey);
+	}
+	
+	public static void EditProfiles_mf_archive(String collection, List<Profile> oldProfilesList) {
+		Gson json = new Gson();
+		String currentData_mf_archive = ProfileDAO.getUserPortfolio(Constants.dbName, collection+Constants.mf_archive, false, null, Constants.mlabKey);
+		Portfolio pf_mf_archive = null;
+		currentData_mf_archive = currentData_mf_archive.trim();
+		pf_mf_archive = json.fromJson(currentData_mf_archive, Portfolio.class);
+		pf_mf_archive.setAllProfiles(oldProfilesList);
+		String dataToAdd_mf_archive = json.toJson(pf_mf_archive, new TypeToken<Portfolio>() {}.getType());
+		ProfileDAO.insertData(collection+Constants.mf_archive, dataToAdd_mf_archive);
 	}
 
 	public static void addFundToPortfolio(String collection, Profile profile) {
