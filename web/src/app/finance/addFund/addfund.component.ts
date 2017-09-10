@@ -188,6 +188,7 @@ private deleteProfileFromPastData(profileID : number){
    
 }
 private confirmDelete_pastMF(){
+  this.displayConfirmation_pastMF = false;
 let  allProfiles_mf_archive_afterDelete : Array<Profile> = [];
 for (let i =0;i<this.allProfiles_mf_archive.length;i++){
      if(this.allProfiles_mf_archive[i].profileID != this.profileIDToBedeleted_pastMF){
@@ -197,7 +198,7 @@ for (let i =0;i<this.allProfiles_mf_archive.length;i++){
      }
    }
    this.allProfiles_mf_archive = allProfiles_mf_archive_afterDelete;
-   //this.saveTerminatedScheme();
+   this.saveTerminatedScheme();
 }
 private confirmDelete(){
 this.displayConfirmation = false;
@@ -246,7 +247,7 @@ this.fundService.editProfiles_mf_archive(this.allProfiles_mf_archive).subscribe(
         data => this.editSuccess(data),
         error => this.showError(error)
       );
-console.log(this.allProfiles_mf_archive[0].exitDate);
+
 
 }
 
