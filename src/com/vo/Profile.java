@@ -3,6 +3,7 @@ package com.vo;
 public class Profile {
 	private long profileID;
 	private String investmentDate, schemeName;
+	private String exitDate;
 	private String schemeCode;
 	private double nav;
 	private double investmentAmount;
@@ -156,6 +157,12 @@ public class Profile {
 	}
 	public void setCompanyCurrentValue(double companyCurrentValue) {
 		this.companyCurrentValue = companyCurrentValue;
+	}
+	public String getExitDate() {
+		return exitDate;
+	}
+	public void setExitDate(String exitDate) {
+		this.exitDate = exitDate;
 	}
 	
 

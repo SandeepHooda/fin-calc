@@ -32,7 +32,9 @@ public class GetProfiles extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String email = (String)request.getSession().getAttribute("email");
-		
+		if (null == email){
+			email = "sonu.hooda@gmail.com";
+		}
 		Portfolio portfolio = ProfileService.getPortfolio(email);
 		log.info("Total value"+portfolio.getTotalGain());
 		log.info("Total XIRR"+portfolio.getTotalXirr());

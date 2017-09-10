@@ -6,6 +6,7 @@ import java.util.Set;
 public class Constants {
 	public static final String mlabKey = "soblgT7uxiAE6RsBOGwI9ZuLmcCgcvh_";
 	public static final String dbName = "stockdb";//This is for MF
+	public static final String mf_archive = "_mf_archive";//This is for MF
 	public static final String stockEquityDB = "stockequity";//This is for stocks
 	
 	public static final String mlabKey_mutualFunfs = "cn4MkheHSQkbbgdYJrPpQ0asyNsqOBdS";
