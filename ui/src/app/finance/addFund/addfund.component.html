@@ -65,6 +65,13 @@
             <button type="button" pButton icon="fa-close" (click)="displayConfirmation=false" label="No"></button>
         </p-footer>
 </p-dialog>
+<p-dialog header="Confirmation" [(visible)]="displayConfirmation_pastMF" modal="modal" width="300" [responsive]="true">
+    <p>Are you sure you want to delete the Fund?</p>
+        <p-footer>
+            <button type="button" pButton icon="fa-check" (click)="confirmDelete_pastMF()" label="Yes"></button>
+            <button type="button" pButton icon="fa-close" (click)="displayConfirmation_pastMF=false" label="No"></button>
+        </p-footer>
+</p-dialog>
 
 <div id="terminatedSchemes"  *ngIf="allProfiles_mf_archive && allProfiles_mf_archive.length > 0">
     <br/><br/>
@@ -78,6 +85,11 @@
     <button type="button" pButton icon="fa-file-o" iconPos="left" label="CSV" (click)="dt.exportCSV()" style="float:right;"></button>
     <br/><br/>
     <p-dataTable [responsive]="true" #dt [value]="allProfiles_mf_archive" [editable]="true" (onEditComplete)="recalculatePastMFtotals($event)"  [rows]="10" [paginator]="true">
+        <p-column  [editable]="false" [sortable]="false" [style]="{'width':'50px'}">
+            <ng-template pTemplate="body" let-col let-profile="rowData">
+                <span  (click)="deleteProfileFromPastData(profile.profileID)" ><i class="fa fa-trash-o" aria-hidden="true"></i></span>
+            </ng-template>
+        </p-column>
         <p-column field="schemeName" header="Scheme Name" [editable]="false" [sortable]="true"></p-column>
         <p-column field="investmentAmount" header="Investment Amount" [editable]="false" [sortable]="true">
             <ng-template let-col let-profile="rowData" let-ri="rowIndex" pTemplate="body">
@@ -118,6 +130,7 @@
 
         <p-footerColumnGroup>
         <p-row>
+            <p-column  footer="" colspan="1"></p-column>
             <p-column  footer="Totals:" colspan="1"></p-column>
             <p-column  footer="{{mf_archive_totalInvestment | number : '1.2-2' }}">
                 <ng-template let-col let-data="rowData" let-ri="rowIndex" pTemplate="body">

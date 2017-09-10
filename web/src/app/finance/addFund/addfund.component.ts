@@ -20,7 +20,9 @@ import {EventService} from '../../common/EventService';
 export class AddFunds implements OnInit {
  
   private displayConfirmation : boolean = false;
+  private displayConfirmation_pastMF : boolean = false;
   private profileIDToBedeleted : number;
+  private profileIDToBedeleted_pastMF : number;
   private schemeCode : number;
   private schemeName : string;
   private stepIndicator:number=0;
@@ -178,6 +180,24 @@ private deleteProfile(profileID :number){
   this.profileIDToBedeleted = profileID;
   this.displayConfirmation = true;
  
+}
+private deleteProfileFromPastData(profileID : number){
+  
+   this.profileIDToBedeleted_pastMF = profileID;
+   this.displayConfirmation_pastMF = true;
+   
+}
+private confirmDelete_pastMF(){
+let  allProfiles_mf_archive_afterDelete : Array<Profile> = [];
+for (let i =0;i<this.allProfiles_mf_archive.length;i++){
+     if(this.allProfiles_mf_archive[i].profileID != this.profileIDToBedeleted_pastMF){
+      allProfiles_mf_archive_afterDelete.push(this.allProfiles_mf_archive[i]);
+     }else {
+       console.log(" I will delte "+this.profileIDToBedeleted_pastMF)
+     }
+   }
+   this.allProfiles_mf_archive = allProfiles_mf_archive_afterDelete;
+   //this.saveTerminatedScheme();
 }
 private confirmDelete(){
 this.displayConfirmation = false;
