@@ -42,7 +42,7 @@ export class Stock implements OnInit {
     private eventService : EventService,private router:Router) {} 
    
     ngOnInit(): void {
-     
+      this.restoreStocksFromLocalStorage();
      this.refreshPage();
      this.eventService.refreshEvent.subscribe( (refresh : string)=> {
         if ("/Stock" === this.router.url ){
@@ -96,6 +96,7 @@ private toggleInfo() {
         this.stepIndicator ++;
   }
    private refreshPage(){
+    
      this.renderer.setElementStyle(this.spinnerElement.nativeElement, 'display','block');
      this.stepIndicator = 0;
      if (localStorage.getItem('allListedStocksNSE') && localStorage.getItem('allListedStocksNSE') != 'undefined'){
@@ -136,11 +137,22 @@ private deletedFromProfile(message:string){
 }
 private getStockProfileResult( stocks : StockPortfolioVO ){
   this.renderer.setElementStyle(this.spinnerElement.nativeElement, 'display','none');
-  this.allStocks = stocks.allStocks;
-     this.totalGain= stocks.totalGain;
-    this.totalXirr = stocks.totalXirr;
-    this.totalPercentGainAbsolute = stocks.percentGainAbsolute;
-    this.totalInvetment = stocks.totalInvetment;
+  localStorage.setItem('lastKnownStockProfile', JSON.stringify(stocks));
+  this.assignStockValues(stocks);
+  }
+  private assignStockValues(stocks : StockPortfolioVO){
+    this.allStocks = stocks.allStocks;
+    this.totalGain= stocks.totalGain;
+   this.totalXirr = stocks.totalXirr;
+   this.totalPercentGainAbsolute = stocks.percentGainAbsolute;
+   this.totalInvetment = stocks.totalInvetment;
+  }
+  private restoreStocksFromLocalStorage(){
+    if (null != localStorage.getItem('lastKnownStockProfile')){
+      let stocks : StockPortfolioVO = JSON.parse(localStorage.getItem('lastKnownStockProfile'));
+      this.assignStockValues(stocks);
+    }
+   
   }
   private getStockProfileResult_eq_archive( stocks : StockPortfolioVO ){
      this.allStocks_eq_archive = stocks.allStocks; 

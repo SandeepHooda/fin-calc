@@ -93,8 +93,11 @@ private deleteLocalStorage(){
   localStorage.removeItem('signedInUser');
   localStorage.removeItem('signedInUserEmail');
   localStorage.removeItem('lastKnownPortFolio');
-   localStorage.removeItem('allListedStocksNSE');
-    localStorage.removeItem('allListedStocksBSE');
+  localStorage.removeItem('allListedStocksNSE');
+  localStorage.removeItem('allListedStocksBSE');
+  localStorage.removeItem('allListedStocksBSE');
+  localStorage.removeItem('lastKnownStockProfile');
+  
 }
    
 }
