@@ -59,16 +59,25 @@ a {
 
 }
 .grid-heder {
-  padding-left: 45%; 
+  
   text-align: left;
+  background-color: #242628;
+  color: white;
+
+}
+.grid-heder-padding {
+  padding-left: 45%; 
 
 }
 @media (max-width: 730px) {
 .grid-heder {
-  padding-left: 15%; 
+  background-color: #242628;
+  color: white;
 
 }
-
+.grid-heder-padding {
+  padding-left: 15%; 
+}
 }
 .info {
   color: blue;
@@ -116,7 +125,7 @@ nav a:hover {
   background-color: #CFD8DC;
 }
 nav a.active {
-  color: #039be5;
+  color: #FFFFFF;
 }
 
 /* everywhere else */
@@ -126,6 +135,7 @@ nav a.active {
 
 body {
   margin: 1em;
+  
 }
 .profit {
   color: green;
@@ -150,17 +160,17 @@ body {
 body{
    font-family: Roboto;
   font-size: 16px;
-  color: #424242;
+  color: #FFFFFF;
 	margin:0;
 	width:100%;
 	height:100vh;
-  	background:#ffffff;
+  	background:#242628;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
 }
 header{
 	width:100%; 
-	background:#ffffff; 
+	background:#242628; 
 	
 	line-height:60px;
 	border-bottom:1px solid #dddddd;
@@ -177,6 +187,7 @@ header{display:inline-block; font-size:16px;}
   width: 100%;
   padding: 0;
   margin: 0;
+  background-color :242628;
 }
 
 ul {
@@ -223,6 +234,7 @@ nav {
     border-left:1px solid #E0E0E0;
     line-height: 24px;
     padding: 10px;
+    background-color :242628;
  }
  .hamburger {
 	display :block;
@@ -252,6 +264,7 @@ nav {
   .nav.open {
     -webkit-transform: translate(0, 0);
     transform: translate(0, 0);
+    background-color: #242628;
   }
 }
 
