@@ -294,4 +294,24 @@
     <servlet-name>EditProfiles_eq_archive</servlet-name>
     <url-pattern>/EditProfiles_eq_archive</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>SaveWishList</display-name>
+    <servlet-name>SaveWishList</servlet-name>
+    <servlet-class>com.endpoint.SaveWishList</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>SaveWishList</servlet-name>
+    <url-pattern>/SaveWishList</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>GetWishList</display-name>
+    <servlet-name>GetWishList</servlet-name>
+    <servlet-class>com.endpoint.GetWishList</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>GetWishList</servlet-name>
+    <url-pattern>/GetWishList</url-pattern>
+  </servlet-mapping>
 </web-app>

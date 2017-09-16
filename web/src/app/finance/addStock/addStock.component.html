@@ -15,6 +15,23 @@
    
     <p-messages [(value)]="msgs"></p-messages> 
 <hr class="ui-widget-content" style="border-top:0">
+<p-dataTable [responsive]="true" #dt [value]="wishListEquity" [editable]="true"  [rows]="20" [paginator]="true">
+        <p-column  [editable]="false" [sortable]="false" [style]="{'width':'50px'}">
+                <ng-template pTemplate="body" let-col let-profile="rowData">
+                    <span  (click)="deleteFromWishList(profile.profileID)" ><i class="fa fa-trash-o" aria-hidden="true"></i></span>
+                </ng-template>
+    </p-column>
+    <p-column field="companyName" header="Company Name" [editable]="true" [sortable]="true"></p-column>
+    <p-column field="buySell" header="Buy/Sell" [editable]="true" [sortable]="true"></p-column>
+    <p-column field="price" header="Price" [editable]="true" [sortable]="true"></p-column>
+    
+    </p-dataTable>
+    <br/><br/>
+    <div style="padding-left:45%">
+    <button type="button" pButton icon="fa-file-o" iconPos="left" label="Save" (click)="saveWishList()" ></button>
+    <button  pButton type="button" (click)="addToWishList()"    icon="fa-plus" label="Wish list"></button><br/><br/><br/>
+    
+    </div>
 <p-dataGrid [value]="allStocks" [paginator]="true" [rows]="50">
     <p-header>
         <div class="grid-heder grid-heder-padding">

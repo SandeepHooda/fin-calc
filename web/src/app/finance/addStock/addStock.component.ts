@@ -6,7 +6,7 @@ import {Router} from '@angular/router';
 import {EventService} from '../../common/EventService';
 import {StockVO} from './stockVO';
 import {StockPortfolioVO} from './StockPortfolioVO';
-
+import {WishList} from './wishList';
 import {StockService} from './stockService';
 @Component({
  selector : 'add-stock', 
@@ -34,6 +34,8 @@ export class Stock implements OnInit {
  public allStocks : Array<StockVO> = [];
  private allStocks_eq_archive : Array<StockVO> = [];
  private eq_archive_totalInvestment : number;
+ 
+ private wishListEquity : Array<WishList> = [];
  private eq_archive_totalReturn : number;
  private eq_archive_totalProfit : number;
  private eq_archive_totalProfitPercent : number;
@@ -51,8 +53,23 @@ export class Stock implements OnInit {
         }
         
       })
+      
   }
 
+  private addToWishList(){
+    let wishList = this.wishListEquity;
+    let wish : WishList = new WishList();
+    wish.profileID = new Date().getTime();
+    wishList.push(wish);
+    this.wishListEquity = [];
+    if (wishList){
+      for(let i=0;i<wishList.length;i++ ){
+        this.wishListEquity.push(wishList[i]);
+      }
+    }
+    
+    console.log("wishListEquity "+this.wishListEquity)
+  }
   private deleteProfileFromPastData(profileID : number){
     
      this.profileIDToBedeleted_pastEQ = profileID;
@@ -118,6 +135,9 @@ private toggleInfo() {
     this.stockService.getStockProfile_eq_archive().subscribe( 
               funds => this.getStockProfileResult_eq_archive(funds),
               error => this.showError(error));
+    this.stockService.getWishList().subscribe(
+      funds => this.gotWishList(funds),
+      error => this.showError(error));
   }
 private deleteFromProfile(profileID : number){
   this.profileIDToBedeleted = profileID;
@@ -131,6 +151,16 @@ this.displayConfirmation = false;
         msg => this.deletedFromProfile(msg),
         error => this.showError(error));
 }
+private saveWishList(){
+  this.stockService.saveWishList(this.wishListEquity).subscribe( 
+    msg => this.editSuccess(msg),
+    error => this.showError(error));
+}
+private getWishList(){
+  this.stockService.getWishList().subscribe( 
+    msg => this.gotWishList(msg),
+    error => this.showError(error));
+}
 private deletedFromProfile(message:string){
    this.renderer.setElementStyle(this.spinnerElement.nativeElement, 'display','none');
    this.refreshPage();
@@ -139,6 +169,9 @@ private getStockProfileResult( stocks : StockPortfolioVO ){
   this.renderer.setElementStyle(this.spinnerElement.nativeElement, 'display','none');
   localStorage.setItem('lastKnownStockProfile', JSON.stringify(stocks));
   this.assignStockValues(stocks);
+  }
+  private gotWishList(wishList : Array<WishList>){
+    this.wishListEquity = wishList;
   }
   private assignStockValues(stocks : StockPortfolioVO){
     this.allStocks = stocks.allStocks;

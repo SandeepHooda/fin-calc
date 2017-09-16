@@ -7,6 +7,7 @@ import { Headers, RequestOptions } from '@angular/http';
 import {StockVO} from './stockVO';
 import {StockPortfolioVO} from './StockPortfolioVO';
 import { DOCUMENT } from '@angular/platform-browser';
+import {WishList} from './wishList';
 @Injectable()
 export class StockService {
      
@@ -23,12 +24,33 @@ export class StockService {
                         .map(this.extractData)
                         .catch(this.handleError);
     }
+    saveWishList(wishListEquity:  Array<WishList>) : Observable<string> {
+      let hostName:string = '';
+      if (document.location.href.indexOf("localhost") > 0){
+       hostName = "http://localhost:8888"
+      }
+       let saveWishListUrl = hostName+"/SaveWishList"
+     var headers = new Headers({ 'Content-Type': 'application/json' });
+     var options = new RequestOptions({ headers: headers });
+     return this.http.post(saveWishListUrl, { wishListEquity }, options)
+               .map(this.extractData)
+               .catch(this.handleError);
+    }
     getStockProfile(): Observable<StockPortfolioVO> {
       let hostName:string = '';
       if (document.location.href.indexOf("localhost") > 0){
         hostName = "http://localhost:8888"
        }
        return this.http.get(hostName+this.GetStockProfileUrl)
+                        .map(this.extractData)
+                        .catch(this.handleError);
+    }
+    getWishList(): Observable<Array<WishList>> {
+      let hostName:string = '';
+      if (document.location.href.indexOf("localhost") > 0){
+        hostName = "http://localhost:8888"
+       }
+       return this.http.get(hostName+'/GetWishList')
                         .map(this.extractData)
                         .catch(this.handleError);
     }

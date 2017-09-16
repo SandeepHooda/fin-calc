@@ -50,6 +50,7 @@ import com.vo.ProfileSort;
 import com.vo.StockPortfolio;
 import com.vo.StockSort;
 import com.vo.StockVO;
+import com.vo.WishList;
 import com.xirr.XirrCalculatorService;
 
 public class ProfileService {
@@ -253,12 +254,7 @@ public class ProfileService {
 	public static void saveSipList(String collection, List<SipSchemeVO> schemes) {
 		//collection += "_sip";
 		log.info("Adding to user profile " + collection);
-		String currentData = ProfileDAO.getUserPortfolio(Constants.dbName, collection, false, null,Constants.mlabKey);// get
-																					// data
-																					// along
-																					// with
-																					// default
-																					// key
+		String currentData = ProfileDAO.getUserPortfolio(Constants.dbName, collection, false, null,Constants.mlabKey);
 		if (null == currentData || "".equals(currentData.trim())) {
 			log.info("Creating a new profile " + collection);
 			ProfileDAO.createNewCollection(collection, Constants.dbName, Constants.mlabKey);
@@ -271,6 +267,23 @@ public class ProfileService {
 		String dataToAdd = json.toJson(schemes, new TypeToken<List<SipSchemeVO>>() {
 		}.getType());
 		ProfileDAO.insertData(collection, dataToAdd);
+	}
+	public static void saveWishList(String collection, List<WishList> wishList) {
+		//collection += "_sip";
+		log.info("Adding to user profile " + collection);
+		String currentData = ProfileDAO.getUserPortfolio(Constants.stockEquityDB, collection, false, null,Constants.mlabKey);
+		if (null == currentData || "".equals(currentData.trim())) {
+			log.info("Creating a new profile " + collection);
+			ProfileDAO.createNewCollection(collection, Constants.stockEquityDB, Constants.mlabKey);
+		} else {
+
+			log.info("Profile already exists " + currentData);
+		}
+
+		Gson json = new Gson();
+		String dataToAdd = json.toJson(wishList, new TypeToken<List<WishList>>() {
+		}.getType());
+		ProfileDAO.insertData(collection, dataToAdd,Constants.stockEquityDB,Constants.mlabKey);
 	}
 
 /*	public static void calculatePercentage(List<ChartVO> chartData, Portfolio portfolio) {
@@ -985,6 +998,23 @@ private static boolean calculateMonthlyRollingReturn(List<NavVoUI> uiNAvs){
 			log.info(" Creating new blank Sip vo" + portfolioStr);
 		} else {
 			portfolio = json.fromJson(portfolioStr, new TypeToken<List<SipSchemeVO>>() {
+			}.getType());
+		}
+
+		return portfolio;
+	}
+	public static List<WishList> getWishList(String collection) {
+		//collection += "_sip";
+		String portfolioStr = "{ \"allProfiles\" : [ { \"profileID\" : 1501379186922 , \"investmentDate\" : \"1-Jun-2017\" , \"schemeName\" : \"L&T Mid Cap Fund-Direct Plan-Growth Plan\" , \"schemeCode\" : \"119807\" , \"nav\" : 131.08 , \"investmentAmount\" : 25000.0 , \"units\" : 190.72322245956667 , \"currentValue\" : 0.0 , \"currentNav\" : 0.0 , \"xirr\" : 0.0 , \"companyName\" : \"L&T Mutual Fund\"} , { \"profileID\" : 1501382919277 , \"investmentDate\" : \"6-Jul-2017\" , \"schemeName\" : \"L&T Mid Cap Fund-Direct Plan-Growth Plan\" , \"schemeCode\" : \"119807\" , \"nav\" : 136.51 , \"investmentAmount\" : 10000.0 , \"units\" : 73.25470661490002 , \"currentValue\" : 0.0 , \"currentNav\" : 0.0 , \"xirr\" : 0.0 , \"companyName\" : \"L&T Mutual Fund\"} , { \"profileID\" : 1501383023193 , \"investmentDate\" : \"1-Jun-2017\" , \"schemeName\" : \"Kotak-Mid-Cap-Growth - Direct\" , \"schemeCode\" : \"120164\" , \"nav\" : 76.772 , \"investmentAmount\" : 25000.0 , \"units\" : 325.6395560881571 , \"currentValue\" : 0.0 , \"currentNav\" : 0.0 , \"xirr\" : 0.0 , \"companyName\" : \"Kotak Mahindra Mutual Fund\"} , { \"profileID\" : 1501383093995 , \"investmentDate\" : \"2-Jun-2017\" , \"schemeName\" : \"Kotak Select Focus Fund - Growth - Direct\" , \"schemeCode\" : \"120166\" , \"nav\" : 32.109 , \"investmentAmount\" : 25000.0 , \"units\" : 778.5979009000591 , \"currentValue\" : 0.0 , \"currentNav\" : 0.0 , \"xirr\" : 0.0 , \"companyName\" : \"Kotak Mahindra Mutual Fund\"} , { \"profileID\" : 1501383156577 , \"investmentDate\" : \"2-Jun-2017\" , \"schemeName\" : \"L&T Infrastructure Fund -Direct Plan-Growth Option\" , \"schemeCode\" : \"119413\" , \"nav\" : 15.79 , \"investmentAmount\" : 25000.0 , \"units\" : 1583.2805573147562 , \"currentValue\" : 0.0 , \"currentNav\" : 0.0 , \"xirr\" : 0.0 , \"companyName\" : \"L&T Mutual Fund\"} , { \"profileID\" : 1501383200382 , \"investmentDate\" : \"2-Jun-2017\" , \"schemeName\" : \"DSP BlackRock Natural Resources and New Energy Fund - Direct Plan - Growth\" , \"schemeCode\" : \"119028\" , \"nav\" : 31.25 , \"investmentAmount\" : 20000.0 , \"units\" : 640.0 , \"currentValue\" : 0.0 , \"currentNav\" : 0.0 , \"xirr\" : 0.0 , \"companyName\" : \"DSP BlackRock Mutual Fund\"} , { \"profileID\" : 1501383259924 , \"investmentDate\" : \"2-Jun-2017\" , \"schemeName\" : \"Birla Sun Life Midcap Fund - Growth - Direct Plan\" , \"schemeCode\" : \"119620\" , \"nav\" : 303.95 , \"investmentAmount\" : 25000.0 , \"units\" : 82.25037012666557 , \"currentValue\" : 0.0 , \"currentNav\" : 0.0 , \"xirr\" : 0.0 , \"companyName\" : \"Birla Sun Life Mutual Fund\"} , { \"profileID\" : 1501383315183 , \"investmentDate\" : \"5-Jun-2017\" , \"schemeName\" : \"ICICI Prudential Multicap Fund - Direct Plan -  Growth\" , \"schemeCode\" : \"120599\" , \"nav\" : 265.47 , \"investmentAmount\" : 20000.0 , \"units\" : 75.33807963235016 , \"currentValue\" : 0.0 , \"currentNav\" : 0.0 , \"xirr\" : 0.0 , \"companyName\" : \"ICICI Prudential Mutual Fund\"} , { \"profileID\" : 1501383350497 , \"investmentDate\" : \"5-Jun-2017\" , \"schemeName\" : \"ICICI Prudential Top 100 Fund - Direct Plan -  Growth\" , \"schemeCode\" : \"120596\" , \"nav\" : 312.28 , \"investmentAmount\" : 20000.0 , \"units\" : 64.04508774177022 , \"currentValue\" : 0.0 , \"currentNav\" : 0.0 , \"xirr\" : 0.0 , \"companyName\" : \"ICICI Prudential Mutual Fund\"} , { \"profileID\" : 1501383395107 , \"investmentDate\" : \"5-Jun-2017\" , \"schemeName\" : \"ICICI Prudential Value Discovery Fund - Direct Plan - Growth\" , \"schemeCode\" : \"120323\" , \"nav\" : 141.1 , \"investmentAmount\" : 20000.0 , \"units\" : 141.74344436569808 , \"currentValue\" : 0.0 , \"currentNav\" : 0.0 , \"xirr\" : 0.0 , \"companyName\" : \"ICICI Prudential Mutual Fund\"} , { \"profileID\" : 1501383477625 , \"investmentDate\" : \"7-Jun-2017\" , \"schemeName\" : \"Tata Banking And Financial Services Fund-Direct Plan-Growth\" , \"schemeCode\" : \"135793\" , \"nav\" : 16.216 , \"investmentAmount\" : 20000.0 , \"units\" : 1233.3497779970398 , \"currentValue\" : 0.0 , \"currentNav\" : 0.0 , \"xirr\" : 0.0 , \"companyName\" : \"Tata Mutual Fund\"} , { \"profileID\" : 1501383508987 , \"investmentDate\" : \"6-Jul-2017\" , \"schemeName\" : \"Tata Banking And Financial Services Fund-Direct Plan-Growth\" , \"schemeCode\" : \"135793\" , \"nav\" : 16.708 , \"investmentAmount\" : 10000.0 , \"units\" : 598.5156811108452 , \"currentValue\" : 0.0 , \"currentNav\" : 0.0 , \"xirr\" : 0.0 , \"companyName\" : \"Tata Mutual Fund\"} , { \"profileID\" : 1501383546880 , \"investmentDate\" : \"12-Jun-2017\" , \"schemeName\" : \"ICICI Prudential Banking and Financial Services Fund - Direct Plan -  Growth\" , \"schemeCode\" : \"120244\" , \"nav\" : 59.71 , \"investmentAmount\" : 20000.0 , \"units\" : 334.95226930162454 , \"currentValue\" : 0.0 , \"currentNav\" : 0.0 , \"xirr\" : 0.0 , \"companyName\" : \"ICICI Prudential Mutual Fund\"}]}";
+		portfolioStr = ProfileDAO.getArrayData(Constants.stockEquityDB,collection,  false,  null, Constants.mlabKey);
+		log.info(" Sip result" + portfolioStr);
+		Gson json = new Gson();
+		List<WishList> portfolio = null;
+		if ("".equalsIgnoreCase(portfolioStr.trim())) {
+			portfolio = new ArrayList<WishList>();
+			log.info(" Creating new blank Sip vo" + portfolioStr);
+		} else {
+			portfolio = json.fromJson(portfolioStr, new TypeToken<List<WishList>>() {
 			}.getType());
 		}
 
