@@ -15,6 +15,7 @@
    
     <p-messages [(value)]="msgs"></p-messages> 
 <hr class="ui-widget-content" style="border-top:0">
+<div>Wish list</div>
 <p-dataTable [responsive]="true" #dt [value]="wishListEquity" [editable]="true"  [rows]="20" [paginator]="true">
         <p-column  [editable]="false" [sortable]="false" [style]="{'width':'50px'}">
                 <ng-template pTemplate="body" let-col let-profile="rowData">
@@ -95,6 +96,13 @@
         </p-footer>
 </p-dialog>
 
+<p-dialog header="Confirmation" [(visible)]="displayConfirmation_wishList" modal="modal" width="300" [responsive]="true">
+        <p>Are you sure you want to delete this from wish list?</p>
+            <p-footer>
+                <button type="button" pButton icon="fa-check" (click)="confirmDeleteFromWishList()" label="Yes"></button>
+                <button type="button" pButton icon="fa-close" (click)="displayConfirmation_wishList=false" label="No"></button>
+            </p-footer>
+    </p-dialog>
 <div id="terminatedSchemes"  *ngIf="allStocks_eq_archive && allStocks_eq_archive.length > 0">
     <br/><br/>
     <hr class="ui-widget-content" style="border-top:0; margin-top:1px;margin-bottom:1px"/>

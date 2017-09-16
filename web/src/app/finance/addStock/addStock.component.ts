@@ -28,6 +28,7 @@ export class Stock implements OnInit {
   private totalInvetment : number;
   private displayConfirmation_pastEQ : boolean = false;
   private profileIDToBedeleted_pastEQ : number;
+  private displayConfirmation_wishList : boolean = false;
   
  @ViewChild('spinnerElement') spinnerElement: ElementRef;
 
@@ -69,6 +70,25 @@ export class Stock implements OnInit {
     }
     
     console.log("wishListEquity "+this.wishListEquity)
+  }
+  private deleteFromWishList(profileID : number){
+    console.log(" do you want to delete "+profileID)
+     this.profileIDToBedeleted_pastEQ = profileID;
+     this.displayConfirmation_wishList = true;
+     
+  }
+  private confirmDeleteFromWishList(){
+    this.displayConfirmation_wishList = false;
+  let  wishListAfterDelete : Array<WishList> = [];
+  for (let i =0;i<this.wishListEquity.length;i++){
+       if(this.wishListEquity[i].profileID != this.profileIDToBedeleted_pastEQ){
+        wishListAfterDelete.push(this.wishListEquity[i]);
+       }else {
+         console.log(" I will delte "+this.profileIDToBedeleted_pastEQ)
+       }
+     }
+     this.wishListEquity = wishListAfterDelete;
+     this.saveWishList();
   }
   private deleteProfileFromPastData(profileID : number){
     
@@ -152,8 +172,9 @@ this.displayConfirmation = false;
         error => this.showError(error));
 }
 private saveWishList(){
+  this.renderer.setElementStyle(this.spinnerElement.nativeElement, 'display','block');
   this.stockService.saveWishList(this.wishListEquity).subscribe( 
-    msg => this.editSuccess(msg),
+    msg => this.saveWishListSuccess(msg),
     error => this.showError(error));
 }
 private getWishList(){
@@ -172,6 +193,9 @@ private getStockProfileResult( stocks : StockPortfolioVO ){
   }
   private gotWishList(wishList : Array<WishList>){
     this.wishListEquity = wishList;
+  }
+  private saveWishListSuccess(result: string){
+    this.getWishList();
   }
   private assignStockValues(stocks : StockPortfolioVO){
     this.allStocks = stocks.allStocks;
