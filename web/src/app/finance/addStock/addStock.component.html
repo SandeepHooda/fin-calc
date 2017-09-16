@@ -15,9 +15,9 @@
    
     <p-messages [(value)]="msgs"></p-messages> 
 <hr class="ui-widget-content" style="border-top:0">
-<p-dataGrid [value]="allStocks" [paginator]="true" [rows]="20">
+<p-dataGrid [value]="allStocks" [paginator]="true" [rows]="50">
     <p-header>
-        <div class="grid-heder">
+        <div class="grid-heder grid-heder-padding">
         <b>All Stocks's</b><br/>
        Returns : {{totalGain | number : '1.2-2'}} <br/>
        XIRR : ({{totalXirr | number : '1.2-2'}} %) <br/>
@@ -29,12 +29,15 @@
         <div style="padding:3px" class="ui-g-12 ui-md-3">
              <p-panel  [style]="{'text-align':'left'}"  > 
                <p-header>
+                    <div class="grid-heder">
                   <b> {{profile.companyName}} - {{profile.ticker}} </b><br/>
                    Returns : {{profile.companyTotalGain | number : '1.2-2'}} <br/>
                    XIRR : ({{profile.companyXirr | number : '1.2-2'}} %) <br/>
                    Absolute Returns : ({{profile.companyAbsoluteGainPercent | number : '1.2-2'}} % ) <br/>
                    Current Value : {{profile.companyCurrentValue | number : '1.2-2'}} <br/>
                    Total Investment : {{profile.companyTotalInvestment | number : '1.2-2'}} <br/>
+                   </div>
+
                </p-header> 
                <div [ngClass]="{'profitBack' : (profile.absoluteGain >=0) , 'lossBack' : (profile.absoluteGain < 0)}"> 
                 <div >Return : {{profile.absoluteGain | number : '1.2-2'}}</div> 
