@@ -92,7 +92,8 @@ a {
   }
 @media (max-width: 730px) {
   .link-to-top{
-		right : calc((100% - 850px )/2 + 20px )
+  right :20px;
+  bottom : 50px;
  }
 .grid-heder {
   background-color: #242628;
