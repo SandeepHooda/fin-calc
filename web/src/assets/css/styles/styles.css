@@ -69,18 +69,42 @@ a {
   padding-left: 45%; 
 
 }
+.ui-datagrid .ui-datagrid-header,
+.ui-datagrid .ui-datagrid-footer {
+	padding: 0px;
+}
+.ui-panel .ui-panel-titlebar {
+	padding: 0px;
+}
+
+.ui-panel .ui-panel-content {
+ padding: 0px;
+}
+.grid-card {
+  padding: .1px;
+}
+.link-to-top{
+  position : fixed;
+  bottom : 20px;
+  right :30px;
+  color: white;
+  background: #242628;
+  }
 @media (max-width: 730px) {
+  .link-to-top{
+		right : calc((100% - 850px )/2 + 20px )
+ }
 .grid-heder {
   background-color: #242628;
   color: white;
 
 }
 .grid-heder-padding {
-  padding-left: 15%; 
+  padding-left: 20%; 
 }
 }
 .info {
-  color: blue;
+  color: white;
   float: left;
   padding-left: 10px;
 }
