@@ -1,0 +1,22 @@
+<div style="min-width: 950px;">
+    
+        <div class="loading-overlay" #spinnerElement  >
+            <div class="spinner">
+            <md-spinner></md-spinner>
+            </div>
+        </div>
+    <span  class="info"><i class="fa fa-2x fa-info-circle"  aria-hidden="true" (click)="toggleInfo()"></i></span>
+    <br/><br/>
+    <p-messages [(value)]="msgs"></p-messages> 
+    <div style="background-color: white">
+        <div *ngIf="eqChart">
+            <span>Equity chart</span>
+            <p-chart type="line" [data]="eqChart" ></p-chart>
+        </div>
+        <div *ngIf="mfChart">
+            <span>Mutual Fund chart</span>
+            <p-chart type="line" [data]="mfChart" ></p-chart>
+        </div>
+    </div>     
+    
+    </div>

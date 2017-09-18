@@ -38,6 +38,8 @@ import {Stock} from '../finance/addStock/addStock.component';
 import {StockService} from '../finance/addStock/stockService';
 import {SearchStock} from '../finance/addStock/searchStock/searchStock.component';
 import {AddStockDetails} from '../finance/addStock/addStockDetails/addStockDetails.component';
+import {PriceChart} from '../finance/priceChart/priceChart.component';
+import {PriceChartService} from '../finance/priceChart/priceChart.service';
 @NgModule({
   imports: [
     BrowserModule,
@@ -56,11 +58,11 @@ import {AddStockDetails} from '../finance/addStock/addStockDetails/addStockDetai
   ],
   declarations: [
     XIRR,   NAVBAR,    AddCompany, Sip, AddFunds, AddProfile, AddFundsDetails, SipScheme, Chart, 
-    Pension, PensionScheme, Loan , LoanScheme,Stock , SearchStock,AddStockDetails
+    Pension, PensionScheme, Loan , LoanScheme,Stock , SearchStock,AddStockDetails,PriceChart
   ],
   providers: [ XirrService , XirrRequest, FundService, SipService, NavService, schemeSipService, 
   ChartService, EventService,
-  PensionService,SchemePensionService, SchemeLoanService, LoanService, StockService],
+  PensionService,SchemePensionService, SchemeLoanService, LoanService, StockService,PriceChartService],
   bootstrap: [ XIRR ]
 })
 export class AppModule { }

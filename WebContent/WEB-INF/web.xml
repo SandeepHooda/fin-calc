@@ -314,4 +314,24 @@
     <servlet-name>GetWishList</servlet-name>
     <url-pattern>/GetWishList</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>SaveTodaysPortfilioPrice</display-name>
+    <servlet-name>SaveTodaysPortfilioPrice</servlet-name>
+    <servlet-class>com.endpoint.SaveTodaysPortfilioPrice</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>SaveTodaysPortfilioPrice</servlet-name>
+    <url-pattern>/SaveTodaysPortfilioPrice</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>GetPortFolioPriceTrend</display-name>
+    <servlet-name>GetPortFolioPriceTrend</servlet-name>
+    <servlet-class>com.endpoint.GetPortFolioPriceTrend</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>GetPortFolioPriceTrend</servlet-name>
+    <url-pattern>/GetPortFolioPriceTrend</url-pattern>
+  </servlet-mapping>
 </web-app>

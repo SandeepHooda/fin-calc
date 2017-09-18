@@ -8,14 +8,16 @@ import {Sip} from '../finance/sip/sip.component';
 import {Chart} from '../finance/addFund/chart/chart.component';
 import {Pension} from '../finance/pension/sip.component';
 import { Loan} from '../finance/loan/sip.component';
+import {PriceChart} from '../finance/priceChart/priceChart.component';
 const routes: Routes = [
   { path: '', redirectTo: '/Stock', pathMatch: 'full' },
   { path: 'Stock',  component: Stock },
    { path: 'lumpsump',  component: AddFunds },
    { path: 'sip',  component: Sip },
-   //{ path: 'Analytics',  component: Chart },
+
    { path: 'Pension',  component: Pension },
-   { path: 'Loan',  component: Loan }
+   { path: 'Loan',  component: Loan },
+   { path: 'Analytics',  component: PriceChart }
    
   
 ];

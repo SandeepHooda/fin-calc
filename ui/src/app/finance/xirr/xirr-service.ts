@@ -22,7 +22,7 @@ loadChartData () :Observable<string> {
   
 }
 loadMyProfileChartData () :Observable<string> {
-   return this.http.get("/ChartDataUIForMyProfile").map(this.getChartData).catch(this.handleError);
+   return this.http.get("/SaveTodaysPortfilioPrice").map(this.getChartData).catch(this.handleError);
   
 }
  signedUserEmail() :Observable<string> {
