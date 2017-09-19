@@ -953,12 +953,16 @@ private static boolean calculateMonthlyRollingReturn(List<NavVoUI> uiNAvs){
 		Set<String> companyNamesMF = chartMapMF.keySet();
 		for (String companyName : companyNamesEQ){
 			ChartDataSets chartDataSets = new ChartDataSets();
-			chartDataSets.setLabel(companyName);
+			String companyNameSmall = companyName;
+			if (companyNameSmall.length() > 35){
+				companyNameSmall = companyNameSmall.substring(0,35);
+			}
+			chartDataSets.setLabel(companyNameSmall);
 			List<Double> pricesInPercentage = chartMapEQ.get(companyName);
 			Double basePrice = pricesInPercentage.get(0);
 			for (int i=0;i<pricesInPercentage.size();i++){
 				Double percentIncrease = (pricesInPercentage.get(i) -basePrice)/basePrice*100;
-				System.out.println("percentIncrease "+percentIncrease);
+				
 				pricesInPercentage.set(i, percentIncrease);
 			}
 			chartDataSets.setData(pricesInPercentage);
@@ -979,7 +983,11 @@ private static boolean calculateMonthlyRollingReturn(List<NavVoUI> uiNAvs){
 		
 		for (String companyName : companyNamesMF){
 			ChartDataSets chartDataSets = new ChartDataSets();
-			chartDataSets.setLabel(companyName);
+			String companyNameSmall = companyName;
+			if (companyNameSmall.length() > 35){
+				companyNameSmall = companyNameSmall.substring(0,35);
+			}
+			chartDataSets.setLabel(companyNameSmall);
 			List<Double> pricesInPercentage = chartMapMF.get(companyName);
 			Double basePrice = pricesInPercentage.get(0);
 			for (int i=0;i<pricesInPercentage.size();i++){
@@ -1018,7 +1026,7 @@ private static boolean calculateMonthlyRollingReturn(List<NavVoUI> uiNAvs){
 		}
 		for (Profile aFund : portfolioMf.getAllProfiles() ){
 			CurrentPrice currentMarketPrice = new CurrentPrice();
-			currentMarketPrice.setCompanyName(aFund.getCompanyName());
+			currentMarketPrice.setCompanyName(aFund.getSchemeName());
 			currentMarketPrice.setDate(aFund.getNavDate());
 			currentMarketPrice.setPrice(aFund.getCurrentNav());
 			currentMarketPrice.setType("MF");
