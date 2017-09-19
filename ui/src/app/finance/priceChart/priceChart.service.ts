@@ -5,12 +5,13 @@ import 'rxjs/add/operator/catch';
 import  'rxjs/add/operator/map';
 import {CurrentPriceVO} from './CurrentPriceVO';
 import { DOCUMENT } from '@angular/platform-browser';
+import {chartData} from '../addFund/chart/chartData';
 
 @Injectable()
 export class PriceChartService {
     private hostName : string;
     constructor (private http: Http, @Inject(DOCUMENT) document: any) {}
-    public getChartDataUIForMyProfile(force : boolean ) : Observable<Array<CurrentPriceVO>>{
+    public getChartDataUIForMyProfile(force : boolean ) : Observable<Array<chartData>>{
         if (document.location.href.indexOf("localhost") > 0){
             this.hostName = "http://localhost:8888"
            }else {

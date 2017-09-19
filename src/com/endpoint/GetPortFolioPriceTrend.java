@@ -12,6 +12,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.profile.ProfileService;
 import com.vo.CurrentPriceVO;
+import com.vo.chart.chartData;
 
 /**
  * Servlet implementation class GetPortFolioPriceTrend
@@ -35,9 +36,9 @@ public class GetPortFolioPriceTrend extends HttpServlet {
 		if (null == email){
 			email = "sonu.hooda@gmail.com";
 		}
-		List<CurrentPriceVO> currentPriceVOList = ProfileService.getPortFolioPriceTrend(email);
+		chartData[] currentPriceVOList = ProfileService.getPortFolioPriceTrend(email);
 		Gson  json = new Gson();
-		String chartData = json.toJson(currentPriceVOList, new TypeToken<List<CurrentPriceVO>>() {}.getType());
+		String chartData = json.toJson(currentPriceVOList, new TypeToken<chartData[]>() {}.getType());
 		response.getWriter().append(chartData);
 	}
 

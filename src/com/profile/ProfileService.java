@@ -54,6 +54,8 @@ import com.vo.StockPortfolio;
 import com.vo.StockSort;
 import com.vo.StockVO;
 import com.vo.WishList;
+import com.vo.chart.ChartDataSets;
+import com.vo.chart.chartData;
 import com.xirr.XirrCalculatorService;
 
 public class ProfileService {
@@ -913,14 +915,92 @@ private static boolean calculateMonthlyRollingReturn(List<NavVoUI> uiNAvs){
 		return portfolio;
 	}
 
-	public static List<CurrentPriceVO> getPortFolioPriceTrend(String collection){
+	public static chartData[] getPortFolioPriceTrend(String collection){
 		Gson json = new Gson();
 		String currentData = ProfileDAO.getArrayData(Constants.marketpriceDB, collection, false, null, Constants.mlabKey);
 		List<CurrentPriceVO > currentPriceVOList = json.fromJson(currentData, new TypeToken<List<CurrentPriceVO>>() {}.getType());
 		
 		Collections.sort(currentPriceVOList , new CurrentPriceVOSort());
 		
-		return currentPriceVOList;
+		Map<String, List<Double>> chartMapEQ = new HashMap<String, List<Double>>();
+		Map<String, List<Double>> chartMapMF = new HashMap<String, List<Double>>();
+		List<String> dates = new ArrayList<String>();
+		String[] borderColor  = {"#000000","#c0c0c0","#800000", "#ff0000","#800080","#ff00ff", "#008000","#00ff00","#808000", "#ffff00","#000080","#0000ff", "#00ffff","#ffa500","#006400"};
+        int colorID  = 0;
+		for (CurrentPriceVO aDate: currentPriceVOList){
+			dates.add(aDate.get_id());
+			for (CurrentPrice aCompanyPriceOnADate: aDate.getCurrentPrices()){
+				if (aCompanyPriceOnADate.getType().equals("EQ")){
+					List<Double>  pricesOfCompany = chartMapEQ.get(aCompanyPriceOnADate.getCompanyName());
+					if (null == pricesOfCompany){
+						pricesOfCompany = new ArrayList<Double>();
+					}
+					pricesOfCompany.add(aCompanyPriceOnADate.getPrice());
+					chartMapEQ.put(aCompanyPriceOnADate.getCompanyName(), pricesOfCompany);
+				}else {
+					List<Double>  pricesOfCompany = chartMapMF.get(aCompanyPriceOnADate.getCompanyName());
+					if (null == pricesOfCompany){
+						pricesOfCompany = new ArrayList<Double>();
+					}
+					pricesOfCompany.add(aCompanyPriceOnADate.getPrice());
+					chartMapMF.put(aCompanyPriceOnADate.getCompanyName(), pricesOfCompany);
+				}
+				
+			}
+		}
+		chartData[] chartDataArray = new chartData[2];
+		Set<String> companyNamesEQ = chartMapEQ.keySet();
+		Set<String> companyNamesMF = chartMapMF.keySet();
+		for (String companyName : companyNamesEQ){
+			ChartDataSets chartDataSets = new ChartDataSets();
+			chartDataSets.setLabel(companyName);
+			List<Double> pricesInPercentage = chartMapEQ.get(companyName);
+			Double basePrice = pricesInPercentage.get(0);
+			for (int i=0;i<pricesInPercentage.size();i++){
+				Double percentIncrease = (pricesInPercentage.get(i) -basePrice)/basePrice*100;
+				System.out.println("percentIncrease "+percentIncrease);
+				pricesInPercentage.set(i, percentIncrease);
+			}
+			chartDataSets.setData(pricesInPercentage);
+			chartDataSets.setBorderColor(borderColor[colorID]);
+			colorID++;
+			if (colorID> 14){
+                colorID = 0;
+            }
+			chartData data = chartDataArray[0];
+			if (null == data ){
+				data = new chartData();
+				data.setLabels(dates);
+			}
+			data.getDatasets().add(chartDataSets);
+			chartDataArray[0] = data;
+			
+		}
+		
+		for (String companyName : companyNamesMF){
+			ChartDataSets chartDataSets = new ChartDataSets();
+			chartDataSets.setLabel(companyName);
+			List<Double> pricesInPercentage = chartMapMF.get(companyName);
+			Double basePrice = pricesInPercentage.get(0);
+			for (int i=0;i<pricesInPercentage.size();i++){
+				Double percentIncrease = (pricesInPercentage.get(i) -basePrice)/basePrice*100;
+				pricesInPercentage.set(i, percentIncrease);
+			}
+			chartDataSets.setData(pricesInPercentage);
+			chartDataSets.setBorderColor(borderColor[colorID]);
+			colorID++;
+			if (colorID> 14){
+                colorID = 0;
+            }
+			chartData data = chartDataArray[1];
+			if (null == data ){
+				data = new chartData();
+				data.setLabels(dates);
+			}
+			data.getDatasets().add(chartDataSets);
+			chartDataArray[1] = data;
+		}
+		return chartDataArray;
 	}
 	public static void saveTodaysPortfilioPrice(String collection){
 		StockPortfolio portfolioEq = ProfileService.getStockPortfolio(collection);//companyName, ticker, currentPrice 
