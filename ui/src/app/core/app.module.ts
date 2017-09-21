@@ -40,6 +40,7 @@ import {SearchStock} from '../finance/addStock/searchStock/searchStock.component
 import {AddStockDetails} from '../finance/addStock/addStockDetails/addStockDetails.component';
 import {PriceChart} from '../finance/priceChart/priceChart.component';
 import {PriceChartService} from '../finance/priceChart/priceChart.service';
+import {Ledgger} from '../finance/addStock/ledgger'; 
 @NgModule({
   imports: [
     BrowserModule,
@@ -58,7 +59,8 @@ import {PriceChartService} from '../finance/priceChart/priceChart.service';
   ],
   declarations: [
     XIRR,   NAVBAR,    AddCompany, Sip, AddFunds, AddProfile, AddFundsDetails, SipScheme, Chart, 
-    Pension, PensionScheme, Loan , LoanScheme,Stock , SearchStock,AddStockDetails,PriceChart
+    Pension, PensionScheme, Loan , LoanScheme,Stock , SearchStock,AddStockDetails,PriceChart,
+    Ledgger
   ],
   providers: [ XirrService , XirrRequest, FundService, SipService, NavService, schemeSipService, 
   ChartService, EventService,

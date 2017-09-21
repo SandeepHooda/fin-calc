@@ -965,6 +965,12 @@ private static boolean calculateMonthlyRollingReturn(List<NavVoUI> uiNAvs){
 				
 				pricesInPercentage.set(i, percentIncrease);
 			}
+			if (null != pricesInPercentage && null != dates){
+				int missingDataCount = dates.size() - pricesInPercentage.size();
+				for (int i=0; i<missingDataCount;i++){
+					pricesInPercentage.add(0, 0.0);
+				}
+			}
 			chartDataSets.setData(pricesInPercentage);
 			chartDataSets.setBorderColor(borderColor[colorID]);
 			colorID++;
@@ -993,6 +999,12 @@ private static boolean calculateMonthlyRollingReturn(List<NavVoUI> uiNAvs){
 			for (int i=0;i<pricesInPercentage.size();i++){
 				Double percentIncrease = (pricesInPercentage.get(i) -basePrice)/basePrice*100;
 				pricesInPercentage.set(i, percentIncrease);
+			}
+			if (null != pricesInPercentage && null != dates){
+				int missingDataCount = dates.size() - pricesInPercentage.size();
+				for (int i=0; i<missingDataCount;i++){
+					pricesInPercentage.add(0, 0.0);
+				}
 			}
 			chartDataSets.setData(pricesInPercentage);
 			chartDataSets.setBorderColor(borderColor[colorID]);

@@ -9,6 +9,7 @@ import {Chart} from '../finance/addFund/chart/chart.component';
 import {Pension} from '../finance/pension/sip.component';
 import { Loan} from '../finance/loan/sip.component';
 import {PriceChart} from '../finance/priceChart/priceChart.component';
+import {Ledgger} from '../finance/addStock/ledgger'; 
 const routes: Routes = [
   { path: '', redirectTo: '/Stock', pathMatch: 'full' },
   { path: 'Stock',  component: Stock },
@@ -17,7 +18,8 @@ const routes: Routes = [
 
    { path: 'Pension',  component: Pension },
    { path: 'Loan',  component: Loan },
-   { path: 'Analytics',  component: PriceChart }
+   { path: 'Analytics',  component: PriceChart },
+   { path: 'Ledgger',  component: Ledgger }
    
   
 ];

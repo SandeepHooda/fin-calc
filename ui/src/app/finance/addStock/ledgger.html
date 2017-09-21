@@ -1,0 +1,24 @@
+<div class="loading-overlay" #spinnerElement  >
+    <div class="spinner">
+    <md-spinner></md-spinner>
+    </div>
+</div>
+<p-dataTable #dg [responsive]="true"  [value]="wishListEquity" [editable]="true"  [rows]="20" [paginator]="true">
+        <p-column  [editable]="false" [sortable]="false" [style]="{'width':'50px'}">
+                <ng-template pTemplate="body" let-col let-profile="rowData">
+                    <span  (click)="deleteFromWishList(profile.profileID)" ><i class="fa fa-trash-o" aria-hidden="true"></i></span>
+                </ng-template>
+    </p-column>
+    <p-column field="companyName" header="Company Name" [editable]="true" [sortable]="true"></p-column>
+    <p-column field="buySell" header="Remarks" [editable]="true" [sortable]="true"></p-column>
+    <p-column field="price" header="Price" [editable]="true" [sortable]="true"></p-column>
+    
+    </p-dataTable>
+    <br/><br/>
+    <div style="padding-left:45%">
+    <button type="button" pButton icon="fa-file-o" iconPos="left" label="Save" (click)="saveWishList()" ></button> &nbsp;
+    <button  pButton type="button" (click)="addToWishList()"    icon="fa-plus"  label="Add"></button>&nbsp;
+    <button  pButton type="button" (click)="dg.exportCSV()"     icon="fa-external-link" label="CSV" iconPos="left" ></button>&nbsp;
+    <br/><br/><br/>
+     
+</div>
