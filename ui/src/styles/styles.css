@@ -248,13 +248,15 @@ nav {
  display:none;
  } 
  .ledgger-btns{
-  padding-left:45%;
+  padding-left:40%;
+  line-height:  50px;
+  display: flex;
  }
 @media screen and (max-width: 650px){
 
   .ledgger-btns{
-    line-height:  50px;
     padding-left:35%;
+    display: block;
    }
  .nav__item{
  	display: list-item;
