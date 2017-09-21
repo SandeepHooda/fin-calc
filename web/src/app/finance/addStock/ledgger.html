@@ -16,12 +16,14 @@
     </p-dataTable>
     <br/><br/>
     <div class="ledgger-btns">
-        <button type="button" pButton icon="fa-file-o" iconPos="left" label="Save" (click)="saveWishList()" ></button> &nbsp;
-    </div>
-    <div class="ledgger-btns">
-        <button  pButton type="button" (click)="addToWishList()"    icon="fa-plus"  label="Add"></button>&nbsp;
-    </div>
-    <div class="ledgger-btns">
-        <button  pButton type="button" (click)="dg.exportCSV()"     icon="fa-external-link" label="CSV" iconPos="left" ></button>&nbsp;
+        <div>
+            <button type="button" pButton icon="fa-file-o" iconPos="left" label="Save" (click)="saveWishList()" ></button> &nbsp;
+        </div>
+        <div>
+            <button  pButton type="button" (click)="addToWishList()"    icon="fa-plus"  label="Add"></button>&nbsp;
+        </div>
+        <div>
+            <button  pButton type="button" (click)="dg.exportCSV()"     icon="fa-external-link" label="CSV" iconPos="left" ></button>&nbsp;
+        </div>
     </div>
      
