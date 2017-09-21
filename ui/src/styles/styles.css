@@ -247,9 +247,15 @@ nav {
  .hamburger{
  display:none;
  } 
+ .ledgger-btns{
+  padding-left:45%;
+ }
 @media screen and (max-width: 650px){
 
-
+  .ledgger-btns{
+    line-height:  50px;
+    padding-left:35%;
+   }
  .nav__item{
  	display: list-item;
     border-bottom: 1px solid #E0E0E0;
