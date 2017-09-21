@@ -16,7 +16,7 @@
     <p-messages [(value)]="msgs"></p-messages> 
 <hr class="ui-widget-content" style="border-top:0">
 <div>Wish list</div>
-<p-dataTable [responsive]="true" #dt [value]="wishListEquity" [editable]="true"  [rows]="20" [paginator]="true">
+<p-dataTable [responsive]="true"  [value]="wishListEquity" [editable]="true"  [rows]="20" [paginator]="true">
         <p-column  [editable]="false" [sortable]="false" [style]="{'width':'50px'}">
                 <ng-template pTemplate="body" let-col let-profile="rowData">
                     <span  (click)="deleteFromWishList(profile.profileID)" ><i class="fa fa-trash-o" aria-hidden="true"></i></span>
@@ -33,7 +33,34 @@
     <button  pButton type="button" (click)="addToWishList()"    icon="fa-plus" label="Wish list"></button><br/><br/><br/>
     
     </div>
-<p-dataGrid [value]="allStocks" [paginator]="true" [rows]="50">
+    <div class="ui-helper-clearfix">
+        <button type="button" pButton icon="fa-file-o" iconPos="left" label="CSV" (click)="dg.exportCSV()" style="float:left"></button>
+    </div>
+    <div [hidden]="stepIndicator != 100">
+        <p-dataTable #dg  [value]="allStocks"   [rows]="1" [paginator]="true">
+        
+        <p-column field="companyName" header="Company Name" ></p-column>
+        <p-column field="companyTotalGain" header="Company Returns" ></p-column>
+        <p-column field="companyXirr" header="Company XIRR" ></p-column>
+        <p-column field="companyAbsoluteGainPercent" header="Company Absolute Returns" ></p-column>
+        <p-column field="companyCurrentValue" header="Company Current Value" ></p-column>
+        <p-column field="companyTotalInvestment" header="Company Total Investment" ></p-column>
+    
+        <p-column field="absoluteGain" header="Return " ></p-column>
+        <p-column field="xirr" header="XIRR" ></p-column>
+        <p-column field="percentGainAbsolute" header="Absolute Returns" ></p-column>
+        <p-column field="asOfDate" header="Time" ></p-column>
+        <p-column field="currentValue" header="Current value" ></p-column>
+        <p-column field="lastKnownPrice" header="Current price" ></p-column>
+        <p-column field="purchaseDateStr" header="Purchase Date" ></p-column>
+        <p-column field="investmentAmount" header="Amount" ></p-column>
+        <p-column field="purchaseQty" header="Units" ></p-column>
+        <p-column field="purchasePrice" header="Purchase price" ></p-column>
+       
+
+    </p-dataTable>
+    </div>
+<p-dataGrid  [value]="allStocks" [paginator]="true" [rows]="50">
     <p-header>
         <div class="grid-heder grid-heder-padding">
         <b>All Stocks's</b><br/>
