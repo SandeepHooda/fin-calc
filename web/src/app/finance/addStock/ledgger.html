@@ -26,4 +26,12 @@
             <button  pButton type="button" (click)="dg.exportCSV()"     icon="fa-external-link" label="CSV" iconPos="left" ></button>&nbsp;
         </div>
     </div>
+
+    <p-dialog header="Confirmation" [(visible)]="displayConfirmation_wishList" modal="modal" width="300" [responsive]="true">
+        <p>Are you sure you want to delete this from wish list?</p>
+            <p-footer>
+                <button type="button" pButton icon="fa-check" (click)="confirmDeleteFromWishList()" label="Yes"></button>
+                <button type="button" pButton icon="fa-close" (click)="displayConfirmation_wishList=false" label="No"></button>
+            </p-footer>
+    </p-dialog>
      

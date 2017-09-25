@@ -61,6 +61,8 @@ import com.xirr.XirrCalculatorService;
 public class ProfileService {
 	private static final Logger log = Logger.getLogger(ProfileService.class.getName());
 	private static SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy");
+	private static SimpleDateFormat sdfChartDate = new SimpleDateFormat("dd/MM/yy");
+	
 	public static SimpleDateFormat stockQuoteDateTime = new SimpleDateFormat("dd-MMM-yyyy h:m:s");
 	static {
 		stockQuoteDateTime.setTimeZone(TimeZone.getTimeZone("IST"));
@@ -1045,7 +1047,7 @@ private static boolean calculateMonthlyRollingReturn(List<NavVoUI> uiNAvs){
 			currentMarketList.add(currentMarketPrice);
 		}
 		CurrentPriceVO currentPriceVO = new CurrentPriceVO();
-		currentPriceVO.set_id(sdf.format(new Date()).substring(0,2));
+		currentPriceVO.set_id(sdfChartDate.format(new Date())/*.substring(0,2)*/);
 		
 		currentPriceVO.setCurrentPrices(currentMarketList);
 		
