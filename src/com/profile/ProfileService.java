@@ -1184,9 +1184,39 @@ private static boolean calculateMonthlyRollingReturn(List<NavVoUI> uiNAvs){
 			}.getType());
 		}
 
+		addMarketInfotoWishList(portfolio);
 		return portfolio;
 	}
 
+	private static void addMarketInfotoWishList(List<WishList> wishList){
+		if (null != wishList && wishList.size() > 0){
+			List<CurrentMarketPrice> marketRequest = new ArrayList<CurrentMarketPrice>();
+			for (WishList wish: wishList){
+				if (wish.getCompanyName() != null && wish.getCompanyName().length() >=7){
+					CurrentMarketPrice request = new CurrentMarketPrice();
+					String companyName = wish.getCompanyName();
+					companyName = companyName.trim();
+					request.setE(companyName.substring(0, 3));
+					request.setT(companyName.substring(companyName.indexOf(":")+1).trim());
+					wish.setTicker(request.getT());
+					marketRequest.add(request);
+				}
+			}
+			Map<String , CurrentMarketPrice> markerResponse = ProfileDAO.getCurrentMarkerPrice(marketRequest);
+			
+			for (WishList wish: wishList){
+				if (wish.getCompanyName() != null && wish.getCompanyName().length() >=7){
+					
+					wish.setCurrentMarketPrice(markerResponse.get(wish.getTicker()).getL_fix());
+					wish.setDifferencePercentage(( wish.getCurrentMarketPrice() - wish.getPrice())/wish.getPrice()*100);
+					if (wish.getBuySell().toUpperCase().trim().indexOf("BUY") >=0){
+						wish.setDifferencePercentage(wish.getDifferencePercentage() * -1);
+					}
+					
+				}
+			}
+		}
+	}
 	private static void calculateTotalGainForStock(StockPortfolio portfolio) throws ParseException {
 		double totalGain = 0;
 		Date today = new Date();

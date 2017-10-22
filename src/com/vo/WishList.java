@@ -2,7 +2,10 @@ package com.vo;
 
 public class WishList {
 	 private double  price;
+	 private double  currentMarketPrice;
+	 private double differencePercentage;
 private String companyName ;
+private String ticker;
 private String buySell ;
 private long profileID ;
 public double getPrice() {
@@ -28,5 +31,23 @@ public long getProfileID() {
 }
 public void setProfileID(long profileID) {
 	this.profileID = profileID;
+}
+public double getCurrentMarketPrice() {
+	return currentMarketPrice;
+}
+public void setCurrentMarketPrice(double currentMarketPrice) {
+	this.currentMarketPrice = currentMarketPrice;
+}
+public double getDifferencePercentage() {
+	return differencePercentage;
+}
+public void setDifferencePercentage(double differencePercentage) {
+	this.differencePercentage = differencePercentage;
+}
+public String getTicker() {
+	return ticker;
+}
+public void setTicker(String ticker) {
+	this.ticker = ticker;
 }
 }
