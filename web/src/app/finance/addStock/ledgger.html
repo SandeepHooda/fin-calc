@@ -14,7 +14,7 @@
     <p-column field="price" header="Price" [editable]="true" [sortable]="true"></p-column>
     <p-column field="currentMarketPrice" header="Current Price" [editable]="false" [sortable]="true">
         <ng-template let-col let-profile="rowData" let-ri="rowIndex" pTemplate="body">
-            <span [ngClass]="{'profitBack' : (profile[col.field] >=0) , 'lossBack' : (profile[col.field] < 0)}">{{profile[col.field] | number : '1.2-2'}}</span>
+            <span >{{profile[col.field] | number : '1.2-2'}}</span>
         </ng-template>
     </p-column>
     <p-column field="differencePercentage" header="Gap %" [editable]="false" [sortable]="true">
