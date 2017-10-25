@@ -1,5 +1,6 @@
 [
 { "isin" : "INE144J01027" , "series" : "EQ" , "companyName" :  "20 Microns Limited", "ticker" : "20MICRONS", "exchange" : "NSE"},
+{ "isin" : "INE481Y01014" , "series" : "EQ" , "companyName" :  "General Insurance Corporation of India", "ticker" : "GICRE", "exchange" : "NSE"},
 { "isin" : "INE748C01020" , "series" : "EQ" , "companyName" :  "3i Infotech Limited", "ticker" : "3IINFOTECH", "exchange" : "NSE"},
 { "isin" : "INE470A01017" , "series" : "EQ" , "companyName" :  "3M India Limited", "ticker" : "3MINDIA", "exchange" : "NSE"},
 { "isin" : "INE111B01023" , "series" : "EQ" , "companyName" :  "63 moons technologies limited", "ticker" : "63MOONS", "exchange" : "NSE"},
