@@ -51,7 +51,7 @@ export class PriceChart implements OnInit {
     private toggleInfo() {
         
         if ( this.msgs.length ==0){
-          this.msgs.push({severity:'info', summary:'Info: ', detail:"Analyze % shift in your portfolio."});
+          this.msgs.push({severity:'info', summary:'Info: ', detail:"Analyze % shift in all listed stocks."});
         }else {
           this.msgs = [];
         }
