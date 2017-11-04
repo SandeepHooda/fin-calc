@@ -8,6 +8,7 @@
     <span  class="info"><i class="fa fa-2x fa-info-circle"  aria-hidden="true" (click)="toggleInfo()"></i></span>
     <br/><br/>
     <p-messages [(value)]="msgs"></p-messages> 
+    <!--
     <div style="background-color: white">
         <div *ngIf="eqChart">
             <span>Equity chart</span>
@@ -18,5 +19,17 @@
             <p-chart type="line" [data]="mfChart" ></p-chart>
         </div>
     </div>     
-    
+-->
+
+<p-dataTable #dg [responsive]="true"  [value]="stockTrend"  [rows]="20" [paginator]="true">
+
+<p-column field="_id" header="Ticker" [sortable]="true"></p-column>
+<p-column field="xirr5" header="xirr5"  [sortable]="true"></p-column>
+<p-column field="xirr10" header="xirr10"  [sortable]="true"></p-column>
+<p-column field="xirr30" header="xirr30"  [sortable]="true"></p-column>
+<p-column field="xirr182" header="xirr182"  [sortable]="true"></p-column>
+<p-column field="xirr365" header="xirr365"  [sortable]="true"></p-column>
+
+
+</p-dataTable>
     </div>

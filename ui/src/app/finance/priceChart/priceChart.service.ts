@@ -6,11 +6,26 @@ import  'rxjs/add/operator/map';
 import {CurrentPriceVO} from './CurrentPriceVO';
 import { DOCUMENT } from '@angular/platform-browser';
 import {chartData} from '../addFund/chart/chartData';
+import {TickerDBData} from './TickerDBData';
+
 
 @Injectable()
 export class PriceChartService {
     private hostName : string;
     constructor (private http: Http, @Inject(DOCUMENT) document: any) {}
+    public getStocksTrend(force : boolean ) : Observable<Array<TickerDBData>>{
+      if (document.location.href.indexOf("localhost") > 0){
+        this.hostName = "http://localhost:8888"
+       }else {
+         this.hostName  = '';
+       }
+       let url = this.hostName+"/getStocksTrend";
+       if (force){
+         url += "?a="+Math.random();
+       }
+           return this.http.get(url).map(this.extractData)
+                            .catch(this.handleError);
+    }
     public getChartDataUIForMyProfile(force : boolean ) : Observable<Array<chartData>>{
         if (document.location.href.indexOf("localhost") > 0){
             this.hostName = "http://localhost:8888"

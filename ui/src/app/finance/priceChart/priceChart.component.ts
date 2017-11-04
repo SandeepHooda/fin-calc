@@ -5,6 +5,7 @@ import {ChartDataSets} from '../addFund/chart/ChartDataSets';
 import {PriceChartService} from  './priceChart.service'
 import {CurrentPriceVO} from './CurrentPriceVO';
 import {CurrentPrice} from './CurrentPrice';
+import {TickerDBData} from './TickerDBData';
 @Component({
  selector : 'price-chart', 
   templateUrl: './priceChart.component.html',
@@ -16,17 +17,26 @@ export class PriceChart implements OnInit {
     private msgs : Message[] = [];
     private eqChart: chartData = new chartData();
     private mfChart: chartData = new chartData();
+    private stockTrend :Array<TickerDBData> = [];
     
     constructor( private renderer: Renderer, private priceChartService : PriceChartService) {
    }
     ngOnInit(): void {
         this.renderer.setElementStyle(this.spinnerElement.nativeElement, 'display','block');
-        this.priceChartService.getChartDataUIForMyProfile(true).subscribe( 
+        /*this.priceChartService.getChartDataUIForMyProfile(true).subscribe( 
             charData => this.showChartDataUIForMyProfile(charData),
-                error => this.showError(error)); 
-          
+                error => this.showError(error)); */
+        this.priceChartService.getStocksTrend(true).subscribe( 
+             trend => this.showStockTrend(trend),
+                error => this.showError(error));
+                       
     }
 
+    private showStockTrend(trend :Array<TickerDBData>){
+        this.renderer.setElementStyle(this.spinnerElement.nativeElement, 'display','none');
+         this.stockTrend = trend;
+           
+    }
     private showChartDataUIForMyProfile(chartDataArray : Array<chartData>){
          this.renderer.setElementStyle(this.spinnerElement.nativeElement, 'display','none');
           

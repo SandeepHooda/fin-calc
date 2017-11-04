@@ -334,4 +334,14 @@
     <servlet-name>GetPortFolioPriceTrend</servlet-name>
     <url-pattern>/GetPortFolioPriceTrend</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>getStocksTrend</display-name>
+    <servlet-name>getStocksTrend</servlet-name>
+    <servlet-class>com.endpoint.getStocksTrend</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>getStocksTrend</servlet-name>
+    <url-pattern>/getStocksTrend</url-pattern>
+  </servlet-mapping>
 </web-app>
