@@ -20,7 +20,9 @@
         </div>
     </div>     
 -->
-
+<div class="ui-helper-clearfix">
+    <button type="button" pButton icon="fa-external-link" iconPos="left" label="CSV" (click)="dg.exportCSV()" style="float:right"></button>
+</div>
 <p-dataTable #dg [responsive]="true"  [value]="stockTrend"  [rows]="20" [paginator]="true">
 
 <p-column field="_id" header="Ticker" [sortable]="true"></p-column>
