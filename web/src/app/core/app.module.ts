@@ -41,6 +41,8 @@ import {AddStockDetails} from '../finance/addStock/addStockDetails/addStockDetai
 import {PriceChart} from '../finance/priceChart/priceChart.component';
 import {PriceChartService} from '../finance/priceChart/priceChart.service';
 import {Ledgger} from '../finance/addStock/ledgger'; 
+import {CorpAnalysis} from '../finance/corpAnalysis/CorpAnalysis.component'; 
+import {CorpAnalysisService} from '../finance/corpAnalysis/CorpAnalysis-service'; 
 @NgModule({
   imports: [
     BrowserModule,
@@ -60,11 +62,12 @@ import {Ledgger} from '../finance/addStock/ledgger';
   declarations: [
     XIRR,   NAVBAR,    AddCompany, Sip, AddFunds, AddProfile, AddFundsDetails, SipScheme, Chart, 
     Pension, PensionScheme, Loan , LoanScheme,Stock , SearchStock,AddStockDetails,PriceChart,
-    Ledgger
+    Ledgger,CorpAnalysis
   ],
   providers: [ XirrService , XirrRequest, FundService, SipService, NavService, schemeSipService, 
   ChartService, EventService,
-  PensionService,SchemePensionService, SchemeLoanService, LoanService, StockService,PriceChartService],
+  PensionService,SchemePensionService, SchemeLoanService, LoanService, StockService,PriceChartService,
+  CorpAnalysisService],
   bootstrap: [ XIRR ]
 })
 export class AppModule { }
