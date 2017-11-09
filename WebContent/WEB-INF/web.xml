@@ -344,4 +344,24 @@
     <servlet-name>getStocksTrend</servlet-name>
     <url-pattern>/getStocksTrend</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>getCorpAnalysis</display-name>
+    <servlet-name>getCorpAnalysis</servlet-name>
+    <servlet-class>com.corpAnalysis.getCorpAnalysis</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>getCorpAnalysis</servlet-name>
+    <url-pattern>/getCorpAnalysis</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>saveCorpAnalysis</display-name>
+    <servlet-name>saveCorpAnalysis</servlet-name>
+    <servlet-class>com.corpAnalysis.saveCorpAnalysis</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>saveCorpAnalysis</servlet-name>
+    <url-pattern>/saveCorpAnalysis</url-pattern>
+  </servlet-mapping>
 </web-app>
