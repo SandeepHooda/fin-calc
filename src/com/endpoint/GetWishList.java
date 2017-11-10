@@ -41,6 +41,7 @@ public class GetWishList extends HttpServlet {
 		
 		Gson  json = new Gson();
 		String wishListJson = json.toJson(wishList, new TypeToken<List<WishList>>() {}.getType());
+		response.addHeader("Cache-Control", "max-age=43200");//12 hours
 		response.getWriter().append(wishListJson);
 	}
 

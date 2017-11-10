@@ -28,6 +28,7 @@ public class getCorpAnalysis extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		String jsonStr = new ProfileDAO(). getArrayData("corp-analysis","corp-analysis", false, null,Constants.mlabKey );
+		response.addHeader("Cache-Control", "max-age=43200");//12 hours
 		response.getWriter().append(jsonStr);
 	}
 
