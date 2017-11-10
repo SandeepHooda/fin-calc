@@ -15,7 +15,7 @@
 <p-column field="totalDebt" header="totalDebt"  [sortable]="true" [style]="{'width':'150px'}"></p-column>
 <p-column field="debt_eq" header="debt_eq"  [sortable]="true" [style]="{'width':'150px'}">
     <ng-template let-col let-data="rowData" let-ri="rowIndex" pTemplate="body">
-        <span >{{data[col.field] | number : '1.2-2'}}</span> 
+        <span [ngClass]="{'profitBack' : false , 'lossBack' : true}">{{data[col.field] | number : '1.2-2'}}</span> 
          </ng-template> 
 </p-column>
 <p-column field="bookValue" header="bookValue"  [sortable]="true" [style]="{'width':'150px'}">
@@ -30,29 +30,29 @@
 </p-column>
 <p-column field="eps" header="eps"  [sortable]="true" [style]="{'width':'150px'}">
     <ng-template let-col let-data="rowData" let-ri="rowIndex" pTemplate="body">
-        <span >{{data[col.field] | number : '1.2-2'}}</span> 
+        <span [ngClass]="{'profitBack' : true , 'lossBack' : false}">{{data[col.field] | number : '1.2-2'}}</span> 
     </ng-template>
 </p-column>
 <p-column field="p_e" header="p_e"  [sortable]="true" [style]="{'width':'150px'}">
     <ng-template let-col let-data="rowData" let-ri="rowIndex" pTemplate="body">
-        <span >{{data[col.field] | number : '1.2-2'}}</span> 
+        <span [ngClass]="{'profitBack' : false , 'lossBack' : true}">{{data[col.field] | number : '1.2-2'}}</span> 
     </ng-template>
 </p-column>
 <p-column field="p_b" header="p_b"  [sortable]="p_b" [style]="{'width':'150px'}">
     <ng-template let-col let-data="rowData" let-ri="rowIndex" pTemplate="body">
-        <span >{{data[col.field] | number : '1.2-2'}}</span> 
+        <span [ngClass]="{'profitBack' : false , 'lossBack' : true}">{{data[col.field] | number : '1.2-2'}}</span> 
     </ng-template>
 </p-column>
 <p-column field="low52" header="low52"  [sortable]="true" [style]="{'width':'150px'}"></p-column>
 <p-column field="low52DifferencePercent" header="Jump %"  [sortable]="true" [style]="{'width':'150px'}">
     <ng-template let-col let-data="rowData" let-ri="rowIndex" pTemplate="body">
-        <span >{{data[col.field] | number : '1.2-2'}}</span> 
+        <span [ngClass]="{'profitBack' : false , 'lossBack' : true}" >{{data[col.field] | number : '1.2-2'}}</span> 
     </ng-template>
 </p-column>
 <p-column field="high52" header="high52"  [sortable]="true" [style]="{'width':'150px'}"></p-column>
 <p-column field="high52DifferencePercent" header="Fall %"  [sortable]="true" [style]="{'width':'150px'}">
     <ng-template let-col let-data="rowData" let-ri="rowIndex" pTemplate="body">
-        <span >{{data[col.field] | number : '1.2-2'}}</span> 
+        <span [ngClass]="{'profitBack' : true , 'lossBack' : false}">{{data[col.field] | number : '1.2-2'}}</span> 
     </ng-template>
 </p-column>
 <p-column field="netProfit1" header="netProfit1"  [sortable]="true" [style]="{'width':'150px'}"></p-column>
@@ -75,32 +75,32 @@
 </p-column>
 <p-column field="netProfit5" header="netProfit5"  [sortable]="true" [style]="{'width':'150px'}">
     <ng-template let-col let-data="rowData" let-ri="rowIndex" pTemplate="body">
-        <span >{{data[col.field] | number : '1.2-2'}}</span> 
+        <span [ngClass]="{'profitBack' : true , 'lossBack' : false}">{{data[col.field] | number : '1.2-2'}}</span> 
     </ng-template>
 </p-column>
 <p-column field="growthRate1" header="growthRate1"  [sortable]="true" [style]="{'width':'150px'}">
     <ng-template let-col let-data="rowData" let-ri="rowIndex" pTemplate="body">
-        <span >{{data[col.field] | number : '1.2-2'}}</span> 
+        <span [ngClass]="{'profitBack' : true , 'lossBack' : false}">{{data[col.field] | number : '1.2-2'}}</span> 
     </ng-template>
 </p-column>
 <p-column field="growthRate2" header="growthRate2"  [sortable]="true" [style]="{'width':'150px'}">
     <ng-template let-col let-data="rowData" let-ri="rowIndex" pTemplate="body">
-        <span >{{data[col.field] | number : '1.2-2'}}</span> 
+        <span [ngClass]="{'profitBack' : true , 'lossBack' : false}">{{data[col.field] | number : '1.2-2'}}</span> 
     </ng-template>
 </p-column>
 <p-column field="growthRate3" header="growthRate3"  [sortable]="true" [style]="{'width':'150px'}">
     <ng-template let-col let-data="rowData" let-ri="rowIndex" pTemplate="body">
-        <span >{{data[col.field] | number : '1.2-2'}}</span> 
+        <span [ngClass]="{'profitBack' : true , 'lossBack' : false}">{{data[col.field] | number : '1.2-2'}}</span> 
     </ng-template>
 </p-column>
 <p-column field="growthRate4" header="growthRate4"  [sortable]="true" [style]="{'width':'150px'}">
     <ng-template let-col let-data="rowData" let-ri="rowIndex" pTemplate="body">
-        <span >{{data[col.field] | number : '1.2-2'}}</span> 
+        <span [ngClass]="{'profitBack' : true , 'lossBack' : false}">{{data[col.field] | number : '1.2-2'}}</span> 
     </ng-template>
 </p-column>
 <p-column field="p_e_g" header="p_e_g"  [sortable]="true" [style]="{'width':'150px'}">
     <ng-template let-col let-data="rowData" let-ri="rowIndex" pTemplate="body">
-        <span >{{data[col.field] | number : '1.2-2'}}</span> 
+        <span [ngClass]="{'profitBack' : false , 'lossBack' : true}">{{data[col.field] | number : '1.2-2'}}</span> 
     </ng-template>
 </p-column>
 <p-column field="profit_Equity" header="profit_Equity"  [sortable]="true" [style]="{'width':'150px'}">
@@ -110,21 +110,25 @@
 </p-column>
 <p-column field="price_profit" header="price_profit"  [sortable]="true" [style]="{'width':'150px'}">
     <ng-template let-col let-data="rowData" let-ri="rowIndex" pTemplate="body">
-        <span >{{data[col.field] | number : '1.2-2'}}</span> 
+        <span [ngClass]="{'profitBack' : false , 'lossBack' : true}">{{data[col.field] | number : '1.2-2'}}</span> 
     </ng-template>
 </p-column>
 <p-column field="currentAssets" header="currentAssets"  [sortable]="true" [style]="{'width':'150px'}"></p-column>
 <p-column field="currentLiabilities" header="currentLiabilities"  [sortable]="true" [style]="{'width':'150px'}"></p-column>
 <p-column field="asset_Liabilities" header="asset_Liabilities"  [sortable]="true" [style]="{'width':'150px'}">
     <ng-template let-col let-data="rowData" let-ri="rowIndex" pTemplate="body">
-        <span >{{data[col.field] | number : '1.2-2'}}</span> 
+        <span [ngClass]="{'profitBack' : true , 'lossBack' : false}" >{{data[col.field] | number : '1.2-2'}}</span> 
     </ng-template>
 </p-column>
 
-<p-column field="netBlock" header="netBlock"  [sortable]="true" [style]="{'width':'150px'}"></p-column>
+<p-column field="netBlock" header="netBlock"  [sortable]="true" [style]="{'width':'150px'}">
+    <ng-template let-col let-data="rowData" let-ri="rowIndex" pTemplate="body">
+        <span [ngClass]="{'profitBack' : true , 'lossBack' : false}" >{{data[col.field] | number : '1.2-2'}}</span> 
+    </ng-template>
+</p-column>
 <p-column field="profit_sales" header="profit_sales"  [sortable]="true" [style]="{'width':'150px'}">
     <ng-template let-col let-data="rowData" let-ri="rowIndex" pTemplate="body">
-        <span >{{data[col.field] | number : '1.2-2'}}</span> 
+        <span [ngClass]="{'profitBack' : true , 'lossBack' : false}" >{{data[col.field] | number : '1.2-2'}}</span> 
     </ng-template>
 </p-column>
 
