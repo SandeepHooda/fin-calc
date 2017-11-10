@@ -261,11 +261,17 @@ nav {
   line-height:  50px;
   display: flex;
  }
+ .mobile-hide{
+  display: block !important;
+ }
 @media screen and (max-width: 650px){
 
   .ledgger-btns{
     padding-left:35%;
     display: block;
+   }
+   .mobile-hide{
+    display: none !important;
    }
  .nav__item{
  	display: list-item;
