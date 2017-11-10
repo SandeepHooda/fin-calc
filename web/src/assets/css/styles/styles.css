@@ -162,6 +162,15 @@ body {
   margin: 1em;
   
 }
+.positive-col {
+  background-color: green;
+  width: 150px;
+}
+.negative-col {
+  background-color: red;
+  width: 150px;
+}
+
 .profit {
   color: green;
 }
