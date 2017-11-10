@@ -20,8 +20,20 @@ public class getStocksTrend extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		response.getWriter().append(ProfileDAO.getArrayData("nse-tickers-xirr","nse-tickers-xirr", false,null,Constants.mlabKey));
+		String completeData = null;
+		for(int i=10; i<=100;i+=10){
+			String data =  ProfileDAO.getArrayData("nse-tickers-xirr","nse-tickers-xirr"+i, false,null,Constants.mlabKey);
+			data = data.substring(1);
+			data = data.substring(0,data.length()-1);
+			if (null != completeData){
+				completeData += "," +data;
+			}else {
+				completeData = data;
+			}
+			
+		}
+		response.addHeader("Cache-Control", "max-age=43200");//12 hours
+		response.getWriter().append("["+completeData+"]");
 	}
 
 	

@@ -26,7 +26,7 @@ export class PriceChart implements OnInit {
         /*this.priceChartService.getChartDataUIForMyProfile(true).subscribe( 
             charData => this.showChartDataUIForMyProfile(charData),
                 error => this.showError(error)); */
-        this.priceChartService.getStocksTrend(true).subscribe( 
+        this.priceChartService.getStocksTrend(false).subscribe( 
              trend => this.showStockTrend(trend),
                 error => this.showError(error));
                        
