@@ -26,6 +26,12 @@
 <p-dataTable #dg [responsive]="true"  [value]="stockTrend"  [rows]="20" [paginator]="true">
 
 <p-column field="_id" header="Ticker" [sortable]="true"></p-column>
+
+<p-column field="currentMarketPrice" header="Price"  [sortable]="true">
+    <ng-template let-col let-data="rowData" let-ri="rowIndex" pTemplate="body">
+        <span >{{data[col.field] | number : '1.2-2'}}</span> 
+    </ng-template>
+</p-column>
 <p-column field="xirr5" header="xirr5"  [sortable]="true"></p-column>
 <p-column field="xirr10" header="xirr10"  [sortable]="true"></p-column>
 <p-column field="xirr30" header="xirr30"  [sortable]="true"></p-column>

@@ -4,6 +4,7 @@ export class StockAnalysisVO {
     public category : string  ;
 	
 	public  currentMarketPrice : number ;
+	public  marketCap : number ;
 	public  salesTurnOver : number ;
     public  netProfit1 : number;
     public netProfit2 : number; 

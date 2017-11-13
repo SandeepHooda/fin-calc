@@ -5,12 +5,25 @@
 <div class="ui-helper-clearfix">
     <button type="button" pButton icon="fa-external-link" iconPos="left" label="CSV" (click)="dg.exportCSV()" style="float:right"></button>
 </div>
-<p-dataTable #dg [responsive]="true"  [value]="corpAnalysis"  [rows]="20" [paginator]="true">
+<p-dataTable #dg [responsive]="true"  [value]="corpAnalysis"  [rows]="20" [paginator]="true" selectionMode="multiple">
 
 <p-column field="_id" header="Name" [sortable]="true" [style]="{'width':'300px'}" ></p-column>
-<p-column field="currentMarketPrice" header="CMP"  [sortable]="true"  [style]="{'width':'150px'}"></p-column>
+<p-column field="marketCap" header="marketCap"  [sortable]="true" [style]="{'width':'150px'}">
+    <ng-template let-col let-data="rowData" let-ri="rowIndex" pTemplate="body">
+        <span >{{data[col.field] | number : '1.2-2'}}</span> 
+    </ng-template> 
+</p-column>
+<p-column field="currentMarketPrice" header="CMP"  [sortable]="true"  [style]="{'width':'150px'}">
+    <ng-template let-col let-data="rowData" let-ri="rowIndex" pTemplate="body">
+        <span >{{data[col.field] | number : '1.2-2'}}</span> 
+    </ng-template>
+</p-column>
 <p-column field="promotoresShare" header="promotoresShare"  [sortable]="true" [style]="{'width':'150px'}"></p-column>
-<p-column field="salesTurnOver" header="salesTurnOver"  [sortable]="true" [style]="{'width':'150px'}"></p-column>
+<p-column field="salesTurnOver" header="salesTurnOver"  [sortable]="true" [style]="{'width':'150px'}">
+    <ng-template let-col let-data="rowData" let-ri="rowIndex" pTemplate="body">
+        <span >{{data[col.field] | number : '1.2-2'}}</span> 
+    </ng-template>
+</p-column>
 <p-column field="totalStockHoldersFund" header="EQ Fund"  [sortable]="true" [style]="{'width':'150px'}"></p-column>
 <p-column field="totalDebt" header="totalDebt"  [sortable]="true" [style]="{'width':'150px'}"></p-column>
 <p-column field="debt_eq" header="debt_eq"  [sortable]="true" styleClass="negative-col">
