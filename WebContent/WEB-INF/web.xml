@@ -364,4 +364,14 @@
     <servlet-name>saveCorpAnalysis</servlet-name>
     <url-pattern>/saveCorpAnalysis</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>HotStock</display-name>
+    <servlet-name>HotStock</servlet-name>
+    <servlet-class>com.hotStocks.HotStock</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>HotStock</servlet-name>
+    <url-pattern>/HotStock</url-pattern>
+  </servlet-mapping>
 </web-app>
