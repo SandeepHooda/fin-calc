@@ -48,10 +48,10 @@ public class HotStock extends HttpServlet {
 		    		hotstockDailyList.add(hotStockDaily);
 		    	}
 		    }
-		    for (int i=hotstockDailyList.size() -1;i>=0;i++){
+		    for (int i=hotstockDailyList.size() -1;i>=0;i--){
 		    	hotstockDailyListReverse.add(hotstockDailyList.get(i));
 		    }
-		    completeData = json.toJson(hotstockDailyList, new TypeToken<List<HotStockDailyVO>>() {}.getType());
+		    completeData = json.toJson(hotstockDailyListReverse, new TypeToken<List<HotStockDailyVO>>() {}.getType());
 		response.addHeader("Cache-Control", "max-age=43200");//12 hours
 		response.getWriter().append(completeData);
 	}
