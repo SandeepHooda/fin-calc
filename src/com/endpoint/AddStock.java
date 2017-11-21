@@ -47,7 +47,7 @@ public class AddStock extends HttpServlet {
 		data = data.replace("{  \"selectedStock\":", "").trim();
 		data = data.substring(0, data.length()-1);
 		Gson  json = new Gson();
-		StockVO  selectedStock= json.fromJson(data, StockVO.class);
+		StockVO selectedStock = json.fromJson(data, StockVO.class);
 		log.info("parsed to java object"+selectedStock);
 		ProfileService.addStockToPortfolio(email, selectedStock);
 		response.getWriter().append("{\"data\":\"SUCCESS\"}");

@@ -1,0 +1,23 @@
+
+<p-messages [(value)]="msgs"></p-messages> 
+<hr/>
+{{httpError}}
+<div class="ui-helper-clearfix">
+    <button type="button" pButton icon="fa-external-link" iconPos="left" label="CSV" (click)="dg.exportCSV()" style="float:right"></button>
+</div>
+<p-dataTable #dg [responsive]="true" rowGroupMode="subheader" groupField="dateStr" 
+[value]="hotStocks"  [rows]="200" [paginator]="true" selectionMode="multiple" 
+[rowStyleClass]="lookupRowStyleClass">
+
+    <ng-template pTemplate="rowgroupheader" let-rowData>{{rowData['dateStr']}}</ng-template>
+    <p-column field="script" header="Symbol" sortable="true">  </p-column>
+    <p-column field="exchange" header="Exchange" sortable="true"></p-column>
+    <p-column field="reason" header="Reason" sortable="true"></p-column>
+    <p-column field="cmp" header="cmp" sortable="true"></p-column>
+    <p-column field="cmpPercentChange" header="Cmp % Change" sortable="true"></p-column>
+    <p-column field="tradeType" header="Trade Type" sortable="true"></p-column> 
+    <p-column field="qtyTraded" header="Qty" sortable="true"></p-column>
+    <p-column field="investorName" header="Investor" sortable="true"></p-column>
+    <p-column field="isHighProfile" header="High Pofile" sortable="true"></p-column>
+    <p-column field="dateStr" header="Txn Date" sortable="true"></p-column>
+</p-dataTable>

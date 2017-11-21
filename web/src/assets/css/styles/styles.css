@@ -185,6 +185,14 @@ body {
   background-color :red;
   color: white;
 }
+.greenRow {
+  background-color :green !important;
+  color: white;
+}
+.redRow {
+  background-color :red !important;
+  color: white;
+}
 .error {
   color :red;
 }
@@ -237,7 +245,7 @@ ul {
 .nav__item {
   box-sizing: border-box;
   display: inline-block;
-  width: 12%;
+  width: 10%;
   text-align: center;
   line-height: 24px;
 

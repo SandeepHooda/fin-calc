@@ -44,7 +44,7 @@ String email = (String)request.getSession().getAttribute("email");
 		 Gson gson =builder	.create();
 		String portfolioStr = gson.toJson(portfolio, StockPortfolio.class);
 		portfolioStr = portfolioStr.replaceAll("NaN", "0.0");
-		
+		response.addHeader("Cache-Control", "max-age=900");//15 minutes
 		response.getWriter().append(portfolioStr);
 	}
 

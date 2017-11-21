@@ -43,6 +43,8 @@ import {PriceChartService} from '../finance/priceChart/priceChart.service';
 import {Ledgger} from '../finance/addStock/ledgger'; 
 import {CorpAnalysis} from '../finance/corpAnalysis/CorpAnalysis.component'; 
 import {CorpAnalysisService} from '../finance/corpAnalysis/CorpAnalysis-service'; 
+import {HotStockSrv} from '../finance/hotStock/HotStock-service'; 
+import {HotStock} from '../finance/hotStock/HotStock.component'; 
 @NgModule({
   imports: [
     BrowserModule,
@@ -62,12 +64,12 @@ import {CorpAnalysisService} from '../finance/corpAnalysis/CorpAnalysis-service'
   declarations: [
     XIRR,   NAVBAR,    AddCompany, Sip, AddFunds, AddProfile, AddFundsDetails, SipScheme, Chart, 
     Pension, PensionScheme, Loan , LoanScheme,Stock , SearchStock,AddStockDetails,PriceChart,
-    Ledgger,CorpAnalysis
+    Ledgger,CorpAnalysis,HotStock
   ],
   providers: [ XirrService , XirrRequest, FundService, SipService, NavService, schemeSipService, 
   ChartService, EventService,
   PensionService,SchemePensionService, SchemeLoanService, LoanService, StockService,PriceChartService,
-  CorpAnalysisService],
+  CorpAnalysisService,HotStockSrv],
   bootstrap: [ XIRR ]
 })
 export class AppModule { }
