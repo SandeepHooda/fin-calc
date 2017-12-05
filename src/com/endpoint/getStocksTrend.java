@@ -32,7 +32,7 @@ public class getStocksTrend extends HttpServlet {
 			}
 			
 		}
-		response.addHeader("Cache-Control", "max-age=43200");//12 hours
+		response.addHeader("Cache-Control", "max-age=3600");//1 hours
 		response.getWriter().append("["+completeData+"]");
 	}
 

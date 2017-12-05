@@ -374,4 +374,14 @@
     <servlet-name>HotStock</servlet-name>
     <url-pattern>/HotStock</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>PriceChart</display-name>
+    <servlet-name>PriceChart</servlet-name>
+    <servlet-class>com.PriceChart.PriceChart</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>PriceChart</servlet-name>
+    <url-pattern>/PriceChart</url-pattern>
+  </servlet-mapping>
 </web-app>

@@ -21,7 +21,7 @@
 <!-- Section 2 navigation --> 
 
 
-<div *ngIf="signedInUser">
+<div *ngIf="signedInUser || noAuthState ">
 
 <a href="#Header" class="link-to-top" style="color:white">&#x2191; Top</a>
  <nav-bar></nav-bar>

@@ -16,7 +16,7 @@ export class SearchStock  implements OnInit{
   allListedStocksNSE : SelectItem[];
   @Input()
   allListedStocksBSE : SelectItem[];
-  private nseExchange : boolean = false;
+  private nseExchange : boolean = true;
   @Output() onStockSelect :EventEmitter<StockVO> = new EventEmitter();
     private selectedStock : StockVO;
    

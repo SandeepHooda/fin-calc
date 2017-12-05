@@ -130,7 +130,27 @@ public class ProfileDAO {
 		
 		
 	}
-	
+	public static String getADocument(String dbName, String collection,  String documentKey,String mlabApiKey){
+		String httpsURL = "https://api.mlab.com/api/1/databases/"+dbName+"/collections/"+collection+"?apiKey="+mlabApiKey+"&q={\"_id\":\""+documentKey+"\"}";
+		
+		String data = "";
+		 try {
+			
+		        URL url = new URL(httpsURL);
+	            HTTPRequest req = new HTTPRequest(url, HTTPMethod.GET, lFetchOptions);
+	            HTTPResponse res = fetcher.fetch(req);
+	            data =(new String(res.getContent()));
+	            
+	        } catch (Exception e) {
+	        	e.printStackTrace();
+	        	data = "[ { \"_id\" : \"ALCHEM\" , \"xirr5\" : 0.0 , \"xirr10\" : 0.0 , \"xirr30\" : 0.0 , \"xirr182\" : 0.0 , \"xirr365\" : 0.0 , \"currentMarketPrice\" : 14.7 , \"stockPriceList\" : [ { \"price\" : 14.7 , \"date\" : 20171205} , { \"price\" : 15.3 , \"date\" : 20171204} , { \"price\" : 15.3 , \"date\" : 20171202}]} ]";
+	        }
+		
+		 
+		
+		 return data;
+		
+	}
 	public static String getArrayData (String dbName, String collection, boolean suppressDefaultKey, String datakey, String mlabApiKey){
 		String httpsURL = "https://api.mlab.com/api/1/databases/"+dbName+"/collections/"+collection+"?apiKey="+mlabApiKey;
 		if (datakey != null && datakey.trim().length() > 0){

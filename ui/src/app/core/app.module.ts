@@ -45,6 +45,8 @@ import {CorpAnalysis} from '../finance/corpAnalysis/CorpAnalysis.component';
 import {CorpAnalysisService} from '../finance/corpAnalysis/CorpAnalysis-service'; 
 import {HotStockSrv} from '../finance/hotStock/HotStock-service'; 
 import {HotStock} from '../finance/hotStock/HotStock.component'; 
+import {Charts} from '../finance/Charts/Charts.component'; 
+import {ChartsService} from '../finance/Charts/Charts-service'; 
 @NgModule({
   imports: [
     BrowserModule,
@@ -64,10 +66,10 @@ import {HotStock} from '../finance/hotStock/HotStock.component';
   declarations: [
     XIRR,   NAVBAR,    AddCompany, Sip, AddFunds, AddProfile, AddFundsDetails, SipScheme, Chart, 
     Pension, PensionScheme, Loan , LoanScheme,Stock , SearchStock,AddStockDetails,PriceChart,
-    Ledgger,CorpAnalysis,HotStock
+    Ledgger,CorpAnalysis,HotStock,Charts
   ],
   providers: [ XirrService , XirrRequest, FundService, SipService, NavService, schemeSipService, 
-  ChartService, EventService,
+  ChartService, EventService,ChartsService,
   PensionService,SchemePensionService, SchemeLoanService, LoanService, StockService,PriceChartService,
   CorpAnalysisService,HotStockSrv],
   bootstrap: [ XIRR ]

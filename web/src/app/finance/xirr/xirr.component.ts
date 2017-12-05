@@ -12,6 +12,7 @@ import {Router} from '@angular/router';
 })
 export class XIRR implements OnInit {
 private signedInUser:string ;
+private noAuthState : boolean;
 private signedInUserEmail:string ;
 private showRefreshButton : boolean;
 
@@ -75,6 +76,11 @@ private refreshPage(){
         this.showRefreshButton = true;
       }else {
         this.showRefreshButton = false;
+      }
+      if (this.route.url === '/Charts'){
+        this.noAuthState = true;
+      }else {
+        this.noAuthState = false;
       }
        localStorage.setItem('mostRecentState', this.route.url);
    
