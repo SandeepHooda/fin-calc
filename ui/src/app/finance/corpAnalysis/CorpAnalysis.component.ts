@@ -4,6 +4,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {CorpAnalysisService} from './CorpAnalysis-service';
 import {Message} from 'primeng/primeng';
 import {StockAnalysisVO} from './StockAnalysisVO';
+
 @Component({
  selector : 'CorpAnalysis', 
   templateUrl: './CorpAnalysis.component.html',
@@ -16,7 +17,10 @@ export class CorpAnalysis implements OnInit {
   private idToBeDeleted : number;
   private httpError : string;
   private corpAnalysis : Array<StockAnalysisVO>;
- constructor( private service : CorpAnalysisService) {}
+  
+ constructor( private service : CorpAnalysisService) {
+  
+ }
 
   ngOnInit(): void {
     this.getAnalysis();

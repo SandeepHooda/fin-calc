@@ -9,14 +9,14 @@ import {PriceVO} from './PriceVO'
 @Injectable()
 export class ChartsService {
   private hostName:string = '';//'http://localhost:8888';
-  private url:string = this.hostName+'/getCorpAnalysis';
+  private url:string = this.hostName+'/PriceChart';
  
 
      constructor (private http: Http) {}
 
 
-     getChartsData() :Observable<Array<PriceVO>> {
-   return this.http.get(this.url).map(this.extractResult).catch(this.handleError);
+     getChartsData(maxDays : number) :Observable<Array<PriceVO>> {
+   return this.http.get(this.url+"?maxDays="+maxDays).map(this.extractResult).catch(this.handleError);
  }
  
 

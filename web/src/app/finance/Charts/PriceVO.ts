@@ -1,5 +1,7 @@
 
+import {DataSets} from './DataSets';
 export class PriceVO {
-    public  _id : string  ;
+    private labels : string[];
+	private datasets : DataSets[] ;
     
 }

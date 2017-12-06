@@ -2,4 +2,9 @@
 <p-messages [(value)]="msgs"></p-messages> 
 <hr/>
 {{httpError}}
-Charts here
+<div align="center">
+<p-dropdown  [options]="chartDays" [(ngModel)]="maxDays" (onChange)="dateRangeChanged()"></p-dropdown>
+</div>
+<div  *ngFor="let row of priceVO; index as i;first as isFirst;last as isLast"> 
+        <p-chart type="line" [data]="row" ></p-chart>
+</div>

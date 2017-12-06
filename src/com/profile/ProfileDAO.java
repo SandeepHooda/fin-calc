@@ -143,7 +143,8 @@ public class ProfileDAO {
 	            
 	        } catch (Exception e) {
 	        	e.printStackTrace();
-	        	data = "[ { \"_id\" : \"ALCHEM\" , \"xirr5\" : 0.0 , \"xirr10\" : 0.0 , \"xirr30\" : 0.0 , \"xirr182\" : 0.0 , \"xirr365\" : 0.0 , \"currentMarketPrice\" : 14.7 , \"stockPriceList\" : [ { \"price\" : 14.7 , \"date\" : 20171205} , { \"price\" : 15.3 , \"date\" : 20171204} , { \"price\" : 15.3 , \"date\" : 20171202}]} ]";
+	        	return null;
+	        	//data = "[ { \"_id\" : \"ALCHEM\" , \"xirr5\" : 0.0 , \"xirr10\" : 0.0 , \"xirr30\" : 0.0 , \"xirr182\" : 0.0 , \"xirr365\" : 0.0 , \"currentMarketPrice\" : 14.7 , \"stockPriceList\" : [ { \"price\" : 14.7 , \"date\" : 20171205} , { \"price\" : 15.3 , \"date\" : 20171204} , { \"price\" : 15.3 , \"date\" : 20171202}]} ]";
 	        }
 		
 		 
