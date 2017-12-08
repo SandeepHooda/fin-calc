@@ -35,9 +35,9 @@ export class Charts implements OnInit {
     {label:'365', value:365}
     ];
     this.top5 = [
-      {label:'All stocks', value:'All stocks'},
       {label:'Top 5 winners', value:'Top 5 winners'},
-      {label:'Top 5 loosers', value:'Top 5 loosers'}
+      {label:'Top 5 loosers', value:'Top 5 loosers'},
+      {label:'All stocks', value:'All stocks'}
       
       ];
  }
@@ -46,11 +46,25 @@ export class Charts implements OnInit {
     if (localStorage.getItem('maxDays')){
       this.maxDays = parseInt(localStorage.getItem('maxDays'));
     }
+    if (localStorage.getItem('top5Selection')){
+      this.top5Selection = localStorage.getItem('top5Selection');
+    }else {
+      this.top5Selection = 'Top 5 winners';
+    }
+    
     this.getChartsData(this.maxDays);
+
+    
   }
   private top5Changed(){
-    this.addToComparision()
-    if (this.comparisionData.datasets.length > 5){
+    
+    localStorage.setItem('top5Selection',''+this.top5Selection);
+    this.addToComparision();
+    this.filterBasedOnTop5Selection();
+  }
+  private filterBasedOnTop5Selection(){
+    
+    if ( this.comparisionData.datasets && this.comparisionData.datasets.length > 5){
       this.comparisionData.datasets.sort(
         function(a :any, b:any){
           return a.data[a.data.length-1]-b.data[b.data.length-1]
@@ -59,7 +73,7 @@ export class Charts implements OnInit {
         this.comparisionData.datasets= this.comparisionData.datasets.slice(0, 5);
       }else if (this.top5Selection == 'Top 5 winners'){
         let size = this.comparisionData.datasets.length;
-        this.comparisionData.datasets= this.comparisionData.datasets.slice(size-6, size);
+        this.comparisionData.datasets= this.comparisionData.datasets.slice(size-5, size);
       } 
     }
   }
@@ -79,15 +93,45 @@ this.priceVO = priceVO;
 this.tickers = [];
 for (let i=0;i<this.priceVO.length;i++){
   this.tickers.push({label: this.priceVO[i].datasets[0].label, value: this.priceVO[i].datasets[0].label});
-
+  this.selectedTickers.push(this.priceVO[i].datasets[0].label);
 }
 
+this.addAllStocksToComparision();
+this.filterBasedOnTop5Selection();
 }
 
 private clearSelectedTickers(){
   this.selectedTickers =[];
+  this.top5Changed();
 }
-private addToComparision(){
+private allAllToSelectedTickers(){
+  for (let i=0;i<this.priceVO.length;i++){
+    this.selectedTickers.push(this.priceVO[i].datasets[0].label);
+  }
+  this.top5Changed();
+ 
+}
+private addAllStocksToComparision(){
+  this.comparisionData = [];
+  let comparisionDatatemp : any = [];
+  //if (this.selectedTickers.indexOf(this.priceVO[i].datasets[0].label)>=0){
+   
+ 
+  for (let i=0;i<this.priceVO.length;i++){
+   
+      if (!comparisionDatatemp.labels){
+        comparisionDatatemp.labels = this.priceVO[i].labels.slice();
+        comparisionDatatemp.datasets = this.priceVO[i].datasets.slice();
+      }else {
+          comparisionDatatemp.datasets.push(this.priceVO[i].datasets[0]);
+     }
+   
+ 
+  }
+ 
+  this.comparisionData = comparisionDatatemp;
+}
+private addToComparision(){ 
   this.comparisionData = [];
   let comparisionDatatemp : any = [];
 
@@ -104,7 +148,7 @@ private addToComparision(){
   }
  
   this.comparisionData = comparisionDatatemp;
- 
+  this.filterBasedOnTop5Selection();
 }
 private showError(error:any) {
    
