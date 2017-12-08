@@ -99,6 +99,11 @@ public class PriceChart extends HttpServlet {
 		
 		List<StockPrice> stockPriceList = dbStockPrice.get(0).getStockPriceList();
 		int dbStockPriceSize  = stockPriceList.size();
+		if (dbStockPriceSize > maxDays){
+			 
+			stockPriceList = stockPriceList.subList(0,maxDays);
+		}
+		dbStockPriceSize = maxDays;
 		List<DataSets> dataSets = new ArrayList<DataSets>();
 		priceVO.setDatasets(dataSets);
 		DataSets dateSet = new DataSets();

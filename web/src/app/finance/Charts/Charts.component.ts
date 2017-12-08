@@ -16,9 +16,13 @@ export class Charts implements OnInit {
   private displayConfirmation : boolean;
   private priceVO : Array<PriceVO>;
   private httpError : string;
-  private data: any;
+  private comparisionData: any;
   private maxDays : number;
   private chartDays : SelectItem[] ;
+  private top5 : SelectItem[];
+  private tickers: SelectItem[] = [] ;
+  private selectedTickers: string[] = [];
+  private top5Selection : string;
 
  constructor( private service : ChartsService) {
   this.chartDays = [
@@ -30,6 +34,12 @@ export class Charts implements OnInit {
     {label:'180', value:180},
     {label:'365', value:365}
     ];
+    this.top5 = [
+      {label:'All stocks', value:'All stocks'},
+      {label:'Top 5 winners', value:'Top 5 winners'},
+      {label:'Top 5 loosers', value:'Top 5 loosers'}
+      
+      ];
  }
 
   ngOnInit(): void {
@@ -37,6 +47,21 @@ export class Charts implements OnInit {
       this.maxDays = parseInt(localStorage.getItem('maxDays'));
     }
     this.getChartsData(this.maxDays);
+  }
+  private top5Changed(){
+    this.addToComparision()
+    if (this.comparisionData.datasets.length > 5){
+      this.comparisionData.datasets.sort(
+        function(a :any, b:any){
+          return a.data[a.data.length-1]-b.data[b.data.length-1]
+        });
+      if (this.top5Selection == 'Top 5 loosers'){
+        this.comparisionData.datasets= this.comparisionData.datasets.slice(0, 5);
+      }else if (this.top5Selection == 'Top 5 winners'){
+        let size = this.comparisionData.datasets.length;
+        this.comparisionData.datasets= this.comparisionData.datasets.slice(size-6, size);
+      } 
+    }
   }
 private dateRangeChanged(){
   localStorage.setItem('maxDays',''+this.maxDays);
@@ -51,7 +76,35 @@ private getChartsData(maxDays : number) {
 
 private showChart(priceVO:Array<PriceVO>){
 this.priceVO = priceVO;
-this.data = priceVO[0];
+this.tickers = [];
+for (let i=0;i<this.priceVO.length;i++){
+  this.tickers.push({label: this.priceVO[i].datasets[0].label, value: this.priceVO[i].datasets[0].label});
+
+}
+
+}
+
+private clearSelectedTickers(){
+  this.selectedTickers =[];
+}
+private addToComparision(){
+  this.comparisionData = [];
+  let comparisionDatatemp : any = [];
+
+  for (let i=0;i<this.priceVO.length;i++){
+    if (this.selectedTickers.indexOf(this.priceVO[i].datasets[0].label)>=0){
+      if (!comparisionDatatemp.labels){
+        comparisionDatatemp.labels = this.priceVO[i].labels.slice();
+        comparisionDatatemp.datasets = this.priceVO[i].datasets.slice();
+      }else {
+          comparisionDatatemp.datasets.push(this.priceVO[i].datasets[0]);
+     }
+    }
+ 
+  }
+ 
+  this.comparisionData = comparisionDatatemp;
+ 
 }
 private showError(error:any) {
    
