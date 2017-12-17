@@ -8,15 +8,22 @@ import {StockAnalysisVO} from './StockAnalysisVO';
 
 @Injectable()
 export class CorpAnalysisService {
-  private hostName:string = 'http://localhost:8888';
-  private url:string = this.hostName+'/getCorpAnalysis';
+  private hostName:string = ''//'http://localhost:8888';
+  
  
 
-     constructor (private http: Http) {}
+     constructor (private http: Http) {
+      if (document.location.href.indexOf("localhost") > 0){
+        this.hostName = "http://localhost:8888"
+       }else {
+         this.hostName  = '';
+       }
+     }
 
  
      getAnalysis() :Observable<Array<StockAnalysisVO>> {
-   return this.http.get(this.url).map(this.extractResult).catch(this.handleError);
+     let url:string = this.hostName+'/getCorpAnalysis';
+   return this.http.get(url).map(this.extractResult).catch(this.handleError);
  }
 
  
