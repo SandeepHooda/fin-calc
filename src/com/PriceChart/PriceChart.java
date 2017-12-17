@@ -46,6 +46,10 @@ public class PriceChart extends HttpServlet {
 		dbDataJson =  ProfileDAO.getADocument("nse-tickers-xirr","nse-tickers-xirr10","ALPHAGEO",Constants.mlabKey);
 		if (null != dbDataJson) priceVOList.add(polulatePriceVO(dbDataJson,maxDays,"ALPHAGEO", "#cbc0c0"));
 		
+		dbDataJson =  ProfileDAO.getADocument("nse-tickers-xirr","nse-tickers-xirr20","APLAPOLLO",Constants.mlabKey);
+		if (null != dbDataJson) priceVOList.add(polulatePriceVO(dbDataJson,maxDays,"APLAPOLLO", "#cb5040"));
+		
+		
 		dbDataJson =  ProfileDAO.getADocument("nse-tickers-xirr","nse-tickers-xirr20","ASHOKLEY",Constants.mlabKey);
 		if (null != dbDataJson) priceVOList.add(polulatePriceVO(dbDataJson,maxDays,"ASHOKLEY", "#800080"));
 		

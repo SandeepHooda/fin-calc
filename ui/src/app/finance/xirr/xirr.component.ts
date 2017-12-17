@@ -77,7 +77,8 @@ private refreshPage(){
       }else {
         this.showRefreshButton = false;
       }
-      if (this.route.url === '/Charts'){
+      if (this.route.url === '/Charts' || this.route.url === '/HotStock' 
+      || this.route.url === '/Analytics'|| this.route.url === '/CorpAnalysis'){
         this.noAuthState = true;
       }else {
         this.noAuthState = false;

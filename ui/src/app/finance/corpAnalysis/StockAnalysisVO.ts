@@ -1,43 +1,31 @@
 
 export class StockAnalysisVO {
-    public  _id : string  ;
-    public category : string  ;
+	public _id : string;
+	public category : string;
+	public  maxCaptureYear : number ;
+	public  companyName : string;
+	public  companyCode : string;
+	public moneyControlResources : string[] ;
+	public  borderColor : string;
+	public  fill : boolean= false;
+	/**
+	 * For a good company -
+	 * 	Revenue should increase yearly bases - if revenue decreases it means company is no more growing. it is stagnent
+	 *  Profit should also increase - if revenue increases but profit decreases it means that cost has increases
+	 *  Profit margin - if revenue increases numbers and profit increases more than number than it means profitability of company (i.e. PBDITMargin) is increasing
+	 */
+	public  revenueOperationPerShare : number[];//it is Sales not income (Income = Sales - Cost)
+	public  PBDITPerShare : number[];//Profit before depriciations ,intrest  & taxes
+	public  PBDITMargin : number[];// =(profit/revenue) @@@@@@@@@ profitability
 	
-	public  currentMarketPrice : number ;
-	public  marketCap : number ;
-	public  salesTurnOver : number ;
-    public  netProfit1 : number;
-    public netProfit2 : number; 
-    public netProfit3 : number; 
-    public netProfit4 : number;
-    public netProfit5 : number ;
-	public  totalStockHoldersFund : number ;
-	public  totalDebt : number ;
-	public  bookValue : number ;
-	public  pe : number ;
-	public  eps : number ;
-	public  high52 : number ;
-	public  low52 : number ;
-	public  currentAssets : number ;
-	public  currentLiabilities : number ;
-	public  netBlock : number ;
+	public  revenueOperationPerShareYOY  : number[];
+	public  PBDITPerShareYOY : number[];
+	public  PBDITMarginYOY  : number[];
 	
-	//calculated
-	public  debt_eq : number ;
-	public  p_e : number ;
-	public  p_b : number ;
-	public  low52DifferencePercent : number ;
-	public  high52DifferencePercent : number ;
-    public  growthRate1 : number;
-    public growthRate2 : number;
-    public growthRate3 : number;
-    public  growthRate4 : number ;
-	public  p_e_g : number ;
-	public  profit_Equity : number ;
-	public  price_profit : number ;
-	public  asset_Liabilities : number ;
-	public  profit_sales : number ;
-	
-	public  promotoresShare : number ;
-	public  preference : number ;
+	public  quaterlyRevenueOp  : number[];
+	public  quaterlyPBDIT : number[] ;
+	public  quaterlyPBDITMargin  : number[];
+	public  quaterlyRevenueOpQoQ  : number[];
+	public  quaterlyPBDITQoQ  : number[];
+	public  quaterlyPBDITMarginQoQ  : number[];
 }

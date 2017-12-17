@@ -8,7 +8,7 @@ import {StockAnalysisVO} from './StockAnalysisVO';
 
 @Injectable()
 export class CorpAnalysisService {
-  private hostName:string = '';//'http://localhost:8888';
+  private hostName:string = 'http://localhost:8888';
   private url:string = this.hostName+'/getCorpAnalysis';
  
 
@@ -19,14 +19,7 @@ export class CorpAnalysisService {
    return this.http.get(this.url).map(this.extractResult).catch(this.handleError);
  }
 
- /*saveSipList( sipList : Array<SipSchemeVO>) :Observable<string> {
-   console.log(" calling post method");
-   var headers = new Headers({ 'Content-Type': 'application/json' });
-  var options = new RequestOptions({ headers: headers });
-    return this.http.post(this.saveSipListUrl, { sipList }, options)
-                    .map(this.extractJsonData)
-                    .catch(this.handleError);
- }*/
+ 
   
   private extractJsonData(res: Response) {
     let body = res.status;
