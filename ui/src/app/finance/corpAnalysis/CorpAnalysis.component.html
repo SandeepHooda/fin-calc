@@ -2,6 +2,11 @@
 <p-messages [(value)]="msgs"></p-messages> 
 <hr/>
 {{httpError}}
+<div align="center">
+ Max years:   <p-dropdown  [options]="maxYearsArray" [(ngModel)]="maxYears" (onChange)="maxYearsChanged()"></p-dropdown>
+<p-dropdown  [options]="top10" [(ngModel)]="top10Selection" (onChange)="top10Changed()"></p-dropdown>
+</div>
+<br/><br/><br/>
 Profitability (profit/revenue)<br/>
 <p-chart type="line" [data]="profitiablityChart" ></p-chart>
 <br/><br/><br/>

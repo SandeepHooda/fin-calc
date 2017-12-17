@@ -21,8 +21,8 @@ export class CorpAnalysisService {
      }
 
  
-     getAnalysis() :Observable<Array<StockAnalysisVO>> {
-     let url:string = this.hostName+'/getCorpAnalysis';
+     getAnalysis(maxYears: number) :Observable<Array<StockAnalysisVO>> {
+     let url:string = this.hostName+'/getCorpAnalysis?maxYears='+maxYears;
    return this.http.get(url).map(this.extractResult).catch(this.handleError);
  }
 
