@@ -29,10 +29,23 @@ public class ProfileDAO {
 	private static FetchOptions lFetchOptions = FetchOptions.Builder.doNotValidateCertificate().setDeadline(300d);
 	private static URLFetchService fetcher = URLFetchServiceFactory.getURLFetchService();
 	final static Pattern nse_pattern = Pattern.compile("\"lastPrice\":\"(.+?)\",");
+	
+	final static Pattern nse_pattern_previousClose = Pattern.compile("\"previousClose\":\"(.+?)\",");
+	final static Pattern nse_pattern_totalTradedVolume = Pattern.compile("\"totalTradedVolume\":\"(.+?)\"}");
+	final static Pattern nse_pattern_high52 = Pattern.compile("\"high52\":\"(.+?)\",");
+	final static Pattern nse_pattern_low52 = Pattern.compile("\"low52\":\"(.+?)\",");
+	final static Pattern nse_pattern_open = Pattern.compile("\"open\":\"(.+?)\",");
+	final static Pattern nse_pattern_dayHigh = Pattern.compile("\"dayHigh\":\"(.+?)\",");
+	final static Pattern nse_pattern_dayLow = Pattern.compile("\"dayLow\":\"(.+?)\",");
+	final static Pattern nse_pattern_deliveryToTradedQuantity = Pattern.compile("\"deliveryToTradedQuantity\":\"(.+?)\",");
+
 	final static Pattern nse_patternDate = Pattern.compile("\"lastUpdateTime\":\"(.+?)\",");
 	final static Pattern bse_pattern = Pattern.compile("<td.*>(.+?)</td><td><img");
 	
 	public static Map<String, CurrentMarketPrice> getCurrentMarkerPrice(List<CurrentMarketPrice> request){
+		return getCurrentMarkerPrice(request, false);
+	}
+	public static Map<String, CurrentMarketPrice> getCurrentMarkerPrice(List<CurrentMarketPrice> request, boolean getDetailValues){
 		Map<String , CurrentMarketPrice> markerResponse = new HashMap<String , CurrentMarketPrice>();
 		
 		String nseURL = "https://www.nseindia.com/live_market/dynaContent/live_watch/get_quote/GetQuote.jsp?symbol=";
@@ -50,8 +63,8 @@ public class ProfileDAO {
 		            HTTPRequest req = new HTTPRequest(url, HTTPMethod.GET, lFetchOptions);
 		            HTTPResponse res = fetcher.fetch(req);
 		            String respoNse =(new String(res.getContent()));
-		            final Matcher quote = nse_pattern.matcher(respoNse);
-					Matcher quoteDate = nse_patternDate.matcher(respoNse);
+		             Matcher quote = nse_pattern.matcher(respoNse);
+					 Matcher quoteDate = nse_patternDate.matcher(respoNse);
 					quote.find();
 					quoteDate.find();
 					CurrentMarketPrice nseQuote = new CurrentMarketPrice();
@@ -61,6 +74,55 @@ public class ProfileDAO {
 					String price = quote.group(1).replaceAll(",", "");
 					nseQuote.setL_fix(Double.parseDouble(price));
 					markerResponse.put(nseQuote.getT(), nseQuote);
+					
+					if (getDetailValues){
+						//Previous close 
+						Matcher previousCloseMatcher = nse_pattern_previousClose.matcher(respoNse);
+						previousCloseMatcher.find();
+						price = previousCloseMatcher.group(1).replaceAll(",", "");
+						nseQuote.setPreviousClose(Double.parseDouble(price));
+						
+						//nse_pattern_totalTradedVolume
+						Matcher nse_pattern_totalTradedVolumeMatcher = nse_pattern_totalTradedVolume.matcher(respoNse);
+						nse_pattern_totalTradedVolumeMatcher.find();
+						price = nse_pattern_totalTradedVolumeMatcher.group(1).replaceAll(",", "");
+						nseQuote.setTotalTradedVolume(Double.parseDouble(price));
+						
+						//nse_pattern_totalTradedVolume
+						Matcher nse_pattern_high52Matcher = nse_pattern_high52.matcher(respoNse);
+						nse_pattern_high52Matcher.find();
+						price = nse_pattern_high52Matcher.group(1).replaceAll(",", "");
+						nseQuote.setHigh52(Double.parseDouble(price));
+						
+						
+						Matcher nse_pattern_low52Matcher = nse_pattern_low52.matcher(respoNse);
+						nse_pattern_low52Matcher.find();
+						price = nse_pattern_low52Matcher.group(1).replaceAll(",", "");
+						nseQuote.setLow52(Double.parseDouble(price));
+						
+						Matcher nse_pattern_openMatcher = nse_pattern_open.matcher(respoNse);
+						nse_pattern_openMatcher.find();
+						price = nse_pattern_openMatcher.group(1).replaceAll(",", "");
+						nseQuote.setOpen(Double.parseDouble(price));
+						
+						Matcher nse_pattern_dayHighMatcher = nse_pattern_dayHigh.matcher(respoNse);
+						nse_pattern_dayHighMatcher.find();
+						price = nse_pattern_dayHighMatcher.group(1).replaceAll(",", "");
+						nseQuote.setDayHigh(Double.parseDouble(price));
+						
+						Matcher nse_pattern_dayLowMatcher = nse_pattern_dayLow.matcher(respoNse);
+						nse_pattern_dayLowMatcher.find();
+						price = nse_pattern_dayLowMatcher.group(1).replaceAll(",", "");
+						nseQuote.setDayLow(Double.parseDouble(price));
+						
+						Matcher nse_pattern_deliveryToTradedQuantityMatcher = nse_pattern_deliveryToTradedQuantity.matcher(respoNse);
+						nse_pattern_deliveryToTradedQuantityMatcher.find();
+						price = nse_pattern_deliveryToTradedQuantityMatcher.group(1).replaceAll(",", "");
+						nseQuote.setDeliveryToTradedQuantity(Double.parseDouble(price));
+					}
+					
+					
+					
 					log.info("Quote from NSE "+nseQuote.getT() +" = "+nseQuote.getL_fix());
 		        } catch (Exception e) {
 		        	log.warning("Error while getting quote from NSE "+nseURL+ticker.getT()+nsePostFix+" "+e.getMessage());

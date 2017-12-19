@@ -384,4 +384,14 @@
     <servlet-name>PriceChart</servlet-name>
     <url-pattern>/PriceChart</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>HighLow</display-name>
+    <servlet-name>HighLow</servlet-name>
+    <servlet-class>com.highLow.HighLow</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>HighLow</servlet-name>
+    <url-pattern>/HighLow</url-pattern>
+  </servlet-mapping>
 </web-app>
