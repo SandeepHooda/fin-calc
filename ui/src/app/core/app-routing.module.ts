@@ -22,11 +22,11 @@ const routes: Routes = [
 
    { path: 'Pension',  component: Pension },
    { path: 'Loan',  component: Loan },
-   { path: 'Analytics',  component: PriceChart },
+   { path: 'Radar',  component: PriceChart },
    { path: 'Ledgger',  component: Ledgger },
-   { path: 'CorpAnalysis',  component: CorpAnalysis },
-   { path: 'HotStock',  component: HotStock },
-   { path: 'Charts', component:Charts},
+   { path: 'Gems',  component: CorpAnalysis },
+   { path: 'BulkDeals',  component: HotStock },
+   { path: 'PriceChart', component:Charts},
    { path: 'HighLow', component:HighLow}
   
 ];

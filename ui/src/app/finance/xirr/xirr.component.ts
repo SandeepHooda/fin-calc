@@ -72,13 +72,14 @@ private refreshPage(){
    }
     
     this.route.events.subscribe(params => {
-      if (this.route.url === '/lumpsump' || this.route.url === '/Analytics' || this.route.url ==='/Stock'){
+      if (this.route.url === '/lumpsump' || 
+      this.route.url === '/Analytics' || this.route.url ==='/Stock'){
         this.showRefreshButton = true;
       }else {
         this.showRefreshButton = false;
       }
-      if (this.route.url === '/Charts' || this.route.url === '/HotStock' 
-      || this.route.url === '/Analytics'|| this.route.url === '/CorpAnalysis' 
+      if (this.route.url === '/PriceChart' || this.route.url === '/BulkDeals' 
+      || this.route.url === '/Radar'|| this.route.url === '/Gems' 
       || this.route.url === '/HighLow'){
         this.noAuthState = true;
       }else {
