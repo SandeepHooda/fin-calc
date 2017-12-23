@@ -5,6 +5,7 @@ import 'rxjs/add/operator/catch';
 import  'rxjs/add/operator/map';
 import { Headers, RequestOptions } from '@angular/http';
 import {StockAnalysisVO} from './StockAnalysisVO';
+import {CurrentMarketPrice} from '../HighLow/CurrentMarketPrice';
 
 @Injectable()
 export class CorpAnalysisService {
@@ -26,6 +27,11 @@ export class CorpAnalysisService {
    return this.http.get(url).map(this.extractResult).catch(this.handleError);
  }
 
+ getHighLowData() :Observable<Array<CurrentMarketPrice>> {
+  let url:string = this.hostName+'/HighLow?format=static';
+return this.http.get(url).map(this.extractResult).catch(this.handleError);
+}
+ 
  
   
   private extractJsonData(res: Response) {

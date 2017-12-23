@@ -4,11 +4,11 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/catch';
 import  'rxjs/add/operator/map';
 import { Headers, RequestOptions } from '@angular/http';
-import {PriceVO} from './PriceVO'
+import {CurrentMarketPrice} from './CurrentMarketPrice';
 
 @Injectable()
-export class ChartsService {
-  private hostName:string = '';//'http://localhost:8888';
+export class HighLowSrv {
+  private hostName:string = ''//'http://localhost:8888';
   
  
 
@@ -20,19 +20,14 @@ export class ChartsService {
        }
      }
 
-
-     getChartsData(maxDays : number) :Observable<Array<PriceVO>> {
-      let url:string = this.hostName+'/PriceChart';
-   return this.http.get(url+"?maxDays="+maxDays).map(this.extractResult).catch(this.handleError);
+ 
+     getAnalysis() :Observable<Array<CurrentMarketPrice>> {
+     let url:string = this.hostName+'/getCorpAnalysis?maxYears=';
+   return this.http.get(url).map(this.extractResult).catch(this.handleError);
  }
 
- plotDateRangeChart(fromDate : Date, toDate: Date) :Observable<Array<PriceVO>> {
-  let url:string = this.hostName+'/PriceChart';
-  return this.http.get(url+"?fromDate="+fromDate.getTime()+"&toDate="+toDate.getTime()).map(this.extractResult).catch(this.handleError);
-}
  
-
- 
+  
   private extractJsonData(res: Response) {
     let body = res.status;
     return body;

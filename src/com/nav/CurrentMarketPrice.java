@@ -6,6 +6,7 @@ public class CurrentMarketPrice {
 	private String lt_dts;
 	private double l_fix;
 	private double previousClose,totalTradedVolume,high52, low52, open, dayHigh,dayLow,deliveryToTradedQuantity;
+	private double high52Chg;
 	
 	public String getT() {
 		return t;
@@ -78,6 +79,12 @@ public class CurrentMarketPrice {
 	}
 	public void setDeliveryToTradedQuantity(double deliveryToTradedQuantity) {
 		this.deliveryToTradedQuantity = deliveryToTradedQuantity;
+	}
+	public double getHigh52Chg() {
+		return high52Chg;
+	}
+	public void setHigh52Chg(double high52Chg) {
+		this.high52Chg = high52Chg;
 	}
 	
 	

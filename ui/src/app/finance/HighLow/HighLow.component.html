@@ -1,0 +1,16 @@
+
+<p-messages [(value)]="msgs"></p-messages> 
+<hr/>
+{{httpError}}
+<p-dataTable #dg [responsive]="false"  [value]="priceVO"  [rows]="20" [paginator]="true">
+        <p-column [style]="{'width':'300px'}" field="t" header="Ticker" [sortable]="true"></p-column>
+        <p-column [style]="{'width':'300px'}" field="l_fix" header="CMP" [sortable]="true"></p-column>
+        <p-column  [style]="{'width':'300px'}" field="previousClose" header="Close" [sortable]="true"></p-column>
+        <p-column  [style]="{'width':'300px'}" field="open" header="Open" [sortable]="true"></p-column>
+        <p-column  [style]="{'width':'300px'}" field="totalTradedVolume" header="Vol" [sortable]="true"></p-column>
+        <p-column  [style]="{'width':'300px'}" field="deliveryToTradedQuantity" header="Delivery" [sortable]="true"></p-column>
+        <p-column  [style]="{'width':'300px'}" field="high52" header="52 High" [sortable]="true"></p-column>
+        <p-column  [style]="{'width':'300px'}" field="low52" header="52 Low" [sortable]="true"></p-column>
+        <p-column  [style]="{'width':'300px'}" field="dayHigh" header="Day High" [sortable]="true"></p-column>
+        <p-column  [style]="{'width':'300px'}" field="dayLow" header="Day Low" [sortable]="true"></p-column>
+</p-dataTable>

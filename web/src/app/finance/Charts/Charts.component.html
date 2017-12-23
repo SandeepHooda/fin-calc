@@ -4,7 +4,13 @@
 {{httpError}}
 <div align="center">
         Days :
+
+<p-calendar [(ngModel)]="fromDate" (onSelect)="clearToDate()"></p-calendar>
+<p-calendar [(ngModel)]="toDate" (onSelect)="plotDateRangeChart()"></p-calendar>
+
+&nbsp;&nbsp;&nbsp;OR &nbsp;&nbsp;&nbsp;
 <p-dropdown  [options]="chartDays" [(ngModel)]="maxDays" (onChange)="dateRangeChanged()"></p-dropdown>
+<br/><br/>
 <p-dropdown  [options]="top5" [(ngModel)]="top5Selection" (onChange)="top5Changed()"></p-dropdown>
 </div>
 <br/><br/>

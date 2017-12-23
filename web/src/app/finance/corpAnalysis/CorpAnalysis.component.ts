@@ -7,6 +7,7 @@ import {StockAnalysisVO} from './StockAnalysisVO';
 import {DataSets} from '../Charts/DataSets';
 import {PriceVO} from '../Charts/PriceVO';
 import {SelectItem} from 'primeng/primeng';
+import {ProFitabilityVO} from './ProFitabilityVO';
 @Component({
  selector : 'CorpAnalysis', 
   templateUrl: './CorpAnalysis.component.html',
@@ -19,6 +20,7 @@ export class CorpAnalysis implements OnInit {
   private idToBeDeleted : number;
   private httpError : string;
   private corpAnalysis : Array<StockAnalysisVO>;
+  private profitabilityAllTimesData : Array<ProFitabilityVO> = [];
   private profitiablityChart : PriceVO;
   private revenueChart : PriceVO;
   private profitChart : PriceVO;
@@ -29,6 +31,7 @@ export class CorpAnalysis implements OnInit {
   private maxYearsArray : SelectItem[];
   private top10Selection : string;
   private maxYears : number= 3;
+  private categories: SelectItem[];
  constructor( private service : CorpAnalysisService) {
   this.top10 = [
     {label:'Top 10 profitablility', value:'Top 10 profitablility'},
@@ -56,6 +59,8 @@ export class CorpAnalysis implements OnInit {
       {label:'15 years', value:15}
     ];
 
+    this.categories = [];
+    
  }
 
   ngOnInit(): void {
@@ -122,10 +127,43 @@ private calculateYOYPercentage(corpAnalysis:Array<StockAnalysisVO>){
   //maxYears
   //for (let i=0;i<this.this.corpAnalysis)
 }
+
+private profitabilityAllTimes(corpAnalysis:Array<StockAnalysisVO>){
+  let profitabilityAllTimesData : Array<ProFitabilityVO> = [];
+  let allcat : Array<string> = [];
+  //this.profitabilityAllTimesData
+  let profilabilityRow : ProFitabilityVO;//["Script", "Profitability","ROC Y","ROC Y+1","ROC Y+2","ROC Y+3","ROC Y+4"];
+  //Save current year profitability and rate of change in profitability
+  for (let i=0; i<corpAnalysis.length;i++){
+    
+    profilabilityRow = new ProFitabilityVO();
+    
+    profilabilityRow.name = (corpAnalysis[i].companyName.replace("/","")); //script
+    profilabilityRow.category = (corpAnalysis[i].category); //category
+    if (allcat.indexOf(profilabilityRow.category) <0){
+      allcat.push(profilabilityRow.category);
+      this.categories.push({label: profilabilityRow.category, value: profilabilityRow.category});
+    }
+    
+    
+    profilabilityRow.margin = (corpAnalysis[i].PBDITMargin[corpAnalysis[i].PBDITMargin.length-1]); //current year Profitability
+    let baseVal: number = corpAnalysis[i].PBDITMargin[0];
+    profilabilityRow.marginROC1 = (corpAnalysis[i].PBDITMargin[1]-baseVal)/baseVal*100;
+    profilabilityRow.marginROC2 = (corpAnalysis[i].PBDITMargin[2]-baseVal)/baseVal*100;
+    profilabilityRow.marginROC3 = (corpAnalysis[i].PBDITMargin[3]-baseVal)/baseVal*100;
+    profilabilityRow.marginROC4 = (corpAnalysis[i].PBDITMargin[4]-baseVal)/baseVal*100;
+    
+    profitabilityAllTimesData.push(profilabilityRow);
+  }
+  this.profitabilityAllTimesData = profitabilityAllTimesData;
+  
+}
 private showAnalysis(corpAnalysis:Array<StockAnalysisVO>){
+  this.profitabilityAllTimes(corpAnalysis);
 
 this.calculateYOYPercentage(corpAnalysis);
 this.corpAnalysis = corpAnalysis;
+
 let profitiablityChart : PriceVO = new PriceVO();
 profitiablityChart.labels = [];
 profitiablityChart.datasets = [];

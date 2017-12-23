@@ -2,6 +2,44 @@
 <p-messages [(value)]="msgs"></p-messages> 
 <hr/>
 {{httpError}}
+
+    <p-dataTable #dg [responsive]="true" selectionMode="multiple" [value]="profitabilityAllTimesData"  [rows]="100" [paginator]="false">
+        <p-column field="name" header="Name" [style]="{'width':'150px'}" [editable]="false" [sortable]="true">
+        </p-column>
+        <p-column [filter]="true" filterMatchMode="in" field="category" header="Category" [style]="{'width':'100px'}" [editable]="false" [sortable]="true">
+            <ng-template pTemplate="filter" let-col>
+                <p-multiSelect  [options]="categories" defaultLabel="All" (onChange)="dg.filter($event.value,col.field,col.filterMatchMode)" styleClass="ui-column-filter"></p-multiSelect>
+            </ng-template>
+        </p-column>
+        <p-column field="margin" header="Profitability" [style]="{'width':'100px'}" [editable]="false" [sortable]="true">
+            <ng-template let-row="rowData" pTemplate="body">
+                <span>{{row.margin  | number : '1.2-2'}}</span>
+            </ng-template>
+        </p-column>
+        <p-column field="marginROC4" header="ROC Y+4" [style]="{'width':'100px'}" [editable]="false" [sortable]="true">
+            <ng-template let-row="rowData" pTemplate="body">
+                <span>{{row.marginROC4  | number : '1.2-2'}}</span>
+            </ng-template>
+        </p-column>
+        <p-column field="marginROC3" header="ROC Y+3" [style]="{'width':'100px'}" [editable]="false" [sortable]="true">
+            <ng-template let-row="rowData" pTemplate="body">
+                <span>{{row.marginROC3  | number : '1.2-2'}}</span>
+            </ng-template>
+        </p-column>
+        <p-column field="marginROC2" header="ROC Y+2" [style]="{'width':'100px'}" [editable]="false" [sortable]="true">
+            <ng-template let-row="rowData" pTemplate="body">
+                <span>{{row.marginROC2  | number : '1.2-2'}}</span>
+            </ng-template>
+        </p-column>
+        <p-column field="marginROC1" header="ROC Y+1" [style]="{'width':'100px'}" [editable]="false" [sortable]="true">
+            <ng-template let-row="rowData" pTemplate="body">
+                <span>{{row.marginROC1  | number : '1.2-2'}}</span>
+            </ng-template>
+        </p-column>
+        
+   
+</p-dataTable>
+<br/><br/><br/>
 <div align="center">
  Max years:   <p-dropdown  [options]="maxYearsArray" [(ngModel)]="maxYears" (onChange)="maxYearsChanged()"></p-dropdown>
 <p-dropdown  [options]="top10" [(ngModel)]="top10Selection" (onChange)="top10Changed()"></p-dropdown>

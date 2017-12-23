@@ -9,15 +9,27 @@ import {PriceVO} from './PriceVO'
 @Injectable()
 export class ChartsService {
   private hostName:string = '';//'http://localhost:8888';
-  private url:string = this.hostName+'/PriceChart';
+  
  
 
-     constructor (private http: Http) {}
+     constructor (private http: Http) {
+      if (document.location.href.indexOf("localhost") > 0){
+        this.hostName = "http://localhost:8888"
+       }else {
+         this.hostName  = '';
+       }
+     }
 
 
      getChartsData(maxDays : number) :Observable<Array<PriceVO>> {
-   return this.http.get(this.url+"?maxDays="+maxDays).map(this.extractResult).catch(this.handleError);
+      let url:string = this.hostName+'/PriceChart';
+   return this.http.get(url+"?maxDays="+maxDays).map(this.extractResult).catch(this.handleError);
  }
+
+ plotDateRangeChart(fromDate : Date, toDate: Date) :Observable<Array<PriceVO>> {
+  let url:string = this.hostName+'/PriceChart';
+  return this.http.get(url+"?fromDate="+fromDate.getTime()+"&toDate="+toDate.getTime()).map(this.extractResult).catch(this.handleError);
+}
  
 
  

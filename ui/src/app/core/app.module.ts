@@ -19,7 +19,7 @@ import {Sip} from '../finance/sip/sip.component';
 import {SipService as schemeSipService} from '../finance/sip/scheme/sip-service';
 import {NavService} from '../finance/addFund/addfundDetails/nav.service';
 import {DataTableModule,SharedModule,DataGridModule, PanelModule, DialogModule, ChartModule} from 'primeng/primeng';
-import {AccordionModule, MessagesModule, DropdownModule, ToggleButtonModule, SelectButtonModule } from 'primeng/primeng';
+import {AccordionModule, MessagesModule, DropdownModule, ToggleButtonModule, SelectButtonModule, MultiSelectModule } from 'primeng/primeng';
 import {MdProgressSpinnerModule} from '@angular/material';
 import {SipScheme} from '../finance/sip/scheme/sip.scheme.component';
 import {SipService  } from '../finance/sip/sip-service';
@@ -47,6 +47,9 @@ import {HotStockSrv} from '../finance/hotStock/HotStock-service';
 import {HotStock} from '../finance/hotStock/HotStock.component'; 
 import {Charts} from '../finance/Charts/Charts.component'; 
 import {ChartsService} from '../finance/Charts/Charts-service'; 
+
+import {HighLow} from '../finance/HighLow/HighLow.component'; 
+
 @NgModule({
   imports: [
     BrowserModule,
@@ -61,12 +64,12 @@ import {ChartsService} from '../finance/Charts/Charts-service';
     ButtonModule,
     ListboxModule,
     MdProgressSpinnerModule, DataTableModule,SharedModule,DataGridModule, PanelModule, DialogModule,
-    AccordionModule, ChartModule, MessagesModule, DropdownModule, ToggleButtonModule,SelectButtonModule
+    AccordionModule, ChartModule, MessagesModule, DropdownModule, ToggleButtonModule,SelectButtonModule, MultiSelectModule
   ],
   declarations: [
     XIRR,   NAVBAR,    AddCompany, Sip, AddFunds, AddProfile, AddFundsDetails, SipScheme, Chart, 
     Pension, PensionScheme, Loan , LoanScheme,Stock , SearchStock,AddStockDetails,PriceChart,
-    Ledgger,CorpAnalysis,HotStock,Charts
+    Ledgger,CorpAnalysis,HotStock,Charts, HighLow
   ],
   providers: [ XirrService , XirrRequest, FundService, SipService, NavService, schemeSipService, 
   ChartService, EventService,ChartsService,

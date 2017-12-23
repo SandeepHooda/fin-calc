@@ -23,7 +23,8 @@ export class Charts implements OnInit {
   private tickers: SelectItem[] = [] ;
   private selectedTickers: string[] = [];
   private top5Selection : string;
-
+  private fromDate : Date;
+  private toDate : Date;
  constructor( private service : ChartsService) {
   this.chartDays = [
     {label:'2', value:2},
@@ -56,6 +57,17 @@ export class Charts implements OnInit {
 
     
   }
+  private clearToDate(){
+    this.toDate = null;
+  }
+ 
+
+  private plotDateRangeChart() {
+    this.service.plotDateRangeChart(this.fromDate, this.toDate).subscribe( 
+       priceVO => this.showChart(priceVO),
+           error => this.showError(error)
+         );
+   }
   private top5Changed(){
     
     localStorage.setItem('top5Selection',''+this.top5Selection);

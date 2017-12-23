@@ -13,6 +13,7 @@ import {Ledgger} from '../finance/addStock/ledgger';
 import {CorpAnalysis} from '../finance/corpAnalysis/CorpAnalysis.component'; 
 import {HotStock} from '../finance/hotStock/HotStock.component'; 
 import {Charts} from '../finance/Charts/Charts.component'; 
+import {HighLow} from '../finance/HighLow/HighLow.component'; 
 const routes: Routes = [
   { path: '', redirectTo: '/Stock', pathMatch: 'full' },
   { path: 'Stock',  component: Stock },
@@ -25,7 +26,8 @@ const routes: Routes = [
    { path: 'Ledgger',  component: Ledgger },
    { path: 'CorpAnalysis',  component: CorpAnalysis },
    { path: 'HotStock',  component: HotStock },
-   { path: 'Charts', component:Charts}
+   { path: 'Charts', component:Charts},
+   { path: 'HighLow', component:HighLow}
   
 ];
 
