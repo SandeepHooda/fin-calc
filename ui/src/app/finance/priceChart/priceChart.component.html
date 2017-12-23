@@ -24,89 +24,67 @@
     <button type="button" pButton icon="fa-external-link" iconPos="left" label="CSV" (click)="dg.exportCSV()" style="float:right"></button>
 </div>
 <p-dataTable #dg [responsive]="true"  [value]="stockTrend"  [rows]="20" [paginator]="true">
-    <p-headerColumnGroup>
-        <p-row>
-            <p-column header="Ticker" rowspan="2"></p-column>
-            <p-column header="Price" rowspan="2"></p-column>
-            <p-column header="Median" colspan="6"></p-column>
-            <p-column header="Xirr" colspan="5"></p-column>
-        </p-row>
-        <p-row>
-            <p-column header="3M" colspan="1"></p-column>
-            <p-column header="6M" colspan="1"></p-column>
-            <p-column header="1Y" colspan="1"></p-column>
-            <p-column header="2Y" colspan="1"></p-column>
-            <p-column header="3Y" colspan="1"></p-column>
-            <p-column header="5Y" colspan="1"></p-column>
-            <p-column header="5 D" colspan="1"></p-column>
-            <p-column header="10 D" colspan="1"></p-column>
-            <p-column header="30 D" colspan="1"></p-column>
-            <p-column header="6 M" colspan="1"></p-column>
-            <p-column header="1 Y" colspan="1"></p-column>
+   
+<p-column field="_id"  header="Ticker"  [sortable]="true"></p-column>
 
-        </p-row>
-       
-    </p-headerColumnGroup>
-<p-column field="_id"  [sortable]="true"></p-column>
-
-<p-column field="currentMarketPrice"  [sortable]="true">
+<p-column field="currentMarketPrice" header="Price" [sortable]="true">
     <ng-template let-col let-data="rowData" let-ri="rowIndex" pTemplate="body">
         <span >{{data[col.field] | number : '1.2-2'}}</span> 
     </ng-template>
 </p-column>
-<p-column [style]="{'width':'100px'}" field="median3"  [sortable]="true">
+<p-column [style]="{'width':'100px'}" field="median3"  header="3M median"  [sortable]="true">
     <ng-template let-row="rowData" pTemplate="body">
         <span>{{row.median3  | number : '1.2-2'}}</span>
     </ng-template>
 </p-column>
 
-<p-column [style]="{'width':'100px'}" field="median6"   [sortable]="true">
+<p-column [style]="{'width':'100px'}" field="median6"  header="6M"   [sortable]="true">
     <ng-template let-row="rowData" pTemplate="body">
         <span>{{row.median6  | number : '1.2-2'}}</span>
     </ng-template>
 </p-column>
-<p-column [style]="{'width':'100px'}" field="median1Y"   [sortable]="true">
+<p-column [style]="{'width':'100px'}" field="median1Y"  header="1Y"   [sortable]="true">
     <ng-template let-row="rowData" pTemplate="body">
         <span>{{row.median1Y  | number : '1.2-2'}}</span>
     </ng-template>
 </p-column>
-<p-column [style]="{'width':'100px'}" field="median2Y"   [sortable]="true">
+<p-column [style]="{'width':'100px'}" field="median2Y"  header="2Y"   [sortable]="true">
     <ng-template let-row="rowData" pTemplate="body">
         <span>{{row.median2Y  | number : '1.2-2'}}</span>
     </ng-template>
 </p-column>
-<p-column [style]="{'width':'100px'}" field="median3Y"  [sortable]="true">
+<p-column [style]="{'width':'100px'}" field="median3Y"  header="3Y"  [sortable]="true">
     <ng-template let-row="rowData" pTemplate="body">
         <span>{{row.median3Y  | number : '1.2-2'}}</span>
     </ng-template>
 </p-column>
-<p-column [style]="{'width':'100px'}" field="median5Y"   [sortable]="true">
+<p-column [style]="{'width':'100px'}" field="median5Y"  header="5Y"   [sortable]="true">
     <ng-template let-row="rowData" pTemplate="body">
         <span>{{row.median5Y  | number : '1.2-2'}}</span>
     </ng-template>
 </p-column>
 
-<p-column  [style]="{'width':'100px'}" field="xirr5"   [sortable]="true">
+<p-column  [style]="{'width':'100px'}" field="xirr5"  header="5 D Xirr"   [sortable]="true">
     <ng-template let-row="rowData" pTemplate="body">
         <span>{{row.xirr5  | number : '1.2-2'}}</span>
     </ng-template>
 </p-column>
-<p-column field="xirr10"  [sortable]="true">
+<p-column field="xirr10"  header="10 D"  [sortable]="true">
     <ng-template let-row="rowData" pTemplate="body">
         <span>{{row.xirr10  | number : '1.2-2'}}</span>
     </ng-template>
 </p-column>
-<p-column field="xirr30"   [sortable]="true">
+<p-column field="xirr30"   header="30 D"  [sortable]="true">
     <ng-template let-row="rowData" pTemplate="body">
         <span>{{row.xirr30  | number : '1.2-2'}}</span>
     </ng-template>
 </p-column>
-<p-column field="xirr182"   [sortable]="true">
+<p-column field="xirr182"   header="6 M"  [sortable]="true">
     <ng-template let-row="rowData" pTemplate="body">
         <span>{{row.xirr182  | number : '1.2-2'}}</span>
     </ng-template>
 </p-column>
-<p-column field="xirr365" [sortable]="true">
+<p-column field="xirr365"  header="1 Y"  [sortable]="true">
     <ng-template let-row="rowData" pTemplate="body">
         <span>{{row.xirr365  | number : '1.2-2'}}</span>
     </ng-template>
