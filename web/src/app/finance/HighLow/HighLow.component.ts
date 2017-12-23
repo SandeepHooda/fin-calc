@@ -36,12 +36,20 @@ export class HighLow implements OnInit {
 
   private getHighLowData() {
     this.service.getHighLowData().subscribe( 
-       priceVO => this.showChart(priceVO),
+       priceVO => this.showData(priceVO),
            error => this.showError(error)
          );
    }
    
-private showChart(priceVO:Array<CurrentMarketPrice>){
+private showData(priceVO:Array<CurrentMarketPrice>){
+  for (let i=0;i<priceVO.length;i++){
+    priceVO[i].dayHighChange =  (priceVO[i].l_fix - priceVO[i].dayHigh)/priceVO[i].dayHigh*100;
+    priceVO[i].dayLowChange = (priceVO[i].l_fix - priceVO[i].dayLow)/priceVO[i].dayLow*100;
+    priceVO[i].high52Change = (priceVO[i].l_fix - priceVO[i].high52)/priceVO[i].high52*100;
+    priceVO[i].low52Change = (priceVO[i].l_fix - priceVO[i].low52)/priceVO[i].low52*100;
+    priceVO[i].openChange = (priceVO[i].l_fix - priceVO[i].open)/priceVO[i].open*100;
+    priceVO[i].previousCloseChange = (priceVO[i].l_fix - priceVO[i].previousClose)/priceVO[i].previousClose*100;
+  }
 this.priceVO = priceVO;
 
 }
