@@ -4,7 +4,8 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/catch';
 import  'rxjs/add/operator/map';
 import { Headers, RequestOptions } from '@angular/http';
-import {PriceVO} from './PriceVO'
+import {PriceVO} from './PriceVO';
+import {PriceAndVolume} from './PriceAndVolume';
 
 @Injectable()
 export class ChartsService {
@@ -21,12 +22,12 @@ export class ChartsService {
      }
 
 
-     getChartsData(maxDays : number) :Observable<Array<PriceVO>> {
+     getChartsData(maxDays : number) :Observable<PriceAndVolume> {
       let url:string = this.hostName+'/PriceChart';
    return this.http.get(url+"?maxDays="+maxDays).map(this.extractResult).catch(this.handleError);
  }
 
- plotDateRangeChart(fromDate : Date, toDate: Date) :Observable<Array<PriceVO>> {
+ plotDateRangeChart(fromDate : Date, toDate: Date) :Observable<PriceAndVolume> {
   let url:string = this.hostName+'/PriceChart';
   return this.http.get(url+"?fromDate="+fromDate.getTime()+"&toDate="+toDate.getTime()).map(this.extractResult).catch(this.handleError);
 }

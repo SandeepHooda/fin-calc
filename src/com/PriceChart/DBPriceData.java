@@ -11,6 +11,7 @@ public class DBPriceData {
 	private double xirr365;
 	private double currentMarketPrice;
 	private List<StockPrice> stockPriceList;
+	private double totalTradedVolume, deliveryToTradedQuantity;
 	public String get_id() {
 		return _id;
 	}
@@ -58,6 +59,18 @@ public class DBPriceData {
 	}
 	public void setStockPriceList(List<StockPrice> stockPriceList) {
 		this.stockPriceList = stockPriceList;
+	}
+	public double getTotalTradedVolume() {
+		return totalTradedVolume;
+	}
+	public void setTotalTradedVolume(double totalTradedVolume) {
+		this.totalTradedVolume = totalTradedVolume;
+	}
+	public double getDeliveryToTradedQuantity() {
+		return deliveryToTradedQuantity;
+	}
+	public void setDeliveryToTradedQuantity(double deliveryToTradedQuantity) {
+		this.deliveryToTradedQuantity = deliveryToTradedQuantity;
 	}
 
 }

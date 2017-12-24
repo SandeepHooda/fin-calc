@@ -6,6 +6,7 @@ import java.util.List;
 public class PriceVO {
 	private List<String> labels = new ArrayList<String>();
 	private List<DataSets> datasets = new ArrayList<DataSets>();
+	private String companyName;
 	public List<String> getLabels() {
 		return labels;
 	}
@@ -17,6 +18,12 @@ public class PriceVO {
 	}
 	public void setDatasets(List<DataSets> datasets) {
 		this.datasets = datasets;
+	}
+	public String getCompanyName() {
+		return companyName;
+	}
+	public void setCompanyName(String companyName) {
+		this.companyName = companyName;
 	}
 
 }

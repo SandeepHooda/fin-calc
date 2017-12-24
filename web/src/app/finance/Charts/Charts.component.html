@@ -3,12 +3,12 @@
 <hr/>
 {{httpError}}
 <div align="center">
-        Days :
+       Select Dates :
 
 <p-calendar [(ngModel)]="fromDate" (onSelect)="clearToDate()"></p-calendar>
 <p-calendar [(ngModel)]="toDate" (onSelect)="plotDateRangeChart()"></p-calendar>
 
-&nbsp;&nbsp;&nbsp;OR &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;OR Days &nbsp;&nbsp;&nbsp;
 <p-dropdown  [options]="chartDays" [(ngModel)]="maxDays" (onChange)="dateRangeChanged()"></p-dropdown>
 <br/><br/>
 <p-dropdown  [options]="top5" [(ngModel)]="top5Selection" (onChange)="top5Changed()"></p-dropdown>
@@ -19,9 +19,23 @@
 <br/><br/>
 <button type="button" (click)="clearSelectedTickers()" pButton icon="fa-close" label="Clear"></button>
 <button type="button" (click)="allAllToSelectedTickers()" pButton icon="fa-plus" label="AddAll"></button>
-
+<br/>
+<b>Price Movement in % between selected dates or last [N] days</b>
 <p-chart type="line" [data]="comparisionData" ></p-chart>
- 
+<br/>
+<b>Volume and delivery between selected dates or last [N] days</b>
+ <div align="center">
+        <p-dropdown (onChange)="showVolumeChart()" [options]="tickers" [(ngModel)]="selectedCompany" [style]="{'width':'150px'}" filter="true">
+                <ng-template let-ticker pTemplate="item">
+                    <div class="ui-helper-clearfix" style="position: relative;height: 25px;">
+                        <div style="font-size:14px;float:right;margin-top:4px">{{ticker.label}}</div>
+                    </div>
+                </ng-template>
+            </p-dropdown>   
+ </div> 
+
+ <p-chart type="bar" [data]="volumeData"></p-chart>
+
 <div  *ngFor="let row of priceVO; index as i;first as isFirst;last as isLast"> 
         <p-chart type="line" [data]="row" ></p-chart>
 </div>

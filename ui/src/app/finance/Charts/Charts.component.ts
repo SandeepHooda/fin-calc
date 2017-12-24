@@ -3,7 +3,9 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 import {ChartsService} from './Charts-service';
 import {Message} from 'primeng/primeng';
-import {PriceVO} from './PriceVO'
+import {PriceVO} from './PriceVO';
+import {PriceAndVolume} from './PriceAndVolume';
+
 import {SelectItem} from 'primeng/primeng';
 @Component({
  selector : 'Charts', 
@@ -15,8 +17,11 @@ export class Charts implements OnInit {
   private msgs : Message[] = [];
   private displayConfirmation : boolean;
   private priceVO : Array<PriceVO>;
+  private volumeVO : Array<PriceVO>;
   private httpError : string;
   private comparisionData: any;
+  private volumeData : any;
+  private selectedCompany : string;
   private maxDays : number;
   private chartDays : SelectItem[] ;
   private top5 : SelectItem[];
@@ -99,9 +104,29 @@ private getChartsData(maxDays : number) {
         error => this.showError(error)
       );
 }
+private showVolumeChart (){
+  
+  this.volumeData = [];
+  let volumeDatatemp : any = [];
+  
+  for (let i=0;i<this.volumeVO.length;i++){
+   
+      if (this.volumeVO[i].companyName === this.selectedCompany){
+        volumeDatatemp.labels = this.volumeVO[i].labels.slice();
+        volumeDatatemp.datasets = this.volumeVO[i].datasets.slice();
+     }
+   
+ 
+  }
+ 
+  this.volumeData = volumeDatatemp;
+  console.log(this.volumeData);
 
-private showChart(priceVO:Array<PriceVO>){
-this.priceVO = priceVO;
+}
+private showChart(priceAndVolVO: PriceAndVolume){
+
+this.priceVO = priceAndVolVO.priceVOList;
+this.volumeVO = priceAndVolVO.volumeVoList;
 this.tickers = [];
 for (let i=0;i<this.priceVO.length;i++){
   this.tickers.push({label: this.priceVO[i].datasets[0].label, value: this.priceVO[i].datasets[0].label});

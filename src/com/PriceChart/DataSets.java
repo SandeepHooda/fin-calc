@@ -8,6 +8,7 @@ public class DataSets {
 	private List<Double> data = new ArrayList<Double>();
 	private boolean fill= false;
 	private String  borderColor = "#4bc0c0";
+	private String  backgroundColor = "#4bc0c0";
 	public String getLabel() {
 		return label;
 	}
@@ -31,5 +32,11 @@ public class DataSets {
 	}
 	public void setBorderColor(String borderColor) {
 		this.borderColor = borderColor;
+	}
+	public String getBackgroundColor() {
+		return backgroundColor;
+	}
+	public void setBackgroundColor(String backgroundColor) {
+		this.backgroundColor = backgroundColor;
 	}
 }
