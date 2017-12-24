@@ -112,8 +112,8 @@ private showVolumeChart (){
   for (let i=0;i<this.volumeVO.length;i++){
    
       if (this.volumeVO[i].companyName === this.selectedCompany){
-        volumeDatatemp.labels = this.priceVO[i].labels.slice();
-        volumeDatatemp.datasets = this.priceVO[i].datasets.slice();
+        volumeDatatemp.labels = this.volumeVO[i].labels.slice();
+        volumeDatatemp.datasets = this.volumeVO[i].datasets.slice();
      }
    
  
