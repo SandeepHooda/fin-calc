@@ -120,7 +120,7 @@ private showVolumeChart (){
   }
  
   this.volumeData = volumeDatatemp;
-  console.log(this.volumeData);
+ 
 
 }
 private showChart(priceAndVolVO: PriceAndVolume){
@@ -135,6 +135,7 @@ for (let i=0;i<this.priceVO.length;i++){
 
 this.addAllStocksToComparision();
 this.filterBasedOnTop5Selection();
+this.showVolumeChart();
 }
 
 private clearSelectedTickers(){
