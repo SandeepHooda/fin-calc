@@ -9,13 +9,13 @@ import {PriceAndVolume} from './PriceAndVolume';
 
 @Injectable()
 export class ChartsService {
-  private hostName:string = '';//'http://localhost:8888';
+  private hostName:string = '';//'http://localhost:8080';
   
  
 
      constructor (private http: Http) {
       if (document.location.href.indexOf("localhost") > 0){
-        this.hostName = "http://localhost:8888"
+        this.hostName = "http://localhost:8080"
        }else {
          this.hostName  = '';
        }

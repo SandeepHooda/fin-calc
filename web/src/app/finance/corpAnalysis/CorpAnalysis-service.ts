@@ -9,13 +9,13 @@ import {CurrentMarketPrice} from '../HighLow/CurrentMarketPrice';
 
 @Injectable()
 export class CorpAnalysisService {
-  private hostName:string = ''//'http://localhost:8888';
+  private hostName:string = ''//'http://localhost:8080';
   
  
 
      constructor (private http: Http) {
       if (document.location.href.indexOf("localhost") > 0){
-        this.hostName = "http://localhost:8888"
+        this.hostName = "http://localhost:8080"
        }else {
          this.hostName  = '';
        }
@@ -28,7 +28,7 @@ export class CorpAnalysisService {
  }
 
  getHighLowData() :Observable<Array<CurrentMarketPrice>> {
-  let url:string = this.hostName+'/HighLow?format=static';
+  let url:string = this.hostName+'/HighLow';//?format=static';
 return this.http.get(url).map(this.extractResult).catch(this.handleError);
 }
  

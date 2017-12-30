@@ -15,7 +15,7 @@ export class PriceChartService {
     constructor (private http: Http, @Inject(DOCUMENT) document: any) {}
     public getStocksTrend(force : boolean ) : Observable<Array<TickerDBData>>{
       if (document.location.href.indexOf("localhost") > 0){
-        this.hostName = "http://localhost:8888"
+        this.hostName = "http://localhost:8080"
        }else {
          this.hostName  = '';
        }
@@ -28,7 +28,7 @@ export class PriceChartService {
     }
     public getChartDataUIForMyProfile(force : boolean ) : Observable<Array<chartData>>{
         if (document.location.href.indexOf("localhost") > 0){
-            this.hostName = "http://localhost:8888"
+            this.hostName = "http://localhost:8080"
            }else {
              this.hostName  = '';
            }

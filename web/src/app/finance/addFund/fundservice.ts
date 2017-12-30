@@ -34,7 +34,7 @@ private getChartData (res: Response){
  public   getPortfolio(refresh : boolean) : Observable<Portfolio>{
    
    if (document.location.href.indexOf("localhost") > 0){
-    this.hostName = "http://localhost:8888"
+    this.hostName = "http://localhost:8080"
    }else {
      this.hostName  = '';
    }
@@ -53,7 +53,7 @@ private getChartData (res: Response){
  public   getPortfolio_mf_archive(refresh : boolean) : Observable<Portfolio>{
    let getPortfolioUrl_mf_archive : string = '/GetProfiles_mf_archive';  // URL to web API
    if (document.location.href.indexOf("localhost") > 0){
-    this.hostName = "http://localhost:8888"
+    this.hostName = "http://localhost:8080"
    }else {
      this.hostName  = '';
    }
@@ -76,7 +76,7 @@ private getChartData (res: Response){
  
  public deleteProfile(profileID : number) : Observable<string>{
   if (document.location.href.indexOf("localhost") > 0){
-    this.hostName = "http://localhost:8888"
+    this.hostName = "http://localhost:8080"
    }else {
      this.hostName  = '';
    }
@@ -101,7 +101,7 @@ private getChartData (res: Response){
   public sendDownloadRequest() {
    
     if (document.location.href.indexOf("localhost") > 0){
-    this.hostName = "http://localhost:8888"
+    this.hostName = "http://localhost:8080"
    }else {
      this.hostName  = '';
    }
@@ -119,7 +119,7 @@ private extractCsvData(res: Response) {
  
  public editProfiles_mf_archive(allProfiles_mf_archive:Array<Profile>) : Observable<string>{
    if (document.location.href.indexOf("localhost") > 0){
-    this.hostName = "http://localhost:8888"
+    this.hostName = "http://localhost:8080"
    }else {
      this.hostName  = '';
    }

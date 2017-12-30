@@ -8,7 +8,7 @@ import {HotStockVO} from './HotStock';
 
 @Injectable()
 export class HotStockSrv {
-  private hostName:string = '';//'http://localhost:8888';
+  private hostName:string = '';//'http://localhost:8080';
   private url:string = this.hostName+'/HotStock';
  
 

@@ -17,6 +17,9 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.profile.ProfileDAO;
 
+
+
+
 /**
  * Servlet implementation class PriceChart
  */
@@ -51,110 +54,23 @@ public class PriceChart extends HttpServlet {
 		List<PriceVO> volumeInfoList = new ArrayList<PriceVO>();
 		String dbDataJson = null;
 		
-		dbDataJson =  ProfileDAO.getADocument("nse-tickers-xirr","nse-tickers-xirr10","ACE",Constants.mlabKey);
-		if (null != dbDataJson) priceVOList.add(polulatePriceVO(dbDataJson,maxDays,fromDate,toDate,"ACE", "#000080", volumeInfoList));
-		
-		//dbDataJson =  ProfileDAO.getADocument("nse-tickers-xirr","nse-tickers-xirr10","ALPHAGEO",Constants.mlabKey);
-		//if (null != dbDataJson) priceVOList.add(polulatePriceVO(dbDataJson,maxDays,fromDate,toDate,"ALPHAGEO", "#cbc0c0", volumeInfoList));
-		
-		dbDataJson =  ProfileDAO.getADocument("nse-tickers-xirr","nse-tickers-xirr20","APLAPOLLO",Constants.mlabKey);
-		if (null != dbDataJson) priceVOList.add(polulatePriceVO(dbDataJson,maxDays,fromDate,toDate,"APLAPOLLO", "#cb5040", volumeInfoList));
-		
-		
-		dbDataJson =  ProfileDAO.getADocument("nse-tickers-xirr","nse-tickers-xirr20","ASHOKLEY",Constants.mlabKey);
-		if (null != dbDataJson) priceVOList.add(polulatePriceVO(dbDataJson,maxDays,fromDate,toDate,"ASHOKLEY", "#800080", volumeInfoList));
-		
-		dbDataJson =  ProfileDAO.getADocument("nse-tickers-xirr","nse-tickers-xirr20","BHARATFORG",Constants.mlabKey);
-		if (null != dbDataJson) priceVOList.add(polulatePriceVO(dbDataJson,maxDays,fromDate,toDate,"BHARATFORG", "#FF00FF", volumeInfoList));
-		
-		dbDataJson =  ProfileDAO.getADocument("nse-tickers-xirr","nse-tickers-xirr20","BRITANNIA",Constants.mlabKey);
-		if (null != dbDataJson) priceVOList.add(polulatePriceVO(dbDataJson,maxDays,fromDate,toDate,"BRITANNIA", "#00FF00", volumeInfoList));
-		
-		dbDataJson =  ProfileDAO.getADocument("nse-tickers-xirr","nse-tickers-xirr20","ASIANTILES",Constants.mlabKey);
-		if (null != dbDataJson) priceVOList.add(polulatePriceVO(dbDataJson,maxDays,fromDate,toDate,"ASIANTILES", "#DEB887", volumeInfoList));
-		
-		dbDataJson =  ProfileDAO.getADocument("nse-tickers-xirr","nse-tickers-xirr30","CERA",Constants.mlabKey);
-		if (null != dbDataJson) priceVOList.add(polulatePriceVO(dbDataJson,maxDays,fromDate,toDate,"CERA", "#008080", volumeInfoList));
-		
-		dbDataJson =  ProfileDAO.getADocument("nse-tickers-xirr","nse-tickers-xirr30","CONTROLPR",Constants.mlabKey);
-		if (null != dbDataJson) priceVOList.add(polulatePriceVO(dbDataJson,maxDays,fromDate,toDate,"CONTROLPR", "#00FFFF", volumeInfoList));
-		
-		dbDataJson =  ProfileDAO.getADocument("nse-tickers-xirr","nse-tickers-xirr30","DCMSHRIRAM",Constants.mlabKey);
-		if (null != dbDataJson) priceVOList.add(polulatePriceVO(dbDataJson,maxDays,fromDate,toDate,"DCMSHRIRAM", "#0000FF", volumeInfoList));
-		
-		dbDataJson =  ProfileDAO.getADocument("nse-tickers-xirr","nse-tickers-xirr30","DBL",Constants.mlabKey);
-		if (null != dbDataJson) priceVOList.add(polulatePriceVO(dbDataJson,maxDays,fromDate,toDate,"DBL", "#008000", volumeInfoList));
-		
-		dbDataJson =  ProfileDAO.getADocument("nse-tickers-xirr","nse-tickers-xirr30","FILATEX",Constants.mlabKey);
-		if (null != dbDataJson) priceVOList.add(polulatePriceVO(dbDataJson,maxDays,fromDate,toDate,"FILATEX", "#808000", volumeInfoList));
-		
-		dbDataJson =  ProfileDAO.getADocument("nse-tickers-xirr","nse-tickers-xirr30","FINCABLES",Constants.mlabKey);
-		if (null != dbDataJson) priceVOList.add(polulatePriceVO(dbDataJson,maxDays,fromDate,toDate,"FINCABLES", "#FFFF00", volumeInfoList));
-		
-		dbDataJson =  ProfileDAO.getADocument("nse-tickers-xirr","nse-tickers-xirr30","GAYAPROJ",Constants.mlabKey);
-		if (null != dbDataJson) priceVOList.add(polulatePriceVO(dbDataJson,maxDays,fromDate,toDate,"GAYAPROJ", "#FFA500", volumeInfoList));
-		
-		dbDataJson =  ProfileDAO.getADocument("nse-tickers-xirr","nse-tickers-xirr30","GILLETTE",Constants.mlabKey);
-		if (null != dbDataJson) priceVOList.add(polulatePriceVO(dbDataJson,maxDays,fromDate,toDate,"GILLETTE", "#FF0000", volumeInfoList));
-		
-		
-		
-		dbDataJson =  ProfileDAO.getADocument("nse-tickers-xirr","nse-tickers-xirr40","GODREJIND",Constants.mlabKey);
-		if (null != dbDataJson) priceVOList.add(polulatePriceVO(dbDataJson,maxDays,fromDate,toDate,"GODREJIND", "#5F9EA0", volumeInfoList));
-		
-		dbDataJson =  ProfileDAO.getADocument("nse-tickers-xirr","nse-tickers-xirr40","HAVELLS",Constants.mlabKey);
-		if (null != dbDataJson) priceVOList.add(polulatePriceVO(dbDataJson,maxDays,fromDate,toDate,"HAVELLS", "#D2691E", volumeInfoList));
-		
-		dbDataJson =  ProfileDAO.getADocument("nse-tickers-xirr","nse-tickers-xirr40","HATSUN",Constants.mlabKey);
-		if (null != dbDataJson) priceVOList.add(polulatePriceVO(dbDataJson,maxDays,fromDate,toDate,"HATSUN", "#9932CC", volumeInfoList));
-		
-		
-		dbDataJson =  ProfileDAO.getADocument("nse-tickers-xirr","nse-tickers-xirr50","IFBIND",Constants.mlabKey);
-		if (null != dbDataJson) priceVOList.add(polulatePriceVO(dbDataJson,maxDays,fromDate,toDate,"IFBIND", "#006400", volumeInfoList));
-		
-		
-		
-		dbDataJson =  ProfileDAO.getADocument("nse-tickers-xirr","nse-tickers-xirr60","MARUTI",Constants.mlabKey);
-		if (null != dbDataJson) priceVOList.add(polulatePriceVO(dbDataJson,maxDays,fromDate,toDate,"MARUTI", "#FFD700", volumeInfoList));
-		
-		dbDataJson =  ProfileDAO.getADocument("nse-tickers-xirr","nse-tickers-xirr60","KANSAINER",Constants.mlabKey);
-		if (null != dbDataJson) priceVOList.add(polulatePriceVO(dbDataJson,maxDays,fromDate,toDate,"KANSAINER", "#DAA520", volumeInfoList));
-		
-		dbDataJson =  ProfileDAO.getADocument("nse-tickers-xirr","nse-tickers-xirr60","LUMAXIND",Constants.mlabKey);
-		if (null != dbDataJson) priceVOList.add(polulatePriceVO(dbDataJson,maxDays,fromDate,toDate,"LUMAXIND", "#CD5C5C", volumeInfoList));
-		
-		
-		dbDataJson =  ProfileDAO.getADocument("nse-tickers-xirr","nse-tickers-xirr60","MEGH",Constants.mlabKey);
-		if (null != dbDataJson) priceVOList.add(polulatePriceVO(dbDataJson,maxDays,fromDate,toDate,"MEGH", "#F0E68C", volumeInfoList));
-		
-		dbDataJson =  ProfileDAO.getADocument("nse-tickers-xirr","nse-tickers-xirr60","MOTHERSUMI",Constants.mlabKey);
-		if (null != dbDataJson) priceVOList.add(polulatePriceVO(dbDataJson,maxDays,fromDate,toDate,"MOTHERSUMI", "#E6E6FA", volumeInfoList));
-
-		
-		dbDataJson =  ProfileDAO.getADocument("nse-tickers-xirr","nse-tickers-xirr70","PGHH",Constants.mlabKey);
-		if (null != dbDataJson) priceVOList.add(polulatePriceVO(dbDataJson,maxDays,fromDate,toDate,"PGHH", "#FFF0F5", volumeInfoList));
-		
-		
-		dbDataJson =  ProfileDAO.getADocument("nse-tickers-xirr","nse-tickers-xirr90","SOMANYCERA",Constants.mlabKey);
-		if (null != dbDataJson) priceVOList.add(polulatePriceVO(dbDataJson,maxDays,fromDate,toDate,"SOMANYCERA", "#FFFACD", volumeInfoList));
-		
-		dbDataJson =  ProfileDAO.getADocument("nse-tickers-xirr","nse-tickers-xirr100","TITAN",Constants.mlabKey);
-		if (null != dbDataJson) priceVOList.add(polulatePriceVO(dbDataJson,maxDays,fromDate,toDate,"TITAN", "#6B8E23", volumeInfoList));
-		
-		dbDataJson =  ProfileDAO.getADocument("nse-tickers-xirr","nse-tickers-xirr100","VGUARD",Constants.mlabKey);
-		if (null != dbDataJson) priceVOList.add(polulatePriceVO(dbDataJson,maxDays,fromDate,toDate,"VGUARD", "#CD853F", volumeInfoList));
-		 
-		dbDataJson =  ProfileDAO.getADocument("nse-tickers-xirr","nse-tickers-xirr100","VIPIND",Constants.mlabKey);
-		if (null != dbDataJson) priceVOList.add(polulatePriceVO(dbDataJson,maxDays,fromDate,toDate,"VIPIND", "#FA8072", volumeInfoList));
-		
-		dbDataJson =  ProfileDAO.getADocument("nse-tickers-xirr","nse-tickers-xirr100","TVSMOTOR",Constants.mlabKey);
-		if (null != dbDataJson) priceVOList.add(polulatePriceVO(dbDataJson,maxDays,fromDate,toDate,"TVSMOTOR", "#FF7F50", volumeInfoList));
-		
-		
-		dbDataJson =  ProfileDAO.getADocument("nse-tickers-xirr","nse-tickers-xirr110","WHIRLPOOL",Constants.mlabKey);
-		if (null != dbDataJson) priceVOList.add(polulatePriceVO(dbDataJson,maxDays,fromDate,toDate,"WHIRLPOOL", "#F5DEB3", volumeInfoList));
-		
 		Gson  json = new Gson();
+		String scripts = ProfileDAO.getADocument("script-list","script-list","myscripts",Constants.mlabKey);
+		scripts = scripts.replaceFirst("\\[", "").trim();
+		 if (scripts.indexOf("]") >= 0){
+			
+			 scripts = scripts.substring(0, scripts.length()-1);
+		 }
+		System.out.println("scripts === "+scripts);
+		Scripts  myScripts= json.fromJson(scripts, new TypeToken<Scripts>() {}.getType());
+		for (AScript ascript : myScripts.getScripts()){
+			dbDataJson =  ProfileDAO.getADocument("nse-tickers-xirr",ascript.getCollection(),ascript.getId(),Constants.mlabKey);
+			if (null != dbDataJson) priceVOList.add(polulatePriceVO(dbDataJson,maxDays,fromDate,toDate,ascript.getId(),ascript.getColor(), volumeInfoList));
+		}
+		
+		
+		
+		
 		PriceAndVolume priceAndVolume = new PriceAndVolume();
 		priceAndVolume.setPriceVOList(priceVOList);
 		priceAndVolume.setVolumeVoList(volumeInfoList);

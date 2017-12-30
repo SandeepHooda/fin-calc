@@ -18,6 +18,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.Constants;
+import com.PriceChart.AScript;
+import com.PriceChart.Scripts;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.nav.CurrentMarketPrice;
@@ -149,134 +152,23 @@ public class HighLow extends HttpServlet {
 	private List<CurrentMarketPrice> getTickerList(){
 		List<CurrentMarketPrice> marketRequest = new ArrayList<CurrentMarketPrice>();
 		CurrentMarketPrice req = new CurrentMarketPrice();
-		req.setT("ASHOKLEY");
-		req.setE("NSE");
-		marketRequest.add(req);
 		
-		req = new CurrentMarketPrice();
-		req.setT("BHARATFORG");
-		req.setE("NSE");
-		marketRequest.add(req);
+		Gson  json = new Gson();
+		String scripts = ProfileDAO.getADocument("script-list","script-list","myscripts",Constants.mlabKey);
+		scripts = scripts.replaceFirst("\\[", "").trim();
+		 if (scripts.indexOf("]") >= 0){
+			
+			 scripts = scripts.substring(0, scripts.length()-1);
+		 }
+		Scripts  myScripts= json.fromJson(scripts, new TypeToken<Scripts>() {}.getType());
 		
-		req = new CurrentMarketPrice();
-		req.setT("BRITANNIA");
-		req.setE("NSE");
-		marketRequest.add(req);
+		for (AScript ascript : myScripts.getScripts()){
+			req.setT(ascript.getId());
+			req.setE("NSE");
+			marketRequest.add(req);
+		}
 		
-		req = new CurrentMarketPrice();
-		req.setT("CERA");
-		req.setE("NSE");
-		marketRequest.add(req);
 		
-		req = new CurrentMarketPrice();
-		req.setT("CONTROLPR");
-		req.setE("NSE");
-		marketRequest.add(req);
-		
-		req = new CurrentMarketPrice();
-		req.setT("DBL");
-		req.setE("NSE");
-		marketRequest.add(req);
-		
-		req = new CurrentMarketPrice();
-		req.setT("DCMSHRIRAM");
-		req.setE("NSE");
-		marketRequest.add(req);
-		
-		req = new CurrentMarketPrice();
-		req.setT("FILATEX");
-		req.setE("NSE");
-		marketRequest.add(req);
-		
-		req = new CurrentMarketPrice();
-		req.setT("FINCABLES");
-		req.setE("NSE");
-		marketRequest.add(req);
-		
-		req = new CurrentMarketPrice();
-		req.setT("GAYAPROJ");
-		req.setE("NSE");
-		marketRequest.add(req);
-		
-		req = new CurrentMarketPrice();
-		req.setT("GILLETTE");
-		req.setE("NSE");
-		marketRequest.add(req);
-		
-		req = new CurrentMarketPrice();
-		req.setT("HAVELLS");
-		req.setE("NSE");
-		marketRequest.add(req);
-		
-		req = new CurrentMarketPrice();
-		req.setT("IFBIND");
-		req.setE("NSE");
-		marketRequest.add(req);
-		
-		req = new CurrentMarketPrice();
-		req.setT("KANSAINER");
-		req.setE("NSE");
-		marketRequest.add(req);
-		
-		req = new CurrentMarketPrice();
-		req.setT("LUMAXIND");
-		req.setE("NSE");
-		marketRequest.add(req);
-		
-		req = new CurrentMarketPrice();
-		req.setT("MARUTI");
-		req.setE("NSE");
-		marketRequest.add(req);
-		
-		req = new CurrentMarketPrice();
-		req.setT("MOTHERSUMI");
-		req.setE("NSE");
-		marketRequest.add(req);
-		
-		req = new CurrentMarketPrice();
-		req.setT("PGHH");
-		req.setE("NSE");
-		marketRequest.add(req);
-		
-		req = new CurrentMarketPrice();
-		req.setT("SOMANYCERA");
-		req.setE("NSE");
-		marketRequest.add(req);
-		
-		req = new CurrentMarketPrice();
-		req.setT("TITAN");
-		req.setE("NSE");
-		marketRequest.add(req);
-		
-		req = new CurrentMarketPrice();
-		req.setT("VGUARD");
-		req.setE("NSE");
-		marketRequest.add(req);
-		
-		req = new CurrentMarketPrice();
-		req.setT("VIPIND");
-		req.setE("NSE");
-		marketRequest.add(req);
-		
-		req = new CurrentMarketPrice();
-		req.setT("WHIRLPOOL");
-		req.setE("NSE");
-		marketRequest.add(req);
-		
-		req = new CurrentMarketPrice();
-		req.setT("HATSUN");
-		req.setE("NSE");
-		marketRequest.add(req);
-		
-		req = new CurrentMarketPrice();
-		req.setT("TVSMOTOR");
-		req.setE("NSE");
-		marketRequest.add(req);
-		
-		req = new CurrentMarketPrice();
-		req.setT("ASIANTILES");
-		req.setE("NSE");
-		marketRequest.add(req);
 		
 		return marketRequest;
 	}

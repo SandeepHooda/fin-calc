@@ -27,7 +27,7 @@ export class StockService {
     saveWishList(wishListEquity:  Array<WishList>) : Observable<string> {
       let hostName:string = '';
       if (document.location.href.indexOf("localhost") > 0){
-       hostName = "http://localhost:8888"
+       hostName = "http://localhost:8080"
       }
        let saveWishListUrl = hostName+"/SaveWishList"
      var headers = new Headers({ 'Content-Type': 'application/json' });
@@ -39,7 +39,7 @@ export class StockService {
     getStockProfile(): Observable<StockPortfolioVO> {
       let hostName:string = '';
       if (document.location.href.indexOf("localhost") > 0){
-        hostName = "http://localhost:8888"
+        hostName = "http://localhost:8080"
        }
        return this.http.get(hostName+this.GetStockProfileUrl)
                         .map(this.extractData)
@@ -48,7 +48,7 @@ export class StockService {
     getWishList(): Observable<Array<WishList>> {
       let hostName:string = '';
       if (document.location.href.indexOf("localhost") > 0){
-        hostName = "http://localhost:8888"
+        hostName = "http://localhost:8080"
        }
        return this.http.get(hostName+'/GetWishList')
                         .map(this.extractData)
@@ -57,7 +57,7 @@ export class StockService {
     getStockProfile_eq_archive(): Observable<StockPortfolioVO> {
       let hostName:string = '';
       if (document.location.href.indexOf("localhost") > 0){
-        hostName = "http://localhost:8888"
+        hostName = "http://localhost:8080"
        }
        let url  = "/GetStockProfile_eq_archive";
       return this.http.get(hostName+url)
@@ -67,7 +67,7 @@ export class StockService {
    public editProfiles_eq_archive(allProfiles_eq_archive:Array<StockVO>) : Observable<string>{
     let hostName:string = '';
     if (document.location.href.indexOf("localhost") > 0){
-     hostName = "http://localhost:8888"
+     hostName = "http://localhost:8080"
     }
      let EditProfiles_eq_archiveUrl = hostName+"/EditProfiles_eq_archive"
    var headers = new Headers({ 'Content-Type': 'application/json' });
@@ -79,7 +79,7 @@ export class StockService {
     deleteFromProfile(profileID : number) : Observable<string>{
       let hostName:string = '';
       if (document.location.href.indexOf("localhost") > 0){
-        hostName = "http://localhost:8888"
+        hostName = "http://localhost:8080"
        }
       return this.http.delete(hostName+'/DeleteStockFromProfile?profileID='+profileID)
             .map(this.extractData)
@@ -94,7 +94,7 @@ export class StockService {
  public addStockToProfile(selectedStock : StockVO) : Observable<string>{
   let hostName:string = '';
   if (document.location.href.indexOf("localhost") > 0){
-    hostName = "http://localhost:8888"
+    hostName = "http://localhost:8080"
    }
      var headers = new Headers({ 'Content-Type': 'application/json' });
   var options = new RequestOptions({ headers: headers });
