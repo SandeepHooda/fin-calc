@@ -48,13 +48,13 @@ public class HighLow extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String format = request.getParameter("format");
-		List<CurrentMarketPrice> marketRequest = marketRequest = getTickerList();
+		List<CurrentMarketPrice> marketRequest  = getTickerList();
 		Map<String, CurrentMarketPrice> map =  null;
 		if(!"static".equalsIgnoreCase(format)){
 			map = ProfileDAO.getCurrentMarkerPrice(marketRequest,true);
 		}
 		 
-		
+		response.addHeader("Cache-Control", "max-age=10");//12 hours
 		if("static".equalsIgnoreCase(format)){
 			response.getWriter().append(staticResponse());
 		}else {
@@ -151,7 +151,7 @@ public class HighLow extends HttpServlet {
 
 	private List<CurrentMarketPrice> getTickerList(){
 		List<CurrentMarketPrice> marketRequest = new ArrayList<CurrentMarketPrice>();
-		CurrentMarketPrice req = new CurrentMarketPrice();
+		CurrentMarketPrice req = null;
 		
 		Gson  json = new Gson();
 		String scripts = ProfileDAO.getADocument("script-list","script-list","myscripts",Constants.mlabKey);
@@ -163,6 +163,7 @@ public class HighLow extends HttpServlet {
 		Scripts  myScripts= json.fromJson(scripts, new TypeToken<Scripts>() {}.getType());
 		
 		for (AScript ascript : myScripts.getScripts()){
+			req = new CurrentMarketPrice();
 			req.setT(ascript.getId());
 			req.setE("NSE");
 			marketRequest.add(req);
