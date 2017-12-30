@@ -54,8 +54,8 @@ public class PriceChart extends HttpServlet {
 		dbDataJson =  ProfileDAO.getADocument("nse-tickers-xirr","nse-tickers-xirr10","ACE",Constants.mlabKey);
 		if (null != dbDataJson) priceVOList.add(polulatePriceVO(dbDataJson,maxDays,fromDate,toDate,"ACE", "#000080", volumeInfoList));
 		
-		dbDataJson =  ProfileDAO.getADocument("nse-tickers-xirr","nse-tickers-xirr10","ALPHAGEO",Constants.mlabKey);
-		if (null != dbDataJson) priceVOList.add(polulatePriceVO(dbDataJson,maxDays,fromDate,toDate,"ALPHAGEO", "#cbc0c0", volumeInfoList));
+		//dbDataJson =  ProfileDAO.getADocument("nse-tickers-xirr","nse-tickers-xirr10","ALPHAGEO",Constants.mlabKey);
+		//if (null != dbDataJson) priceVOList.add(polulatePriceVO(dbDataJson,maxDays,fromDate,toDate,"ALPHAGEO", "#cbc0c0", volumeInfoList));
 		
 		dbDataJson =  ProfileDAO.getADocument("nse-tickers-xirr","nse-tickers-xirr20","APLAPOLLO",Constants.mlabKey);
 		if (null != dbDataJson) priceVOList.add(polulatePriceVO(dbDataJson,maxDays,fromDate,toDate,"APLAPOLLO", "#cb5040", volumeInfoList));
@@ -69,6 +69,9 @@ public class PriceChart extends HttpServlet {
 		
 		dbDataJson =  ProfileDAO.getADocument("nse-tickers-xirr","nse-tickers-xirr20","BRITANNIA",Constants.mlabKey);
 		if (null != dbDataJson) priceVOList.add(polulatePriceVO(dbDataJson,maxDays,fromDate,toDate,"BRITANNIA", "#00FF00", volumeInfoList));
+		
+		dbDataJson =  ProfileDAO.getADocument("nse-tickers-xirr","nse-tickers-xirr20","ASIANTILES",Constants.mlabKey);
+		if (null != dbDataJson) priceVOList.add(polulatePriceVO(dbDataJson,maxDays,fromDate,toDate,"ASIANTILES", "#DEB887", volumeInfoList));
 		
 		dbDataJson =  ProfileDAO.getADocument("nse-tickers-xirr","nse-tickers-xirr30","CERA",Constants.mlabKey);
 		if (null != dbDataJson) priceVOList.add(polulatePriceVO(dbDataJson,maxDays,fromDate,toDate,"CERA", "#008080", volumeInfoList));
@@ -94,8 +97,7 @@ public class PriceChart extends HttpServlet {
 		dbDataJson =  ProfileDAO.getADocument("nse-tickers-xirr","nse-tickers-xirr30","GILLETTE",Constants.mlabKey);
 		if (null != dbDataJson) priceVOList.add(polulatePriceVO(dbDataJson,maxDays,fromDate,toDate,"GILLETTE", "#FF0000", volumeInfoList));
 		
-		dbDataJson =  ProfileDAO.getADocument("nse-tickers-xirr","nse-tickers-xirr30","GOACARBON",Constants.mlabKey);
-		if (null != dbDataJson) priceVOList.add(polulatePriceVO(dbDataJson,maxDays,fromDate,toDate,"GOACARBON", "#DEB887", volumeInfoList));
+		
 		
 		dbDataJson =  ProfileDAO.getADocument("nse-tickers-xirr","nse-tickers-xirr40","GODREJIND",Constants.mlabKey);
 		if (null != dbDataJson) priceVOList.add(polulatePriceVO(dbDataJson,maxDays,fromDate,toDate,"GODREJIND", "#5F9EA0", volumeInfoList));
@@ -103,16 +105,14 @@ public class PriceChart extends HttpServlet {
 		dbDataJson =  ProfileDAO.getADocument("nse-tickers-xirr","nse-tickers-xirr40","HAVELLS",Constants.mlabKey);
 		if (null != dbDataJson) priceVOList.add(polulatePriceVO(dbDataJson,maxDays,fromDate,toDate,"HAVELLS", "#D2691E", volumeInfoList));
 		
-		dbDataJson =  ProfileDAO.getADocument("nse-tickers-xirr","nse-tickers-xirr50","HEROMOTOCO",Constants.mlabKey);
-		if (null != dbDataJson) priceVOList.add(polulatePriceVO(dbDataJson,maxDays,fromDate,toDate,"HEROMOTOCO", "#FF7F50", volumeInfoList));
-		
+		dbDataJson =  ProfileDAO.getADocument("nse-tickers-xirr","nse-tickers-xirr40","HATSUN",Constants.mlabKey);
+		if (null != dbDataJson) priceVOList.add(polulatePriceVO(dbDataJson,maxDays,fromDate,toDate,"HATSUN", "#9932CC", volumeInfoList));
 		
 		
 		dbDataJson =  ProfileDAO.getADocument("nse-tickers-xirr","nse-tickers-xirr50","IFBIND",Constants.mlabKey);
 		if (null != dbDataJson) priceVOList.add(polulatePriceVO(dbDataJson,maxDays,fromDate,toDate,"IFBIND", "#006400", volumeInfoList));
 		
-		dbDataJson =  ProfileDAO.getADocument("nse-tickers-xirr","nse-tickers-xirr50","ITDCEM",Constants.mlabKey);
-		if (null != dbDataJson) priceVOList.add(polulatePriceVO(dbDataJson,maxDays,fromDate,toDate,"ITDCEM", "#9932CC", volumeInfoList));
+		
 		
 		dbDataJson =  ProfileDAO.getADocument("nse-tickers-xirr","nse-tickers-xirr60","MARUTI",Constants.mlabKey);
 		if (null != dbDataJson) priceVOList.add(polulatePriceVO(dbDataJson,maxDays,fromDate,toDate,"MARUTI", "#FFD700", volumeInfoList));
@@ -146,6 +146,10 @@ public class PriceChart extends HttpServlet {
 		 
 		dbDataJson =  ProfileDAO.getADocument("nse-tickers-xirr","nse-tickers-xirr100","VIPIND",Constants.mlabKey);
 		if (null != dbDataJson) priceVOList.add(polulatePriceVO(dbDataJson,maxDays,fromDate,toDate,"VIPIND", "#FA8072", volumeInfoList));
+		
+		dbDataJson =  ProfileDAO.getADocument("nse-tickers-xirr","nse-tickers-xirr100","TVSMOTOR",Constants.mlabKey);
+		if (null != dbDataJson) priceVOList.add(polulatePriceVO(dbDataJson,maxDays,fromDate,toDate,"TVSMOTOR", "#FF7F50", volumeInfoList));
+		
 		
 		dbDataJson =  ProfileDAO.getADocument("nse-tickers-xirr","nse-tickers-xirr110","WHIRLPOOL",Constants.mlabKey);
 		if (null != dbDataJson) priceVOList.add(polulatePriceVO(dbDataJson,maxDays,fromDate,toDate,"WHIRLPOOL", "#F5DEB3", volumeInfoList));

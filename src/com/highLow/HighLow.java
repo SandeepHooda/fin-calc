@@ -263,6 +263,21 @@ public class HighLow extends HttpServlet {
 		req.setE("NSE");
 		marketRequest.add(req);
 		
+		req = new CurrentMarketPrice();
+		req.setT("HATSUN");
+		req.setE("NSE");
+		marketRequest.add(req);
+		
+		req = new CurrentMarketPrice();
+		req.setT("TVSMOTOR");
+		req.setE("NSE");
+		marketRequest.add(req);
+		
+		req = new CurrentMarketPrice();
+		req.setT("ASIANTILES");
+		req.setE("NSE");
+		marketRequest.add(req);
+		
 		return marketRequest;
 	}
 	
