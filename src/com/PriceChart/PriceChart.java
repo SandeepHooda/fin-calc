@@ -227,13 +227,13 @@ public class PriceChart extends HttpServlet {
 			volumeVO.getLabels().add(date.substring(4));
 			dataSet.getData().add((price-percentageFactor)/percentageFactor*100);
 			try{
-				if (stockPriceList.get(dbStockPriceSize-i-1).getDeliveryToTradedQuantity()> 0){
+				//if (stockPriceList.get(dbStockPriceSize-i-1).getDeliveryToTradedQuantity()> 0){
 					volumeDataSet.getData().add(stockPriceList.get(dbStockPriceSize-i-1).getTotalTradedVolume());
 					deliveryDataSet.getData().add(stockPriceList.get(dbStockPriceSize-i-1).getDeliveryToTradedQuantity());
-				}else {
+				//}else {
 					//volumeDataSet.getData().add(10 + Math.random()*10);
 					//deliveryDataSet.getData().add(10+Math.random()*10);
-				}
+				//}
 				
 			}catch(Exception e){
 				e.printStackTrace();

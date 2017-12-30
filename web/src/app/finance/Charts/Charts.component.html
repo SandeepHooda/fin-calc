@@ -34,7 +34,8 @@
             </p-dropdown>   
  </div> 
 
- <p-chart type="bar" [data]="volumeData"></p-chart>
+ <p-chart type="bar" [data]="volumeData"></p-chart><br/><br/>
+ <p-chart type="bar" [data]="deliveryData"></p-chart>
 
 <div  *ngFor="let row of priceVO; index as i;first as isFirst;last as isLast"> 
         <p-chart type="line" [data]="row" ></p-chart>

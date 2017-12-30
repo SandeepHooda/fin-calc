@@ -21,6 +21,7 @@ export class Charts implements OnInit {
   private httpError : string;
   private comparisionData: any;
   private volumeData : any;
+  private deliveryData : any;
   private selectedCompany : string;
   private maxDays : number;
   private chartDays : SelectItem[] ;
@@ -107,19 +108,26 @@ private getChartsData(maxDays : number) {
 private showVolumeChart (){
   
   this.volumeData = [];
+  this.deliveryData = [];
   let volumeDatatemp : any = [];
+  let deliveryDatatemp : any = [];
   
   for (let i=0;i<this.volumeVO.length;i++){
    
       if (this.volumeVO[i].companyName === this.selectedCompany){
         volumeDatatemp.labels = this.volumeVO[i].labels.slice();
         volumeDatatemp.datasets = this.volumeVO[i].datasets.slice();
+
+        deliveryDatatemp.labels = this.volumeVO[i].labels.slice();
+        deliveryDatatemp.datasets = this.volumeVO[i].datasets.slice(1);
+        
      }
    
  
   }
  
   this.volumeData = volumeDatatemp;
+  this.deliveryData = deliveryDatatemp;
  
 
 }
