@@ -28,7 +28,11 @@ export class CorpAnalysisService {
  }
 
  getHighLowData() :Observable<Array<CurrentMarketPrice>> {
-  let url:string = this.hostName+'/HighLow';//?format=static';
+  let url:string = this.hostName+'/HighLow?format=json';
+  if (document.location.href.indexOf("localhost") > 0){
+     url = this.hostName+'/HighLow?format=static';
+  }
+  
 return this.http.get(url).map(this.extractResult).catch(this.handleError);
 }
  
