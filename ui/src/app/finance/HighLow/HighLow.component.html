@@ -2,51 +2,54 @@
 <p-messages [(value)]="msgs"></p-messages> 
 <hr/>
 {{httpError}}
-<p-dataTable #dg [responsive]="false"  [value]="priceVO"  [rows]="20" [paginator]="true">
+<p-dataTable #dg [responsive]="false" [(selection)]="selectedScripts" 
+[value]="priceVO"  [rows]="20" [paginator]="true"
+(onRowSelect)="onRowSelect($event)" (onRowUnselect)="onRowUnselect($event)">
+        <p-column [style]="{'width':'38px'}" selectionMode="multiple"></p-column>
         <p-column [style]="{'width':'100px'}" field="t" header="Ticker" [sortable]="true"></p-column>
         <p-column [style]="{'width':'100px'}" field="l_fix" header="CMP" [sortable]="true"></p-column>
-        <p-column  [style]="{'width':'100px'}"  header="Close" [sortable]="true">
+        <p-column  [style]="{'width':'100px'}" field="previousCloseChange"  header="Close" [sortable]="true">
           <ng-template let-row="rowData" pTemplate="body">
             <span [ngClass]="{'profitBack' : (row.previousCloseChange >=0) , 'lossBack' : (row.previousCloseChange < 0)}">
-                    {{row.previousClose  | number : '1.2-2'}}( {{row.previousCloseChange  | number : '1.2-2'}})</span>
+                    {{row.previousCloseChange  | number : '1.2-2'}}</span>
           </ng-template>
                
         </p-column>
-        <p-column  [style]="{'width':'100px'}" field="open" header="Open" [sortable]="true">
+        <p-column  [style]="{'width':'100px'}" field="openChange" header="Open" [sortable]="true">
              <ng-template let-row="rowData" pTemplate="body">
                <span [ngClass]="{'profitBack' : (row.openChange >=0) , 'lossBack' : (row.openChange < 0)}">
-                       {{row.open  | number : '1.2-2'}}( {{row.openChange  | number : '1.2-2'}})</span>
+                       {{row.openChange  | number : '1.2-2'}}</span>
               </ng-template>
                
         </p-column>
         <p-column  [style]="{'width':'100px'}" field="totalTradedVolume" header="Vol" [sortable]="true"></p-column>
         <p-column  [style]="{'width':'100px'}" field="deliveryToTradedQuantity" header="Delivery" [sortable]="true"></p-column>
-        <p-column  [style]="{'width':'100px'}" field="high52" header="52 High" [sortable]="true">
+        <p-column  [style]="{'width':'100px'}" field="high52Change" header="52 High" [sortable]="true">
                 <ng-template let-row="rowData" pTemplate="body">
                  <span [ngClass]="{'profitBack' : (row.high52Change >=0) , 'lossBack' : (row.high52Change < 0)}">
-                         {{row.high52  | number : '1.2-2'}}( {{row.high52Change  | number : '1.2-2'}})</span>
+                          {{row.high52Change  | number : '1.2-2'}}</span>
                </ng-template>
                
         </p-column>
 
-        <p-column  [style]="{'width':'100px'}" field="low52" header="52 Low" [sortable]="true">
+        <p-column  [style]="{'width':'100px'}" field="low52Change" header="52 Low" [sortable]="true">
                 <ng-template let-row="rowData" pTemplate="body">
                    <span [ngClass]="{'profitBack' : (row.low52Change >0) , 'lossBack' : (row.low52Change <= 0)}">
-                        {{row.low52  | number : '1.2-2'}}( {{row.low52Change  | number : '1.2-2'}})</span>
+                       {{row.low52Change  | number : '1.2-2'}}</span>
                 </ng-template>
         </p-column>
        
-        <p-column  [style]="{'width':'100px'}" field="dayHigh" header="Day High" [sortable]="true">
+        <p-column  [style]="{'width':'100px'}" field="dayHighChange" header="Day High" [sortable]="true">
         <ng-template let-row="rowData" pTemplate="body">
                 <span [ngClass]="{'profitBack' : (row.dayHighChange >=0) , 'lossBack' : (row.dayHighChange < 0)}">
-                {{row.dayHigh  | number : '1.2-2'}}( {{row.dayHighChange  | number : '1.2-2'}})</span>
+                {{row.dayHighChange  | number : '1.2-2'}}</span>
         </ng-template>
         </p-column>
 
-        <p-column  [style]="{'width':'100px'}" field="dayLow" header="Day Low" [sortable]="true">
+        <p-column  [style]="{'width':'100px'}" field="dayLowChange" header="Day Low" [sortable]="true">
                 <ng-template let-row="rowData" pTemplate="body">
                         <span [ngClass]="{'profitBack' : (row.dayLowChange >0) , 'lossBack' : (row.dayLowChange <= 0)}">
-                        {{row.dayLow  | number : '1.2-2'}}( {{row.dayLowChange  | number : '1.2-2'}})</span>
+                        {{row.dayLowChange  | number : '1.2-2'}}</span>
                 </ng-template>
         </p-column>
 </p-dataTable>

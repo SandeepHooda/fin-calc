@@ -7,6 +7,7 @@ public class CurrentMarketPrice {
 	private double l_fix;
 	private double previousClose,totalTradedVolume,high52, low52, open, dayHigh,dayLow,deliveryToTradedQuantity;
 	private double high52Chg;
+	private double closeChange;
 	
 	public String getT() {
 		return t;
@@ -85,6 +86,12 @@ public class CurrentMarketPrice {
 	}
 	public void setHigh52Chg(double high52Chg) {
 		this.high52Chg = high52Chg;
+	}
+	public double getCloseChange() {
+		return closeChange;
+	}
+	public void setCloseChange(double closeChange) {
+		this.closeChange = closeChange;
 	}
 	
 	

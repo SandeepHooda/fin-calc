@@ -54,7 +54,7 @@ public class HighLow extends HttpServlet {
 			map = ProfileDAO.getCurrentMarkerPrice(marketRequest,true);
 		}
 		 
-		response.addHeader("Cache-Control", "max-age=10");//12 hours
+		response.addHeader("Cache-Control", "max-age=10");//Minutes
 		if("static".equalsIgnoreCase(format)){
 			response.getWriter().append(staticResponse());
 		}else {
@@ -63,6 +63,7 @@ public class HighLow extends HttpServlet {
 			for (String ticker : scripts){
 				CurrentMarketPrice mp = map.get(ticker);
 				mp.setHigh52Chg((mp.getL_fix() - mp.getHigh52())/mp.getHigh52()*100);
+				mp.setCloseChange((mp.getL_fix() - mp.getPreviousClose())/mp.getPreviousClose()*100);
 				list.add(mp);
 			}
 			Collections.sort(list,new CurrentMarketPriceComparator());

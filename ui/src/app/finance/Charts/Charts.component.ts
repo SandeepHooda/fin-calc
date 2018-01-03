@@ -42,8 +42,8 @@ export class Charts implements OnInit {
     {label:'365', value:365}
     ];
     this.top5 = [
-      {label:'Top 5 winners', value:'Top 5 winners'},
-      {label:'Top 5 loosers', value:'Top 5 loosers'},
+      {label:'Top 10 winners', value:'Top 10 winners'},
+      {label:'Top 10 loosers', value:'Top 10 loosers'},
       {label:'All stocks', value:'All stocks'}
       
       ];
@@ -82,16 +82,16 @@ export class Charts implements OnInit {
   }
   private filterBasedOnTop5Selection(){
     
-    if ( this.comparisionData.datasets && this.comparisionData.datasets.length > 5){
+    if ( this.comparisionData.datasets && this.comparisionData.datasets.length > 10){
       this.comparisionData.datasets.sort(
         function(a :any, b:any){
           return a.data[a.data.length-1]-b.data[b.data.length-1]
         });
-      if (this.top5Selection == 'Top 5 loosers'){
-        this.comparisionData.datasets= this.comparisionData.datasets.slice(0, 5);
-      }else if (this.top5Selection == 'Top 5 winners'){
+      if (this.top5Selection == 'Top 10 loosers'){
+        this.comparisionData.datasets= this.comparisionData.datasets.slice(0, 10);
+      }else if (this.top5Selection == 'Top 10 winners'){
         let size = this.comparisionData.datasets.length;
-        this.comparisionData.datasets= this.comparisionData.datasets.slice(size-5, size);
+        this.comparisionData.datasets= this.comparisionData.datasets.slice(size-10, size);
       } 
     }
   }

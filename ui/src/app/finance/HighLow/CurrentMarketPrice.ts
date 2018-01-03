@@ -18,4 +18,5 @@ export class CurrentMarketPrice {
     public  dayLow : number;
     public  dayLowChange : number;
     public deliveryToTradedQuantity: number;
+  
 }

@@ -18,6 +18,8 @@ export class HighLow implements OnInit {
   private msgs : Message[] = [];
 
   private priceVO : Array<CurrentMarketPrice>;
+  private selectedScripts : Array<CurrentMarketPrice> = [];
+  private selectedScriptsCopy : Array<CurrentMarketPrice> = [];
   private httpError : string;
 
 
@@ -26,13 +28,24 @@ export class HighLow implements OnInit {
  }
 
   ngOnInit(): void {
-    
-    
     this.getHighLowData();
+}
+ private  onRowSelect(event:any) {
+    this.selectedScriptsCopy.push(event.data);
+    localStorage.setItem('selectedScripts', JSON.stringify(this.selectedScriptsCopy));
+  }
 
-    
+private onRowUnselect(event:any) {
+  for (let i=0;i<this.selectedScriptsCopy.length;i++){
+    if (this.selectedScriptsCopy[i].t === event.data.t){
+      this.selectedScriptsCopy.splice(i,1);
+     
+    }
+   
   }
   
+  localStorage.setItem('selectedScripts', JSON.stringify(this.selectedScriptsCopy));
+}
 
   private getHighLowData() {
     this.service.getHighLowData().subscribe( 
@@ -50,13 +63,22 @@ private showData(priceVO:Array<CurrentMarketPrice>){
     priceVO[i].openChange = (priceVO[i].l_fix - priceVO[i].open)/priceVO[i].open*100;
     priceVO[i].previousCloseChange = (priceVO[i].l_fix - priceVO[i].previousClose)/priceVO[i].previousClose*100;
   }
-this.priceVO = priceVO;
+  this.selectedScripts = [];
+  
+  this.priceVO = priceVO;
+ 
+  if (localStorage.getItem('selectedScripts')){
+    this.selectedScripts = JSON.parse(localStorage.getItem('selectedScripts'));
+    this.selectedScriptsCopy = JSON.parse(localStorage.getItem('selectedScripts'));
+   
+  }
+  
+
 
 }
 
 
 private showError(error:any) {
-   
     this.httpError = error;
-  }
+}
 }
