@@ -6,6 +6,7 @@ import  'rxjs/add/operator/map';
 import { Headers, RequestOptions } from '@angular/http';
 import {StockAnalysisVO} from './StockAnalysisVO';
 import {CurrentMarketPrice} from '../HighLow/CurrentMarketPrice';
+import {CurrentMarketPriceWrapper} from '../HighLow/CurrentMarketPriceWrapper';
 
 @Injectable()
 export class CorpAnalysisService {
@@ -15,7 +16,7 @@ export class CorpAnalysisService {
 
      constructor (private http: Http) {
       if (document.location.href.indexOf("localhost") > 0){
-        this.hostName = "http://localhost:8080"
+        this.hostName = "https://fin-cal.appspot.com"
        }else {
          this.hostName  = '';
        }
@@ -27,10 +28,10 @@ export class CorpAnalysisService {
    return this.http.get(url).map(this.extractResult).catch(this.handleError);
  }
 
- getHighLowData() :Observable<Array<CurrentMarketPrice>> {
+ getHighLowData() :Observable<Array<CurrentMarketPriceWrapper>> {
   let url:string = this.hostName+'/HighLow?format=json';
   if (document.location.href.indexOf("localhost") > 0){
-     url = this.hostName+'/HighLow?format=static';
+     url = this.hostName+'/HighLow?format=json';
   }
   
 return this.http.get(url).map(this.extractResult).catch(this.handleError);

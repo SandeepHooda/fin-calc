@@ -305,7 +305,7 @@ public static void createNewCollectionWithData(String collectionToCreate, String
 	            req.setPayload(data.getBytes());
 	            fetcher.fetch(req);
 	            
-	           // log.info("Updated the DB  collection "+collection+data);
+	           //log.info("Updated the DB  collection "+collection+data);
 	 
 	        } catch (IOException e) {
 	        	 log.info("Error while  upfdating DB  collection "+collection+" Message "+e.getMessage());

@@ -25,6 +25,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.nav.CurrentMarketPrice;
 import com.nav.CurrentMarketPriceComparator;
+import com.nav.CurrentMarketPriceWrapper;
 import com.profile.ProfileDAO;
 
 /**
@@ -34,6 +35,7 @@ public class HighLow extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static DecimalFormat df2 = new DecimalFormat(".##");
 	private static DateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+	private static DateFormat yymmdd = new SimpleDateFormat("yyyy-MM-dd");
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -54,7 +56,7 @@ public class HighLow extends HttpServlet {
 			map = ProfileDAO.getCurrentMarkerPrice(marketRequest,true);
 		}
 		 
-		response.addHeader("Cache-Control", "max-age=10");//Minutes
+		response.addHeader("Cache-Control", "max-age=180");//Seconds
 		if("static".equalsIgnoreCase(format)){
 			response.getWriter().append(staticResponse());
 		}else {
@@ -67,13 +69,35 @@ public class HighLow extends HttpServlet {
 				list.add(mp);
 			}
 			Collections.sort(list,new CurrentMarketPriceComparator());
+			
+			//Store the snapshot in the db
+			CurrentMarketPriceWrapper todaysSnapShot = new CurrentMarketPriceWrapper();
+			todaysSnapShot.set_id(list.get(0).getLt_dts().substring(0, 11));
+			todaysSnapShot.setMarketPices(list);
+			Gson  json = new Gson();
+			String jsonData = json.toJson(todaysSnapShot, new TypeToken<CurrentMarketPriceWrapper>() {}.getType());
+			
+			ProfileDAO.createNewCollectionWithData("high-low","high-low",jsonData,Constants.mlabKey);
+			//System.out.println("storing into DB "+jsonData);
+			jsonData = ProfileDAO.getArrayData ("high-low", "high-low", false,null, Constants.mlabKey);
+			List<CurrentMarketPriceWrapper> oldSnapShots = json.fromJson(jsonData, new TypeToken<List<CurrentMarketPriceWrapper>>() {}.getType());
+			Collections.reverse(oldSnapShots);
 			if ("json".equalsIgnoreCase(format)){
-				Gson  json = new Gson();
-				String jsonData = json.toJson(list, new TypeToken<List<CurrentMarketPrice>>() {}.getType());
+				oldSnapShots.add(0, todaysSnapShot);
+				jsonData = json.toJson(oldSnapShots, new TypeToken<List<CurrentMarketPriceWrapper>>() {}.getType());
 				response.getWriter().append(jsonData);
 			}
 			else {
-				response.getWriter().append(buildHtml(list));
+				StringBuilder sb = new StringBuilder();
+				sb.append(buildHtml(list));
+				if (oldSnapShots.size() >10){
+					oldSnapShots = oldSnapShots.subList(oldSnapShots.size()-10, oldSnapShots.size());
+				}
+				
+				for (CurrentMarketPriceWrapper snapShot: oldSnapShots){
+					sb.append("<br/><br/>"+buildHtml(snapShot.getMarketPices()));
+				}
+				response.getWriter().append(sb.toString());
 				
 			}
 		}
@@ -91,7 +115,7 @@ public class HighLow extends HttpServlet {
 		StringBuilder htmlData = new StringBuilder();
 		sdf.setTimeZone(TimeZone.getTimeZone("IST"));
 		
-		htmlData.append(sdf.format(new Date()));
+		htmlData.append(list.get(0).getLt_dts());
 		
 		 
 		htmlData.append(" <br/><br/>");
