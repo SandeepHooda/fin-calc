@@ -13,6 +13,12 @@ import java.util.Map;
 import java.util.logging.Logger;
 
 import com.common.FinConstants;
+import com.google.appengine.api.urlfetch.FetchOptions;
+import com.google.appengine.api.urlfetch.HTTPMethod;
+import com.google.appengine.api.urlfetch.HTTPRequest;
+import com.google.appengine.api.urlfetch.HTTPResponse;
+import com.google.appengine.api.urlfetch.URLFetchService;
+import com.google.appengine.api.urlfetch.URLFetchServiceFactory;
 import com.profile.ProfileDAO;
 
 
@@ -20,6 +26,8 @@ public class NavTextDAO {
 	private static final Logger log = Logger.getLogger(NavTextDAO.class.getName());
 	private static Map<String, CompanyVO> currentNAV;
 	private static Date navDate ;
+	private static FetchOptions lFetchOptions = FetchOptions.Builder.doNotValidateCertificate().setDeadline(300d);
+	private static URLFetchService fetcher = URLFetchServiceFactory.getURLFetchService();
 	
 	public static Map<String, CompanyVO> getNavForDate(String ddMmmyyyy) throws IOException{
 		return parseNav(getNavFromAmfiindia("http://portal.amfiindia.com/DownloadNAVHistoryReport_Po.aspx?frmdt="+ddMmmyyyy+"&todt="+ddMmmyyyy), true);
@@ -28,7 +36,7 @@ public class NavTextDAO {
 		//if (null == navDate || ((new Date().getTime() - navDate.getTime() ) > FinConstants.aHour  )) {
 			log.info("Will fetch current dated nav  ");
 			currentNAV = parseNav(getNavFromAmfiindia("http://www.amfiindia.com/spages/NAVAll.txt"), false);
-			log.info("Tata NAV"+currentNAV.get("Tata Mutual Fund").getNavs().get(0).getNetAssetValue());
+			//log.info("Tata NAV"+currentNAV.get("Tata Mutual Fund").getNavs().get(0).getNetAssetValue());
 			navDate = new Date();
 		//}
 		return currentNAV;
@@ -38,9 +46,14 @@ public class NavTextDAO {
 		List<String> navData = new ArrayList<String>();
 		//http://portal.amfiindia.com/DownloadNAVHistoryReport_Po.aspx?frmdt=03-Jul-2017&todt=03-Jul-2017
 		URL url = new URL( endpoint);
-		
-		
-		HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+		HTTPRequest req = new HTTPRequest(url, HTTPMethod.GET, lFetchOptions);
+        HTTPResponse res = fetcher.fetch(req);
+        String responseStr =(new String(res.getContent()));
+		String [] lines = responseStr.split("\r\n");
+		for (String line: lines){
+			navData.add(line);
+		}
+		/*HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 		conn.setConnectTimeout(1000 *60);
 		conn.setReadTimeout(1000 *60);
 	    conn.setRequestMethod("GET");
@@ -49,7 +62,7 @@ public class NavTextDAO {
 		while ((inputLine = in.readLine()) != null) {
 			navData.add(inputLine);
 		}
-		in.close();
+		in.close();*/
 		return navData;
    }
 	

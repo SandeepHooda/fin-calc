@@ -9,8 +9,7 @@
                 <p-dataTable #dg [responsive]="false" [(selection)]="selectedScripts" 
                 [value]="aSpanShot"  [rows]="20" [paginator]="true"
                 (onRowSelect)="onRowSelect($event)" (onRowUnselect)="onRowUnselect($event)">
-                        <p-column [style]="{'width':'38px'}" header="-" selectionMode="multiple"></p-column>
-                        <p-column [style]="{'width':'38px'}" header="+" selectionMode="multiple"></p-column>
+                        <p-column [style]="{'width':'38px'}" selectionMode="multiple"></p-column>
                         <p-column [style]="{'width':'100px'}" field="t" header="Ticker" [sortable]="true"></p-column>
                         <p-column [style]="{'width':'100px'}" field="l_fix" header="CMP" [sortable]="true"></p-column>
                         <p-column  [style]="{'width':'100px'}" field="previousCloseChange"  header="Close" [sortable]="true">

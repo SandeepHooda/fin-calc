@@ -161,10 +161,10 @@ public class ProfileDAO {
 	
 		String httpsURL = "https://api.mlab.com/api/1/databases/"+dbName+"/collections/"+userID+"?apiKey="+apiKey;
 		if (datakey != null && datakey.trim().length() > 0){
-			httpsURL += "&f={\""+datakey+"\":1,\"_id\":0}";
+			httpsURL += "&f=%7B%22"+datakey+"%22:1,%22_id%22:0%7D";
 		}else{
 			if (suppressDefaultKey){
-				httpsURL += "&f={\"_id\":0}";
+				httpsURL += "&f=%7B%22_id%22:0%7D";
 			}
 			
 		}

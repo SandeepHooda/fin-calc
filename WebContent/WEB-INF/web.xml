@@ -394,4 +394,24 @@
     <servlet-name>HighLow</servlet-name>
     <url-pattern>/HighLow</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>SendEmail</display-name>
+    <servlet-name>SendEmail</servlet-name>
+    <servlet-class>email.SendEmail</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>SendEmail</servlet-name>
+    <url-pattern>/SendEmail</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>MakeAcall</display-name>
+    <servlet-name>MakeAcall</servlet-name>
+    <servlet-class>call.MakeAcall</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>MakeAcall</servlet-name>
+    <url-pattern>/MakeAcall</url-pattern>
+  </servlet-mapping>
 </web-app>
